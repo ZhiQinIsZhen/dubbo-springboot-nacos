@@ -1,4 +1,4 @@
-package com.liyz.dubbo.common.remote.desen.enums;
+package com.liyz.dubbo.common.base.desen.enums;
 
 /**
  * 注释: 脱敏类型
