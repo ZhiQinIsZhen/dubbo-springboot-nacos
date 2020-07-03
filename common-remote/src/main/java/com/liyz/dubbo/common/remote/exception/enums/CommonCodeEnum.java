@@ -22,6 +22,9 @@ public enum CommonCodeEnum implements ServiceCodeEnum {
     NoData("10006", "暂无数据"),
     ParameterError("10008", "参数异常"),
     LimitCount("1009", "超出最大访问限制"),
+    ImageCodeError("10010", "图片验证码不正确"),
+    MobileCodeError("10011", "短信验证码不正确"),
+    EmailCodeError("10012", "邮件验证码不正确"),
     ;
 
     private String code;

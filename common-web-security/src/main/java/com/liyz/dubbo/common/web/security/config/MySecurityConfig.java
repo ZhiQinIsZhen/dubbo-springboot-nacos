@@ -1,6 +1,6 @@
 package com.liyz.dubbo.common.web.security.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.liyz.dubbo.common.base.util.JsonMapperUtil;
 import com.liyz.dubbo.common.web.security.core.JwtAuthenticationEntryPoint;
 import com.liyz.dubbo.common.web.security.core.RestfulAccessDeniedHandler;
 import com.liyz.dubbo.common.web.security.core.filter.JwtAuthenticationTokenFilter;
@@ -42,10 +42,9 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
         List<String> list = AnonymousUrlsUtil.anonymousUrls();
         String[] strings = list.toArray(new String[list.size()]);
-        log.info("免鉴权api:{}", mapper.writeValueAsString(strings));
+        log.info("免鉴权api:{}", JsonMapperUtil.toJSONString(strings));
         http
                 //由于使用的是JWT，我们这里不需要csrf，并配置entryPoint
                 .csrf()

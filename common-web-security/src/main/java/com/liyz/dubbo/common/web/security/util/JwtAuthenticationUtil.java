@@ -1,7 +1,7 @@
 package com.liyz.dubbo.common.web.security.util;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liyz.dubbo.common.base.result.Result;
+import com.liyz.dubbo.common.base.util.JsonMapperUtil;
 import com.liyz.dubbo.common.remote.bo.JwtUserBO;
 import com.liyz.dubbo.common.remote.exception.enums.CommonCodeEnum;
 import com.liyz.dubbo.common.web.security.core.JwtUserDetails;
@@ -49,9 +49,8 @@ public final class JwtAuthenticationUtil {
     }
 
     public static void authFail(HttpServletResponse httpServletResponse) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
         httpServletResponse.setContentType("application/json;charset=UTF-8");
-        httpServletResponse.getWriter().write(mapper.writeValueAsString(Result.error(CommonCodeEnum.AuthorizationFail)));
+        httpServletResponse.getWriter().write(JsonMapperUtil.toJSONString(Result.error(CommonCodeEnum.AuthorizationFail)));
         httpServletResponse.addHeader("Session-Invalid","true");
     }
 }

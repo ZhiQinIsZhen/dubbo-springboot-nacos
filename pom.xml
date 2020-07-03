@@ -23,6 +23,8 @@
         <module>common-dao</module>
         <module>common-controller</module>
         <module>common-web-security</module>
+        <module>common-redisson</module>
+        <module>service-member</module>
     </modules>
 
     <properties>
@@ -38,6 +40,8 @@
         <knife4j.version>2.0.3</knife4j.version>
         <redisson.version>3.13.0</redisson.version>
         <spring.kafka.version>2.5.1.RELEASE</spring.kafka.version>
+        <curator.version>4.3.0</curator.version>
+        <apollo.version>1.6.0</apollo.version>
     </properties>
 
     <dependencyManagement>
@@ -107,6 +111,23 @@
                 <groupId>org.springframework.kafka</groupId>
                 <artifactId>spring-kafka</artifactId>
                 <version>${spring.kafka.version}</version>
+            </dependency>
+            <!-- zk registry -->
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
+            <!-- config registry -->
+            <dependency>
+                <groupId>com.ctrip.framework.apollo</groupId>
+                <artifactId>apollo-client</artifactId>
+                <version>${apollo.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
