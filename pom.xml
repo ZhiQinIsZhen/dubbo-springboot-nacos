@@ -21,6 +21,7 @@
         <module>common-remote</module>
         <module>common-base</module>
         <module>common-dao</module>
+        <module>common-controller</module>
     </modules>
 
     <properties>
