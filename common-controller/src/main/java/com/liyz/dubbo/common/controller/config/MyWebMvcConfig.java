@@ -9,10 +9,12 @@ import com.liyz.dubbo.common.base.service.LoginInfoService;
 import com.liyz.dubbo.common.controller.resolver.LoginUserArgumentResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import java.util.List;
@@ -29,8 +31,25 @@ import java.util.TimeZone;
 @Configuration
 public class MyWebMvcConfig extends WebMvcConfigurationSupport {
 
+    @Value("${swagger.doc:false}")
+    private Boolean swagger;
+
     @Autowired
     LoginInfoService loginInfoService;
+
+    /**
+     * 允许加载本地静态资源
+     *
+     * @param registry
+     */
+    @Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        if (swagger) {
+            registry.addResourceHandler("/**")
+                    .addResourceLocations("classpath:/META-INF/resources/");
+        }
+        super.addResourceHandlers(registry);
+    }
 
     /**
      * 加载用户解析器

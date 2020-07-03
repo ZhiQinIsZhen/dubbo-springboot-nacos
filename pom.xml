@@ -25,6 +25,7 @@
         <module>common-web-security</module>
         <module>common-redisson</module>
         <module>service-member</module>
+        <module>api-web</module>
     </modules>
 
     <properties>
