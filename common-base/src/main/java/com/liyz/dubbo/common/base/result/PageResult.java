@@ -1,5 +1,6 @@
 package com.liyz.dubbo.common.base.result;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.liyz.dubbo.common.remote.exception.enums.CommonCodeEnum;
@@ -18,6 +19,7 @@ import java.util.List;
  * @date 2019/8/30 10:45
  */
 @Data
+@JsonPropertyOrder({"code", "message", "total", "pages", "pageNum", "pageSize", "hasNextPage", "data"})
 public class PageResult<T> implements Serializable {
     private static final long serialVersionUID = 491504189274405094L;
 

@@ -1,5 +1,6 @@
 package com.liyz.dubbo.common.base.result;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.liyz.dubbo.common.remote.exception.enums.CommonCodeEnum;
 import com.liyz.dubbo.common.remote.exception.service.ServiceCodeEnum;
 import lombok.Data;
@@ -14,6 +15,7 @@ import java.io.Serializable;
  * @date 2019/8/5 15:59
  */
 @Data
+@JsonPropertyOrder({"code", "message", "data"})
 public class Result<T> implements Serializable {
     private static final long serialVersionUID = 8507520853225734536L;
 
