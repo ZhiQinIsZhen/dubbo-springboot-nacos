@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Objects;
 
 /**
- * 注释:
+ * 注释:json与实体类转化工具
  *
  * @author liyangzhen
  * @version 1.0.0

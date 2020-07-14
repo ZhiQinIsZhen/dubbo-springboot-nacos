@@ -42,6 +42,7 @@
         <redisson.version>3.13.0</redisson.version>
         <spring.kafka.version>2.5.1.RELEASE</spring.kafka.version>
         <curator.version>4.3.0</curator.version>
+        <nacos.version>1.2.1</nacos.version>
         <apollo.version>1.6.0</apollo.version>
     </properties>
 
@@ -123,6 +124,12 @@
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-recipes</artifactId>
                 <version>${curator.version}</version>
+            </dependency>
+            <!-- nacos registry -->
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-client</artifactId>
+                <version>${nacos.version}</version>
             </dependency>
             <!-- config registry -->
             <dependency>

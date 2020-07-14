@@ -3,6 +3,7 @@ package com.liyz.dubbo.common.base.util;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.liyz.dubbo.common.base.cglib.PageImplCopier;
 import com.liyz.dubbo.common.base.cglib.PageInfoCopier;
 import com.liyz.dubbo.common.base.cglib.SimpleBeanCopier;
@@ -193,7 +194,7 @@ public final class CommonConverterUtil {
             return null;
         }
 
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = Maps.newHashMap();
 
         Field[] declaredFields = obj.getClass().getDeclaredFields();
         for (Field field : declaredFields) {
