@@ -19,6 +19,7 @@ public final class MessageEnum {
     public enum MessageType {
         MOBILE(0, "短信"),
         EMAIL(1, "邮件"),
+        DING_TALK(2, "钉钉"),
         ;
 
         @Getter

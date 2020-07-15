@@ -13,6 +13,7 @@ import freemarker.cache.StringTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import java.io.StringWriter;
@@ -85,6 +86,9 @@ public abstract class AbstractMessageService implements MessageService {
                 return false;
             }
             MessageCacheUtil.pubMsgTemplate(msgTemplateDO);
+        }
+        if (StringUtils.isBlank(messageBO.getSubject())) {
+            messageBO.setSubject(msgTemplateDO.getName());
         }
         messageBO.setContent(msgTemplateDO.getContent());
         return true;
