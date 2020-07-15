@@ -27,6 +27,7 @@
         <module>api-web</module>
         <module>service-member</module>
         <module>service-message</module>
+        <module>service-file</module>
     </modules>
 
     <properties>
