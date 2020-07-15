@@ -24,8 +24,9 @@
         <module>common-controller</module>
         <module>common-web-security</module>
         <module>common-redisson</module>
-        <module>service-member</module>
         <module>api-web</module>
+        <module>service-member</module>
+        <module>service-message</module>
     </modules>
 
     <properties>

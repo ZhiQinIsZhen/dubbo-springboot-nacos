@@ -1,10 +1,10 @@
 package com.liyz.dubbo.service.member.provider;
 
+import com.google.common.collect.Maps;
 import com.liyz.dubbo.common.base.util.JsonMapperUtil;
 import com.liyz.dubbo.common.redisson.RedissonService;
 import com.liyz.dubbo.common.remote.exception.RemoteServiceException;
 import com.liyz.dubbo.common.remote.exception.enums.CommonCodeEnum;
-import com.liyz.dubbo.service.member.bo.EmailMessageBO;
 import com.liyz.dubbo.service.member.bo.ImageBO;
 import com.liyz.dubbo.service.member.bo.SmsInfoBO;
 import com.liyz.dubbo.service.member.constant.MemberConstant;
@@ -15,6 +15,8 @@ import com.liyz.dubbo.service.member.service.KafkaService;
 import com.liyz.dubbo.service.member.service.UserInfoService;
 import com.liyz.dubbo.service.member.util.ImageCodeUtil;
 import com.liyz.dubbo.service.member.util.MemberUtil;
+import com.liyz.dubbo.service.message.bo.MessageBO;
+import com.liyz.dubbo.service.message.constant.MessageEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -25,6 +27,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -93,14 +96,17 @@ public class RemoteSmsServiceImpl implements RemoteSmsService {
         redissonService.setValueExpire(smsCodeKey, smsCode, 10L, TimeUnit.MINUTES);
         log.info("*********sms send******user:{},smsCode:{}", smsInfoBO.getAddress(), smsCode);
         if (type == 2) {
-            EmailMessageBO emailMessageBO = new EmailMessageBO();
-            emailMessageBO.setCode(smsInfoBO.getSmsType());
-            emailMessageBO.setAddress(smsInfoBO.getAddress());
-            emailMessageBO.setSubject(MemberConstant.REGISTER_SUBJECT);
-            emailMessageBO.setLocale(StringUtils.isBlank(smsInfoBO.getLocale()) ? MemberConstant.ZH_CN : smsInfoBO.getLocale());
-            emailMessageBO.setParams(Arrays.asList(smsCode));
+            MessageBO messageBO = new MessageBO();
+            messageBO.setCode(smsInfoBO.getSmsType());
+            messageBO.setType(MessageEnum.MessageType.EMAIL.getType());
+            messageBO.setAddress(smsInfoBO.getAddress());
+            messageBO.setSubject(MemberConstant.REGISTER_SUBJECT);
+            messageBO.setLocale(StringUtils.isBlank(smsInfoBO.getLocale()) ? MemberConstant.ZH_CN : smsInfoBO.getLocale());
+            Map<String, Object> params = Maps.newHashMap();
+            params.put("code", smsCode);
+            messageBO.setParams(params);
             //kafka发送消息
-            kafkaService.sendSms(JsonMapperUtil.toJSONString(emailMessageBO));
+            kafkaService.sendSms(JsonMapperUtil.toJSONString(messageBO));
         }
         return true;
     }

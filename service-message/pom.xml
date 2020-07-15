@@ -9,12 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>service-member</artifactId>
+    <artifactId>service-message</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>member-remote</module>
-        <module>member-dao</module>
-        <module>member-provider</module>
+        <module>message-dao</module>
+        <module>message-provider</module>
+        <module>message-remote</module>
     </modules>
 
     <build>
@@ -23,7 +23,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.liyz.dubbo.service.member.MemberApplication</mainClass>
+                    <mainClass>com.liyz.dubbo.service.message.MessageApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>

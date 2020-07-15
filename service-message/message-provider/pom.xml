@@ -3,24 +3,24 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>service-member</artifactId>
+        <artifactId>service-message</artifactId>
         <groupId>com.liyz.dubbo</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>member-provider</artifactId>
+    <artifactId>message-provider</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
-            <artifactId>member-remote</artifactId>
+            <artifactId>message-remote</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
-            <artifactId>member-dao</artifactId>
+            <artifactId>message-dao</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -56,10 +56,24 @@
         </dependency>
 
         <dependency>
-            <groupId>com.liyz.dubbo</groupId>
-            <artifactId>message-remote</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>taobao-sdk-java-auto</artifactId>
+            <version>20200403</version>
+        </dependency>
+        <dependency>
+            <groupId>com.yunpian.sdk</groupId>
+            <artifactId>yunpian-java-sdk</artifactId>
+            <version>1.2.7</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -78,4 +92,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
