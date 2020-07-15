@@ -1,12 +1,16 @@
 package com.liyz.dubbo.service.message.core.abs;
 
+import com.liyz.dubbo.common.base.util.CommonConverterUtil;
+import com.liyz.dubbo.common.base.util.DateUtil;
 import com.liyz.dubbo.common.base.util.SpringContextUtil;
 import com.liyz.dubbo.common.remote.exception.RemoteServiceException;
 import com.liyz.dubbo.common.remote.exception.enums.CommonCodeEnum;
 import com.liyz.dubbo.service.message.bo.MessageBO;
 import com.liyz.dubbo.service.message.constant.MessageEnum;
 import com.liyz.dubbo.service.message.core.service.MessageService;
+import com.liyz.dubbo.service.message.model.MessageLogDO;
 import com.liyz.dubbo.service.message.model.MsgTemplateDO;
+import com.liyz.dubbo.service.message.service.MessageLogService;
 import com.liyz.dubbo.service.message.service.MsgTemplateService;
 import com.liyz.dubbo.service.message.util.MessageCacheUtil;
 import freemarker.cache.StringTemplateLoader;
@@ -30,11 +34,16 @@ import java.util.Objects;
 public abstract class AbstractMessageService implements MessageService {
 
     private MsgTemplateService msgTemplateService;
+    private MessageLogService messageLogService;
 
     public AbstractMessageService() {
         msgTemplateService = SpringContextUtil.getBean("msgTemplateService", MsgTemplateService.class);
         if (msgTemplateService == null) {
             throw new NoSuchBeanDefinitionException("no bean msgTemplateService");
+        }
+        messageLogService = SpringContextUtil.getBean("messageLogService", MessageLogService.class);
+        if (messageLogService == null) {
+            throw new NoSuchBeanDefinitionException("no bean messageLogService");
         }
     }
 
@@ -63,7 +72,7 @@ public abstract class AbstractMessageService implements MessageService {
         //发送消息
         success = doSend(messageBO);
         //记录消息发送结果
-        recordMsgLog();
+        recordMsgLog(messageBO, success);
         return success;
     }
 
@@ -98,8 +107,16 @@ public abstract class AbstractMessageService implements MessageService {
 
     /**
      * 记录消息发送日志
+     *
+     * @param messageBO
+     * @param success
      */
-    private void recordMsgLog() {
+    private void recordMsgLog(MessageBO messageBO, boolean success) {
+        MessageLogDO messageLogDO = CommonConverterUtil.beanCopy(messageBO, MessageLogDO.class);
+        messageLogDO.setSuccess(success ? 1 : 0);
+        messageLogDO.setCreateTime(DateUtil.currentDate());
+        messageLogDO.setUpdateTime(DateUtil.currentDate());
+        messageLogService.save(messageLogDO);
     }
 
     /**

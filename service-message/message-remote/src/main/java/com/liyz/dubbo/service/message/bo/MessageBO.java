@@ -21,6 +21,8 @@ import java.util.Map;
 public class MessageBO implements Serializable {
     private static final long serialVersionUID = -7688579438072180123L;
 
+    private String bizId;
+
     @NotNull(groups = {Mobile.class, Email.class}, message = "模板编号不能为空")
     private Integer code;
 
