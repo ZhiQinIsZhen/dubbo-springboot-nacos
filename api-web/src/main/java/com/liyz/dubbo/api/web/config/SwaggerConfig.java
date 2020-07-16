@@ -59,4 +59,15 @@ public class SwaggerConfig extends SwaggerBaseConfig {
                 .paths(PathSelectors.any())
                 .build().groupName("文件服务-API");
     }
+
+    @Bean
+    public Docket createSearchApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .protocols(Sets.newHashSet("https", "http"))
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.web.controller.search"))
+                .paths(PathSelectors.any())
+                .build().groupName("搜索服务-API");
+    }
 }
