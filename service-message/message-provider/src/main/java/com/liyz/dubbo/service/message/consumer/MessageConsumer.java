@@ -1,6 +1,6 @@
 package com.liyz.dubbo.service.message.consumer;
 
-import com.alibaba.fastjson.JSON;
+import com.liyz.dubbo.common.base.util.JsonMapperUtil;
 import com.liyz.dubbo.service.message.bo.MessageBO;
 import com.liyz.dubbo.service.message.constant.MessageEnum;
 import com.liyz.dubbo.service.message.util.MessageServiceUtil;
@@ -27,7 +27,7 @@ public class MessageConsumer {
         String payload = record.value();
         log.info("payload: {}, offset：{}", payload, record.offset());
         try {
-            MessageBO messageBO = JSON.parseObject(payload, MessageBO.class);
+            MessageBO messageBO = JsonMapperUtil.readValue(payload, MessageBO.class);
             if (Objects.isNull(messageBO) || Objects.isNull(messageBO.getType())) {
                 return;
             }
