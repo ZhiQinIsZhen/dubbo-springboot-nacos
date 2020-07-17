@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -82,7 +82,7 @@ public class RiskConsensusController {
     @Anonymous
     @GetMapping(value = "/search")
     public PageResult<RiskConsensusVO> search(PageBaseDTO pagebasedto) {
-        PageImpl<RiskConsensusBO> boPage = remoteRiskConsensusService.search(CommonConverterUtil.beanCopy(pagebasedto, PageBaseBO.class));
+        Page<RiskConsensusBO> boPage = remoteRiskConsensusService.search(CommonConverterUtil.beanCopy(pagebasedto, PageBaseBO.class));
         PageResult<RiskConsensusBO> pageResult = PageResult.success(boPage);
         return CommonConverterUtil.PageTransform(pageResult, RiskConsensusVO.class);
     }
@@ -91,7 +91,7 @@ public class RiskConsensusController {
     @Anonymous
     @GetMapping(value = "/searchForCondition")
     PageResult<RiskConsensusVO> searchForCondition(RiskConsensusPageQueryDTO queryDTO) {
-        PageImpl<RiskConsensusBO> boPage = remoteRiskConsensusService.search(CommonConverterUtil.beanCopy(queryDTO, RiskConsensusPageQueryBO.class));
+        Page<RiskConsensusBO> boPage = remoteRiskConsensusService.search(CommonConverterUtil.beanCopy(queryDTO, RiskConsensusPageQueryBO.class));
         PageResult<RiskConsensusBO> pageResult = PageResult.success(boPage);
         return CommonConverterUtil.PageTransform(pageResult, RiskConsensusVO.class);
     }
@@ -100,7 +100,7 @@ public class RiskConsensusController {
     @Anonymous
     @GetMapping(value = "/searchForHighlight")
     PageResult<RiskConsensusVO> searchForHighlight(RiskConsensusPageQueryDTO queryDTO) {
-        PageImpl<RiskConsensusBO> boPage = remoteRiskConsensusService.searchForHighlight(CommonConverterUtil.beanCopy(queryDTO, RiskConsensusPageQueryBO.class));
+        Page<RiskConsensusBO> boPage = remoteRiskConsensusService.searchForHighlight(CommonConverterUtil.beanCopy(queryDTO, RiskConsensusPageQueryBO.class));
         PageResult<RiskConsensusBO> pageResult = PageResult.success(boPage);
         return CommonConverterUtil.PageTransform(pageResult, RiskConsensusVO.class);
     }

@@ -1,7 +1,6 @@
 package com.liyz.dubbo.service.search.provider;
 
 import com.liyz.dubbo.common.base.util.CommonConverterUtil;
-import com.liyz.dubbo.common.base.util.PageImplUtil;
 import com.liyz.dubbo.common.remote.bo.PageBaseBO;
 import com.liyz.dubbo.service.search.bo.RiskConsensusBO;
 import com.liyz.dubbo.service.search.bo.RiskConsensusPageQueryBO;
@@ -11,7 +10,6 @@ import com.liyz.dubbo.service.search.service.RiskConsensusService;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -50,24 +48,21 @@ public class RemoteRiskConsensusServiceImpl implements RemoteRiskConsensusServic
     }
 
     @Override
-    public PageImpl<RiskConsensusBO> search(PageBaseBO pageBaseBO) {
+    public Page<RiskConsensusBO> search(PageBaseBO pageBaseBO) {
         Page<RiskConsensusDO> doPage = riskConsensusService.search(pageBaseBO);
-        PageImpl<RiskConsensusDO> implDoPage = PageImplUtil.toPageImpl(doPage);
-        return CommonConverterUtil.PageTransform(implDoPage, RiskConsensusBO.class);
+        return CommonConverterUtil.PageTransform(doPage, RiskConsensusBO.class);
     }
 
     @Override
-    public PageImpl<RiskConsensusBO> search(RiskConsensusPageQueryBO queryBO) {
+    public Page<RiskConsensusBO> search(RiskConsensusPageQueryBO queryBO) {
         Page<RiskConsensusDO> doPage = riskConsensusService.search(queryBO);
-        PageImpl<RiskConsensusDO> implDoPage = PageImplUtil.toPageImpl(doPage);
-        return CommonConverterUtil.PageTransform(implDoPage, RiskConsensusBO.class);
+        return CommonConverterUtil.PageTransform(doPage, RiskConsensusBO.class);
     }
 
     @Override
-    public PageImpl<RiskConsensusBO> searchForHighlight(RiskConsensusPageQueryBO queryBO) {
+    public Page<RiskConsensusBO> searchForHighlight(RiskConsensusPageQueryBO queryBO) {
         Page<RiskConsensusDO> doPage = riskConsensusService.searchForHighlight(queryBO);
-        PageImpl<RiskConsensusDO> implDoPage = PageImplUtil.toPageImpl(doPage);
-        return CommonConverterUtil.PageTransform(implDoPage, RiskConsensusBO.class);
+        return CommonConverterUtil.PageTransform(doPage, RiskConsensusBO.class);
     }
 
     @Override

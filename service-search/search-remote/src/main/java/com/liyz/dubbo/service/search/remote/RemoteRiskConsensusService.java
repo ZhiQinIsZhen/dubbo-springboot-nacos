@@ -3,7 +3,7 @@ package com.liyz.dubbo.service.search.remote;
 import com.liyz.dubbo.common.remote.bo.PageBaseBO;
 import com.liyz.dubbo.service.search.bo.RiskConsensusBO;
 import com.liyz.dubbo.service.search.bo.RiskConsensusPageQueryBO;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Map;
@@ -25,11 +25,11 @@ public interface RemoteRiskConsensusService {
 
     void delete(List<Long> ids);
 
-    PageImpl<RiskConsensusBO> search(PageBaseBO pageBaseBO);
+    Page<RiskConsensusBO> search(PageBaseBO pageBaseBO);
 
-    PageImpl<RiskConsensusBO> search(RiskConsensusPageQueryBO queryBO);
+    Page<RiskConsensusBO> search(RiskConsensusPageQueryBO queryBO);
 
-    PageImpl<RiskConsensusBO> searchForHighlight(RiskConsensusPageQueryBO queryBO);
+    Page<RiskConsensusBO> searchForHighlight(RiskConsensusPageQueryBO queryBO);
 
     Map<String,Object> aggregateForSentimentType(RiskConsensusPageQueryBO queryBO);
 }

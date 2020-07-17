@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.liyz.dubbo.common.base.cglib.PageCopier;
 import com.liyz.dubbo.common.base.cglib.PageImplCopier;
 import com.liyz.dubbo.common.base.cglib.PageInfoCopier;
 import com.liyz.dubbo.common.base.cglib.SimpleBeanCopier;
@@ -21,7 +22,6 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -140,6 +140,20 @@ public final class CommonConverterUtil {
         simpleBeanCopier.setTargetClass(targetClass);
         simpleBeanCopier.init();
         return PageImplCopier.transform(sourcePage, simpleBeanCopier);
+    }
+
+    public static <T,Y> org.springframework.data.domain.Page<Y> PageTransform(org.springframework.data.domain.Page<T> sourcePage, Class<Y> targetClass) {
+        if (sourcePage == null) {
+            return null;
+        }
+        if (sourcePage.getTotalElements() == 0 || sourcePage.getContent().size() == 0) {
+            return new PageImpl<Y>(new ArrayList<Y>(), sourcePage.getPageable(), sourcePage.getTotalElements());
+        }
+        SimpleBeanCopier simpleBeanCopier = getClone();
+        simpleBeanCopier.setSourceClass(sourcePage.getContent().get(0).getClass());
+        simpleBeanCopier.setTargetClass(targetClass);
+        simpleBeanCopier.init();
+        return PageCopier.transform(sourcePage, simpleBeanCopier);
     }
 
     public static <T,Y> PageResult<Y> PageTransform(PageResult<T> sourcePage, Class<Y> targetClass) {

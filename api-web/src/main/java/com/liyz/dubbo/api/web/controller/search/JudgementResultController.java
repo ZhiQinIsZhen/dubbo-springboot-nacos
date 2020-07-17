@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -80,7 +80,7 @@ public class JudgementResultController {
     @Anonymous
     @GetMapping(value = "/search")
     public PageResult<JudgementResultVO> search(PageBaseDTO pagebasedto) {
-        PageImpl<JudgementResultBO> boPage = remoteJudgementResultService.search(CommonConverterUtil.beanCopy(pagebasedto, PageBaseBO.class));
+        Page<JudgementResultBO> boPage = remoteJudgementResultService.search(CommonConverterUtil.beanCopy(pagebasedto, PageBaseBO.class));
         PageResult<JudgementResultBO> pageResult = PageResult.success(boPage);
         return CommonConverterUtil.PageTransform(pageResult, JudgementResultVO.class);
     }
@@ -89,7 +89,7 @@ public class JudgementResultController {
     @Anonymous
     @GetMapping(value = "/searchForCondition")
     PageResult<JudgementResultVO> searchForCondition(JudgementResultPageQueryBO queryDTO) {
-        PageImpl<JudgementResultBO> boPage = remoteJudgementResultService.search(CommonConverterUtil.beanCopy(queryDTO, JudgementResultPageQueryBO.class));
+        Page<JudgementResultBO> boPage = remoteJudgementResultService.search(CommonConverterUtil.beanCopy(queryDTO, JudgementResultPageQueryBO.class));
         PageResult<JudgementResultBO> pageResult = PageResult.success(boPage);
         return CommonConverterUtil.PageTransform(pageResult, JudgementResultVO.class);
     }

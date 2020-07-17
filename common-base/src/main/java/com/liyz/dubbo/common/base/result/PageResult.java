@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 import com.liyz.dubbo.common.remote.exception.enums.CommonCodeEnum;
 import com.liyz.dubbo.common.remote.exception.service.ServiceCodeEnum;
 import lombok.Data;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Page;
 
 import java.io.Serializable;
 import java.util.List;
@@ -43,7 +43,7 @@ public class PageResult<T> implements Serializable {
         return new PageResult<>(data);
     }
 
-    public static <T> PageResult<T> success(PageImpl<T> data) {
+    public static <T> PageResult<T> success(Page<T> data) {
         return new PageResult<>(data);
     }
 
@@ -69,7 +69,7 @@ public class PageResult<T> implements Serializable {
         this.message = CommonCodeEnum.success.getMessage();
     }
 
-    public PageResult(PageImpl<T> data) {
+    public PageResult(Page<T> data) {
         boolean isNull = data == null;
         this.setData(isNull ? Lists.newArrayList() : data.getContent());
         this.total = isNull ? 0L : data.getTotalElements();

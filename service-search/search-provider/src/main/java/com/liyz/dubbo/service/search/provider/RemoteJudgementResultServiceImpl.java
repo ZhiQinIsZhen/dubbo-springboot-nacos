@@ -1,7 +1,6 @@
 package com.liyz.dubbo.service.search.provider;
 
 import com.liyz.dubbo.common.base.util.CommonConverterUtil;
-import com.liyz.dubbo.common.base.util.PageImplUtil;
 import com.liyz.dubbo.common.remote.bo.PageBaseBO;
 import com.liyz.dubbo.service.search.bo.JudgementResultBO;
 import com.liyz.dubbo.service.search.bo.JudgementResultPageQueryBO;
@@ -11,7 +10,6 @@ import com.liyz.dubbo.service.search.service.JudgementResultService;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 
 import java.util.List;
 
@@ -49,16 +47,14 @@ public class RemoteJudgementResultServiceImpl implements RemoteJudgementResultSe
     }
 
     @Override
-    public PageImpl<JudgementResultBO> search(PageBaseBO pageBaseBO) {
+    public Page<JudgementResultBO> search(PageBaseBO pageBaseBO) {
         Page<JudgementResultDO> doPage = judgementResultService.search(pageBaseBO);
-        PageImpl<JudgementResultDO> implDoPage = PageImplUtil.toPageImpl(doPage);
-        return CommonConverterUtil.PageTransform(implDoPage, JudgementResultBO.class);
+        return CommonConverterUtil.PageTransform(doPage, JudgementResultBO.class);
     }
 
     @Override
-    public PageImpl<JudgementResultBO> search(JudgementResultPageQueryBO queryBO) {
+    public Page<JudgementResultBO> search(JudgementResultPageQueryBO queryBO) {
         Page<JudgementResultDO> doPage = judgementResultService.search(queryBO);
-        PageImpl<JudgementResultDO> implDoPage = PageImplUtil.toPageImpl(doPage);
-        return CommonConverterUtil.PageTransform(implDoPage, JudgementResultBO.class);
+        return CommonConverterUtil.PageTransform(doPage, JudgementResultBO.class);
     }
 }

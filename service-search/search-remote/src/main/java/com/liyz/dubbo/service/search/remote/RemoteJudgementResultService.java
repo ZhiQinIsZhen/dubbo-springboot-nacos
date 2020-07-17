@@ -3,7 +3,7 @@ package com.liyz.dubbo.service.search.remote;
 import com.liyz.dubbo.common.remote.bo.PageBaseBO;
 import com.liyz.dubbo.service.search.bo.JudgementResultBO;
 import com.liyz.dubbo.service.search.bo.JudgementResultPageQueryBO;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public interface RemoteJudgementResultService {
 
     void delete(List<String> ids);
 
-    PageImpl<JudgementResultBO> search(PageBaseBO pageBaseBO);
+    Page<JudgementResultBO> search(PageBaseBO pageBaseBO);
 
-    PageImpl<JudgementResultBO> search(JudgementResultPageQueryBO queryBO);
+    Page<JudgementResultBO> search(JudgementResultPageQueryBO queryBO);
 }
