@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/es/judgement")
 public class JudgementResultController {
 
-    @DubboReference(version = "1.0.0")
+    @DubboReference(version = "1.0.0", timeout = 2000)
     RemoteJudgementResultService remoteJudgementResultService;
 
     @ApiOperation(value = "保存法诉信息", notes = "保存法诉信息")

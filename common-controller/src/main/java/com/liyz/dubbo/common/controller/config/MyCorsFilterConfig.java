@@ -37,7 +37,7 @@ public class MyCorsFilterConfig extends CorsFilter {
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfig);
-        log.info("**********************init corsConfig success");
+        log.info("init corsConfig success");
         return source;
     }
 }
