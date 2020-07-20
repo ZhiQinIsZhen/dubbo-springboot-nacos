@@ -70,4 +70,15 @@ public class SwaggerConfig extends SwaggerBaseConfig {
                 .paths(PathSelectors.any())
                 .build().groupName("搜索服务-API");
     }
+
+    @Bean
+    public Docket createTransactionApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .protocols(Sets.newHashSet("https", "http"))
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.web.controller.transaction"))
+                .paths(PathSelectors.any())
+                .build().groupName("分布式事务-API");
+    }
 }

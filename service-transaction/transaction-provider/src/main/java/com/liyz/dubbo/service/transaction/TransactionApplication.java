@@ -1,4 +1,4 @@
-package com.liyz.dubbo.service.message;
+package com.liyz.dubbo.service.transaction;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
@@ -11,15 +11,15 @@ import tk.mybatis.spring.annotation.MapperScan;
  *
  * @author liyangzhen
  * @version 1.0.0
- * @date 2020/7/14 17:13
+ * @date 2020/7/20 10:34
  */
 @EnableTransactionManagement
-@MapperScan(basePackages = {"com.liyz.dubbo.service.message.dao"})
-@EnableDubbo(scanBasePackages = {"com.liyz.dubbo.service.message.provider"})
-@SpringBootApplication(scanBasePackages = {"com.liyz.dubbo.common", "com.liyz.dubbo.service.message"})
-public class MessageApplication {
+@MapperScan(basePackages = {"com.liyz.dubbo.service.transaction.dao"})
+@EnableDubbo(scanBasePackages = {"com.liyz.dubbo.service.transaction.provider"})
+@SpringBootApplication(scanBasePackages = {"com.liyz.dubbo.common", "com.liyz.dubbo.service.transaction"})
+public class TransactionApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MessageApplication.class, args);
+        SpringApplication.run(TransactionApplication.class, args);
     }
 }
