@@ -2,8 +2,6 @@ package com.liyz.dubbo.service.transaction.provider;
 
 import com.liyz.dubbo.common.base.util.CommonConverterUtil;
 import com.liyz.dubbo.common.base.util.DateUtil;
-import com.liyz.dubbo.common.remote.exception.RemoteServiceException;
-import com.liyz.dubbo.common.remote.exception.enums.CommonCodeEnum;
 import com.liyz.dubbo.service.message.bo.MessageLogBO;
 import com.liyz.dubbo.service.message.remote.RemoteMessageLogService;
 import com.liyz.dubbo.service.transaction.bo.AccountBO;
@@ -16,8 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Objects;
 
 /**
  * 注释:
@@ -53,8 +49,5 @@ public class RemoteAccountServiceImpl implements RemoteAccountService {
         logBO.setCreateTime(DateUtil.currentDate());
         logBO.setUpdateTime(DateUtil.currentDate());
         remoteMessageLogService.insert(logBO);
-        if (Objects.nonNull(accountBO)) {
-            throw new RemoteServiceException(CommonCodeEnum.ParameterError);
-        }
     }
 }
