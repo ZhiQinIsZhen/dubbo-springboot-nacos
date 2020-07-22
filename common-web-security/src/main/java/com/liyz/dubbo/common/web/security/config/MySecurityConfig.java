@@ -44,7 +44,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         List<String> list = AnonymousUrlsUtil.anonymousUrls();
         String[] strings = list.toArray(new String[list.size()]);
-        log.info("免鉴权api:{}", JsonMapperUtil.toJSONString(strings));
+        log.info("Anonymous api:{}", JsonMapperUtil.toJSONString(strings));
         http
                 //由于使用的是JWT，我们这里不需要csrf，并配置entryPoint
                 .csrf()
