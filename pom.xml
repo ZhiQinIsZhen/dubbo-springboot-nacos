@@ -154,19 +154,8 @@
             <!-- seata -->
             <dependency>
                 <groupId>io.seata</groupId>
-                <artifactId>seata-spring</artifactId>
+                <artifactId>seata-all</artifactId>
                 <version>${seata.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-dubbo</artifactId>
-                <version>${seata.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.apache.dubbo</groupId>
-                        <artifactId>dubbo</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>
