@@ -31,6 +31,7 @@
         <module>service-search</module>
         <module>service-transaction</module>
         <module>common-transaction</module>
+        <module>common-socket</module>
     </modules>
 
     <properties>
@@ -43,7 +44,7 @@
         <pagehelper-starter.version>1.2.13</pagehelper-starter.version>
         <tk.mybatis.version>2.1.5</tk.mybatis.version>
         <sharding-jdbc.version>4.1.1</sharding-jdbc.version>
-        <knife4j.version>2.0.3</knife4j.version>
+        <knife4j.version>2.0.4</knife4j.version>
         <redisson.version>3.13.0</redisson.version>
         <spring.kafka.version>2.5.1.RELEASE</spring.kafka.version>
         <seata.version>1.3.0</seata.version>
