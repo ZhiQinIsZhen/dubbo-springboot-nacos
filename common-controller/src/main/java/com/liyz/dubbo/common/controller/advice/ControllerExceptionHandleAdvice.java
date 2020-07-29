@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Objects;
 
@@ -56,6 +57,16 @@ public class ControllerExceptionHandleAdvice {
             }
         }
         log.error("参数校验出错了");
+        return Result.error(CommonCodeEnum.validated);
+    }
+
+    @ExceptionHandler({ConstraintViolationException.class})
+    public Result constraintViolationException(ConstraintViolationException exception) {
+        String[] message = exception.getMessage().split(":");
+        if (message.length >= 2) {
+            log.warn("参数校验 exception ：{}", message);
+            return Result.error(CommonCodeEnum.validated.getCode(), message[1].trim());
+        }
         return Result.error(CommonCodeEnum.validated);
     }
 
