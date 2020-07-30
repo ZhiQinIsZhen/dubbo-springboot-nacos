@@ -23,6 +23,8 @@
         <module>common-dao</module>
         <module>common-controller</module>
         <module>common-web-security</module>
+        <module>common-transaction</module>
+        <module>common-socket</module>
         <module>common-redisson</module>
         <module>api-web</module>
         <module>service-member</module>
@@ -30,8 +32,7 @@
         <module>service-file</module>
         <module>service-search</module>
         <module>service-transaction</module>
-        <module>common-transaction</module>
-        <module>common-socket</module>
+        <module>api-open</module>
     </modules>
 
     <properties>
