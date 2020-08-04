@@ -3,6 +3,7 @@ package com.liyz.dubbo.common.base.util;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
@@ -15,6 +16,7 @@ import java.util.Map;
  * @version 1.0.0
  * @date 2019/8/28 14:41
  */
+@Order(-1)
 @Component
 public class SpringContextUtil implements ApplicationContextAware {
 

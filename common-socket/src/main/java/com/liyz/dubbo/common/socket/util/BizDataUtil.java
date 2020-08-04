@@ -3,7 +3,12 @@ package com.liyz.dubbo.common.socket.util;
 import com.liyz.dubbo.common.base.util.SpringContextUtil;
 import com.liyz.dubbo.common.socket.service.biz.BizService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
@@ -19,7 +24,10 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-public final class BizDataUtil {
+public final class BizDataUtil implements ApplicationContextAware {
+
+    @Autowired
+    SpringContextUtil springContextUtil;
 
     private static Map<String, BizService> holder = new HashMap<>();
 
@@ -39,5 +47,10 @@ public final class BizDataUtil {
             return null;
         }
         return holder.get(dataType);
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+
     }
 }
