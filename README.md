@@ -67,7 +67,7 @@ liyz
 ├── common-export -- 自定义注解导出，只需要在实体类的field加上注解（Export即可），并且暂时只有csv的导出，如果需要excel的导出，大家可以自行添加
 ├── common-task -- 分布式定时任务，基于当当的 elastic job，当中有两个自定义注解：ElasticDataFlowJob、ElasticSimpleJob
 ├── service-member -- 用户服务，可以自己扩展
-├── service-push -- 是一个基于netty的一个实时推送服务，当中的登陆依赖了 service-member，如果有认证中心或者需要修改认证的地方，可以自行修改
+├── service-socket -- 是一个基于netty的一个实时推送服务，当中的登陆依赖了 service-member，如果有认证中心或者需要修改认证的地方，可以自行修改
 ├── service-task -- 分布式定时任务调度中心，具体的业务代码写在各个服务中，这个项目只用来触发，通过dubbo来远程调用
 ├── api-web -- 对外统一的api出口，当然了大家也可以在每个服务对外开放api，看情况而定
 └── service-file -- 文件上传下载服务
