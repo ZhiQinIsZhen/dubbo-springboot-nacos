@@ -1,5 +1,7 @@
 package com.liyz.dubbo.common.base.log.aspect;
 
+import com.google.common.collect.Sets;
+import com.liyz.dubbo.common.base.log.annotation.LogIgnore;
 import com.liyz.dubbo.common.base.log.annotation.Logs;
 import com.liyz.dubbo.common.base.util.HttpRequestUtil;
 import com.liyz.dubbo.common.base.util.JsonMapperUtil;
@@ -21,8 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * 注释:
@@ -82,16 +86,30 @@ public class LogsAspect {
      */
     private void paramsLog(JoinPoint joinPoint, String methodName) {
         if (joinPoint.getSignature() instanceof MethodSignature) {
+            Set<Integer> ignoreSet = Sets.newTreeSet();
             MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
             //得到方法的参数名
             String[] parameterNames = methodSignature.getParameterNames();
             //得到当前方法的参数值
             Object[] args = joinPoint.getArgs();
+            //得到方法中的每个参数的注解列表
+            Annotation[][] parameterAnnotations = methodSignature.getMethod().getParameterAnnotations();
+            for (int i = 0, j = parameterAnnotations.length; i < j; i++) {
+                Annotation[] annotations = parameterAnnotations[i];
+                for (Annotation annotation : annotations) {
+                    if (annotation instanceof LogIgnore) {
+                        ignoreSet.add(i);
+                    }
+                }
+            }
             int argsSize = Objects.isNull(args) ? 0 : args.length;
             if (parameterNames != null && parameterNames.length > 0) {
                 StringBuilder sb = new StringBuilder();
                 sb.append("[");
                 for (int i = 0, j = parameterNames.length; i < j; i++) {
+                    if (ignoreSet.contains(i)) {
+                        continue;
+                    }
                     sb.append(parameterNames[i]).append("=");
                     if (i < argsSize) {
                         if (Objects.nonNull(args[i])) {

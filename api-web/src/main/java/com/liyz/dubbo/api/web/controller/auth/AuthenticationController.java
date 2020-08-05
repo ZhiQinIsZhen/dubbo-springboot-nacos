@@ -78,7 +78,7 @@ public class AuthenticationController {
     @DubboReference(version = "1.0.0")
     RemoteUserInfoService remoteUserInfoService;
 
-    @Logs(method = "登陆")
+    @Logs(before = false)
     @ApiOperation(value = "登陆", notes = "登陆")
     @Limits(value = {@Limit(count = 1, type = LimitType.IP), @Limit(count = 10)})
     @Anonymous

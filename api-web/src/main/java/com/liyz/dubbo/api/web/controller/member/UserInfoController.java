@@ -3,6 +3,8 @@ package com.liyz.dubbo.api.web.controller.member;
 import com.github.pagehelper.PageInfo;
 import com.liyz.dubbo.api.web.dto.page.PageBaseDTO;
 import com.liyz.dubbo.api.web.vo.member.UserInfoVO;
+import com.liyz.dubbo.common.base.log.annotation.LogIgnore;
+import com.liyz.dubbo.common.base.log.annotation.Logs;
 import com.liyz.dubbo.common.base.result.PageResult;
 import com.liyz.dubbo.common.base.result.Result;
 import com.liyz.dubbo.common.base.util.CommonConverterUtil;
@@ -44,6 +46,7 @@ public class UserInfoController {
     @DubboReference(version = "1.0.0")
     RemoteUserInfoService remoteUserInfoService;
 
+    @Logs
     @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
             paramType = "header")
     @ApiOperation(value = "获取登陆的用户信息", notes = "获取登陆的用户信息")
@@ -52,19 +55,21 @@ public class UserInfoController {
         return Result.success(CommonConverterUtil.beanCopy(jwtUserBO, UserInfoVO.class));
     }
 
+    @Logs
     @ApiOperation(value = "获取登陆的用户ID", notes = "获取登陆的用户ID")
     @GetMapping("/id")
     @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
             paramType = "header")
-    public Result<Long> id(@ApiIgnore @LoginUser JwtUserBO jwtUserBO) {
+    public Result<Long> id(@LogIgnore @ApiIgnore @LoginUser JwtUserBO jwtUserBO) {
         return Result.success(Objects.isNull(jwtUserBO) ? null : jwtUserBO.getUserId());
     }
 
+    @Logs
     @ApiOperation(value = "分页查询用户信息", notes = "分页查询用户信息")
     @GetMapping("/page")
     @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
             paramType = "header")
-    public PageResult<UserInfoVO> page(@Validated({PageBaseDTO.Page.class}) PageBaseDTO pageBaseDTO) {
+    public PageResult<UserInfoVO> page(@LogIgnore @ApiIgnore @LoginUser JwtUserBO jwtUserBO, @Validated({PageBaseDTO.Page.class}) PageBaseDTO pageBaseDTO) {
         if (Objects.isNull(pageBaseDTO)) {
             pageBaseDTO = new PageBaseDTO();
         }
