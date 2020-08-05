@@ -3,7 +3,7 @@ package com.liyz.dubbo.api.web.controller.file;
 import com.liyz.dubbo.api.web.dto.file.FileDTO;
 import com.liyz.dubbo.common.base.result.Result;
 import com.liyz.dubbo.common.base.util.CommonConverterUtil;
-import com.liyz.dubbo.common.controller.util.HttpRequestUtil;
+import com.liyz.dubbo.common.base.util.HttpRequestUtil;
 import com.liyz.dubbo.common.remote.exception.enums.CommonCodeEnum;
 import com.liyz.dubbo.common.web.security.annotation.Anonymous;
 import com.liyz.dubbo.service.file.bo.FileInfoBO;

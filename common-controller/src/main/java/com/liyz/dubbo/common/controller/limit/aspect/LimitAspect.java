@@ -7,7 +7,7 @@ import com.google.common.util.concurrent.RateLimiter;
 import com.liyz.dubbo.common.controller.limit.annotation.Limit;
 import com.liyz.dubbo.common.controller.limit.annotation.Limits;
 import com.liyz.dubbo.common.controller.limit.enums.LimitType;
-import com.liyz.dubbo.common.controller.util.HttpRequestUtil;
+import com.liyz.dubbo.common.base.util.HttpRequestUtil;
 import com.liyz.dubbo.common.remote.exception.RemoteServiceException;
 import com.liyz.dubbo.common.remote.exception.enums.CommonCodeEnum;
 import lombok.extern.slf4j.Slf4j;

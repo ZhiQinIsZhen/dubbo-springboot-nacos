@@ -4,13 +4,14 @@ import com.liyz.dubbo.api.web.dto.auth.LoginDTO;
 import com.liyz.dubbo.api.web.dto.auth.UserRegisterDTO;
 import com.liyz.dubbo.api.web.vo.auth.LoginVO;
 import com.liyz.dubbo.api.web.vo.member.UserInfoVO;
+import com.liyz.dubbo.common.base.log.annotation.Logs;
 import com.liyz.dubbo.common.base.result.Result;
 import com.liyz.dubbo.common.base.service.LoginInfoService;
 import com.liyz.dubbo.common.base.util.CommonConverterUtil;
 import com.liyz.dubbo.common.controller.limit.annotation.Limit;
 import com.liyz.dubbo.common.controller.limit.annotation.Limits;
 import com.liyz.dubbo.common.controller.limit.enums.LimitType;
-import com.liyz.dubbo.common.controller.util.HttpRequestUtil;
+import com.liyz.dubbo.common.base.util.HttpRequestUtil;
 import com.liyz.dubbo.common.remote.bo.JwtUserBO;
 import com.liyz.dubbo.common.remote.exception.enums.CommonCodeEnum;
 import com.liyz.dubbo.common.web.security.annotation.Anonymous;
@@ -77,6 +78,7 @@ public class AuthenticationController {
     @DubboReference(version = "1.0.0")
     RemoteUserInfoService remoteUserInfoService;
 
+    @Logs(method = "登陆")
     @ApiOperation(value = "登陆", notes = "登陆")
     @Limits(value = {@Limit(count = 1, type = LimitType.IP), @Limit(count = 10)})
     @Anonymous

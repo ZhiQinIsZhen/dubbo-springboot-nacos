@@ -8,7 +8,7 @@
               value="%d{HH:mm:ss.SSS} %highlight(%level) [%t] [%F:%L]:%m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
     <property name="FILE_LOG_PATTERN"
               value="%d{MM-dd HH:mm:ss.SSS} [%p] [%t] [%F:%L]:%m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
-    <property name="log.path" value="/srv/logs/service-socket/"/>
+    <property name="logs.path" value="/srv/logs/service-socket/"/>
 
     <!--输出到控制台-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -30,9 +30,9 @@
             <!--没有匹配到就允许-->
             <onMismatch>ACCEPT</onMismatch>
         </filter>
-        <File>${log.path}/info.log</File>
+        <File>${logs.path}/info.logs</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}/info.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>${logs.path}/info.logs.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <maxHistory>15</maxHistory>
         </rollingPolicy>
         <encoder>
@@ -44,9 +44,9 @@
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>WARN</level>
         </filter>
-        <File>${log.path}/warn.log</File>
+        <File>${logs.path}/warn.logs</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}/warn.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>${logs.path}/warn.logs.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <maxHistory>15</maxHistory>
         </rollingPolicy>
         <encoder>
@@ -58,9 +58,9 @@
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
         </filter>
-        <File>${log.path}/error.log</File>
+        <File>${logs.path}/error.logs</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>${logs.path}/error.logs.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <maxHistory>15</maxHistory>
         </rollingPolicy>
         <encoder>

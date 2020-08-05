@@ -4,7 +4,7 @@ import com.liyz.dubbo.api.web.dto.member.SmsInfoDTO;
 import com.liyz.dubbo.api.web.vo.member.ImageVO;
 import com.liyz.dubbo.common.base.result.Result;
 import com.liyz.dubbo.common.base.util.CommonConverterUtil;
-import com.liyz.dubbo.common.controller.util.HttpRequestUtil;
+import com.liyz.dubbo.common.base.util.HttpRequestUtil;
 import com.liyz.dubbo.common.web.security.annotation.Anonymous;
 import com.liyz.dubbo.service.member.bo.ImageBO;
 import com.liyz.dubbo.service.member.bo.SmsInfoBO;
