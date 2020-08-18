@@ -30,8 +30,7 @@ public class AccessDecisionManagerImpl implements AccessDecisionManager {
     public void decide(Authentication authentication, Object o, Collection<ConfigAttribute> collection) throws AccessDeniedException, InsufficientAuthenticationException {
         HttpServletRequest request = ((FilterInvocation) o).getHttpRequest();
         //如果身份是管理员或者是一些不需要验证的url，直接通过
-        if (SecurityConstant.BACKSTAGE_ROLE_ADMIN.equals(authentication.getPrincipal())
-            || SecurityConstant.ANONYMOUS_USER.equals(authentication.getPrincipal())) {
+        if (SecurityConstant.BACKSTAGE_ROLE_ADMIN.equals(authentication.getPrincipal())) {
             return;
         }
         for (GrantedAuthority ga : authentication.getAuthorities()) {

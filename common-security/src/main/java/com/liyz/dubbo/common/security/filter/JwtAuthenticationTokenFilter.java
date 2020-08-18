@@ -1,5 +1,6 @@
 package com.liyz.dubbo.common.security.filter;
 
+import com.liyz.dubbo.common.security.constant.SecurityConstant;
 import com.liyz.dubbo.common.security.core.JwtAccessTokenConverter;
 import com.liyz.dubbo.common.security.util.AuthenticationResponseUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -58,22 +59,23 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                         return;
                     }
                     Device device = new LiteDeviceResolver().resolveDevice(httpServletRequest);
-                    if (jwtAccessTokenConverter.validateToken(authToken, userDetails, device)) {
+                    Integer validate = jwtAccessTokenConverter.validateToken(authToken, userDetails, device);
+                    if (validate == SecurityConstant.VALIDATE_TOKEN_SUCCESS) {
                         UsernamePasswordAuthenticationToken authentication =
                                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                         SecurityContextHolder.getContext().setAuthentication(authentication);
-                    } else {
-                        AuthenticationResponseUtil.authFail(httpServletResponse);
+                    } else if (validate == SecurityConstant.VALIDATE_TOKEN_FAIL_EXPIRED) {
+                        AuthenticationResponseUtil.authExpired(httpServletResponse);
+                        return;
+                    } else if (validate == SecurityConstant.VALIDATE_TOKEN_FAIL_OTHER_LOGIN) {
+                        AuthenticationResponseUtil.authOthersLogin(httpServletResponse);
                         return;
                     }
                 } else {
                     AuthenticationResponseUtil.authFail(httpServletResponse);
                     return;
                 }
-            } else {
-                AuthenticationResponseUtil.authForbidden(httpServletResponse);
-                return;
             }
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);

@@ -1,6 +1,5 @@
 package com.liyz.dubbo.common.security.core;
 
-import com.liyz.dubbo.common.remote.exception.enums.CommonCodeEnum;
 import com.liyz.dubbo.common.security.util.AuthenticationResponseUtil;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -24,10 +23,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
 
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        if (CommonCodeEnum.FORBIDDEN.getMessage().equals(e.getMessage())) {
-            AuthenticationResponseUtil.authForbidden(httpServletResponse);
-        } else {
-            AuthenticationResponseUtil.authFail(httpServletResponse);
-        }
+        AuthenticationResponseUtil.authForbidden(httpServletResponse);
     }
 }

@@ -28,9 +28,15 @@ public class AuthenticationResponseUtil {
         httpServletResponse.addHeader("Session-Invalid","true");
     }
 
-    public static void authNoRight(HttpServletResponse httpServletResponse) throws IOException {
+    public static void authExpired(HttpServletResponse httpServletResponse) throws IOException {
         httpServletResponse.setContentType("application/json;charset=UTF-8");
-        httpServletResponse.getWriter().write(JsonMapperUtil.toJSONString(Result.error(CommonCodeEnum.NO_RIGHT)));
+        httpServletResponse.getWriter().write(JsonMapperUtil.toJSONString(Result.error(CommonCodeEnum.AuthorizationTimeOut)));
+        httpServletResponse.addHeader("Session-Invalid","true");
+    }
+
+    public static void authOthersLogin(HttpServletResponse httpServletResponse) throws IOException {
+        httpServletResponse.setContentType("application/json;charset=UTF-8");
+        httpServletResponse.getWriter().write(JsonMapperUtil.toJSONString(Result.error(CommonCodeEnum.OthersLogin)));
         httpServletResponse.addHeader("Session-Invalid","true");
     }
 }

@@ -1,5 +1,6 @@
 package com.liyz.dubbo.common.security.core;
 
+import com.liyz.dubbo.common.security.constant.SecurityConstant;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -212,7 +213,7 @@ public class JwtAccessTokenConverter {
      * @param device
      * @return
      */
-    public Boolean validateToken(final String token, final UserDetails userDetails, final Device device) {
+    public Integer validateToken(final String token, final UserDetails userDetails, final Device device) {
         LoginUserDetails user = (LoginUserDetails) userDetails;
         final String username = getUsernameFromToken(token);
         final Date created = getCreatedDateFromToken(token);
@@ -223,9 +224,11 @@ public class JwtAccessTokenConverter {
         } else {
             lastPasswordResetDate = user.getLastWebPasswordResetDate();
         }
-        return (username.equals(user.getUsername())
-                && !isTokenExpired(token)
-                && !isCreatedBeforeLastPasswordReset(created, lastPasswordResetDate));
+        return username.equals(user.getUsername()) ? !isTokenExpired(token)
+                ? !isCreatedBeforeLastPasswordReset(created, lastPasswordResetDate)
+                ? SecurityConstant.VALIDATE_TOKEN_SUCCESS : SecurityConstant.VALIDATE_TOKEN_FAIL_OTHER_LOGIN
+                : SecurityConstant.VALIDATE_TOKEN_FAIL_EXPIRED : SecurityConstant.VALIDATE_TOKEN_FAIL_USERNAME;
+
     }
 
     /**

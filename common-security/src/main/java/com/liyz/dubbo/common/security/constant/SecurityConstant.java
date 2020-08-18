@@ -32,4 +32,9 @@ public interface SecurityConstant {
             "/configuration/security",
             "/swagger-ui.html",
             "/webjars/**"};
+
+    Integer VALIDATE_TOKEN_SUCCESS = 0;
+    Integer VALIDATE_TOKEN_FAIL_USERNAME = 1;
+    Integer VALIDATE_TOKEN_FAIL_EXPIRED = 2;
+    Integer VALIDATE_TOKEN_FAIL_OTHER_LOGIN = 3;
 }
