@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 注释:
@@ -26,6 +27,8 @@ public class JwtUserBO implements Serializable {
 
     private String userName;
 
+    private Integer roleId;
+
     private String mobile;
 
     private String email;
@@ -37,4 +40,6 @@ public class JwtUserBO implements Serializable {
     private Date webTokenTime;
 
     private Date appTokenTime;
+
+    private List<GrantedAuthorityBO> authorityList;
 }

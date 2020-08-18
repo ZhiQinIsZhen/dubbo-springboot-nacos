@@ -34,6 +34,7 @@
         <module>service-transaction</module>
         <module>api-open</module>
         <module>service-socket</module>
+        <module>common-security</module>
     </modules>
 
     <properties>

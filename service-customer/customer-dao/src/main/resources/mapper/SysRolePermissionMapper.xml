@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liyz.dubbo.service.customer.dao.SysRolePermissionMapper">
+  <resultMap id="BaseResultMap" type="com.liyz.dubbo.service.customer.model.SysRolePermissionDO">
+    <id column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="permission_id" property="permissionId" jdbcType="INTEGER" />
+    <result column="permission_name" property="permissionName" jdbcType="VARCHAR" />
+    <result column="permission_url" property="permissionUrl" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="is_inactive" property="isInactive" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <select id="getByRoleId" resultMap="BaseResultMap">
+    SELECT b.permission_url ,b.method
+    from sys_role_permission a
+    left join sys_permission b
+    on a.permission_id = b.permission_id
+    where role_id = #{roleId}
+    and a.is_inactive = 0
+    and b.is_inactive = 0
+  </select>
+</mapper>

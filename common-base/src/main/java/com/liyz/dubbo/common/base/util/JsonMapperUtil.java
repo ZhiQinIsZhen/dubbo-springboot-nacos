@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.OutputStream;
 import java.util.Objects;
 
 /**
@@ -34,5 +35,10 @@ public final class JsonMapperUtil {
             return null;
         }
         return OBJECT_MAPPER.readValue(content, clazz);
+    }
+
+    @SneakyThrows
+    public static void writeValue(OutputStream out, Object value) {
+        OBJECT_MAPPER.writeValue(out, value);
     }
 }
