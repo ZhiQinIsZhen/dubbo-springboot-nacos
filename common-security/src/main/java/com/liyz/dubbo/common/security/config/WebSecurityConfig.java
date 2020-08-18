@@ -3,8 +3,8 @@ package com.liyz.dubbo.common.security.config;
 import com.liyz.dubbo.common.base.util.JsonMapperUtil;
 import com.liyz.dubbo.common.security.constant.SecurityConstant;
 import com.liyz.dubbo.common.security.core.JwtAuthenticationEntryPoint;
-import com.liyz.dubbo.common.security.core.RequestedMatcherImpl;
 import com.liyz.dubbo.common.security.core.RestfulAccessDeniedHandler;
+import com.liyz.dubbo.common.security.filter.GrantedAuthoritySecurityInterceptor;
 import com.liyz.dubbo.common.security.filter.JwtAuthenticationTokenFilter;
 import com.liyz.dubbo.common.security.util.AnonymousUrlsUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +20,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.List;
@@ -37,11 +38,13 @@ import java.util.List;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+    @Autowired
+    private GrantedAuthoritySecurityInterceptor grantedAuthoritySecurityInterceptor;
 
     @Bean
     @Override
@@ -79,6 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated().and()
                 //添加jwt过滤器
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(grantedAuthoritySecurityInterceptor, FilterSecurityInterceptor.class)
                 // 禁用缓存
                 .headers().cacheControl().and()
                 //spring security上使用ifame时候允许跨域

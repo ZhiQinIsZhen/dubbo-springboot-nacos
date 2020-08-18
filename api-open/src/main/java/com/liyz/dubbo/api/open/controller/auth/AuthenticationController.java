@@ -17,13 +17,11 @@ import com.liyz.dubbo.common.security.annotation.Anonymous;
 import com.liyz.dubbo.common.security.core.JwtAccessTokenConverter;
 import com.liyz.dubbo.common.security.core.UserDetailsServiceImpl;
 import com.liyz.dubbo.service.member.constant.MemberEnum;
-import com.liyz.dubbo.service.member.remote.RemoteUserInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
 import org.springframework.mobile.device.LiteDeviceResolver;
@@ -68,9 +66,6 @@ public class AuthenticationController {
     private JwtAccessTokenConverter jwtAccessTokenConverter;
     @Autowired
     private LoginInfoService loginInfoService;
-
-    @DubboReference(version = "1.0.0")
-    RemoteUserInfoService remoteUserInfoService;
 
     @Logs
     @Anonymous

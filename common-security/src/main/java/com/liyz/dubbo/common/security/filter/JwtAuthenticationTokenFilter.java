@@ -3,6 +3,7 @@ package com.liyz.dubbo.common.security.filter;
 import com.liyz.dubbo.common.remote.exception.RemoteServiceException;
 import com.liyz.dubbo.common.remote.exception.enums.CommonCodeEnum;
 import com.liyz.dubbo.common.security.core.JwtAccessTokenConverter;
+import com.liyz.dubbo.common.security.util.AuthenticationResponseUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,7 +56,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 if (StringUtils.isNotBlank(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
                     final UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
                     if (Objects.isNull(userDetails)) {
-                        throw new RemoteServiceException(CommonCodeEnum.AuthorizationFail);
+                        AuthenticationResponseUtil.authFail(httpServletResponse);
                     }
                     Device device = new LiteDeviceResolver().resolveDevice(httpServletRequest);
                     if (jwtAccessTokenConverter.validateToken(authToken, userDetails, device)) {
@@ -64,11 +65,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     } else {
-                        throw new RemoteServiceException(CommonCodeEnum.AuthorizationFail);
+                        AuthenticationResponseUtil.authFail(httpServletResponse);
                     }
                 }
             } else {
-                throw new RemoteServiceException(CommonCodeEnum.FORBIDDEN);
+                AuthenticationResponseUtil.authForbidden(httpServletResponse);
             }
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);

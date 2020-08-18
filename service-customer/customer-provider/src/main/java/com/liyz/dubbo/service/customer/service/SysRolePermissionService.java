@@ -2,6 +2,7 @@ package com.liyz.dubbo.service.customer.service;
 
 import com.liyz.dubbo.common.dao.abs.AbstractService;
 import com.liyz.dubbo.service.customer.dao.SysRolePermissionMapper;
+import com.liyz.dubbo.service.customer.model.SysPermissionDO;
 import com.liyz.dubbo.service.customer.model.SysRolePermissionDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class SysRolePermissionService extends AbstractService<SysRolePermissionD
     @Autowired
     SysRolePermissionMapper sysRolePermissionMapper;
 
-    public List<SysRolePermissionDO> getByRoleId(Integer roleId) {
+    public List<SysPermissionDO> getByRoleId(Integer roleId) {
         return sysRolePermissionMapper.getByRoleId(roleId);
     }
 }

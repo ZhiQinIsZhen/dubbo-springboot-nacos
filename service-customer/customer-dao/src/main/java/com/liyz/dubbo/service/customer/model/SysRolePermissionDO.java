@@ -1,13 +1,11 @@
 package com.liyz.dubbo.service.customer.model;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -30,15 +28,6 @@ public class SysRolePermissionDO implements Serializable {
 
     @Column(name = "permission_id")
     private Integer permissionId;
-
-    @Transient
-    private String permissionName;
-
-    @Transient
-    private String permissionUrl;
-
-    @Transient
-    private String method;
 
     @Column(name = "is_inactive")
     private Integer isInactive;

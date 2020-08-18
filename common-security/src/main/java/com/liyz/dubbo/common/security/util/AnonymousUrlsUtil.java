@@ -29,23 +29,31 @@ public final class AnonymousUrlsUtil {
 
     private static final String ASTERISK = "**";
 
+    private static volatile List<String> anonymousUrls;
+
     /**
      * 获取免鉴权的urls {@link Anonymous}
      *
      * @return
      * @throws ClassNotFoundException
      */
-    public static List<String> anonymousUrls() throws ClassNotFoundException {
-        List<String> anonymousUrls = Lists.newArrayList();
-        Map<String, Object> map = SpringContextUtil.getBeansWithAnnotation(Controller.class);
-        if (CollectionUtils.isEmpty(map)) {
-            return anonymousUrls;
-        }
-        Class beanClass;
-        for (Object bean : map.values()) {
-            //获取原始类而不是代理类
-            beanClass = AopUtils.isAopProxy(bean) ? AopUtils.getTargetClass(bean) : bean.getClass();
-            scanMethods(beanClass, anonymousUrls);
+    public static List<String> anonymousUrls() {
+        if (CollectionUtils.isEmpty(anonymousUrls)) {
+            synchronized (AnonymousUrlsUtil.class) {
+                if (CollectionUtils.isEmpty(anonymousUrls)) {
+                    anonymousUrls = Lists.newArrayList();
+                    Map<String, Object> map = SpringContextUtil.getBeansWithAnnotation(Controller.class);
+                    if (CollectionUtils.isEmpty(map)) {
+                        return anonymousUrls;
+                    }
+                    Class beanClass;
+                    for (Object bean : map.values()) {
+                        //获取原始类而不是代理类
+                        beanClass = AopUtils.isAopProxy(bean) ? AopUtils.getTargetClass(bean) : bean.getClass();
+                        scanMethods(beanClass, anonymousUrls);
+                    }
+                }
+            }
         }
         return anonymousUrls;
     }

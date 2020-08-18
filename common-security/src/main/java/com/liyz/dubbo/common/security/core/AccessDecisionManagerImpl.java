@@ -1,7 +1,7 @@
 package com.liyz.dubbo.common.security.core;
 
+import com.liyz.dubbo.common.remote.exception.enums.CommonCodeEnum;
 import com.liyz.dubbo.common.security.constant.SecurityConstant;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
@@ -23,16 +23,15 @@ import java.util.Collection;
  * @version 1.0.0
  * @date 2020/8/18 14:29
  */
-@Slf4j
 @Service
 public class AccessDecisionManagerImpl implements AccessDecisionManager {
 
     @Override
     public void decide(Authentication authentication, Object o, Collection<ConfigAttribute> collection) throws AccessDeniedException, InsufficientAuthenticationException {
-        log.info("@@@@@@@   inter AccessDecisionManagerImpl");
         HttpServletRequest request = ((FilterInvocation) o).getHttpRequest();
         //如果身份是管理员或者是一些不需要验证的url，直接通过
-        if (SecurityConstant.BACKSTAGE_ROLE_ADMIN.equals(authentication.getPrincipal())) {
+        if (SecurityConstant.BACKSTAGE_ROLE_ADMIN.equals(authentication.getPrincipal())
+            || SecurityConstant.ANONYMOUS_USER.equals(authentication.getPrincipal())) {
             return;
         }
         for (GrantedAuthority ga : authentication.getAuthorities()) {
@@ -47,7 +46,7 @@ public class AccessDecisionManagerImpl implements AccessDecisionManager {
                 }
             }
         }
-        throw new AccessDeniedException("no right");
+        throw new AccessDeniedException(CommonCodeEnum.NO_RIGHT.getMessage());
     }
 
     @Override
@@ -65,13 +64,6 @@ public class AccessDecisionManagerImpl implements AccessDecisionManager {
             AntPathRequestMatcher matcher = new AntPathRequestMatcher(url);
             if (matcher.matches(request)) {
                 return true;
-            } else {
-                for (String resource : SecurityConstant.SECURITY_IGNORE_RESOURCES) {
-                    matcher = new AntPathRequestMatcher(resource);
-                    if (matcher.matches(request)) {
-                        return true;
-                    }
-                }
             }
         }
         return false;

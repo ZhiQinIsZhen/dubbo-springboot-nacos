@@ -13,6 +13,7 @@ import java.util.List;
 public interface SecurityConstant {
 
     String BACKSTAGE_ROLE_ADMIN = "admin";
+    String ANONYMOUS_USER = "anonymousUser";
 
     String ALL_METHOD = "ALL";
 

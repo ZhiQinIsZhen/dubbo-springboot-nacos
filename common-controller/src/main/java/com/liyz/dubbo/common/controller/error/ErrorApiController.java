@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 
 /**
@@ -42,10 +43,11 @@ public class ErrorApiController implements ErrorController {
     @ApiImplicitParam(name = "Authorization", value = "认证Token", required = false, paramType = "header",
             dataType = "string")
     @RequestMapping
-    public Result error(HttpServletRequest request) {
+    public Result error(HttpServletRequest request, HttpServletResponse response) {
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
         HttpStatus status = HttpStatus.valueOf(statusCode);
-        String msg = Objects.isNull(status) ? CommonCodeEnum.UnknownException.getMessage() : status.getReasonPhrase();
+        String reason = status.getReasonPhrase();
+        String msg = Objects.isNull(status) ? CommonCodeEnum.UnknownException.getMessage() : reason;
         return Result.error(String.valueOf(statusCode), msg);
     }
 

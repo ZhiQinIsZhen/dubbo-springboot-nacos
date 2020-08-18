@@ -3,7 +3,6 @@ package com.liyz.dubbo.service.customer.provider;
 import com.liyz.dubbo.common.base.util.CommonConverterUtil;
 import com.liyz.dubbo.common.remote.bo.JwtUserBO;
 import com.liyz.dubbo.common.remote.service.RemoteJwtUserService;
-import com.liyz.dubbo.service.customer.bo.CustomerBO;
 import com.liyz.dubbo.service.customer.model.CustomerDO;
 import com.liyz.dubbo.service.customer.service.CustomerService;
 import org.apache.commons.lang3.StringUtils;
@@ -38,6 +37,7 @@ public class RemoteJwtUserServiceImpl implements RemoteJwtUserService {
         if (Objects.nonNull(customerDO)) {
             jwtUserBO.setLoginName(customerDO.getCustomerName());
             jwtUserBO.setLoginPwd(customerDO.getPassword());
+            jwtUserBO.setUserId(customerDO.getCustomerId());
         }
         return jwtUserBO;
     }
