@@ -1,7 +1,5 @@
 package com.liyz.dubbo.common.security.filter;
 
-import com.liyz.dubbo.common.remote.exception.RemoteServiceException;
-import com.liyz.dubbo.common.remote.exception.enums.CommonCodeEnum;
 import com.liyz.dubbo.common.security.core.JwtAccessTokenConverter;
 import com.liyz.dubbo.common.security.util.AuthenticationResponseUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -57,6 +55,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                     final UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
                     if (Objects.isNull(userDetails)) {
                         AuthenticationResponseUtil.authFail(httpServletResponse);
+                        return;
                     }
                     Device device = new LiteDeviceResolver().resolveDevice(httpServletRequest);
                     if (jwtAccessTokenConverter.validateToken(authToken, userDetails, device)) {
@@ -66,10 +65,15 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     } else {
                         AuthenticationResponseUtil.authFail(httpServletResponse);
+                        return;
                     }
+                } else {
+                    AuthenticationResponseUtil.authFail(httpServletResponse);
+                    return;
                 }
             } else {
                 AuthenticationResponseUtil.authForbidden(httpServletResponse);
+                return;
             }
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);
