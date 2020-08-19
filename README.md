@@ -69,6 +69,8 @@ liyz
 ├── service-member -- 用户服务，可以自己扩展
 ├── service-socket -- 是一个基于netty的一个实时推送服务，当中的登陆依赖了 service-member，如果有认证中心或者需要修改认证的地方，可以自行修改
 ├── service-task -- 分布式定时任务调度中心，具体的业务代码写在各个服务中，这个项目只用来触发，通过dubbo来远程调用
+├── service-customer -- 后台管理用户或者open api服务的调用者，提供了url级别的授权访问
+├── api-open -- 管理后台网关或者open api网关
 ├── api-web -- 对外统一的api出口，当然了大家也可以在每个服务对外开放api，看情况而定
 └── service-file -- 文件上传下载服务
 
