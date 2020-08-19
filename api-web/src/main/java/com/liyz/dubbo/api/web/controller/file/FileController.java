@@ -5,7 +5,7 @@ import com.liyz.dubbo.common.base.result.Result;
 import com.liyz.dubbo.common.base.util.CommonConverterUtil;
 import com.liyz.dubbo.common.base.util.HttpRequestUtil;
 import com.liyz.dubbo.common.remote.exception.enums.CommonCodeEnum;
-import com.liyz.dubbo.common.web.security.annotation.Anonymous;
+import com.liyz.dubbo.common.security.annotation.Anonymous;
 import com.liyz.dubbo.service.file.bo.FileInfoBO;
 import com.liyz.dubbo.service.file.bo.FileInfoListBO;
 import com.liyz.dubbo.service.file.constant.FileType;

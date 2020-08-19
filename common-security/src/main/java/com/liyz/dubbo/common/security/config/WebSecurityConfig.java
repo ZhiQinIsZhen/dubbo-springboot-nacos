@@ -9,6 +9,7 @@ import com.liyz.dubbo.common.security.filter.JwtAuthenticationTokenFilter;
 import com.liyz.dubbo.common.security.util.AnonymousUrlsUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,6 +37,9 @@ import java.util.List;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Value("${jwt.user.authority:false}")
+    private boolean authority;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -82,10 +86,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated().and()
                 //添加jwt过滤器
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(grantedAuthoritySecurityInterceptor, FilterSecurityInterceptor.class)
                 // 禁用缓存
                 .headers().cacheControl().and()
                 //spring security上使用ifame时候允许跨域
                 .frameOptions().sameOrigin();
+        if (authority) {
+            http.addFilterBefore(grantedAuthoritySecurityInterceptor, FilterSecurityInterceptor.class);
+        }
     }
 }

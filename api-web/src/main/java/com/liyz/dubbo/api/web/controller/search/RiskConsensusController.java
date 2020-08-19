@@ -8,7 +8,7 @@ import com.liyz.dubbo.common.base.result.PageResult;
 import com.liyz.dubbo.common.base.result.Result;
 import com.liyz.dubbo.common.base.util.CommonConverterUtil;
 import com.liyz.dubbo.common.remote.bo.PageBaseBO;
-import com.liyz.dubbo.common.web.security.annotation.Anonymous;
+import com.liyz.dubbo.common.security.annotation.Anonymous;
 import com.liyz.dubbo.service.search.bo.RiskConsensusBO;
 import com.liyz.dubbo.service.search.bo.RiskConsensusPageQueryBO;
 import com.liyz.dubbo.service.search.remote.RemoteRiskConsensusService;

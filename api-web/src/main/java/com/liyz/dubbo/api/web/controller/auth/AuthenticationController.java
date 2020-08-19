@@ -14,9 +14,9 @@ import com.liyz.dubbo.common.controller.limit.enums.LimitType;
 import com.liyz.dubbo.common.base.util.HttpRequestUtil;
 import com.liyz.dubbo.common.remote.bo.JwtUserBO;
 import com.liyz.dubbo.common.remote.exception.enums.CommonCodeEnum;
-import com.liyz.dubbo.common.web.security.annotation.Anonymous;
-import com.liyz.dubbo.common.web.security.util.JwtAuthenticationUtil;
-import com.liyz.dubbo.common.web.security.util.JwtTokenAnalysisUtil;
+import com.liyz.dubbo.common.security.annotation.Anonymous;
+import com.liyz.dubbo.common.security.core.JwtAccessTokenConverter;
+import com.liyz.dubbo.common.security.core.UserDetailsServiceImpl;
 import com.liyz.dubbo.service.member.bo.UserInfoBO;
 import com.liyz.dubbo.service.member.bo.UserRegisterBO;
 import com.liyz.dubbo.service.member.constant.MemberEnum;
@@ -69,7 +69,7 @@ public class AuthenticationController {
     @Autowired
     AuthenticationManager authenticationManager;
     @Autowired
-    JwtTokenAnalysisUtil jwtTokenAnalysisUtil;
+    JwtAccessTokenConverter jwtAccessTokenConverter;
     @Autowired
     LoginInfoService loginInfoService;
     @Autowired
@@ -141,9 +141,9 @@ public class AuthenticationController {
         }
         JwtUserBO userInfo = loginInfoService.getUser();
         Date date = remoteUserInfoService.loginTime(userInfo.getUserId(), ip, deviceEnum);
-        final UserDetails userDetails = JwtAuthenticationUtil.create(userInfo);
-        final String token = jwtTokenAnalysisUtil.generateToken(userDetails, device, date, userInfo.getUserId());
-        Date expirationDateFromToken = jwtTokenAnalysisUtil.getExpirationDateFromToken(token);
+        final UserDetails userDetails = UserDetailsServiceImpl.getByJwtUser(userInfo);
+        final String token = jwtAccessTokenConverter.generateToken(userDetails, device, date, userInfo.getUserId());
+        Date expirationDateFromToken = jwtAccessTokenConverter.getExpirationDateFromToken(token);
         Long expirationDate = expirationDateFromToken.getTime();
         LoginVO loginVO = CommonConverterUtil.beanCopy(userInfo, LoginVO.class);
         loginVO.setExpirationDate(expirationDate);

@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @date 2020/7/3 13:27
  */
 @Slf4j
-@DubboService(version = "1.0.0")
+@DubboService(version = "1.0.0", group = "member")
 public class RemoteJwtUserServiceImpl implements RemoteJwtUserService {
 
     @Autowired

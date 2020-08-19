@@ -3,7 +3,7 @@ package com.liyz.dubbo.api.web.controller.transaction;
 import com.liyz.dubbo.api.web.vo.transaction.AccountVO;
 import com.liyz.dubbo.common.base.result.Result;
 import com.liyz.dubbo.common.base.util.CommonConverterUtil;
-import com.liyz.dubbo.common.web.security.annotation.Anonymous;
+import com.liyz.dubbo.common.security.annotation.Anonymous;
 import com.liyz.dubbo.service.transaction.bo.AccountBO;
 import com.liyz.dubbo.service.transaction.remote.RemoteAccountService;
 import io.swagger.annotations.Api;
