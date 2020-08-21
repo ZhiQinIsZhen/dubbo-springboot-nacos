@@ -1,21 +1,16 @@
 package com.liyz.dubbo.api.web.controller.member;
 
-import com.github.pagehelper.PageInfo;
-import com.liyz.dubbo.api.web.dto.page.PageBaseDTO;
 import com.liyz.dubbo.api.web.vo.member.UserInfoVO;
 import com.liyz.dubbo.common.base.log.annotation.LogIgnore;
 import com.liyz.dubbo.common.base.log.annotation.Logs;
-import com.liyz.dubbo.common.base.result.PageResult;
 import com.liyz.dubbo.common.base.result.Result;
 import com.liyz.dubbo.common.base.util.CommonConverterUtil;
 import com.liyz.dubbo.common.controller.resolver.annotation.LoginUser;
 import com.liyz.dubbo.common.remote.bo.JwtUserBO;
-import com.liyz.dubbo.service.member.bo.UserInfoBO;
 import com.liyz.dubbo.service.member.remote.RemoteUserInfoService;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -62,19 +57,5 @@ public class UserInfoController {
             paramType = "header")
     public Result<Long> id(@LogIgnore @ApiIgnore @LoginUser JwtUserBO jwtUserBO) {
         return Result.success(Objects.isNull(jwtUserBO) ? null : jwtUserBO.getUserId());
-    }
-
-    @Logs
-    @ApiOperation(value = "分页查询用户信息", notes = "分页查询用户信息")
-    @GetMapping("/page")
-    @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
-            paramType = "header")
-    public PageResult<UserInfoVO> page(@LogIgnore @ApiIgnore @LoginUser JwtUserBO jwtUserBO, @Validated({PageBaseDTO.Page.class}) PageBaseDTO pageBaseDTO) {
-        if (Objects.isNull(pageBaseDTO)) {
-            pageBaseDTO = new PageBaseDTO();
-        }
-        PageInfo<UserInfoBO> boPageInfo = remoteUserInfoService.pageList(pageBaseDTO.getPageNum(), pageBaseDTO.getPageSize());
-        PageInfo<UserInfoVO> voPageInfo = CommonConverterUtil.PageTransform(boPageInfo, UserInfoVO.class);
-        return PageResult.success(voPageInfo);
     }
 }

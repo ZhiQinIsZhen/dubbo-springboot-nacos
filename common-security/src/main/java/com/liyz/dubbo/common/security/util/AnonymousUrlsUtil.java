@@ -3,6 +3,7 @@ package com.liyz.dubbo.common.security.util;
 import com.google.common.collect.Lists;
 import com.liyz.dubbo.common.base.util.SpringContextUtil;
 import com.liyz.dubbo.common.security.annotation.Anonymous;
+import com.liyz.dubbo.common.security.annotation.NonAuthority;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +31,10 @@ public final class AnonymousUrlsUtil {
 
     private static final String ASTERISK = "**";
 
+    //免登陆访问
     private static volatile List<String> anonymousUrls;
+    //免授权访问
+    private static volatile List<String> nonAuthorityUrls;
 
     /**
      * 获取免鉴权的urls {@link Anonymous}
@@ -50,12 +55,39 @@ public final class AnonymousUrlsUtil {
                     for (Object bean : map.values()) {
                         //获取原始类而不是代理类
                         beanClass = AopUtils.isAopProxy(bean) ? AopUtils.getTargetClass(bean) : bean.getClass();
-                        scanMethods(beanClass, anonymousUrls);
+                        scanMethods(beanClass, Anonymous.class, anonymousUrls);
                     }
                 }
             }
         }
         return anonymousUrls;
+    }
+
+    /**
+     * 获取免鉴权的urls {@link NonAuthority}
+     *
+     * @return
+     * @throws ClassNotFoundException
+     */
+    public static List<String> nonAuthorityUrls() {
+        if (CollectionUtils.isEmpty(nonAuthorityUrls)) {
+            synchronized (AnonymousUrlsUtil.class) {
+                if (CollectionUtils.isEmpty(nonAuthorityUrls)) {
+                    nonAuthorityUrls = Lists.newArrayList();
+                    Map<String, Object> map = SpringContextUtil.getBeansWithAnnotation(Controller.class);
+                    if (CollectionUtils.isEmpty(map)) {
+                        return nonAuthorityUrls;
+                    }
+                    Class beanClass;
+                    for (Object bean : map.values()) {
+                        //获取原始类而不是代理类
+                        beanClass = AopUtils.isAopProxy(bean) ? AopUtils.getTargetClass(bean) : bean.getClass();
+                        scanMethods(beanClass, NonAuthority.class, nonAuthorityUrls);
+                    }
+                }
+            }
+        }
+        return nonAuthorityUrls;
     }
 
     /**
@@ -109,15 +141,16 @@ public final class AnonymousUrlsUtil {
      * 扫描类上的方法获取url
      *
      * @param beanClass
+     * @param annotationClass
      * @param anonymousUrls
      */
-    private static void scanMethods(Class beanClass, List<String> anonymousUrls) {
+    private static void scanMethods(Class beanClass, Class<? extends Annotation> annotationClass, List<String> anonymousUrls) {
         String classMapping = classMapping(beanClass);
-        boolean classHaveAnonymous = beanClass.isAnnotationPresent(Anonymous.class);
+        boolean classHaveAnonymous = beanClass.isAnnotationPresent(annotationClass);
         Method[] methods = beanClass.getDeclaredMethods();
         if (methods != null && methods.length > 0) {
             for (Method method : methods) {
-                classHaveAnonymous = classHaveAnonymous ? classHaveAnonymous : method.isAnnotationPresent(Anonymous.class);
+                classHaveAnonymous = classHaveAnonymous ? classHaveAnonymous : method.isAnnotationPresent(annotationClass);
                 if (classHaveAnonymous) {
                     String methodMapping = methodMapping(method);
                     if (StringUtils.isNotBlank(methodMapping)) {

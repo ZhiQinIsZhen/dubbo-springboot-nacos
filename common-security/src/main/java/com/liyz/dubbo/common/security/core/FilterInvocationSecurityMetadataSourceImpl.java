@@ -54,12 +54,14 @@ public class FilterInvocationSecurityMetadataSourceImpl implements FilterInvocat
      * @return
      */
     private boolean matchUrl(HttpServletRequest request) {
+        //常量urls
         for (String resource : SecurityConstant.SECURITY_IGNORE_RESOURCES) {
             AntPathRequestMatcher matcher = new AntPathRequestMatcher(resource);
             if (matcher.matches(request)) {
                 return true;
             }
         }
+        //免登陆urls
         List<String> list = AnonymousUrlsUtil.anonymousUrls();
         if (!CollectionUtils.isEmpty(list)) {
             for (String resource : list) {

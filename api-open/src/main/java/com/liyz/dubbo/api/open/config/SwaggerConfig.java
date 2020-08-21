@@ -38,7 +38,18 @@ public class SwaggerConfig extends SwaggerBaseConfig {
     }
 
     @Bean
-    public Docket createBusinessApi() {
+    public Docket createCustomerApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .protocols(Sets.newHashSet("https", "http"))
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.open.controller.customer"))
+                .paths(PathSelectors.any())
+                .build().groupName("授权用户-API");
+    }
+
+    @Bean
+    public Docket createMemberApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .protocols(Sets.newHashSet("https", "http"))

@@ -1,11 +1,18 @@
 package com.liyz.dubbo.api.open.controller.customer;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import com.liyz.dubbo.api.open.vo.customer.CustomerInfoVO;
+import com.liyz.dubbo.common.base.log.annotation.Logs;
+import com.liyz.dubbo.common.base.result.Result;
+import com.liyz.dubbo.common.base.util.CommonConverterUtil;
+import com.liyz.dubbo.common.controller.resolver.annotation.LoginUser;
+import com.liyz.dubbo.common.remote.bo.JwtUserBO;
+import com.liyz.dubbo.common.security.annotation.NonAuthority;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 注释:
@@ -27,5 +34,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/customer")
 public class CustomerController {
 
-
+    @Logs
+    @NonAuthority
+    @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
+            paramType = "header")
+    @ApiOperation(value = "获取登陆的用户信息", notes = "获取登陆的用户信息")
+    @GetMapping("/info")
+    public Result<CustomerInfoVO> info(@ApiIgnore @LoginUser JwtUserBO jwtUserBO) {
+        return Result.success(CommonConverterUtil.beanCopy(jwtUserBO, CustomerInfoVO.class));
+    }
 }

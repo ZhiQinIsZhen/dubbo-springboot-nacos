@@ -72,7 +72,7 @@ public class AuthenticationController {
     @ApiOperation(value = "登陆", notes = "登陆")
     @Limits(value = {@Limit(count = 1, type = LimitType.IP), @Limit(count = 10)})
     @PostMapping("/login")
-    public Result login(@Validated({LoginDTO.Login.class}) @RequestBody LoginDTO loginDTO) {
+    public Result<LoginVO> login(@Validated({LoginDTO.Login.class}) @RequestBody LoginDTO loginDTO) {
         HttpServletRequest httpServletRequest = HttpRequestUtil.getRequest();
         LiteDeviceResolver resolver = new LiteDeviceResolver();
         Device device = resolver.resolveDevice(httpServletRequest);
