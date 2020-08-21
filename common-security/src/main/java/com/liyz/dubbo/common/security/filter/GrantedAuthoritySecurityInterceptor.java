@@ -1,15 +1,13 @@
 package com.liyz.dubbo.common.security.filter;
 
-import com.liyz.dubbo.common.security.core.AccessDecisionManagerImpl;
+import com.liyz.dubbo.common.security.core.FilterInvocationSecurityMetadataSourceImpl;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.web.FilterInvocation;
-import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import java.io.IOException;
@@ -21,18 +19,14 @@ import java.io.IOException;
  * @version 1.0.0
  * @date 2020/8/18 16:55
  */
-@Component
 public class GrantedAuthoritySecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
 
-    @Autowired
-    private FilterInvocationSecurityMetadataSource securityMetadataSource;
     @Getter
     @Setter
     private boolean observeOncePerRequest = true;
 
-    @Autowired
-    public void setJwtAccessDecisionManager(AccessDecisionManagerImpl accessDecisionManager) {
-        super.setAccessDecisionManager(accessDecisionManager);
+    public GrantedAuthoritySecurityInterceptor(AccessDecisionManager accessDecisionManager) {
+        this.setAccessDecisionManager(accessDecisionManager);
     }
 
     @Override
@@ -42,7 +36,7 @@ public class GrantedAuthoritySecurityInterceptor extends AbstractSecurityInterce
 
     @Override
     public SecurityMetadataSource obtainSecurityMetadataSource() {
-        return this.securityMetadataSource;
+        return new FilterInvocationSecurityMetadataSourceImpl();
     }
 
     @Override

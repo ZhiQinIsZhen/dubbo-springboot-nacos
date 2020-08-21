@@ -13,7 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +26,6 @@ import java.util.List;
  * @version 1.0.0
  * @date 2020/8/18 14:29
  */
-@Service
 public class AccessDecisionManagerImpl implements AccessDecisionManager {
 
     @Override

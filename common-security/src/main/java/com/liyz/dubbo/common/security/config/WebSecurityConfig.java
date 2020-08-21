@@ -2,6 +2,8 @@ package com.liyz.dubbo.common.security.config;
 
 import com.liyz.dubbo.common.base.util.JsonMapperUtil;
 import com.liyz.dubbo.common.security.constant.SecurityConstant;
+import com.liyz.dubbo.common.security.core.AccessDecisionManagerImpl;
+import com.liyz.dubbo.common.security.core.JwtAccessTokenConverter;
 import com.liyz.dubbo.common.security.core.JwtAuthenticationEntryPoint;
 import com.liyz.dubbo.common.security.core.RestfulAccessDeniedHandler;
 import com.liyz.dubbo.common.security.filter.GrantedAuthoritySecurityInterceptor;
@@ -40,15 +42,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${jwt.user.authority:false}")
     private boolean authority;
+    @Value("${jwt.tokenHeader.key:Authorization}")
+    private String tokenHeaderKey;
+    @Value("${jwt.tokenHeader.head:Bearer }")
+    private String tokenHeaderHead;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
-    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
-    @Autowired
-    private GrantedAuthoritySecurityInterceptor grantedAuthoritySecurityInterceptor;
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
 
     @Bean
     @Override
@@ -85,13 +89,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //其余都需要鉴权认证
                 .anyRequest().authenticated().and()
                 //添加jwt过滤器
-                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(
+                        new JwtAuthenticationTokenFilter(tokenHeaderKey, tokenHeaderHead, userDetailsService, jwtAccessTokenConverter),
+                        UsernamePasswordAuthenticationFilter.class)
                 // 禁用缓存
                 .headers().cacheControl().and()
                 //spring security上使用ifame时候允许跨域
                 .frameOptions().sameOrigin();
         if (authority) {
-            http.addFilterBefore(grantedAuthoritySecurityInterceptor, FilterSecurityInterceptor.class);
+            http.addFilterBefore(new GrantedAuthoritySecurityInterceptor(new AccessDecisionManagerImpl()), FilterSecurityInterceptor.class);
         }
     }
 }

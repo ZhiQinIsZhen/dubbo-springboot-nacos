@@ -6,7 +6,6 @@ import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +21,6 @@ import java.util.Set;
  * @version 1.0.0
  * @date 2020/8/18 16:56
  */
-@Service
 public class FilterInvocationSecurityMetadataSourceImpl implements FilterInvocationSecurityMetadataSource {
 
     @Override

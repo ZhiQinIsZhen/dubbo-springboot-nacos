@@ -4,8 +4,6 @@ import com.liyz.dubbo.common.security.constant.SecurityConstant;
 import com.liyz.dubbo.common.security.core.JwtAccessTokenConverter;
 import com.liyz.dubbo.common.security.util.AuthenticationResponseUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mobile.device.Device;
 import org.springframework.mobile.device.LiteDeviceResolver;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -31,18 +28,20 @@ import java.util.Objects;
  * @version 1.0.0
  * @date 2020/8/18 10:01
  */
-@Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
-    @Value("${jwt.tokenHeader.key:Authorization}")
-    private String tokenHeaderKey;
-    @Value("${jwt.tokenHeader.head:Bearer }")
-    private String tokenHeaderHead;
+    private final String tokenHeaderKey;
+    private final String tokenHeaderHead;
+    private final UserDetailsService userDetailsService;
+    private final JwtAccessTokenConverter jwtAccessTokenConverter;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
-    @Autowired
-    private JwtAccessTokenConverter jwtAccessTokenConverter;
+    public JwtAuthenticationTokenFilter(String tokenHeaderKey, String tokenHeaderHead, UserDetailsService userDetailsService,
+                                        JwtAccessTokenConverter jwtAccessTokenConverter) {
+        this.tokenHeaderKey = tokenHeaderKey;
+        this.tokenHeaderHead = tokenHeaderHead;
+        this.userDetailsService = userDetailsService;
+        this.jwtAccessTokenConverter = jwtAccessTokenConverter;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
