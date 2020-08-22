@@ -34,7 +34,7 @@
         <module>service-search</module>
         <module>service-transaction</module>
         <module>service-socket</module>
-
+        <module>service-customer</module>
     </modules>
 
     <properties>
