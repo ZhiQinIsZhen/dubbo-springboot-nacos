@@ -65,10 +65,10 @@ liyz
 	└── @Limits、@Limit -- 限流注解，可以对IP、mapping、以及总调用次数进行限流
 └── common-transaction -- 分布式事务，可以解决在分布式环境下最头痛的事务问题，采用阿里开源的Seata
 ├── common-export -- 自定义注解导出，只需要在实体类的field加上注解（Export即可），并且暂时只有csv的导出，如果需要excel的导出，大家可以自行添加
-├── common-task -- 分布式定时任务，基于当当的 elastic job，当中有两个自定义注解：ElasticDataFlowJob、ElasticSimpleJob
+├── common-job -- 分布式定时任务，基于当当的 elastic job，当中有自定义注解：ElasticJob
 ├── service-member -- 用户服务，可以自己扩展
 ├── service-socket -- 是一个基于netty的一个实时推送服务，当中的登陆依赖了 service-member，如果有认证中心或者需要修改认证的地方，可以自行修改
-├── service-task -- 分布式定时任务调度中心，具体的业务代码写在各个服务中，这个项目只用来触发，通过dubbo来远程调用
+├── service-job -- 分布式定时任务调度中心，具体的业务代码写在各个服务中，这个项目只用来触发，通过dubbo来远程调用
 ├── service-customer -- 后台管理用户或者open api服务的调用者，提供了url级别的授权访问
 ├── api-open -- 管理后台网关或者open api网关
 ├── api-web -- 对外统一的api出口，当然了大家也可以在每个服务对外开放api，看情况而定
