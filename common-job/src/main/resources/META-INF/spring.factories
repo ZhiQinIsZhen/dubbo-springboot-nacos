@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.liyz.dubbo.common.job.config.RegCentreAutoConfig,\
+com.liyz.dubbo.common.job.config.ElasticJobAutoConfig

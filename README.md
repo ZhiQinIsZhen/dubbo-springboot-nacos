@@ -23,15 +23,15 @@ Dubbo-Springboot-Nacos-Seata
 
 依赖 | 版本
 --- | ---
-Spring Boot |   2.2.7.RELEASE
-Spring security | 2.2.7.RELEASE
-Dubbo |  2.7.7
+Spring Boot |   2.3.3.RELEASE
+Spring security | 2.3.3.RELEASE
+Dubbo |  2.7.8
 Seata | 1.3.0
 Nacos | 1.3.1
 Mybatis | 2.1.2
-Zookeeper Curator | 4.3.0
+Zookeeper Curator | 5.1.0
 Redisson |  3.13.0
-Elastic Job | 2.1.5
+Elastic Job | 3.0.0
 Swagger Knife4j | 2.0.3
 
 
