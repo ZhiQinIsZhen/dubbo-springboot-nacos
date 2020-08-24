@@ -64,7 +64,8 @@ public class ElasticJobAutoConfig implements InitializingBean, DisposableBean, A
 
     @Override
     public void destroy() throws Exception {
-
+        environment = null;
+        applicationContext = null;
     }
 
     @Override
