@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liyz.dubbo.service.sharding.dao.UserMapper">
+    
+    <resultMap id="baseResultMap" type="com.liyz.dubbo.service.sharding.model.UserDO">
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="city" property="city" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="pwd" property="name" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <insert id="addUser">
+        INSERT INTO user (
+          id, city, name, pwd
+        )
+        VALUES (
+        #{id,jdbcType=INTEGER},
+        #{city,jdbcType=VARCHAR},
+        #{name,jdbcType=VARCHAR},
+        #{pwd,jdbcType=VARCHAR}
+        )
+    </insert>
+   
+    <select id="list" resultMap="baseResultMap">
+        SELECT u.* FROM user u order by u.id
+    </select>
+	
+	<select id="findById" resultMap="baseResultMap">
+        SELECT u.* FROM user u WHERE u.id=#{id,jdbcType=INTEGER}
+    </select>
+    
+    <select id="findByName" resultMap="baseResultMap">
+        SELECT u.* FROM user u WHERE u.name=#{name,jdbcType=VARCHAR}
+    </select>
+    
+</mapper>

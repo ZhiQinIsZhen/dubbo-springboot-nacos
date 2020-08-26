@@ -37,6 +37,7 @@
         <module>service-socket</module>
         <module>service-customer</module>
         <module>service-job</module>
+        <module>service-sharding</module>
     </modules>
 
     <properties>
