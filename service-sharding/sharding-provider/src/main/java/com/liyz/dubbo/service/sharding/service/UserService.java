@@ -2,9 +2,9 @@ package com.liyz.dubbo.service.sharding.service;
 
 import com.liyz.dubbo.service.sharding.dao.UserMapper;
 import com.liyz.dubbo.service.sharding.model.UserDO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class UserService {
 
-    @Resource
+    @Autowired
     UserMapper userMapper;
 
     public Long addUser(UserDO user) {

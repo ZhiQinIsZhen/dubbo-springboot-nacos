@@ -16,6 +16,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ShardingApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringApplication.class, args);
+        SpringApplication.run(ShardingApplication.class, args);
     }
 }

@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>service-sharding</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <modules>
         <module>sharding-remote</module>
