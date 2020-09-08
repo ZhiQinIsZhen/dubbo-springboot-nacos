@@ -76,6 +76,13 @@ public class JudgementResultController {
         return Result.success();
     }
 
+    @ApiOperation(value = "通过Id获取法诉信息", notes = "通过Id获取法诉信息")
+    @Anonymous
+    @GetMapping(value = "/getById")
+    public Result<JudgementResultBO> getById(@RequestParam(value = "id") String id) {
+        return Result.success(remoteJudgementResultService.getById(id));
+    }
+
     @ApiOperation(value = "分页查询法诉信息", notes = "分页查询法诉信息")
     @Anonymous
     @GetMapping(value = "/search")

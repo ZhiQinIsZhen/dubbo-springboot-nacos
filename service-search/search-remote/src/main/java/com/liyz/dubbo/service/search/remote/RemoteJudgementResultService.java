@@ -24,6 +24,8 @@ public interface RemoteJudgementResultService {
 
     void delete(List<String> ids);
 
+    JudgementResultBO getById(String id);
+
     Page<JudgementResultBO> search(PageBaseBO pageBaseBO);
 
     Page<JudgementResultBO> search(JudgementResultPageQueryBO queryBO);

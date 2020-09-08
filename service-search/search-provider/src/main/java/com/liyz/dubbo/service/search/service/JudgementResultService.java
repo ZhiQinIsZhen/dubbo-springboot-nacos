@@ -23,6 +23,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 注释:
@@ -94,6 +95,14 @@ public class JudgementResultService {
             }
             judgementResultRepository.deleteAll(doList);
         }
+    }
+
+    public JudgementResultDO getById(String id) {
+        Optional<JudgementResultDO> optional = judgementResultRepository.findById(id);
+        if (optional.isPresent()) {
+            return optional.get();
+        }
+        return null;
     }
 
     /**

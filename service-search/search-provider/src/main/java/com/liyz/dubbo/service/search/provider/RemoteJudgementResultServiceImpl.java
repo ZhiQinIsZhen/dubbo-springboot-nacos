@@ -47,6 +47,11 @@ public class RemoteJudgementResultServiceImpl implements RemoteJudgementResultSe
     }
 
     @Override
+    public JudgementResultBO getById(String id) {
+        return CommonConverterUtil.beanCopy(judgementResultService.getById(id), JudgementResultBO.class);
+    }
+
+    @Override
     public Page<JudgementResultBO> search(PageBaseBO pageBaseBO) {
         Page<JudgementResultDO> doPage = judgementResultService.search(pageBaseBO);
         return CommonConverterUtil.PageTransform(doPage, JudgementResultBO.class);
