@@ -52,14 +52,14 @@ public class RemoteJudgementResultServiceImpl implements RemoteJudgementResultSe
     }
 
     @Override
-    public Page<JudgementResultBO> search(PageBaseBO pageBaseBO) {
+    public com.liyz.dubbo.common.remote.page.Page<JudgementResultBO> search(PageBaseBO pageBaseBO) {
         Page<JudgementResultDO> doPage = judgementResultService.search(pageBaseBO);
-        return CommonConverterUtil.PageTransform(doPage, JudgementResultBO.class);
+        return CommonConverterUtil.transformPage(doPage, JudgementResultBO.class);
     }
 
     @Override
-    public Page<JudgementResultBO> search(JudgementResultPageQueryBO queryBO) {
+    public com.liyz.dubbo.common.remote.page.Page<JudgementResultBO> search(JudgementResultPageQueryBO queryBO) {
         Page<JudgementResultDO> doPage = judgementResultService.search(queryBO);
-        return CommonConverterUtil.PageTransform(doPage, JudgementResultBO.class);
+        return CommonConverterUtil.transformPage(doPage, JudgementResultBO.class);
     }
 }

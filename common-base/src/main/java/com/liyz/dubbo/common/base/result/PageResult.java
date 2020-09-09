@@ -47,6 +47,10 @@ public class PageResult<T> implements Serializable {
         return new PageResult<>(data);
     }
 
+    public static <T> PageResult<T> success(com.liyz.dubbo.common.remote.page.Page<T> data) {
+        return new PageResult<>(data);
+    }
+
     public static <T> PageResult<T> error(String code, String message) {
         return new PageResult<T>(code, message);
     }
@@ -77,6 +81,18 @@ public class PageResult<T> implements Serializable {
         this.hasNextPage = isNull ? false : data.hasNext();
         this.pageNum = isNull ? 0 : data.getNumber();
         this.pageSize = isNull ? 0 : data.getSize();
+        this.code = CommonCodeEnum.success.getCode();
+        this.message = CommonCodeEnum.success.getMessage();
+    }
+
+    public PageResult(com.liyz.dubbo.common.remote.page.Page<T> data) {
+        boolean isNull = data == null;
+        this.setData(isNull ? Lists.newArrayList() : data.getList());
+        this.total = isNull ? 0L : data.getTotal();
+        this.pages = isNull ? 0 : data.getPages();
+        this.hasNextPage = isNull ? false : data.getHasNextPage();
+        this.pageNum = isNull ? 0 : data.getPageNum();
+        this.pageSize = isNull ? 0 : data.getPageSize();
         this.code = CommonCodeEnum.success.getCode();
         this.message = CommonCodeEnum.success.getMessage();
     }

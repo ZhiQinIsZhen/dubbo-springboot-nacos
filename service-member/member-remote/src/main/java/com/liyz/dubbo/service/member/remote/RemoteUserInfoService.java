@@ -1,6 +1,6 @@
 package com.liyz.dubbo.service.member.remote;
 
-import com.github.pagehelper.PageInfo;
+import com.liyz.dubbo.common.remote.page.Page;
 import com.liyz.dubbo.service.member.bo.UserInfoBO;
 import com.liyz.dubbo.service.member.bo.UserRegisterBO;
 import com.liyz.dubbo.service.member.constant.MemberEnum;
@@ -21,7 +21,7 @@ public interface RemoteUserInfoService {
 
     UserInfoBO getByUserId(@NotNull Long userId);
 
-    PageInfo<UserInfoBO> pageList(Integer page, Integer size);
+    Page<UserInfoBO> pageList(Integer page, Integer size);
 
     UserInfoBO getByCondition(@NotNull UserInfoBO userInfoBO);
 

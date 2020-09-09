@@ -7,6 +7,7 @@ import com.liyz.dubbo.common.base.result.PageResult;
 import com.liyz.dubbo.common.base.result.Result;
 import com.liyz.dubbo.common.base.util.CommonConverterUtil;
 import com.liyz.dubbo.common.remote.bo.PageBaseBO;
+import com.liyz.dubbo.common.remote.page.Page;
 import com.liyz.dubbo.common.security.annotation.Anonymous;
 import com.liyz.dubbo.service.search.bo.JudgementResultBO;
 import com.liyz.dubbo.service.search.bo.JudgementResultPageQueryBO;
@@ -17,7 +18,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

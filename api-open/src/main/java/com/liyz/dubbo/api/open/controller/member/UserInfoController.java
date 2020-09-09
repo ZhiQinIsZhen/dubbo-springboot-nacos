@@ -1,6 +1,5 @@
 package com.liyz.dubbo.api.open.controller.member;
 
-import com.github.pagehelper.PageInfo;
 import com.liyz.dubbo.api.open.dto.page.PageBaseDTO;
 import com.liyz.dubbo.api.open.vo.member.UserInfoVO;
 import com.liyz.dubbo.common.base.log.annotation.LogIgnore;
@@ -9,6 +8,7 @@ import com.liyz.dubbo.common.base.result.PageResult;
 import com.liyz.dubbo.common.base.util.CommonConverterUtil;
 import com.liyz.dubbo.common.controller.resolver.annotation.LoginUser;
 import com.liyz.dubbo.common.remote.bo.JwtUserBO;
+import com.liyz.dubbo.common.remote.page.Page;
 import com.liyz.dubbo.service.member.bo.UserInfoBO;
 import com.liyz.dubbo.service.member.remote.RemoteUserInfoService;
 import io.swagger.annotations.*;
@@ -54,8 +54,8 @@ public class UserInfoController {
         if (Objects.isNull(pageBaseDTO)) {
             pageBaseDTO = new PageBaseDTO();
         }
-        PageInfo<UserInfoBO> boPageInfo = remoteUserInfoService.pageList(pageBaseDTO.getPageNum(), pageBaseDTO.getPageSize());
-        PageInfo<UserInfoVO> voPageInfo = CommonConverterUtil.PageTransform(boPageInfo, UserInfoVO.class);
-        return PageResult.success(voPageInfo);
+        Page<UserInfoBO> boPage = remoteUserInfoService.pageList(pageBaseDTO.getPageNum(), pageBaseDTO.getPageSize());
+        Page<UserInfoVO> voPage = CommonConverterUtil.pageTransform(boPage, UserInfoVO.class);
+        return PageResult.success(voPage);
     }
 }

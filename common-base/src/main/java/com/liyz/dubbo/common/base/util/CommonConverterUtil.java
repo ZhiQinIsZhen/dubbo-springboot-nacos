@@ -37,6 +37,11 @@ public final class CommonConverterUtil {
 
     private static final SimpleBeanCopier copier = new SimpleBeanCopier();
 
+    /**
+     * 字节码拷贝{@link SimpleBeanCopier}
+     *
+     * @return
+     */
     private static SimpleBeanCopier getClone() {
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -81,6 +86,15 @@ public final class CommonConverterUtil {
         return resultList;
     }
 
+    /**
+     * list对象拷贝
+     *
+     * @param sourceList
+     * @param targetClass
+     * @param <T>
+     * @param <Y>
+     * @return
+     */
     public static <T,Y> List<Y> ListTransform(List<T> sourceList, Class<Y> targetClass) {
         if (sourceList == null) {
             return null;
@@ -96,7 +110,7 @@ public final class CommonConverterUtil {
     }
 
     /**
-     * 建议使用PageTransform
+     * 建议使用PageTransform{@link PageInfo}
      *
      * @param sourcePage
      * @param targetClass
@@ -114,6 +128,15 @@ public final class CommonConverterUtil {
         return targetPage;
     }
 
+    /**
+     * pageInfo对象拷贝{@link PageInfo}
+     *
+     * @param sourcePage
+     * @param targetClass
+     * @param <T>
+     * @param <Y>
+     * @return
+     */
     public static <T,Y> PageInfo<Y> PageTransform(PageInfo<T> sourcePage, Class<Y> targetClass) {
         if (sourcePage == null) {
             return null;
@@ -128,6 +151,38 @@ public final class CommonConverterUtil {
         return PageInfoCopier.transform(sourcePage, simpleBeanCopier);
     }
 
+    /**
+     * pageInfo{@link PageInfo}拷贝成page{@link com.liyz.dubbo.common.remote.page.Page}对象
+     *
+     * @param sourcePage
+     * @param targetClass
+     * @param <T>
+     * @param <Y>
+     * @return
+     */
+    public static <T, Y> com.liyz.dubbo.common.remote.page.Page<Y> transformPage(PageInfo<T> sourcePage, Class<Y> targetClass) {
+        if (sourcePage == null) {
+            return null;
+        }
+        if (sourcePage.getSize() == 0) {
+            return beanCopy(sourcePage, com.liyz.dubbo.common.remote.page.Page.class);
+        }
+        SimpleBeanCopier simpleBeanCopier = getClone();
+        simpleBeanCopier.setSourceClass(sourcePage.getList().get(0).getClass());
+        simpleBeanCopier.setTargetClass(targetClass);
+        simpleBeanCopier.init();
+        return PageInfoCopier.transformPage(sourcePage, simpleBeanCopier);
+    }
+
+    /**
+     * pageImpl{@link PageImpl}对象拷贝
+     *
+     * @param sourcePage
+     * @param targetClass
+     * @param <T>
+     * @param <Y>
+     * @return
+     */
     public static <T,Y> PageImpl<Y> PageTransform(PageImpl<T> sourcePage, Class<Y> targetClass) {
         if (sourcePage == null) {
             return null;
@@ -142,6 +197,38 @@ public final class CommonConverterUtil {
         return PageImplCopier.transform(sourcePage, simpleBeanCopier);
     }
 
+    /**
+     * pageImpl{@link PageImpl}对象拷贝成page{@link com.liyz.dubbo.common.remote.page.Page}对象
+     *
+     * @param sourcePage
+     * @param targetClass
+     * @param <T>
+     * @param <Y>
+     * @return
+     */
+    public static <T,Y> com.liyz.dubbo.common.remote.page.Page<Y> transformPage(PageImpl<T> sourcePage, Class<Y> targetClass) {
+        if (sourcePage == null) {
+            return null;
+        }
+        if (sourcePage.getTotalElements() == 0 || sourcePage.getContent().size() == 0) {
+            return new com.liyz.dubbo.common.remote.page.Page<Y>(null, sourcePage.getTotalElements(), sourcePage.getTotalPages(), sourcePage.getNumber(), sourcePage.getSize(), sourcePage.hasNext());
+        }
+        SimpleBeanCopier simpleBeanCopier = getClone();
+        simpleBeanCopier.setSourceClass(sourcePage.getContent().get(0).getClass());
+        simpleBeanCopier.setTargetClass(targetClass);
+        simpleBeanCopier.init();
+        return PageImplCopier.transformPage(sourcePage, simpleBeanCopier);
+    }
+
+    /**
+     * page{@link org.springframework.data.domain.Page}对象拷贝
+     *
+     * @param sourcePage
+     * @param targetClass
+     * @param <T>
+     * @param <Y>
+     * @return
+     */
     public static <T,Y> org.springframework.data.domain.Page<Y> PageTransform(org.springframework.data.domain.Page<T> sourcePage, Class<Y> targetClass) {
         if (sourcePage == null) {
             return null;
@@ -156,6 +243,60 @@ public final class CommonConverterUtil {
         return PageCopier.transform(sourcePage, simpleBeanCopier);
     }
 
+    /**
+     * page{@link org.springframework.data.domain.Page}对象拷贝成page{@link com.liyz.dubbo.common.remote.page.Page}对象
+     *
+     * @param sourcePage
+     * @param targetClass
+     * @param <T>
+     * @param <Y>
+     * @return
+     */
+    public static <T,Y> com.liyz.dubbo.common.remote.page.Page<Y> transformPage(org.springframework.data.domain.Page<T> sourcePage, Class<Y> targetClass) {
+        if (sourcePage == null) {
+            return null;
+        }
+        if (sourcePage.getTotalElements() == 0 || CollectionUtils.isEmpty(sourcePage.getContent())) {
+            return new com.liyz.dubbo.common.remote.page.Page<Y>(null, sourcePage.getTotalElements(), sourcePage.getTotalPages(), sourcePage.getNumber(), sourcePage.getSize(), sourcePage.hasNext());
+        }
+        SimpleBeanCopier simpleBeanCopier = getClone();
+        simpleBeanCopier.setSourceClass(sourcePage.getContent().get(0).getClass());
+        simpleBeanCopier.setTargetClass(targetClass);
+        simpleBeanCopier.init();
+        return PageCopier.transformPage(sourcePage, simpleBeanCopier);
+    }
+
+    /**
+     * page{@link com.liyz.dubbo.common.remote.page.Page}对象拷贝
+     *
+     * @param sourcePage
+     * @param targetClass
+     * @param <T>
+     * @param <Y>
+     * @return
+     */
+    public static <T,Y> com.liyz.dubbo.common.remote.page.Page<Y> pageTransform(com.liyz.dubbo.common.remote.page.Page<T> sourcePage, Class<Y> targetClass) {
+        if (sourcePage == null) {
+            return null;
+        }
+        if (sourcePage.getTotal() == 0 || CollectionUtils.isEmpty(sourcePage.getList())) {
+            return new com.liyz.dubbo.common.remote.page.Page<Y>(null, sourcePage.getTotal(), sourcePage.getPages(), sourcePage.getPageNum(), sourcePage.getPageSize(), sourcePage.getHasNextPage());
+        }
+        SimpleBeanCopier simpleBeanCopier = getClone();
+        simpleBeanCopier.setSourceClass(sourcePage.getList().get(0).getClass());
+        simpleBeanCopier.setTargetClass(targetClass);
+        simpleBeanCopier.init();
+        return PageCopier.transformPage(sourcePage, simpleBeanCopier);
+    }
+
+    /**
+     * pageResult{@link PageResult}对象拷贝
+     * @param sourcePage
+     * @param targetClass
+     * @param <T>
+     * @param <Y>
+     * @return
+     */
     public static <T,Y> PageResult<Y> PageTransform(PageResult<T> sourcePage, Class<Y> targetClass) {
         if (sourcePage == null) {
             return null;
@@ -203,6 +344,13 @@ public final class CommonConverterUtil {
         return (Y) simpleBeanCopier.copy(source);
     }
 
+    /**
+     * 实体类转化为map对象
+     *
+     * @param obj
+     * @return
+     * @throws Exception
+     */
     public static Map<String, Object> objectToMap(Object obj) throws Exception {
         if(obj == null){
             return null;
@@ -218,6 +366,15 @@ public final class CommonConverterUtil {
         return map;
     }
 
+    /**
+     * map对象转化为实体类
+     *
+     * @param map
+     * @param targetClass
+     * @param <T>
+     * @return
+     * @throws Exception
+     */
     public static <T> T MapToBean(Map<String, Object> map, Class<T> targetClass) throws Exception {
         if (map == null) {
             return null;

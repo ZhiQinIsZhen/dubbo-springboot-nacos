@@ -48,21 +48,21 @@ public class RemoteRiskConsensusServiceImpl implements RemoteRiskConsensusServic
     }
 
     @Override
-    public Page<RiskConsensusBO> search(PageBaseBO pageBaseBO) {
+    public com.liyz.dubbo.common.remote.page.Page<RiskConsensusBO> search(PageBaseBO pageBaseBO) {
         Page<RiskConsensusDO> doPage = riskConsensusService.search(pageBaseBO);
-        return CommonConverterUtil.PageTransform(doPage, RiskConsensusBO.class);
+        return CommonConverterUtil.transformPage(doPage, RiskConsensusBO.class);
     }
 
     @Override
-    public Page<RiskConsensusBO> search(RiskConsensusPageQueryBO queryBO) {
+    public com.liyz.dubbo.common.remote.page.Page<RiskConsensusBO> search(RiskConsensusPageQueryBO queryBO) {
         Page<RiskConsensusDO> doPage = riskConsensusService.search(queryBO);
-        return CommonConverterUtil.PageTransform(doPage, RiskConsensusBO.class);
+        return CommonConverterUtil.transformPage(doPage, RiskConsensusBO.class);
     }
 
     @Override
-    public Page<RiskConsensusBO> searchForHighlight(RiskConsensusPageQueryBO queryBO) {
+    public com.liyz.dubbo.common.remote.page.Page<RiskConsensusBO> searchForHighlight(RiskConsensusPageQueryBO queryBO) {
         Page<RiskConsensusDO> doPage = riskConsensusService.searchForHighlight(queryBO);
-        return CommonConverterUtil.PageTransform(doPage, RiskConsensusBO.class);
+        return CommonConverterUtil.transformPage(doPage, RiskConsensusBO.class);
     }
 
     @Override

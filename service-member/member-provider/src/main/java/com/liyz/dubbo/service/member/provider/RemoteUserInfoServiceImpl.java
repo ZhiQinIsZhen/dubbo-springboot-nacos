@@ -6,6 +6,7 @@ import com.liyz.dubbo.common.base.util.CommonConverterUtil;
 import com.liyz.dubbo.common.base.util.DateUtil;
 import com.liyz.dubbo.common.remote.exception.RemoteServiceException;
 import com.liyz.dubbo.common.remote.exception.enums.CommonCodeEnum;
+import com.liyz.dubbo.common.remote.page.Page;
 import com.liyz.dubbo.service.member.bo.UserInfoBO;
 import com.liyz.dubbo.service.member.bo.UserRegisterBO;
 import com.liyz.dubbo.service.member.config.MemberSnowflakeConfig;
@@ -108,12 +109,12 @@ public class RemoteUserInfoServiceImpl implements RemoteUserInfoService {
      * @return
      */
     @Override
-    public PageInfo<UserInfoBO> pageList(Integer page, Integer size) {
+    public Page<UserInfoBO> pageList(Integer page, Integer size) {
         PageHelper.startPage(page, size);
         List<UserInfoDO> doList = userInfoService.listAll();
         PageInfo<UserInfoDO> doPageInfo = new PageInfo<>(doList);
-        PageInfo<UserInfoBO> boPageInfo = CommonConverterUtil.PageTransform(doPageInfo, UserInfoBO.class);
-        return boPageInfo;
+        Page<UserInfoBO> boPage = CommonConverterUtil.transformPage(doPageInfo, UserInfoBO.class);
+        return boPage;
     }
 
     /**

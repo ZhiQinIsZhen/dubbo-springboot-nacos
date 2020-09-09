@@ -24,4 +24,20 @@ public class PageCopier<F, T> extends BaseBeanCopier<F, T> {
         Page<T> targetPage = new PageImpl<>(targetList, sourcePageInfo.getPageable(), sourcePageInfo.getTotalElements());
         return targetPage;
     }
+
+    public static <F, T> com.liyz.dubbo.common.remote.page.Page<T> transformPage(Page<F> sourcePageInfo, Function<? super F, ? extends T> function) {
+        List<T> targetList = Objects.nonNull(sourcePageInfo.getContent()) ?
+                Lists.transform(sourcePageInfo.getContent(), function) :
+                Lists.newArrayList();
+        com.liyz.dubbo.common.remote.page.Page<T> targetPage = new com.liyz.dubbo.common.remote.page.Page<>(targetList, sourcePageInfo.getTotalElements(), sourcePageInfo.getTotalPages(), sourcePageInfo.getNumber(), sourcePageInfo.getSize(), sourcePageInfo.hasNext());
+        return targetPage;
+    }
+
+    public static <F, T> com.liyz.dubbo.common.remote.page.Page<T> transformPage(com.liyz.dubbo.common.remote.page.Page<F> sourcePageInfo, Function<? super F, ? extends T> function) {
+        List<T> targetList = Objects.nonNull(sourcePageInfo.getList()) ?
+                Lists.transform(sourcePageInfo.getList(), function) :
+                Lists.newArrayList();
+        com.liyz.dubbo.common.remote.page.Page<T> targetPage = new com.liyz.dubbo.common.remote.page.Page<>(targetList, sourcePageInfo.getTotal(), sourcePageInfo.getPages(), sourcePageInfo.getPageNum(), sourcePageInfo.getPageSize(), sourcePageInfo.getHasNextPage());
+        return targetPage;
+    }
 }

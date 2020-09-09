@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liyz.dubbo.common.base.util.CommonConverterUtil;
 import com.liyz.dubbo.common.remote.bo.PageBaseBO;
+import com.liyz.dubbo.common.remote.page.Page;
 import com.liyz.dubbo.service.sharding.bo.UserBO;
 import com.liyz.dubbo.service.sharding.model.UserDO;
 import com.liyz.dubbo.service.sharding.remote.RemoteUserService;
@@ -47,11 +48,11 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     }
 
     @Override
-    public PageInfo<UserBO> page(PageBaseBO pageBaseBO) {
+    public Page<UserBO> page(PageBaseBO pageBaseBO) {
         PageHelper.startPage(pageBaseBO.getPageNum(), pageBaseBO.getPageSize());
         List<UserDO> doList = userService.list();
         PageInfo<UserDO> doPageInfo = new PageInfo<>(doList);
-        PageInfo<UserBO> boPageInfo = CommonConverterUtil.PageTransform(doPageInfo, UserBO.class);
-        return boPageInfo;
+        Page<UserBO> boPage = CommonConverterUtil.transformPage(doPageInfo, UserBO.class);
+        return boPage;
     }
 }

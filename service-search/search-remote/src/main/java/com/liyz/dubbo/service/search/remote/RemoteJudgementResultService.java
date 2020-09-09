@@ -1,9 +1,9 @@
 package com.liyz.dubbo.service.search.remote;
 
 import com.liyz.dubbo.common.remote.bo.PageBaseBO;
+import com.liyz.dubbo.common.remote.page.Page;
 import com.liyz.dubbo.service.search.bo.JudgementResultBO;
 import com.liyz.dubbo.service.search.bo.JudgementResultPageQueryBO;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.liyz.dubbo.service.sharding.remote;
 
-import com.github.pagehelper.PageInfo;
 import com.liyz.dubbo.common.remote.bo.PageBaseBO;
+import com.liyz.dubbo.common.remote.page.Page;
 import com.liyz.dubbo.service.sharding.bo.UserBO;
 
 import java.util.List;
@@ -23,5 +23,5 @@ public interface RemoteUserService {
 
     UserBO findByName(String name);
 
-    PageInfo<UserBO> page(PageBaseBO pageBaseBO);
+    Page<UserBO> page(PageBaseBO pageBaseBO);
 }
