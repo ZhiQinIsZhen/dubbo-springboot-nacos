@@ -35,4 +35,12 @@ public class LoginInfoServiceImpl implements LoginInfoService {
     public void setUser(JwtUserBO user) {
         this.userBOContainer.set(user);
     }
+
+    /**
+     * 移除
+     */
+    @Override
+    public void remove() {
+        userBOContainer.remove();
+    }
 }

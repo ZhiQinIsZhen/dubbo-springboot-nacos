@@ -14,4 +14,6 @@ public interface LoginInfoService {
     JwtUserBO getUser();
 
     void setUser(JwtUserBO user);
+
+    void remove();
 }

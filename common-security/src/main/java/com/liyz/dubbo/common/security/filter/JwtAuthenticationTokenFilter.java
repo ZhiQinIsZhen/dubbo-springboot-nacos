@@ -1,5 +1,6 @@
 package com.liyz.dubbo.common.security.filter;
 
+import com.liyz.dubbo.common.base.service.LoginInfoService;
 import com.liyz.dubbo.common.security.constant.SecurityConstant;
 import com.liyz.dubbo.common.security.core.JwtAccessTokenConverter;
 import com.liyz.dubbo.common.security.util.AuthenticationResponseUtil;
@@ -34,49 +35,55 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     private final String tokenHeaderHead;
     private final UserDetailsService userDetailsService;
     private final JwtAccessTokenConverter jwtAccessTokenConverter;
+    private final LoginInfoService loginInfoService;
 
     public JwtAuthenticationTokenFilter(String tokenHeaderKey, String tokenHeaderHead, UserDetailsService userDetailsService,
-                                        JwtAccessTokenConverter jwtAccessTokenConverter) {
+                                        JwtAccessTokenConverter jwtAccessTokenConverter, LoginInfoService loginInfoService) {
         this.tokenHeaderKey = tokenHeaderKey;
         this.tokenHeaderHead = tokenHeaderHead;
         this.userDetailsService = userDetailsService;
         this.jwtAccessTokenConverter = jwtAccessTokenConverter;
+        this.loginInfoService = loginInfoService;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        String tokenHeaderKey = httpServletRequest.getHeader(this.tokenHeaderKey);
-        if (StringUtils.isNotBlank(tokenHeaderKey)) {
-            tokenHeaderKey = URLDecoder.decode(tokenHeaderKey, "UTF-8");
-            if (tokenHeaderKey.startsWith(tokenHeaderHead)) {
-                final String authToken = tokenHeaderKey.substring(tokenHeaderHead.length()).trim();
-                final String username = jwtAccessTokenConverter.getUsernameFromToken(authToken);
-                if (StringUtils.isNotBlank(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    final UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-                    if (Objects.isNull(userDetails)) {
+        try {
+            String tokenHeaderKey = httpServletRequest.getHeader(this.tokenHeaderKey);
+            if (StringUtils.isNotBlank(tokenHeaderKey)) {
+                tokenHeaderKey = URLDecoder.decode(tokenHeaderKey, "UTF-8");
+                if (tokenHeaderKey.startsWith(tokenHeaderHead)) {
+                    final String authToken = tokenHeaderKey.substring(tokenHeaderHead.length()).trim();
+                    final String username = jwtAccessTokenConverter.getUsernameFromToken(authToken);
+                    if (StringUtils.isNotBlank(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
+                        final UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+                        if (Objects.isNull(userDetails)) {
+                            AuthenticationResponseUtil.authFail(httpServletResponse);
+                            return;
+                        }
+                        Device device = new LiteDeviceResolver().resolveDevice(httpServletRequest);
+                        Integer validate = jwtAccessTokenConverter.validateToken(authToken, userDetails, device);
+                        if (validate == SecurityConstant.VALIDATE_TOKEN_SUCCESS) {
+                            UsernamePasswordAuthenticationToken authentication =
+                                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+                            SecurityContextHolder.getContext().setAuthentication(authentication);
+                        } else if (validate == SecurityConstant.VALIDATE_TOKEN_FAIL_EXPIRED) {
+                            AuthenticationResponseUtil.authExpired(httpServletResponse);
+                            return;
+                        } else if (validate == SecurityConstant.VALIDATE_TOKEN_FAIL_OTHER_LOGIN) {
+                            AuthenticationResponseUtil.authOthersLogin(httpServletResponse);
+                            return;
+                        }
+                    } else {
                         AuthenticationResponseUtil.authFail(httpServletResponse);
                         return;
                     }
-                    Device device = new LiteDeviceResolver().resolveDevice(httpServletRequest);
-                    Integer validate = jwtAccessTokenConverter.validateToken(authToken, userDetails, device);
-                    if (validate == SecurityConstant.VALIDATE_TOKEN_SUCCESS) {
-                        UsernamePasswordAuthenticationToken authentication =
-                                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                    } else if (validate == SecurityConstant.VALIDATE_TOKEN_FAIL_EXPIRED) {
-                        AuthenticationResponseUtil.authExpired(httpServletResponse);
-                        return;
-                    } else if (validate == SecurityConstant.VALIDATE_TOKEN_FAIL_OTHER_LOGIN) {
-                        AuthenticationResponseUtil.authOthersLogin(httpServletResponse);
-                        return;
-                    }
-                } else {
-                    AuthenticationResponseUtil.authFail(httpServletResponse);
-                    return;
                 }
             }
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
+        } finally {
+            loginInfoService.remove();
         }
-        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 }

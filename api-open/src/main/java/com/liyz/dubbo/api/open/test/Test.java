@@ -1,9 +1,10 @@
 package com.liyz.dubbo.api.open.test;
 
-import com.alibaba.nacos.api.config.filter.IFilterConfig;
+import lombok.SneakyThrows;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * 注释:
@@ -17,8 +18,8 @@ public class Test {
     public static void main(String[] args) {
         String s = "IIIVXCDII";
         int x  = 123464321;
-        System.out.println(romanToInt(s));
-
+//        System.out.println(romanToInt(s));
+        test();
     }
 
     public static String longestCommonPrefix(String[] strs) {
@@ -108,5 +109,25 @@ public class Test {
             }
         }
         return total+left;
+    }
+
+    @SneakyThrows
+    private static void test()  {
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        for (int i = 0; i < 5000; i++) {
+            Thread thread = new Thread(() -> {
+                try {
+                    System.out.println(Thread.currentThread().getId() + "开始等待。。。。。。。。。。。。。。");
+                    countDownLatch.await();
+                    System.out.println("打印数值 " + Thread.currentThread().getId());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+            thread.setDaemon(true);
+            thread.start();
+        }
+        Thread.sleep(5000);
+        countDownLatch.countDown();
     }
 }

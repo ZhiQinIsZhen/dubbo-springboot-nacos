@@ -30,9 +30,7 @@ public class Page<T> implements Serializable {
     //是否有下一页
     private Boolean hasNextPage;
 
-    public Page() {
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
-    }
+    public Page() {}
 
     public Page(List<T> list, long total, int pages, int pageNum, int pageSize, Boolean hasNextPage) {
         this.list = list;

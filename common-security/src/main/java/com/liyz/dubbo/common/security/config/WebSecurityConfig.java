@@ -1,5 +1,6 @@
 package com.liyz.dubbo.common.security.config;
 
+import com.liyz.dubbo.common.base.service.LoginInfoService;
 import com.liyz.dubbo.common.base.util.JsonMapperUtil;
 import com.liyz.dubbo.common.security.constant.SecurityConstant;
 import com.liyz.dubbo.common.security.core.AccessDecisionManagerImpl;
@@ -53,6 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
     @Autowired
     private JwtAccessTokenConverter jwtAccessTokenConverter;
+    @Autowired
+    private LoginInfoService loginInfoService;
 
     @Bean
     @Override
@@ -90,7 +93,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated().and()
                 //添加jwt过滤器
                 .addFilterBefore(
-                        new JwtAuthenticationTokenFilter(tokenHeaderKey, tokenHeaderHead, userDetailsService, jwtAccessTokenConverter),
+                        new JwtAuthenticationTokenFilter(tokenHeaderKey, tokenHeaderHead, userDetailsService, jwtAccessTokenConverter, loginInfoService),
                         UsernamePasswordAuthenticationFilter.class)
                 // 禁用缓存
                 .headers().cacheControl().and()
