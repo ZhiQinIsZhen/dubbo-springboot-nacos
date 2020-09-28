@@ -16,4 +16,6 @@ public interface CommonConstant {
     String PHONEREG = "^1(3|4|5|7|8|9)\\d{9}$";
 
     String DEFAULT_SPLIT = "_";
+
+    String DUBBO_LOG_ID = "dubboLogId";
 }

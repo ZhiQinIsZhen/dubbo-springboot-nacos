@@ -1,6 +1,7 @@
 package com.liyz.dubbo.common.base.log.aspect;
 
 import com.google.common.collect.Sets;
+import com.liyz.dubbo.common.base.constant.CommonConstant;
 import com.liyz.dubbo.common.base.log.annotation.LogIgnore;
 import com.liyz.dubbo.common.base.log.annotation.Logs;
 import com.liyz.dubbo.common.base.util.HttpRequestUtil;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.rpc.RpcContext;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -27,6 +29,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * 注释:
@@ -68,12 +71,17 @@ public class LogsAspect {
         String ip = type == 0
                 ? HttpRequestUtil.getIpAddress(((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest())
                 : null;
+        String logId = RpcContext.getContext().getAttachment(CommonConstant.DUBBO_LOG_ID);
+        if (StringUtils.isBlank(logId)) {
+            logId = UUID.randomUUID().toString().replaceAll("-", "");
+            RpcContext.getContext().setAttachment(CommonConstant.DUBBO_LOG_ID, logId);
+        }
         if (type >= 0 && logs.before()) {
-            paramsLog(joinPoint, methodName);
+            paramsLog(joinPoint, methodName, logId);
         }
         Object obj = joinPoint.proceed();
         if (type >= 0 && logs.after()) {
-            log.info("method : {} ; response result : {}", methodName, JsonMapperUtil.toJSONString(obj));
+            log.info("logId : {}, method : {} ; response result : {}", logId, methodName, JsonMapperUtil.toJSONString(obj));
         }
         return obj;
     }
@@ -83,8 +91,9 @@ public class LogsAspect {
      *
      * @param joinPoint
      * @param methodName
+     * @param logId
      */
-    private void paramsLog(JoinPoint joinPoint, String methodName) {
+    private void paramsLog(JoinPoint joinPoint, String methodName, String logId) {
         if (joinPoint.getSignature() instanceof MethodSignature) {
             Set<Integer> ignoreSet = Sets.newTreeSet();
             MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
@@ -125,7 +134,7 @@ public class LogsAspect {
                     }
                 }
                 sb.append("]");
-                log.info("method : {}, params : {}", methodName, sb.toString());
+                log.info("logId : {}, method : {}, params : {}", logId, methodName, sb.toString());
             }
         }
     }
@@ -143,9 +152,14 @@ public class LogsAspect {
         Logs logs = method.getAnnotation(Logs.class);
         String methodName = StringUtils.isBlank(logs.method())
                 ? joinPoint.getTarget().getClass().getSimpleName() + "." + joinPoint.getSignature().getName() : logs.method();
+        String logId = RpcContext.getContext().getAttachment(CommonConstant.DUBBO_LOG_ID);
+        if (StringUtils.isBlank(logId)) {
+            logId = UUID.randomUUID().toString().replaceAll("-", "");
+            RpcContext.getContext().setAttachment(CommonConstant.DUBBO_LOG_ID, logId);
+        }
         if (logs.exception()) {
-            log.error("method : {} ; exception type : {} ; exception message : {}", methodName, ex.getClass().getSimpleName(),
-                    ex.getMessage());
+            log.error("logId : {}, method : {} ; exception type : {} ; exception message : {}", logId, methodName,
+                    ex.getClass().getSimpleName(), ex.getMessage());
         }
     }
 }
