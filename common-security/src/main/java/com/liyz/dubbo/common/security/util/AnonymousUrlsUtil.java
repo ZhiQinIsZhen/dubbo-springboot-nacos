@@ -150,8 +150,8 @@ public final class AnonymousUrlsUtil {
         Method[] methods = beanClass.getDeclaredMethods();
         if (methods != null && methods.length > 0) {
             for (Method method : methods) {
-                classHaveAnonymous = classHaveAnonymous ? classHaveAnonymous : method.isAnnotationPresent(annotationClass);
-                if (classHaveAnonymous) {
+                boolean methodHaveAnonymous = classHaveAnonymous ? classHaveAnonymous : method.isAnnotationPresent(annotationClass);
+                if (methodHaveAnonymous) {
                     String methodMapping = methodMapping(method);
                     if (StringUtils.isNotBlank(methodMapping)) {
                         anonymousUrls.add(classMapping + methodMapping);
