@@ -11,7 +11,7 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 /**
  * 注释:swagger配置
@@ -21,9 +21,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @date 2019/7/16 16:30
  */
 @EnableKnife4j
-@EnableSwagger2
+@EnableSwagger2WebMvc
 @Configuration
-//@ConditionalOnExpression("${swagger.doc}")
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfig extends SwaggerBaseConfig {
 

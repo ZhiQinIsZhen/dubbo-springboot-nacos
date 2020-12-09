@@ -9,7 +9,6 @@ import com.liyz.dubbo.common.base.service.LoginInfoService;
 import com.liyz.dubbo.common.controller.resolver.LoginUserArgumentResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -31,9 +30,6 @@ import java.util.TimeZone;
 @Configuration
 public class MyWebMvcConfig extends WebMvcConfigurationSupport {
 
-    @Value("${swagger.doc:false}")
-    private Boolean swagger;
-
     @Autowired
     LoginInfoService loginInfoService;
 
@@ -44,10 +40,7 @@ public class MyWebMvcConfig extends WebMvcConfigurationSupport {
      */
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-        if (swagger) {
-            registry.addResourceHandler("/**")
-                    .addResourceLocations("classpath:/META-INF/resources/");
-        }
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/META-INF/resources/");
         super.addResourceHandlers(registry);
     }
 
