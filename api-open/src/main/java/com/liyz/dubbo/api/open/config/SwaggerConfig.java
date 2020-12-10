@@ -1,6 +1,7 @@
 package com.liyz.dubbo.api.open.config;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
+import com.github.xiaoymin.knife4j.spring.extension.OpenApiExtensionResolver;
 import com.google.common.collect.Sets;
 import com.liyz.dubbo.common.controller.config.SwaggerBaseConfig;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +27,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfig extends SwaggerBaseConfig {
 
+    public SwaggerConfig(OpenApiExtensionResolver openApiExtensionResolver) {
+        super(openApiExtensionResolver);
+    }
+
     @Bean
     public Docket createAuthApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -34,7 +39,9 @@ public class SwaggerConfig extends SwaggerBaseConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.open.controller.auth"))
                 .paths(PathSelectors.any())
-                .build().groupName("鉴权认证-API");
+                .build()
+                .extensions(openApiExtensionResolver.buildSettingExtensions())
+                .groupName("鉴权认证-API");
     }
 
     @Bean
@@ -45,7 +52,9 @@ public class SwaggerConfig extends SwaggerBaseConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.open.controller.customer"))
                 .paths(PathSelectors.any())
-                .build().groupName("授权用户-API");
+                .build()
+                .extensions(openApiExtensionResolver.buildSettingExtensions())
+                .groupName("授权用户-API");
     }
 
     @Bean
@@ -56,6 +65,8 @@ public class SwaggerConfig extends SwaggerBaseConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.open.controller.member"))
                 .paths(PathSelectors.any())
-                .build().groupName("用户-API");
+                .build()
+                .extensions(openApiExtensionResolver.buildSettingExtensions())
+                .groupName("用户-API");
     }
 }

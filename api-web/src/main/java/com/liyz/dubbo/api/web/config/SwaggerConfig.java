@@ -1,6 +1,7 @@
 package com.liyz.dubbo.api.web.config;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
+import com.github.xiaoymin.knife4j.spring.extension.OpenApiExtensionResolver;
 import com.google.common.collect.Sets;
 import com.liyz.dubbo.common.controller.config.SwaggerBaseConfig;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +27,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfig extends SwaggerBaseConfig {
 
+    public SwaggerConfig(OpenApiExtensionResolver openApiExtensionResolver) {
+        super(openApiExtensionResolver);
+    }
+
     @Bean
     public Docket createAuthApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -34,7 +39,9 @@ public class SwaggerConfig extends SwaggerBaseConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.web.controller.auth"))
                 .paths(PathSelectors.any())
-                .build().groupName("鉴权认证-API");
+                .build()
+                .extensions(openApiExtensionResolver.buildSettingExtensions())
+                .groupName("鉴权认证-API");
     }
 
     @Bean
@@ -45,7 +52,9 @@ public class SwaggerConfig extends SwaggerBaseConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.web.controller.member"))
                 .paths(PathSelectors.any())
-                .build().groupName("用户-API");
+                .build()
+                .extensions(openApiExtensionResolver.buildSettingExtensions())
+                .groupName("用户-API");
     }
 
     @Bean
@@ -56,7 +65,9 @@ public class SwaggerConfig extends SwaggerBaseConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.web.controller.file"))
                 .paths(PathSelectors.any())
-                .build().groupName("文件服务-API");
+                .build()
+                .extensions(openApiExtensionResolver.buildSettingExtensions())
+                .groupName("文件服务-API");
     }
 
     @Bean
@@ -67,7 +78,9 @@ public class SwaggerConfig extends SwaggerBaseConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.web.controller.search"))
                 .paths(PathSelectors.any())
-                .build().groupName("搜索服务-API");
+                .build()
+                .extensions(openApiExtensionResolver.buildSettingExtensions())
+                .groupName("搜索服务-API");
     }
 
     @Bean
@@ -78,6 +91,8 @@ public class SwaggerConfig extends SwaggerBaseConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.web.controller.transaction"))
                 .paths(PathSelectors.any())
-                .build().groupName("分布式事务-API");
+                .build()
+                .extensions(openApiExtensionResolver.buildSettingExtensions())
+                .groupName("分布式事务-API");
     }
 }
