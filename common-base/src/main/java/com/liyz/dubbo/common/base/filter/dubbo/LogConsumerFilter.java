@@ -15,16 +15,17 @@ import org.apache.dubbo.rpc.*;
  * @date 2020/9/28 16:20
  */
 @Slf4j
-@Activate(group = {CommonConstants.PROVIDER})
-public class LogFilter implements Filter {
+@Activate(group = {CommonConstants.CONSUMER})
+public class LogConsumerFilter implements Filter {
 
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        String logId = RpcContext.getContext().getAttachment(CommonConstant.DUBBO_LOG_ID);
-        if (StringUtils.isNotBlank(logId)) {
-            log.info("logId:{}", logId);
-        }
         Result result = invoker.invoke(invocation);
+        String logId = result.getAttachment(CommonConstant.DUBBO_LOG_ID);
+        if (StringUtils.isNotBlank(logId)) {
+            RpcContext.getContext().clearAfterEachInvoke(false);
+            RpcContext.getContext().setAttachment(CommonConstant.DUBBO_LOG_ID, logId);
+        }
         return result;
     }
 }

@@ -2,6 +2,7 @@ package com.liyz.dubbo.service.member.provider;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.liyz.dubbo.common.base.log.annotation.Logs;
 import com.liyz.dubbo.common.base.util.CommonConverterUtil;
 import com.liyz.dubbo.common.base.util.DateUtil;
 import com.liyz.dubbo.common.remote.exception.RemoteServiceException;
@@ -92,6 +93,7 @@ public class RemoteUserInfoServiceImpl implements RemoteUserInfoService {
      * @param userId
      * @return
      */
+    @Logs
     @Override
     public UserInfoBO getByUserId(@NotNull Long userId) {
         UserInfoDO userInfoDO = userInfoService.getById(userId);

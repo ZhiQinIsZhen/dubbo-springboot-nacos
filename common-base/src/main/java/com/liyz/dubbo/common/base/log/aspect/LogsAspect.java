@@ -73,6 +73,7 @@ public class LogsAspect {
                 : null;
         String logId = RpcContext.getContext().getAttachment(CommonConstant.DUBBO_LOG_ID);
         if (StringUtils.isBlank(logId)) {
+            RpcContext.getContext().clearAfterEachInvoke(false);
             logId = UUID.randomUUID().toString().replaceAll("-", "");
             RpcContext.getContext().setAttachment(CommonConstant.DUBBO_LOG_ID, logId);
         }
@@ -83,6 +84,7 @@ public class LogsAspect {
         if (type >= 0 && logs.after()) {
             log.info("logId : {}, method : {} ; response result : {}", logId, methodName, JsonMapperUtil.toJSONString(obj));
         }
+        RpcContext.getContext().clearAfterEachInvoke(true);
         return obj;
     }
 
@@ -154,6 +156,7 @@ public class LogsAspect {
                 ? joinPoint.getTarget().getClass().getSimpleName() + "." + joinPoint.getSignature().getName() : logs.method();
         String logId = RpcContext.getContext().getAttachment(CommonConstant.DUBBO_LOG_ID);
         if (StringUtils.isBlank(logId)) {
+            RpcContext.getContext().clearAfterEachInvoke(false);
             logId = UUID.randomUUID().toString().replaceAll("-", "");
             RpcContext.getContext().setAttachment(CommonConstant.DUBBO_LOG_ID, logId);
         }
