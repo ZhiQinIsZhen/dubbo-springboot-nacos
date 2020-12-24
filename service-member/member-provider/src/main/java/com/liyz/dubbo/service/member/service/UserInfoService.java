@@ -7,6 +7,7 @@ import com.liyz.dubbo.service.member.constant.RedisKeyConstant;
 import com.liyz.dubbo.service.member.model.UserInfoDO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -38,6 +39,7 @@ public class UserInfoService extends AbstractService<UserInfoDO> {
     }
 
     @Override
+    @Cacheable(cacheNames = {"memberService"}, key = "#model.loginName")
     public UserInfoDO getOne(UserInfoDO model) {
         return super.getOne(model);
     }
@@ -53,6 +55,8 @@ public class UserInfoService extends AbstractService<UserInfoDO> {
         }
         return userInfoDO;
     }
+
+
 
     @Override
     public int updateById(UserInfoDO model) {

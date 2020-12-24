@@ -3,6 +3,7 @@ package com.liyz.dubbo.service.member;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import tk.mybatis.spring.annotation.MapperScan;
 
 /**
@@ -12,6 +13,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  * @version 1.0.0
  * @date 2020/7/3 11:07
  */
+@EnableCaching
 @MapperScan(basePackages = {"com.liyz.dubbo.service.member.dao"})
 @EnableDubbo(scanBasePackages = {"com.liyz.dubbo.service.member.provider"})
 @SpringBootApplication(scanBasePackages = {"com.liyz.dubbo.common", "com.liyz.dubbo.service.member"})
