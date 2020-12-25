@@ -2,6 +2,7 @@ package com.liyz.dubbo.common.base.log.aspect;
 
 import com.google.common.collect.Sets;
 import com.liyz.dubbo.common.base.constant.CommonConstant;
+import com.liyz.dubbo.common.base.log.LogIdContext;
 import com.liyz.dubbo.common.base.log.annotation.LogIgnore;
 import com.liyz.dubbo.common.base.log.annotation.Logs;
 import com.liyz.dubbo.common.base.util.HttpRequestUtil;
@@ -73,9 +74,14 @@ public class LogsAspect {
                 : null;
         String logId = RpcContext.getContext().getAttachment(CommonConstant.DUBBO_LOG_ID);
         if (StringUtils.isBlank(logId)) {
-            RpcContext.getContext().clearAfterEachInvoke(false);
-            logId = UUID.randomUUID().toString().replaceAll("-", "");
-            RpcContext.getContext().setAttachment(CommonConstant.DUBBO_LOG_ID, logId);
+            logId = LogIdContext.getLogId();
+            if (StringUtils.isBlank(logId)) {
+                logId = UUID.randomUUID().toString().replaceAll("-", "");
+                RpcContext.getContext().setAttachment(CommonConstant.DUBBO_LOG_ID, logId);
+                LogIdContext.setLogId(logId);
+            } else {
+                RpcContext.getContext().setAttachment(CommonConstant.DUBBO_LOG_ID, logId);
+            }
         }
         if (type >= 0 && logs.before()) {
             paramsLog(joinPoint, methodName, logId);
@@ -84,7 +90,7 @@ public class LogsAspect {
         if (type >= 0 && logs.after()) {
             log.info("logId : {}, method : {} ; response result : {}", logId, methodName, JsonMapperUtil.toJSONString(obj));
         }
-        RpcContext.getContext().clearAfterEachInvoke(true);
+        LogIdContext.removeLogId();
         return obj;
     }
 
@@ -156,13 +162,16 @@ public class LogsAspect {
                 ? joinPoint.getTarget().getClass().getSimpleName() + "." + joinPoint.getSignature().getName() : logs.method();
         String logId = RpcContext.getContext().getAttachment(CommonConstant.DUBBO_LOG_ID);
         if (StringUtils.isBlank(logId)) {
-            RpcContext.getContext().clearAfterEachInvoke(false);
-            logId = UUID.randomUUID().toString().replaceAll("-", "");
+            logId = LogIdContext.getLogId();
+            if (StringUtils.isBlank(logId)) {
+                logId = UUID.randomUUID().toString().replaceAll("-", "");
+            }
             RpcContext.getContext().setAttachment(CommonConstant.DUBBO_LOG_ID, logId);
         }
         if (logs.exception()) {
             log.error("logId : {}, method : {} ; exception type : {} ; exception message : {}", logId, methodName,
                     ex.getClass().getSimpleName(), ex.getMessage());
         }
+        LogIdContext.removeLogId();
     }
 }

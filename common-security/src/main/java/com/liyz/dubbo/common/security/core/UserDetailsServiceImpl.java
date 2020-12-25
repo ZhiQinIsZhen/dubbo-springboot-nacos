@@ -37,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private LoginInfoService loginInfoService;
 
-    @DubboReference(version = "1.0.0", group = "${jwt.user.group}")
+    @DubboReference(version = "1.0.0", group = "${jwt.user.group}", timeout = 100000)
     private RemoteJwtUserService remoteJwtUserService;
     @DubboReference(version = "1.0.0")
     private RemoteGrantedAuthorityService remoteGrantedAuthorityService;

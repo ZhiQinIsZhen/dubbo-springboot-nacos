@@ -38,7 +38,7 @@ import java.util.Objects;
 @RequestMapping("/user")
 public class UserInfoController {
 
-    @DubboReference(version = "1.0.0")
+    @DubboReference(version = "1.0.0", timeout = 100000)
     RemoteUserInfoService remoteUserInfoService;
 
     @Logs

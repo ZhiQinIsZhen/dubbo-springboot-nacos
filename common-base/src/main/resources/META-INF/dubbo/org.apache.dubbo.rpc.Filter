@@ -1,1 +1,3 @@
 remoteServiceExceptionFilter=com.liyz.dubbo.common.base.filter.dubbo.RemoteServiceExceptionFilter
+logConsumerFilter=com.liyz.dubbo.common.base.filter.dubbo.LogConsumerFilter
+logProviderFilter=com.liyz.dubbo.common.base.filter.dubbo.LogProviderFilter

@@ -1,6 +1,7 @@
 package com.liyz.dubbo.common.base.filter.dubbo;
 
 import com.liyz.dubbo.common.base.constant.CommonConstant;
+import com.liyz.dubbo.common.base.log.LogIdContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.common.constants.CommonConstants;
@@ -20,11 +21,14 @@ public class LogConsumerFilter implements Filter {
 
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        Result result = invoker.invoke(invocation);
-        String logId = result.getAttachment(CommonConstant.DUBBO_LOG_ID);
+        String logId = LogIdContext.getLogId();
         if (StringUtils.isNotBlank(logId)) {
-            RpcContext.getContext().clearAfterEachInvoke(false);
             RpcContext.getContext().setAttachment(CommonConstant.DUBBO_LOG_ID, logId);
+        }
+        Result result = invoker.invoke(invocation);
+        logId = result.getAttachment(CommonConstant.DUBBO_LOG_ID);
+        if (StringUtils.isNotBlank(logId)) {
+            LogIdContext.setLogId(logId);
         }
         return result;
     }

@@ -20,8 +20,8 @@ public class LogProviderFilter implements Filter {
 
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        String logId = RpcContext.getContext().getAttachment(CommonConstant.DUBBO_LOG_ID);
         Result result = invoker.invoke(invocation);
+        String logId = RpcContext.getContext().getAttachment(CommonConstant.DUBBO_LOG_ID);
         if (StringUtils.isNotBlank(logId)) {
             result.getAttachments().put(CommonConstant.DUBBO_LOG_ID, logId);
         }
