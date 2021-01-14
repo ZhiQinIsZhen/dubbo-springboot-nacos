@@ -73,7 +73,7 @@ public class ControllerExceptionHandleAdvice {
 
     @ExceptionHandler({RemoteServiceException.class})
     public Result remoteServiceException(RemoteServiceException exception) {
-        log.error("远程服务调用异常->remote", exception);
+        log.error("远程服务调用异常->remote  code:{}, message:{}", exception.getCode(), exception.getMessage());
         return Result.error(exception.getCode(), exception.getMessage());
     }
 

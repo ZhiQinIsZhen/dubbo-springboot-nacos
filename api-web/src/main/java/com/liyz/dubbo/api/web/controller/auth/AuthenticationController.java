@@ -80,7 +80,7 @@ public class AuthenticationController {
 
     @Logs(before = false)
     @ApiOperation(value = "登陆", notes = "登陆")
-    @Limits(value = {@Limit(count = 1, type = LimitType.IP), @Limit(count = 10)})
+    @Limits(value = {@Limit(count = 1, type = LimitType.IP), @Limit(count = 1)})
     @Anonymous
     @PostMapping("/login")
     public Result<LoginVO> login(@Validated({LoginDTO.Login.class}) @RequestBody LoginDTO loginDTO) {

@@ -4,16 +4,15 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.RateLimiter;
+import com.liyz.dubbo.common.base.util.HttpRequestUtil;
 import com.liyz.dubbo.common.controller.limit.annotation.Limit;
 import com.liyz.dubbo.common.controller.limit.annotation.Limits;
 import com.liyz.dubbo.common.controller.limit.enums.LimitType;
-import com.liyz.dubbo.common.base.util.HttpRequestUtil;
 import com.liyz.dubbo.common.remote.exception.RemoteServiceException;
 import com.liyz.dubbo.common.remote.exception.enums.CommonCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,12 +33,12 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0.0
  * @date 2019/9/10 13:50
  */
+@Deprecated
 @Slf4j
-@ConditionalOnExpression("${spring.limit}")
-@Aspect
-@Configuration
-@Order(1)
-public class LimitAspect {
+//@Order(1)
+//@Configuration
+//@ConditionalOnExpression("${spring.limit}")
+public class LimitGuavaAspect {
 
     private static ThreadLocal<Double> permitsPerSecond = new ThreadLocal<>();
 
