@@ -44,6 +44,7 @@ public class UserInfoService extends AbstractService<UserInfoDO> {
         return super.getOne(model);
     }
 
+    @Cacheable(cacheNames = {"userCache"}, cacheManager = "userCacheManager", key = "#loginName")
     public UserInfoDO getByLoginName(String loginName) {
         String key = RedisKeyConstant.getLoginNameInfoKey(loginName);
         UserInfoDO userInfoDO = redissonService.getValue(key, UserInfoDO.class);
