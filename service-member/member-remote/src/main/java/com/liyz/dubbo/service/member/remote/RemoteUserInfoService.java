@@ -4,7 +4,9 @@ import com.liyz.dubbo.common.remote.page.Page;
 import com.liyz.dubbo.service.member.bo.UserInfoBO;
 import com.liyz.dubbo.service.member.bo.UserRegisterBO;
 import com.liyz.dubbo.service.member.constant.MemberEnum;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -15,11 +17,12 @@ import java.util.Date;
  * @version 1.0.0
  * @date 2019/8/28 14:29
  */
+@Validated
 public interface RemoteUserInfoService {
 
     UserInfoBO register(UserRegisterBO userRegisterBO);
 
-    UserInfoBO getByUserId(@NotNull Long userId);
+    UserInfoBO getByUserId(@NotBlank(message = "用户ID不能为空") Long userId);
 
     Page<UserInfoBO> pageList(Integer page, Integer size);
 
