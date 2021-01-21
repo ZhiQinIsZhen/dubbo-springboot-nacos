@@ -23,7 +23,7 @@ public interface RemoteUserInfoService {
 
     Page<UserInfoBO> pageList(Integer page, Integer size);
 
-    UserInfoBO getByCondition(@NotNull UserInfoBO userInfoBO);
+    UserInfoBO getByCondition(@NotNull(message = "参数不能为空") UserInfoBO userInfoBO);
 
     Date loginTime(Long userId, String ip, MemberEnum.DeviceEnum deviceEnum);
 

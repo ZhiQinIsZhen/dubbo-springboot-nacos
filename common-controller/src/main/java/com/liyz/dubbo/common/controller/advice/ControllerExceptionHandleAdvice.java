@@ -8,14 +8,12 @@ import org.apache.dubbo.rpc.RpcException;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,16 +40,10 @@ public class ControllerExceptionHandleAdvice {
         return Result.error(CommonCodeEnum.RemoteServiceFail);
     }
 
-    @ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
-    public Result validationException(Exception exception) {
-        BindingResult result;
-        if (exception instanceof MethodArgumentNotValidException) {
-            result = ((MethodArgumentNotValidException) exception).getBindingResult();
-        } else {
-            result = ((BindException) exception).getBindingResult();
-        }
-        if (Objects.nonNull(result) && result.hasErrors()) {
-            List<ObjectError> errors = result.getAllErrors();
+    @ExceptionHandler({BindException.class})
+    public Result bindException(BindException exception) {
+        if (Objects.nonNull(exception) && exception.hasErrors()) {
+            List<ObjectError> errors = exception.getAllErrors();
             for (ObjectError error : errors) {
                 log.warn("参数校验 {} ：{}", error.getCodes()[0], error.getDefaultMessage());
                 return Result.error(CommonCodeEnum.validated.getCode(), error.getDefaultMessage());
@@ -61,8 +53,8 @@ public class ControllerExceptionHandleAdvice {
         return Result.error(CommonCodeEnum.validated);
     }
 
-    @ExceptionHandler({ConstraintViolationException.class})
-    public Result constraintViolationException(ConstraintViolationException exception) {
+    @ExceptionHandler({ValidationException.class})
+    public Result validationException(ValidationException exception) {
         String[] message = exception.getMessage().split(":");
         if (message.length >= 2) {
             log.warn("参数校验 exception ：{}", message);
