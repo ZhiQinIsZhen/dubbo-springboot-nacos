@@ -1,7 +1,7 @@
 package com.liyz.dubbo.service.member.provider;
 
 import com.liyz.dubbo.common.base.log.annotation.Logs;
-import com.liyz.dubbo.common.base.util.CommonConverterUtil;
+import com.liyz.dubbo.common.base.util.CommonCloneUtil;
 import com.liyz.dubbo.common.remote.bo.JwtUserBO;
 import com.liyz.dubbo.common.remote.service.RemoteJwtUserService;
 import com.liyz.dubbo.service.member.model.UserInfoDO;
@@ -32,6 +32,6 @@ public class RemoteJwtUserServiceImpl implements RemoteJwtUserService {
             return null;
         }
         UserInfoDO userInfoDO = userInfoService.getByLoginName(loginName);
-        return CommonConverterUtil.beanCopy(userInfoDO, JwtUserBO.class);
+        return CommonCloneUtil.objectClone(userInfoDO, JwtUserBO.class);
     }
 }

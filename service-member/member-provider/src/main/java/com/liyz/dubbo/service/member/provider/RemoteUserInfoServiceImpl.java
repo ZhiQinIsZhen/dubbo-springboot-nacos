@@ -3,7 +3,7 @@ package com.liyz.dubbo.service.member.provider;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liyz.dubbo.common.base.log.annotation.Logs;
-import com.liyz.dubbo.common.base.util.CommonConverterUtil;
+import com.liyz.dubbo.common.base.util.CommonCloneUtil;
 import com.liyz.dubbo.common.base.util.DateUtil;
 import com.liyz.dubbo.common.remote.exception.RemoteServiceException;
 import com.liyz.dubbo.common.remote.exception.enums.CommonCodeEnum;
@@ -73,7 +73,7 @@ public class RemoteUserInfoServiceImpl implements RemoteUserInfoService {
                 userRegisterBO.getVerificationCode())) {
             throw new RemoteServiceException(type == 1 ? CommonCodeEnum.MobileCodeError : CommonCodeEnum.EmailCodeError);
         }
-        param = CommonConverterUtil.beanCopy(userRegisterBO, UserInfoDO.class);
+        param = CommonCloneUtil.objectClone(userRegisterBO, UserInfoDO.class);
         param.setUserId(memberSnowflakeConfig.getId());
         param.setEmail(type == 2 ? param.getLoginName() : "812672598@qq.com");
         param.setMobile(type == 1 ? param.getLoginName() : "15988654731");
@@ -84,7 +84,7 @@ public class RemoteUserInfoServiceImpl implements RemoteUserInfoService {
         }
         userLoginLogService.save(param.getUserId(), userRegisterBO.getIp(), MemberConstant.REGISTER_TYPE,
                 userRegisterBO.getDeviceEnum().getDevice());
-        return CommonConverterUtil.beanCopy(param, UserInfoBO.class);
+        return CommonCloneUtil.objectClone(param, UserInfoBO.class);
     }
 
     /**
@@ -100,7 +100,7 @@ public class RemoteUserInfoServiceImpl implements RemoteUserInfoService {
         if (Objects.isNull(userInfoDO)) {
             throw new RemoteServiceException(CommonCodeEnum.NoData);
         }
-        return CommonConverterUtil.beanCopy(userInfoDO, UserInfoBO.class);
+        return CommonCloneUtil.objectClone(userInfoDO, UserInfoBO.class);
     }
 
     /**
@@ -115,7 +115,7 @@ public class RemoteUserInfoServiceImpl implements RemoteUserInfoService {
         PageHelper.startPage(page, size);
         List<UserInfoDO> doList = userInfoService.listAll();
         PageInfo<UserInfoDO> doPageInfo = new PageInfo<>(doList);
-        Page<UserInfoBO> boPage = CommonConverterUtil.transformPage(doPageInfo, UserInfoBO.class);
+        Page<UserInfoBO> boPage = CommonCloneUtil.pageInfoToPage(doPageInfo, UserInfoBO.class);
         return boPage;
     }
 
@@ -129,11 +129,11 @@ public class RemoteUserInfoServiceImpl implements RemoteUserInfoService {
     public UserInfoBO getByCondition(@NotNull UserInfoBO userInfoBO) {
         UserInfoDO userInfoDO = null;
         try {
-            userInfoDO = userInfoService.getOne(CommonConverterUtil.beanCopy(userInfoBO, UserInfoDO.class));
+            userInfoDO = userInfoService.getOne(CommonCloneUtil.objectClone(userInfoBO, UserInfoDO.class));
         } catch (Exception e) {
             log.error("出错啦", e);
         }
-        return CommonConverterUtil.beanCopy(userInfoDO, UserInfoBO.class);
+        return CommonCloneUtil.objectClone(userInfoDO, UserInfoBO.class);
     }
 
     /**
@@ -159,7 +159,7 @@ public class RemoteUserInfoServiceImpl implements RemoteUserInfoService {
      * @return
      */
     @Override
-    public Date kickDownLine(@NotNull Long userId, MemberEnum.@NotNull DeviceEnum deviceEnum) {
+    public Date kickDownLine(@NotNull Long userId, @NotNull MemberEnum.DeviceEnum deviceEnum) {
         UserInfoBO userInfoBO = new UserInfoBO();
         userInfoBO.setUserId(userId);
         LocalDateTime nowLocalDateTime = LocalDateTime.now();
@@ -173,7 +173,7 @@ public class RemoteUserInfoServiceImpl implements RemoteUserInfoService {
             userInfoBO.setWebTokenTime(tokenTime);
             userInfoBO.setAppTokenTime(tokenTime);
         }
-        userInfoService.updateById(CommonConverterUtil.beanCopy(userInfoBO, UserInfoDO.class));
+        userInfoService.updateById(CommonCloneUtil.objectClone(userInfoBO, UserInfoDO.class));
         return DateUtil.convertLocalDateTimeToDate(nowLocalDateTime);
     }
 }

@@ -17,7 +17,7 @@ import java.util.Date;
  * @version 1.0.0
  * @date 2019/8/28 14:29
  */
-@Validated
+//@Validated
 public interface RemoteUserInfoService {
 
     UserInfoBO register(UserRegisterBO userRegisterBO);
@@ -30,5 +30,5 @@ public interface RemoteUserInfoService {
 
     Date loginTime(Long userId, String ip, MemberEnum.DeviceEnum deviceEnum);
 
-    Date kickDownLine(@NotNull Long userId, @NotNull MemberEnum.DeviceEnum deviceEnum);
+    Date kickDownLine(Long userId, MemberEnum.DeviceEnum deviceEnum);
 }

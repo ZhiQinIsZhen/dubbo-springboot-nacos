@@ -7,7 +7,7 @@ import com.liyz.dubbo.api.web.vo.member.UserInfoVO;
 import com.liyz.dubbo.common.base.log.annotation.Logs;
 import com.liyz.dubbo.common.base.result.Result;
 import com.liyz.dubbo.common.base.service.LoginInfoService;
-import com.liyz.dubbo.common.base.util.CommonConverterUtil;
+import com.liyz.dubbo.common.base.util.CommonCloneUtil;
 import com.liyz.dubbo.common.controller.limit.annotation.Limit;
 import com.liyz.dubbo.common.controller.limit.annotation.Limits;
 import com.liyz.dubbo.common.controller.limit.enums.LimitType;
@@ -106,7 +106,7 @@ public class AuthenticationController {
         String ip = HttpRequestUtil.getIpAddress(request);
         Device device = resolver.resolveDevice(request);
         log.info("user register，ip:{}", ip);
-        UserRegisterBO bo = CommonConverterUtil.beanCopy(userRegisterDTO, UserRegisterBO.class);
+        UserRegisterBO bo = CommonCloneUtil.objectClone(userRegisterDTO, UserRegisterBO.class);
         bo.setLoginPwd(passwordEncoder.encode(userRegisterDTO.getLoginPwd()));
         bo.setIp(ip);
         MemberEnum.DeviceEnum deviceEnum ;
@@ -117,7 +117,7 @@ public class AuthenticationController {
         }
         bo.setDeviceEnum(deviceEnum);
         UserInfoBO userInfoBO = remoteUserInfoService.register(bo);
-        return Result.success(CommonConverterUtil.beanCopy(userInfoBO, UserInfoVO.class));
+        return Result.success(CommonCloneUtil.objectClone(userInfoBO, UserInfoVO.class));
     }
 
     private boolean doAuth(LoginDTO loginDTO) {
@@ -145,7 +145,7 @@ public class AuthenticationController {
         final String token = jwtAccessTokenConverter.generateToken(userDetails, device, date, userInfo.getUserId());
         Date expirationDateFromToken = jwtAccessTokenConverter.getExpirationDateFromToken(token);
         Long expirationDate = expirationDateFromToken.getTime();
-        LoginVO loginVO = CommonConverterUtil.beanCopy(userInfo, LoginVO.class);
+        LoginVO loginVO = CommonCloneUtil.objectClone(userInfo, LoginVO.class);
         loginVO.setExpirationDate(expirationDate);
         loginVO.setToken(token);
         return loginVO;

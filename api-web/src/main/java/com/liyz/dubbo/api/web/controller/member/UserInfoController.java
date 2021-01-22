@@ -4,7 +4,7 @@ import com.liyz.dubbo.api.web.vo.member.UserInfoVO;
 import com.liyz.dubbo.common.base.log.annotation.LogIgnore;
 import com.liyz.dubbo.common.base.log.annotation.Logs;
 import com.liyz.dubbo.common.base.result.Result;
-import com.liyz.dubbo.common.base.util.CommonConverterUtil;
+import com.liyz.dubbo.common.base.util.CommonCloneUtil;
 import com.liyz.dubbo.common.controller.resolver.annotation.LoginUser;
 import com.liyz.dubbo.common.remote.bo.JwtUserBO;
 import com.liyz.dubbo.service.member.remote.RemoteUserInfoService;
@@ -47,7 +47,7 @@ public class UserInfoController {
     @ApiOperation(value = "获取登陆的用户信息", notes = "获取登陆的用户信息")
     @GetMapping("/info")
     public Result<UserInfoVO> info(@ApiIgnore @LoginUser JwtUserBO jwtUserBO) {
-        return Result.success(CommonConverterUtil.beanCopy(jwtUserBO, UserInfoVO.class));
+        return Result.success(CommonCloneUtil.objectClone(jwtUserBO, UserInfoVO.class));
     }
 
     @Logs

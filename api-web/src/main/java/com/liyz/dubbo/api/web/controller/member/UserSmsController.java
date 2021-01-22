@@ -3,7 +3,7 @@ package com.liyz.dubbo.api.web.controller.member;
 import com.liyz.dubbo.api.web.dto.member.SmsInfoDTO;
 import com.liyz.dubbo.api.web.vo.member.ImageVO;
 import com.liyz.dubbo.common.base.result.Result;
-import com.liyz.dubbo.common.base.util.CommonConverterUtil;
+import com.liyz.dubbo.common.base.util.CommonCloneUtil;
 import com.liyz.dubbo.common.base.util.HttpRequestUtil;
 import com.liyz.dubbo.common.security.annotation.Anonymous;
 import com.liyz.dubbo.service.member.bo.ImageBO;
@@ -48,7 +48,7 @@ public class UserSmsController {
     @Anonymous
     @PostMapping(value = "/message")
     public Result<Boolean> message(@Validated(SmsInfoDTO.Sms.class) @RequestBody SmsInfoDTO smsInfoDTO) {
-        SmsInfoBO smsInfoBO = CommonConverterUtil.beanCopy(smsInfoDTO, SmsInfoBO.class);
+        SmsInfoBO smsInfoBO = CommonCloneUtil.objectClone(smsInfoDTO, SmsInfoBO.class);
         HttpServletRequest httpServletRequest = HttpRequestUtil.getRequest();
         String ip = HttpRequestUtil.getIpAddress(httpServletRequest);
         log.info("user login，ip:{}", ip);
@@ -65,6 +65,6 @@ public class UserSmsController {
         String ip = HttpRequestUtil.getIpAddress(httpServletRequest);
         log.info("create imageCode，ip:{}", ip);
         ImageBO imageBO = remoteSmsService.imageCode();
-        return Result.success(CommonConverterUtil.beanCopy(imageBO, ImageVO.class));
+        return Result.success(CommonCloneUtil.objectClone(imageBO, ImageVO.class));
     }
 }

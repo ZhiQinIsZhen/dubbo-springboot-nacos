@@ -18,4 +18,6 @@ public interface CommonConstant {
     String DEFAULT_SPLIT = "_";
 
     String DUBBO_LOG_ID = "dubboLogId";
+
+    String DEFAULT_JOINER = ":";
 }
