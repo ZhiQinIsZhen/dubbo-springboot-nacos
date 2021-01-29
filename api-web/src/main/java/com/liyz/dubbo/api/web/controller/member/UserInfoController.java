@@ -56,7 +56,6 @@ public class UserInfoController {
     @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
             paramType = "header")
     public Result<Long> id(@LogIgnore @ApiIgnore @LoginUser JwtUserBO jwtUserBO) {
-        remoteUserInfoService.getByUserId(null);
         return Result.success(Objects.isNull(jwtUserBO) ? null : jwtUserBO.getUserId());
     }
 }

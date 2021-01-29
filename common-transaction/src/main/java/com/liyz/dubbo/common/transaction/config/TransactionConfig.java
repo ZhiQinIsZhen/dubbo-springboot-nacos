@@ -12,10 +12,10 @@ import org.springframework.context.annotation.Configuration;
  * @version 1.0.0
  * @date 2020/7/20 15:16
  */
-@Configuration
+//@Configuration
 public class TransactionConfig {
 
-    @Value("${spring.application.name}")
+    @Value("${seata.application-id}")
     private String applicationId;
     @Value("${seata.tx-service-group}")
     private String txServiceGroup;
