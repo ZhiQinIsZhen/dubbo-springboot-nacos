@@ -39,6 +39,7 @@
         <module>service-job</module>
         <module>service-sharding</module>
         <module>common-dao-plus</module>
+        <module>service-test</module>
     </modules>
 
     <properties>
