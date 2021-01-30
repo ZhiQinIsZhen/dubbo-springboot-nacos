@@ -20,7 +20,6 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        log.info("MybatisPlusMetaObjectHandler init ...");
         Date now = new Date();
         setFieldValByName("create_time", now, metaObject);
         setFieldValByName("update_time", now, metaObject);

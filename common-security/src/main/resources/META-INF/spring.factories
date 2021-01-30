@@ -1,0 +1,6 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.liyz.dubbo.common.security.config.JwtBeansConfig,\
+com.liyz.dubbo.common.security.config.WebSecurityConfig,\
+com.liyz.dubbo.common.security.core.JwtAccessTokenConverter,\
+com.liyz.dubbo.common.security.core.UserDetailsServiceImpl

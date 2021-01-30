@@ -1,0 +1,8 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.liyz.dubbo.common.controller.advice.ControllerExceptionHandleAdvice,\
+com.liyz.dubbo.common.controller.config.MyWebMvcConfig,\
+com.liyz.dubbo.common.controller.config.MyCorsFilterConfig,\
+com.liyz.dubbo.common.controller.error.ErrorApiController,\
+com.liyz.dubbo.common.controller.limit.aspect.LimitCaffeineAspect,\
+com.liyz.dubbo.common.controller.resolver.impl.LoginInfoServiceImpl

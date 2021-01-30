@@ -35,9 +35,9 @@ import java.util.concurrent.TimeUnit;
  */
 @Deprecated
 @Slf4j
-//@Order(1)
-//@Configuration
-//@ConditionalOnExpression("${spring.limit}")
+@Order(1)
+@Configuration
+@ConditionalOnExpression("${spring.limit}")
 public class LimitGuavaAspect {
 
     private static ThreadLocal<Double> permitsPerSecond = new ThreadLocal<>();
