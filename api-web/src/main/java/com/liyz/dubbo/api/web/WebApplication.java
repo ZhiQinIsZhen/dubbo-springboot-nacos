@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2020/7/3 13:57
  */
 @EnableDubbo
-@SpringBootApplication(scanBasePackages = {"com.liyz.dubbo.common", "com.liyz.dubbo.api.web"})
+@SpringBootApplication
 public class WebApplication {
 
     public static void main(String[] args) {

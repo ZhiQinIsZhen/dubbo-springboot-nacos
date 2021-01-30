@@ -16,7 +16,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 @EnableCaching
 @MapperScan(basePackages = {"com.liyz.dubbo.service.member.dao"})
 @EnableDubbo(scanBasePackages = {"com.liyz.dubbo.service.member.provider"})
-@SpringBootApplication(scanBasePackages = {"com.liyz.dubbo.common", "com.liyz.dubbo.service.member"})
+@SpringBootApplication
 public class MemberApplication {
 
     public static void main(String[] args) {
