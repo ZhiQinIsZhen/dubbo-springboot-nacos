@@ -1,4 +1,4 @@
-package com.liyz.dubbo.service.socket.core;
+package com.liyz.dubbo.service.websocket.core;
 
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;

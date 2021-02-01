@@ -1,4 +1,4 @@
-package com.liyz.dubbo.service.socket.config;
+package com.liyz.dubbo.service.websocket.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +30,7 @@ public class ScheduleConfig implements SchedulingConfigurer {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
         scheduler.setDaemon(true);
         scheduler.setPoolSize(2);
-        scheduler.setThreadNamePrefix("service-socket-task-");
+        scheduler.setThreadNamePrefix("service-websocket-task-");
         scheduler.setAwaitTerminationSeconds(300);
         scheduler.setWaitForTasksToCompleteOnShutdown(true);
         return scheduler;

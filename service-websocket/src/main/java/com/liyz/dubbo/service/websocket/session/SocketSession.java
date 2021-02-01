@@ -1,4 +1,4 @@
-package com.liyz.dubbo.service.socket.session;
+package com.liyz.dubbo.service.websocket.session;
 
 import io.netty.channel.Channel;
 import lombok.Builder;

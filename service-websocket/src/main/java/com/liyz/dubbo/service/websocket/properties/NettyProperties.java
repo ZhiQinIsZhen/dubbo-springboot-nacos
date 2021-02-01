@@ -1,9 +1,9 @@
-package com.liyz.dubbo.service.socket.config;
+package com.liyz.dubbo.service.websocket.properties;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 /**
  * 注释:netty配置信息
@@ -14,21 +14,17 @@ import org.springframework.context.annotation.Configuration;
  */
 @Getter
 @Setter
-@Configuration
+@Component
 @ConfigurationProperties(prefix = "io.netty")
 public class NettyProperties {
 
-    private int bossThread = 1;
-
-    private int workThread = 10;
-
-    private int port;
+    private int workThread = 2;
 
     private boolean ePoll = false;
 
-    private String bossPollName = "boss";
-
     private String workerPollName = "worker";
+
+    private String address;
 
     /**
      * 发送缓冲区
@@ -68,8 +64,6 @@ public class NettyProperties {
     private int writeBufferLow = 512 * 1024;
 
     private int writeBufferHigh = 1024 * 1024;
-
-    private String socketPath = "/websocket";
 
     private long readerIdleTime = 60;
 

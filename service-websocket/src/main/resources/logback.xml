@@ -8,7 +8,7 @@
               value="%d{HH:mm:ss.SSS} %highlight(%level) [%t] [%F:%L]:%m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
     <property name="FILE_LOG_PATTERN"
               value="%d{MM-dd HH:mm:ss.SSS} [%p] [%t] [%F:%L]:%m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
-    <property name="logs.path" value="/srv/logs/service-socket/"/>
+    <property name="logs.path" value="/srv/logs/service-websocket/"/>
 
     <!--输出到控制台-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">

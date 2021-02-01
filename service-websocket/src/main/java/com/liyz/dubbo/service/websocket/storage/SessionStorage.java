@@ -1,6 +1,6 @@
-package com.liyz.dubbo.service.socket.storage;
+package com.liyz.dubbo.service.websocket.storage;
 
-import com.liyz.dubbo.service.socket.session.SocketSession;
+import com.liyz.dubbo.service.websocket.session.SocketSession;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
