@@ -1,6 +1,5 @@
 package com.liyz.dubbo.service.websocket.strap;
 
-import com.alibaba.fastjson.JSONObject;
 import com.liyz.dubbo.service.websocket.constant.HuoBiTopicConstant;
 import com.liyz.dubbo.service.websocket.core.RobotHandler;
 import com.liyz.dubbo.service.websocket.core.SocketChannelInitializer;
@@ -30,6 +29,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
