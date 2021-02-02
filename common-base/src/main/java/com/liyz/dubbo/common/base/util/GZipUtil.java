@@ -1,4 +1,4 @@
-package com.liyz.dubbo.service.websocket.util;
+package com.liyz.dubbo.common.base.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

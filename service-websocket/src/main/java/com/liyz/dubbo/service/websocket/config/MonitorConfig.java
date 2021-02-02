@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2021/2/1 10:58
  */
 @Component
-public class MonitorThreadPoolConfig {
+public class MonitorConfig {
 
     @Autowired
     private SocketBootStrap socketBootStrap;

@@ -1,8 +1,8 @@
 package com.liyz.dubbo.service.websocket.core;
 
+import com.liyz.dubbo.common.base.util.GZipUtil;
 import com.liyz.dubbo.service.websocket.scheduler.MonitorTask;
 import com.liyz.dubbo.service.websocket.storage.SessionStorage;
-import com.liyz.dubbo.service.websocket.util.GZipUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
@@ -16,14 +16,14 @@ import org.json.simple.JSONObject;
 import java.nio.charset.StandardCharsets;
 
 @Slf4j
-public class RobotHandler extends SimpleChannelInboundHandler<Object> {
+public class BusinessHandler extends SimpleChannelInboundHandler<Object> {
 
     private final WebSocketClientHandshaker handshaker;
     private MonitorTask monitorTask;
     @Getter
     private ChannelPromise channelPromise;
 
-    public RobotHandler(WebSocketClientHandshaker handshaker, MonitorTask monitorTask) {
+    public BusinessHandler(WebSocketClientHandshaker handshaker, MonitorTask monitorTask) {
         this.handshaker = handshaker;
         this.monitorTask = monitorTask;
     }
@@ -43,11 +43,9 @@ public class RobotHandler extends SimpleChannelInboundHandler<Object> {
             byte[] temp = new byte[binaryFrame.content().readableBytes()];
             binaryFrame.content().readBytes(temp);
             String content = new String(GZipUtil.decompress(temp), StandardCharsets.UTF_8);
-            log.info("gzip content");
             processMsg(content, channel);
         } else if (frame instanceof TextWebSocketFrame) {
             TextWebSocketFrame textFrame = (TextWebSocketFrame) frame;
-            log.info("text content");
             processMsg(textFrame.text(), channel);
         } else if (frame instanceof PongWebSocketFrame) {
             PongWebSocketFrame pongFrame = (PongWebSocketFrame) frame;

@@ -1,7 +1,7 @@
 package com.liyz.dubbo.service.websocket.strap;
 
 import com.liyz.dubbo.service.websocket.constant.HuoBiTopicConstant;
-import com.liyz.dubbo.service.websocket.core.RobotHandler;
+import com.liyz.dubbo.service.websocket.core.BusinessHandler;
 import com.liyz.dubbo.service.websocket.core.SocketChannelInitializer;
 import com.liyz.dubbo.service.websocket.properties.NettyProperties;
 import com.liyz.dubbo.service.websocket.properties.SocketServerProperties;
@@ -62,6 +62,10 @@ public class SocketBootStrap {
     public void init() {
         monitorTask = new MonitorTask(this);
         this.start();
+        this.subscribe();
+    }
+
+    public void subscribe() {
         String sub = String.format(HuoBiTopicConstant.KLINE_SUB, "btcusdt", HuoBiTopicConstant.PERIOD[0]);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("sub", sub);
@@ -84,15 +88,17 @@ public class SocketBootStrap {
         SocketServerProperties properties = getHostPort(uri);
         Class channelClass;
         if (nettyProperties.isEPoll()) {
-            workGroup = new EpollEventLoopGroup(2, new DefaultThreadFactory(nettyProperties.getWorkerPollName(),
-                    true));
+            workGroup = new EpollEventLoopGroup(nettyProperties.getWorkThread(),
+                    new DefaultThreadFactory(nettyProperties.getWorkerPollName(),
+                            nettyProperties.isDaemon()));
             channelClass = EpollSocketChannel.class;
         } else {
-            workGroup = new NioEventLoopGroup(2, new DefaultThreadFactory(nettyProperties.getWorkerPollName(),
-                    true));
+            workGroup = new NioEventLoopGroup(nettyProperties.getWorkThread(),
+                    new DefaultThreadFactory(nettyProperties.getWorkerPollName(),
+                            nettyProperties.isDaemon()));
             channelClass = NioSocketChannel.class;
         }
-        RobotHandler robotHandler = new RobotHandler(handshaker, monitorTask);
+        BusinessHandler businessHandler = new BusinessHandler(handshaker, monitorTask);
         final Bootstrap client = new Bootstrap();
         client
                 .option(ChannelOption.SO_KEEPALIVE, true)
@@ -104,10 +110,10 @@ public class SocketBootStrap {
                         properties.getHost(),
                         properties.getPort(),
                         properties.getSslContext(),
-                        robotHandler));
+                        businessHandler));
         channel = client.connect(properties.getHost(), properties.getPort()).sync().channel();
         if (isAlive()) {
-            robotHandler.getChannelPromise().sync();
+            businessHandler.getChannelPromise().sync();
         }
         log.info("websocket client start success ...");
     }
@@ -135,6 +141,7 @@ public class SocketBootStrap {
         log.info("websocket client refresh ...");
         stop();
         start();
+        subscribe();
         log.info("websocket client refresh success ...");
     }
 

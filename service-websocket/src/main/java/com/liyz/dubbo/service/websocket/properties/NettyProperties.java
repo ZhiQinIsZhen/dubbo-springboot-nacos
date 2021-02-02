@@ -20,6 +20,8 @@ public class NettyProperties {
 
     private int workThread = 2;
 
+    private boolean daemon = true;
+
     private boolean ePoll = false;
 
     private String workerPollName = "worker";

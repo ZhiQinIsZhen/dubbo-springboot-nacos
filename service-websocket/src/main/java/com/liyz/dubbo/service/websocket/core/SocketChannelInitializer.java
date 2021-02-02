@@ -41,7 +41,7 @@ public class SocketChannelInitializer extends ChannelInitializer<SocketChannel> 
         pipeline.addLast(new HttpClientCodec());
         // 将HTTP消息的多个部分组合成一条完整的HTTP消息;
         pipeline.addLast(new HttpObjectAggregator(8192));
-        pipeline.addLast("response", new TextResponseHandler());
+//        pipeline.addLast(new TextResponseHandler());
         // 业务逻辑处理
         pipeline.addLast(inboundHandler);
     }
