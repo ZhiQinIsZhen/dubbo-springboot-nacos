@@ -33,7 +33,7 @@ import java.util.TimeZone;
 @Configuration
 @AutoConfigureOrder(value = Ordered.HIGHEST_PRECEDENCE)
 @ComponentScan(basePackages = {"com.liyz.dubbo.common.controller"})
-public class MyWebMvcConfig extends WebMvcConfigurationSupport {
+public class WebMvcAutoConfig extends WebMvcConfigurationSupport {
 
     @Autowired
     LoginInfoService loginInfoService;

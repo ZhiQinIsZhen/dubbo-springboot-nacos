@@ -21,7 +21,7 @@ import javax.servlet.MultipartConfigElement;
 @Configuration
 @AutoConfigureOrder(value = Ordered.HIGHEST_PRECEDENCE)
 @ComponentScan(basePackages = {"com.liyz.dubbo.common.base"})
-public class TomcatConfig {
+public class TomcatAutoConfig {
 
     @Value("${spring.multipart.maxFileSize:10}")
     private String MaxFileSize;
