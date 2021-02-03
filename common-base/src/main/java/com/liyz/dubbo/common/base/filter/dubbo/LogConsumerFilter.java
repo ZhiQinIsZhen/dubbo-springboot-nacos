@@ -26,9 +26,11 @@ public class LogConsumerFilter implements Filter {
             RpcContext.getContext().setAttachment(CommonConstant.DUBBO_LOG_ID, logId);
         }
         Result result = invoker.invoke(invocation);
-        logId = result.getAttachment(CommonConstant.DUBBO_LOG_ID);
-        if (StringUtils.isNotBlank(logId)) {
-            LogIdContext.setLogId(logId);
+        if (StringUtils.isBlank(logId)) {
+            logId = result.getAttachment(CommonConstant.DUBBO_LOG_ID);
+            if (StringUtils.isNotBlank(logId)) {
+                LogIdContext.setLogId(logId);
+            }
         }
         return result;
     }

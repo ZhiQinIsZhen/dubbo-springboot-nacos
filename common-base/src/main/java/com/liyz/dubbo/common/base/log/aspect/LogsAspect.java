@@ -72,16 +72,10 @@ public class LogsAspect {
         String ip = type == 0
                 ? HttpRequestUtil.getIpAddress(((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest())
                 : null;
-        String logId = RpcContext.getContext().getAttachment(CommonConstant.DUBBO_LOG_ID);
+        String logId = LogIdContext.getLogId();
         if (StringUtils.isBlank(logId)) {
-            logId = LogIdContext.getLogId();
-            if (StringUtils.isBlank(logId)) {
-                logId = UUID.randomUUID().toString().replaceAll("-", "");
-                RpcContext.getContext().setAttachment(CommonConstant.DUBBO_LOG_ID, logId);
-                LogIdContext.setLogId(logId);
-            } else {
-                RpcContext.getContext().setAttachment(CommonConstant.DUBBO_LOG_ID, logId);
-            }
+            logId = UUID.randomUUID().toString().replaceAll("-", "");
+            LogIdContext.setLogId(logId);
         }
         if (type >= 0 && logs.before()) {
             paramsLog(joinPoint, methodName, logId);
@@ -90,7 +84,6 @@ public class LogsAspect {
         if (type >= 0 && logs.after()) {
             log.info("logId : {}, method : {} ; response result : {}", logId, methodName, JsonMapperUtil.toJSONString(obj));
         }
-        LogIdContext.removeLogId();
         return obj;
     }
 

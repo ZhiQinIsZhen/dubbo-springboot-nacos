@@ -1,5 +1,6 @@
 package com.liyz.dubbo.common.security.filter;
 
+import com.liyz.dubbo.common.base.log.LogIdContext;
 import com.liyz.dubbo.common.base.service.LoginInfoService;
 import com.liyz.dubbo.common.security.constant.SecurityConstant;
 import com.liyz.dubbo.common.security.core.JwtAccessTokenConverter;
@@ -84,6 +85,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         } finally {
             loginInfoService.remove();
+            LogIdContext.removeLogId();
         }
     }
 }
