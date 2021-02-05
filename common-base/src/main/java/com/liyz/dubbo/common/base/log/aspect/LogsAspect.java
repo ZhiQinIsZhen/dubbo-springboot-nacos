@@ -1,7 +1,6 @@
 package com.liyz.dubbo.common.base.log.aspect;
 
 import com.google.common.collect.Sets;
-import com.liyz.dubbo.common.base.constant.CommonConstant;
 import com.liyz.dubbo.common.base.log.LogIdContext;
 import com.liyz.dubbo.common.base.log.annotation.LogIgnore;
 import com.liyz.dubbo.common.base.log.annotation.Logs;
@@ -11,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.config.annotation.Service;
-import org.apache.dubbo.rpc.RpcContext;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -153,13 +151,10 @@ public class LogsAspect {
         Logs logs = method.getAnnotation(Logs.class);
         String methodName = StringUtils.isBlank(logs.method())
                 ? joinPoint.getTarget().getClass().getSimpleName() + "." + joinPoint.getSignature().getName() : logs.method();
-        String logId = RpcContext.getContext().getAttachment(CommonConstant.DUBBO_LOG_ID);
+        String logId = LogIdContext.getLogId();
         if (StringUtils.isBlank(logId)) {
-            logId = LogIdContext.getLogId();
-            if (StringUtils.isBlank(logId)) {
-                logId = UUID.randomUUID().toString().replaceAll("-", "");
-            }
-            RpcContext.getContext().setAttachment(CommonConstant.DUBBO_LOG_ID, logId);
+            logId = UUID.randomUUID().toString().replaceAll("-", "");
+            LogIdContext.setLogId(logId);
         }
         if (logs.exception()) {
             log.error("logId : {}, method : {} ; exception type : {} ; exception message : {}", logId, methodName,
