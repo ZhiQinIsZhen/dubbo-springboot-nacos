@@ -21,3 +21,5 @@ out/
 
 # git
 /${urule.repository.dir}
+/web-cache.properties
+/web-cache.properties.lock
