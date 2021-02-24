@@ -19,7 +19,7 @@ import java.net.UnknownHostException;
 @Configuration
 public class MemberSnowflakeConfig extends SnowflakeIdUtil {
 
-    @Value("${data.center.id}")
+    @Value("${data.center.id:10}")
     private long dataCenterId;
 
     @PostConstruct
