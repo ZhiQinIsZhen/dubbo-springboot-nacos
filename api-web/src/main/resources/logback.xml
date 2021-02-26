@@ -5,7 +5,7 @@
     <conversionRule conversionWord="wEx"
                     converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
     <property name="CONSOLE_LOG_PATTERN"
-              value="%d{HH:mm:ss.SSS} %highlight(%level) [%t] [%F:%L]:%m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%level) [%t] [%F:%L]:%m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
     <property name="FILE_LOG_PATTERN"
               value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%p] [%t] [%F:%L]:%m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
     <property name="logs.path" value="/srv/logs/api-web/"/>
