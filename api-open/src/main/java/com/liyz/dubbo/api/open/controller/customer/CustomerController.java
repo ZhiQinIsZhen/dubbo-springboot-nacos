@@ -1,7 +1,7 @@
 package com.liyz.dubbo.api.open.controller.customer;
 
 import com.liyz.dubbo.api.open.vo.customer.CustomerInfoVO;
-import com.liyz.dubbo.common.base.log.annotation.Logs;
+import com.liyz.dubbo.common.base.request.annotation.Logs;
 import com.liyz.dubbo.common.base.result.Result;
 import com.liyz.dubbo.common.base.util.CommonConverterUtil;
 import com.liyz.dubbo.common.controller.resolver.annotation.LoginUser;

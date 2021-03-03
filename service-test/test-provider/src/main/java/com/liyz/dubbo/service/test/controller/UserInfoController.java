@@ -1,7 +1,7 @@
 package com.liyz.dubbo.service.test.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.liyz.dubbo.common.base.log.annotation.Logs;
+import com.liyz.dubbo.common.base.request.annotation.Logs;
 import com.liyz.dubbo.service.test.model.UserInfoDO;
 import com.liyz.dubbo.service.test.service.UserInfoServiceImpl;
 import lombok.extern.slf4j.Slf4j;

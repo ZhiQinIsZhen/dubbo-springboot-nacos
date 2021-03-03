@@ -2,7 +2,7 @@ package com.liyz.dubbo.service.member.provider;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.liyz.dubbo.common.base.log.annotation.Logs;
+import com.liyz.dubbo.common.base.request.annotation.Logs;
 import com.liyz.dubbo.common.base.util.CommonCloneUtil;
 import com.liyz.dubbo.common.base.util.DateUtil;
 import com.liyz.dubbo.common.remote.exception.RemoteServiceException;

@@ -1,6 +1,6 @@
 package com.liyz.dubbo.common.security.filter;
 
-import com.liyz.dubbo.common.base.log.LogIdContext;
+import com.liyz.dubbo.common.base.request.RequestIdContext;
 import com.liyz.dubbo.common.base.service.LoginInfoService;
 import com.liyz.dubbo.common.security.constant.SecurityConstant;
 import com.liyz.dubbo.common.security.core.JwtAccessTokenConverter;
@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * 注释:登陆鉴权 filter
@@ -50,6 +51,10 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         try {
+            //设置请求Id
+            String requestId = UUID.randomUUID().toString().replaceAll("-", "");
+            RequestIdContext.setRequestId(requestId, httpServletRequest.getRequestURI());
+            //处理request head信息
             String tokenHeaderKey = httpServletRequest.getHeader(this.tokenHeaderKey);
             if (StringUtils.isNotBlank(tokenHeaderKey)) {
                 tokenHeaderKey = URLDecoder.decode(tokenHeaderKey, "UTF-8");
@@ -85,7 +90,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         } finally {
             loginInfoService.remove();
-            LogIdContext.removeLogId();
+            RequestIdContext.removeRequestId();
         }
     }
 }

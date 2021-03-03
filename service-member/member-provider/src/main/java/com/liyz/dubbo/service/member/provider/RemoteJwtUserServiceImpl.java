@@ -1,6 +1,6 @@
 package com.liyz.dubbo.service.member.provider;
 
-import com.liyz.dubbo.common.base.log.annotation.Logs;
+import com.liyz.dubbo.common.base.request.annotation.Logs;
 import com.liyz.dubbo.common.base.util.CommonCloneUtil;
 import com.liyz.dubbo.common.remote.bo.JwtUserBO;
 import com.liyz.dubbo.common.remote.service.RemoteJwtUserService;

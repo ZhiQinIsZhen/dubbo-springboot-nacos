@@ -1,9 +1,10 @@
-package com.liyz.dubbo.common.base.log.aspect;
+package com.liyz.dubbo.common.base.request.aspect;
 
 import com.google.common.collect.Sets;
-import com.liyz.dubbo.common.base.log.LogIdContext;
-import com.liyz.dubbo.common.base.log.annotation.LogIgnore;
-import com.liyz.dubbo.common.base.log.annotation.Logs;
+import com.liyz.dubbo.common.base.constant.CommonConstant;
+import com.liyz.dubbo.common.base.request.RequestIdContext;
+import com.liyz.dubbo.common.base.request.annotation.LogIgnore;
+import com.liyz.dubbo.common.base.request.annotation.Logs;
 import com.liyz.dubbo.common.base.util.HttpRequestUtil;
 import com.liyz.dubbo.common.base.util.JsonMapperUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +48,7 @@ public class LogsAspect {
     /**
      * 切点
      */
-    @Pointcut("@annotation(com.liyz.dubbo.common.base.log.annotation.Logs)")
+    @Pointcut("@annotation(com.liyz.dubbo.common.base.request.annotation.Logs)")
     public void aspect() {}
 
     /**
@@ -63,24 +64,29 @@ public class LogsAspect {
         Method method = signature.getMethod();
         Logs logs = method.getAnnotation(Logs.class);
         String methodName = StringUtils.isBlank(logs.method())
-                ? joinPoint.getTarget().getClass().getSimpleName() + "." + joinPoint.getSignature().getName() : logs.method();
+                ? new StringBuilder()
+                        .append(joinPoint.getTarget().getClass().getSimpleName())
+                        .append(CommonConstant.METHOD_SPLIT)
+                        .append(joinPoint.getSignature().getName())
+                        .toString()
+                : logs.method();
         Class clazz = joinPoint.getTarget().getClass();
         int type = clazz.isAnnotationPresent(RestController.class) ? 0 :
                 clazz.isAnnotationPresent(Service.class) || clazz.isAnnotationPresent(DubboService.class) ? 1 : -1;
         String ip = type == 0
                 ? HttpRequestUtil.getIpAddress(((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest())
                 : null;
-        String logId = LogIdContext.getLogId();
-        if (StringUtils.isBlank(logId)) {
-            logId = UUID.randomUUID().toString().replaceAll("-", "");
-            LogIdContext.setLogId(logId);
+        String requestId = RequestIdContext.getRequestId();
+        if (StringUtils.isBlank(requestId)) {
+            requestId = UUID.randomUUID().toString().replaceAll("-", "");
+            RequestIdContext.setRequestId(requestId, methodName);
         }
         if (type >= 0 && logs.before()) {
-            paramsLog(joinPoint, methodName, logId);
+            paramsLog(joinPoint, methodName, requestId);
         }
         Object obj = joinPoint.proceed();
         if (type >= 0 && logs.after()) {
-            log.info("logId : {}, method : {} ; response result : {}", logId, methodName, JsonMapperUtil.toJSONString(obj));
+            log.info("requestId : {}, method : {} ; response result : {}", requestId, methodName, JsonMapperUtil.toJSONString(obj));
         }
         return obj;
     }
@@ -90,9 +96,9 @@ public class LogsAspect {
      *
      * @param joinPoint
      * @param methodName
-     * @param logId
+     * @param requestId
      */
-    private void paramsLog(JoinPoint joinPoint, String methodName, String logId) {
+    private void paramsLog(JoinPoint joinPoint, String methodName, String requestId) {
         if (joinPoint.getSignature() instanceof MethodSignature) {
             Set<Integer> ignoreSet = Sets.newTreeSet();
             MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
@@ -133,7 +139,7 @@ public class LogsAspect {
                     }
                 }
                 sb.append("]");
-                log.info("logId : {}, method : {}, params : {}", logId, methodName, sb.toString());
+                log.info("requestId : {}, method : {}, params : {}", requestId, methodName, sb.toString());
             }
         }
     }
@@ -150,16 +156,21 @@ public class LogsAspect {
         Method method = signature.getMethod();
         Logs logs = method.getAnnotation(Logs.class);
         String methodName = StringUtils.isBlank(logs.method())
-                ? joinPoint.getTarget().getClass().getSimpleName() + "." + joinPoint.getSignature().getName() : logs.method();
-        String logId = LogIdContext.getLogId();
-        if (StringUtils.isBlank(logId)) {
-            logId = UUID.randomUUID().toString().replaceAll("-", "");
-            LogIdContext.setLogId(logId);
+                ? new StringBuilder()
+                .append(joinPoint.getTarget().getClass().getSimpleName())
+                .append(CommonConstant.METHOD_SPLIT)
+                .append(joinPoint.getSignature().getName())
+                .toString()
+                : logs.method();
+        String requestId = RequestIdContext.getRequestId();
+        if (StringUtils.isBlank(requestId)) {
+            requestId = UUID.randomUUID().toString().replaceAll("-", "");
+            RequestIdContext.setRequestId(requestId, methodName);
         }
         if (logs.exception()) {
-            log.error("logId : {}, method : {} ; exception type : {} ; exception message : {}", logId, methodName,
+            log.error("requestId : {}, method : {} ; exception type : {} ; exception message : {}", requestId, methodName,
                     ex.getClass().getSimpleName(), ex.getMessage());
         }
-        LogIdContext.removeLogId();
+        RequestIdContext.removeRequestId();
     }
 }

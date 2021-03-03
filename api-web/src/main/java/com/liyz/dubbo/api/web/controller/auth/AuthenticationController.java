@@ -4,7 +4,7 @@ import com.liyz.dubbo.api.web.dto.auth.LoginDTO;
 import com.liyz.dubbo.api.web.dto.auth.UserRegisterDTO;
 import com.liyz.dubbo.api.web.vo.auth.LoginVO;
 import com.liyz.dubbo.api.web.vo.member.UserInfoVO;
-import com.liyz.dubbo.common.base.log.annotation.Logs;
+import com.liyz.dubbo.common.base.request.annotation.Logs;
 import com.liyz.dubbo.common.base.result.Result;
 import com.liyz.dubbo.common.base.service.LoginInfoService;
 import com.liyz.dubbo.common.base.util.CommonCloneUtil;

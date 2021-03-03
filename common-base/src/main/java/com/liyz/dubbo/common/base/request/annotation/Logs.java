@@ -1,4 +1,4 @@
-package com.liyz.dubbo.common.base.log.annotation;
+package com.liyz.dubbo.common.base.request.annotation;
 
 import org.springframework.core.annotation.AliasFor;
 

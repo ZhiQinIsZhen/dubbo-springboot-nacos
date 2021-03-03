@@ -17,7 +17,9 @@ public interface CommonConstant {
 
     String DEFAULT_SPLIT = "_";
 
-    String DUBBO_LOG_ID = "dubboLogId";
+    String METHOD_SPLIT = ".";
+
+    String REQUEST_ID = "request_id";
 
     String DEFAULT_JOINER = ":";
 }

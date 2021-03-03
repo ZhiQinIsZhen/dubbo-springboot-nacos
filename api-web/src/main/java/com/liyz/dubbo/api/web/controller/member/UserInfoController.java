@@ -1,8 +1,8 @@
 package com.liyz.dubbo.api.web.controller.member;
 
 import com.liyz.dubbo.api.web.vo.member.UserInfoVO;
-import com.liyz.dubbo.common.base.log.annotation.LogIgnore;
-import com.liyz.dubbo.common.base.log.annotation.Logs;
+import com.liyz.dubbo.common.base.request.annotation.LogIgnore;
+import com.liyz.dubbo.common.base.request.annotation.Logs;
 import com.liyz.dubbo.common.base.result.Result;
 import com.liyz.dubbo.common.base.util.CommonCloneUtil;
 import com.liyz.dubbo.common.controller.resolver.annotation.LoginUser;

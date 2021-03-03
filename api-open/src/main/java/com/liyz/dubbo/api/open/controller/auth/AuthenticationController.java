@@ -2,7 +2,7 @@ package com.liyz.dubbo.api.open.controller.auth;
 
 import com.liyz.dubbo.api.open.dto.auth.LoginDTO;
 import com.liyz.dubbo.api.open.vo.auth.LoginVO;
-import com.liyz.dubbo.common.base.log.annotation.Logs;
+import com.liyz.dubbo.common.base.request.annotation.Logs;
 import com.liyz.dubbo.common.base.result.Result;
 import com.liyz.dubbo.common.base.service.LoginInfoService;
 import com.liyz.dubbo.common.base.util.CommonConverterUtil;
