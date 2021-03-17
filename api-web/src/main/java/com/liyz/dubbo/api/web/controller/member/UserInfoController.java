@@ -13,9 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -57,5 +59,14 @@ public class UserInfoController {
             paramType = "header")
     public Result<Long> id(@LogIgnore @ApiIgnore @LoginUser JwtUserBO jwtUserBO) {
         return Result.success(Objects.isNull(jwtUserBO) ? null : jwtUserBO.getUserId());
+    }
+
+    @Logs
+    @ApiOperation(value = "test", notes = "test")
+    @GetMapping("/ids")
+    @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
+            paramType = "header")
+    public Result<List<String>> id(@LogIgnore @ApiIgnore @LoginUser JwtUserBO jwtUserBO, @RequestParam(value = "ids") List<String> ids) {
+        return Result.success(ids);
     }
 }
