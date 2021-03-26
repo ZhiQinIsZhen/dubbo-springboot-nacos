@@ -58,7 +58,7 @@ public class BusinessHandler extends SimpleChannelInboundHandler<Object> {
 
     private void processMsg(String content, Channel channel) {
         monitorTask.setUpdateTime(System.currentTimeMillis());
-        log.info("content : {}", content);
+        log.warn("content : {}", content);
         if (content.contains("ping")) {
             String msg = content.replace("ping", "pong");
             log.info("send msg : {}", msg);
