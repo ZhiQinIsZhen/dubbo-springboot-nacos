@@ -25,7 +25,7 @@
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
     <include resource="org/springframework/boot/logging/logback/file-appender.xml"/>
 
-    <logger name="org.apache" level="WARN"/>
+    <logger name="org.apache" level="INFO"/>
     <logger name="org.springframework.data.convert.CustomConversions" level="ERROR"/>
     <logger name="tk.mybatis.spring.mapper.ClassPathMapperScanner" level="ERROR"/>
 

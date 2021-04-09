@@ -24,4 +24,15 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfoDO>
         );
         return page;
     }
+
+    public static void main(String[] args) {
+        int cap = 16;
+        int n = cap - 1;
+        n |= n >>> 1;
+        n |= n >>> 2;
+        n |= n >>> 4;
+        n |= n >>> 8;
+        n |= n >>> 16;
+        System.out.println(n +1);
+    }
 }

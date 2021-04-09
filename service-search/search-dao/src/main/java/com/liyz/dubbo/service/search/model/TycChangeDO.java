@@ -18,7 +18,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-@Document(indexName = "tyc_change", type = "_doc")
+@Document(indexName = "tyc_change")
 public class TycChangeDO implements Serializable {
 
     @Id

@@ -1,5 +1,6 @@
 package com.liyz.dubbo.service.test;
 
+import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -17,6 +18,7 @@ import org.springframework.cache.annotation.EnableCaching;
 @EnableCaching
 @EnableDubbo(scanBasePackages = {"com.liyz.dubbo.service.test.provider"})
 @SpringBootApplication
+@EnableEncryptableProperties
 public class TestApplication {
 
     public static void main(String[] args) {

@@ -20,7 +20,7 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 @Service
 public class KafkaService {
 
-    @Value("${cloud.topic.sms}")
+    @Value("${cloud.topic.sms:test_sms}")
     private String topicSms;
 
     @Autowired

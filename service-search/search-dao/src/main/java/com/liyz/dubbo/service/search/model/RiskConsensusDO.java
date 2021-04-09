@@ -18,7 +18,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-@Document(indexName = "risk_consensus", type = "_doc")
+@Document(indexName = "risk_consensus")
 public class RiskConsensusDO implements Serializable {
     private static final long serialVersionUID = -879485120284773650L;
 

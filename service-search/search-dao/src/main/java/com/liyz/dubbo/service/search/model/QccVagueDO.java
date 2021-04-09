@@ -16,7 +16,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-@Document(indexName = "qcc_mh_data", type = "_doc")
+@Document(indexName = "qcc_mh_data")
 public class QccVagueDO implements Serializable {
     private static final long serialVersionUID = -944360333986051930L;
 

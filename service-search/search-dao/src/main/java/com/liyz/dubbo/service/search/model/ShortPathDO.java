@@ -18,7 +18,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-@Document(indexName = "tyc_qy_link", type = "_doc")
+@Document(indexName = "tyc_qy_link")
 public class ShortPathDO implements Serializable {
 
     @Id
