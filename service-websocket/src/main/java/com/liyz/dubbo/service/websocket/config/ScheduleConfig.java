@@ -32,7 +32,7 @@ public class ScheduleConfig implements SchedulingConfigurer {
         scheduler.setPoolSize(2);
         scheduler.setThreadNamePrefix("service-websocket-task-");
         scheduler.setAwaitTerminationSeconds(300);
-        scheduler.setWaitForTasksToCompleteOnShutdown(true);
+        scheduler.setWaitForTasksToCompleteOnShutdown(false);
         return scheduler;
     }
 }

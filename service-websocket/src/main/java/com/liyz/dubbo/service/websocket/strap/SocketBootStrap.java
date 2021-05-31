@@ -72,6 +72,13 @@ public class SocketBootStrap {
         jsonObject.put("id", subId);
         log.info("send msg : {}", jsonObject.toString());
         channel.writeAndFlush(new TextWebSocketFrame(jsonObject.toString()));
+
+//        String subEth = String.format(HuoBiTopicConstant.KLINE_SUB, "ethusdt", HuoBiTopicConstant.PERIOD[0]);
+//        JSONObject jsonObjectEth = new JSONObject();
+//        jsonObjectEth.put("sub", subEth);
+//        jsonObjectEth.put("id", subId);
+//        log.info("send msg : {}", jsonObjectEth.toString());
+//        channel.writeAndFlush(new TextWebSocketFrame(jsonObjectEth.toString()));
     }
 
     /**

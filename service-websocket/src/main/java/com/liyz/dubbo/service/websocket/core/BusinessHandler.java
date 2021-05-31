@@ -1,6 +1,7 @@
 package com.liyz.dubbo.service.websocket.core;
 
 import com.liyz.dubbo.common.base.util.GZipUtil;
+import com.liyz.dubbo.common.base.util.JsonMapperUtil;
 import com.liyz.dubbo.service.websocket.scheduler.MonitorTask;
 import com.liyz.dubbo.service.websocket.storage.SessionStorage;
 import io.netty.channel.Channel;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 @Slf4j
 public class BusinessHandler extends SimpleChannelInboundHandler<Object> {
@@ -58,7 +60,7 @@ public class BusinessHandler extends SimpleChannelInboundHandler<Object> {
 
     private void processMsg(String content, Channel channel) {
         monitorTask.setUpdateTime(System.currentTimeMillis());
-        log.warn("content : {}", content);
+//        log.warn("content : {}", content);
         if (content.contains("ping")) {
             String msg = content.replace("ping", "pong");
             log.info("send msg : {}", msg);
@@ -71,6 +73,13 @@ public class BusinessHandler extends SimpleChannelInboundHandler<Object> {
             log.info("send msg : {}", jsonObject.toString());
             channel.writeAndFlush(new TextWebSocketFrame(jsonObject.toString()));
             return;
+        }
+        if (content.contains("subbed")) {
+            return;
+        }
+        Kline kline = JsonMapperUtil.readValue(content, Kline.class);
+        if (Objects.nonNull(kline)) {
+            log.warn("content : {}", JsonMapperUtil.toJSONString(kline.getTick()));
         }
     }
 
