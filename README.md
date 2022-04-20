@@ -3,14 +3,14 @@ Dubbo-Springboot-Nacos-Seata
 
 [![Build Status](https://img.shields.io/badge/Build-ZhiQinlsZhen-brightgreen)](https://github.com/ZhiQinIsZhen/dubbo-springboot-project)
 ![Maven](https://img.shields.io/maven-central/v/org.apache.dubbo/dubbo.svg)
-[![Dubbo](https://img.shields.io/badge/Dubbo-2.7.7-brightgreen)](http://dubbo.apache.org/zh-cn/index.html)
-![Spring-boot](https://img.shields.io/badge/Springboot-2.2.7.RELEASE-brightgreen)
-[![Mybatis](https://img.shields.io/badge/Mybatis-2.1.2-brightgreen)](https://mybatis.org/mybatis-3/zh/getting-started.html)
-[![Seata](https://img.shields.io/badge/Seata-1.3.0-brightgreen)](https://seata.io/zh-cn/)
+[![Dubbo](https://img.shields.io/badge/Dubbo-3.0.7-brightgreen)](http://dubbo.apache.org/zh-cn/index.html)
+![Spring-boot](https://img.shields.io/badge/Springboot-2.6.5.RELEASE-brightgreen)
+[![Mybatis](https://img.shields.io/badge/Mybatis-3.5.1-brightgreen)](https://mybatis.org/mybatis-3/zh/getting-started.html)
+[![Seata](https://img.shields.io/badge/Seata-1.4.2-brightgreen)](https://seata.io/zh-cn/)
 
 这是一个Apache Dubbo项目，基于SpringBoot、Mybatis、Nacos、Seata等框架。
 
-- 主框架基于：Apache Dubbo、SpringBoot、Mybatis、Nacos、Seata、Zookeeper、ElasticSearch、Kafka
+- 主框架基于：Apache Dubbo、SpringBoot、Mybatis-plus、Nacos、Seata、Zookeeper、ElasticSearch、Kafka
 - 登陆安全基于：Spring-security、jwt、redisson
 - 接口文档基于：Swagger-knife4j
 - 限流基于：Google-guava
@@ -23,7 +23,7 @@ Dubbo-Springboot-Nacos-Seata
 
 依赖 | 版本
 --- | ---
-Spring Boot |   2.3.3.RELEASE
+Spring Boot |   2.6.5
 Spring security | 2.3.3.RELEASE
 Dubbo |  2.7.8
 Seata | 1.3.0

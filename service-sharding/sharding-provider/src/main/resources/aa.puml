@@ -1,6 +1,0 @@
-@startuml
-Liyz -> QJD: Auth
-QJD --> Liyz: sendMsg
-
-
-@enduml

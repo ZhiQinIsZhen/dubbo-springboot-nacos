@@ -1,3 +1,0 @@
-remoteServiceExceptionFilter=com.liyz.dubbo.common.base.filter.dubbo.RemoteServiceExceptionFilter
-logConsumerFilter=com.liyz.dubbo.common.base.filter.dubbo.RequestIdConsumerFilter
-logProviderFilter=com.liyz.dubbo.common.base.filter.dubbo.RequestIdProviderFilter
