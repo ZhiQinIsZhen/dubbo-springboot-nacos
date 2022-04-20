@@ -16,5 +16,6 @@
 
     <modules>
         <module>common-remote</module>
+        <module>common-core</module>
     </modules>
 </project>

@@ -1,0 +1,3 @@
+remoteServiceExceptionFilter=com.liyz.dubbo.common.core.filter.dubbo.RemoteServiceExceptionFilter
+authInfoConsumerFilter=com.liyz.dubbo.common.core.filter.dubbo.AuthInfoConsumerFilter
+authInfoProviderFilter=com.liyz.dubbo.common.core.filter.dubbo.AuthInfoProviderFilter
