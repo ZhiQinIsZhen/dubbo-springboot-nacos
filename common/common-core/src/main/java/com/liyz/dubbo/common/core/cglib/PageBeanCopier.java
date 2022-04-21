@@ -49,7 +49,7 @@ public class PageBeanCopier<F, T> extends BaseBeanCopier<F, T> {
      * @param <T>
      * @return
      */
-    public static <F, T> Page<T> pageToDomainPage(org.springframework.data.domain.Page<F> sourcePageInfo,
+    public static <F, T> Page<T> domainPageToPage(org.springframework.data.domain.Page<F> sourcePageInfo,
                                                   Function<? super F, ? extends T> function) {
         List<T> targetList = Objects.nonNull(sourcePageInfo.getContent()) ?
                 Lists.transform(sourcePageInfo.getContent(), function) :
