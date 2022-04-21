@@ -27,6 +27,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.liyz.dubbo</groupId>
+            <artifactId>common-desensitize</artifactId>
+            <version>${revision}</version>
+        </dependency>
     </dependencies>
 
 </project>

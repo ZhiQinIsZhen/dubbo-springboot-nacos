@@ -28,12 +28,4 @@ public @interface Desensitization {
     int beginIndex() default 0;
 
     int endIndex() default 0;
-
-    /**
-     * 只有当 value == DesensitizationType.ENCRYPT_DECRYPT 时，才会起作用
-     * 0：加密；1：解密
-     *
-     * @return
-     */
-    int type() default 0;
 }

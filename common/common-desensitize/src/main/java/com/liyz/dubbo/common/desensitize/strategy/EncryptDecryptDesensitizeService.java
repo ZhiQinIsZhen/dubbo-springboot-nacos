@@ -24,8 +24,8 @@ public class EncryptDecryptDesensitizeService extends AbstractDesensitizeService
 
     @Override
     public String desensitize(String value, Desensitization annotation) {
-        if (StringUtils.isNotBlank(value) && Objects.nonNull(annotation)) {
-            if (annotation.type() == 0) {
+        if (StringUtils.isNotBlank(value)) {
+            if (Objects.isNull(annotation)) {
                 value = aesEncryptDecryptConfig.encrypt(value);
             } else {
                 value = aesEncryptDecryptConfig.decrypt(value);
