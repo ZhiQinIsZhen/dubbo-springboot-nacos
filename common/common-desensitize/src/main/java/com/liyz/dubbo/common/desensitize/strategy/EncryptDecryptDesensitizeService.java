@@ -1,8 +1,13 @@
 package com.liyz.dubbo.common.desensitize.strategy;
 
 import com.liyz.dubbo.common.desensitize.annotation.Desensitization;
+import com.liyz.dubbo.common.desensitize.config.AESEncryptDecryptConfig;
 import com.liyz.dubbo.common.desensitize.enums.DesensitizationType;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 /**
  * 注释:加解密脱敏
@@ -14,9 +19,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class EncryptDecryptDesensitizeService extends AbstractDesensitizeService{
 
+    @Autowired
+    private AESEncryptDecryptConfig aesEncryptDecryptConfig;
+
     @Override
     public String desensitize(String value, Desensitization annotation) {
-        return null;
+        if (StringUtils.isNotBlank(value) && Objects.nonNull(annotation)) {
+            if (annotation.type() == 0) {
+                value = aesEncryptDecryptConfig.encrypt(value);
+            } else {
+                value = aesEncryptDecryptConfig.decrypt(value);
+            }
+        }
+        return value;
     }
 
     @Override

@@ -1,9 +1,9 @@
-package com.liyz.dubbo.common.core.filter.fastjson;
+package com.liyz.dubbo.common.desensitize.filter;
 
 import com.alibaba.fastjson.serializer.BeanContext;
 import com.alibaba.fastjson.serializer.ContextValueFilter;
-import com.liyz.dubbo.common.core.desen.Desensitization;
-import com.liyz.dubbo.common.core.desen.strategy.AbstractDesensitizeService;
+import com.liyz.dubbo.common.desensitize.annotation.Desensitization;
+import com.liyz.dubbo.common.desensitize.strategy.AbstractDesensitizeService;
 import org.apache.commons.lang3.StringUtils;
 
 /**

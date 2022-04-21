@@ -8,10 +8,6 @@
 *See [PageBeanCopier.java](https://github.com/ZhiQinIsZhen/dubbo-springboot-nacos/blob/master/common/common-core/src/main/java/com/liyz/dubbo/common/core/cglib/PageBeanCopier.java) on GitHub.*
 *See 工具类 [CommonCloneUtil.java](https://github.com/ZhiQinIsZhen/dubbo-springboot-nacos/blob/master/common/common-core/src/main/java/com/liyz/dubbo/common/core/util/CommonCloneUtil.java) on GitHub.*
   
-* 自定义脱敏注解 [Desensitization.java](https://github.com/ZhiQinIsZhen/dubbo-springboot-nacos/blob/master/common/common-core/src/main/java/com/liyz/dubbo/common/core/desen/Desensitization.java)
-  目前支持Json框架：fastJson、jackson
-  支持脱敏类型：姓名、身份证、手机号码、邮箱、自定义脱敏以及忽略该字段
-  
 * Dubbo过滤器，这里有两个dubbo过滤器
   1.dubbo业务异常过滤器
   2.dubbo认证过滤器：将api层的token解析出来的登陆信息往下传递
