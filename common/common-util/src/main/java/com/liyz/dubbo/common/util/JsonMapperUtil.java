@@ -1,4 +1,4 @@
-package com.liyz.dubbo.common.core.util;
+package com.liyz.dubbo.common.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;

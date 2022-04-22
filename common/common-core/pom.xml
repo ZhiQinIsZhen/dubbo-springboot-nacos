@@ -42,6 +42,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.liyz.dubbo</groupId>
+            <artifactId>common-util</artifactId>
+            <version>${revision}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
         </dependency>

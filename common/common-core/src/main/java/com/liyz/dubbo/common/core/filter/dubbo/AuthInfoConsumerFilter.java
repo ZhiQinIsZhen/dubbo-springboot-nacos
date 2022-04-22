@@ -3,7 +3,7 @@ package com.liyz.dubbo.common.core.filter.dubbo;
 import com.liyz.dubbo.common.core.auth.AuthUser;
 import com.liyz.dubbo.common.core.constant.CommonConstant;
 import com.liyz.dubbo.common.core.util.AuthContext;
-import com.liyz.dubbo.common.core.util.JsonMapperUtil;
+import com.liyz.dubbo.common.util.JsonMapperUtil;
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.*;
