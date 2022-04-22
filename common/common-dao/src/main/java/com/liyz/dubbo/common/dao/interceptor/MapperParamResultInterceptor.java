@@ -1,6 +1,7 @@
 package com.liyz.dubbo.common.dao.interceptor;
 
 import com.liyz.dubbo.common.desensitize.annotation.Desensitization;
+import com.liyz.dubbo.common.desensitize.enums.DesensitizationType;
 import com.liyz.dubbo.common.desensitize.strategy.AbstractDesensitizeService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
@@ -71,16 +72,15 @@ public class MapperParamResultInterceptor implements Interceptor {
                         Desensitization desensitization = field.getAnnotation(Desensitization.class);
                         Object value = field.get(parameterObject);
                         if (Objects.nonNull(value) && value.toString().trim().length() > 0) {
-                            try {
-                                field.set(
-                                        parameterObject,
-                                        AbstractDesensitizeService.getDesensitizeServiceByType(
-                                                desensitization.value()
-                                        ).desensitize(value.toString(), null)
-                                );
-                            } catch (Exception e) {
-                                log.error("MapperParameterInterceptor.intercept invoke error", e);
-                            }
+                            field.set(
+                                    parameterObject,
+                                    AbstractDesensitizeService.getDesensitizeServiceByType(
+                                            desensitization.value()
+                                    ).desensitize(
+                                            value.toString(),
+                                            desensitization.value() == DesensitizationType.ENCRYPT_DECRYPT ? null : desensitization
+                                    )
+                            );
                         }
                     }
                 }
@@ -93,7 +93,7 @@ public class MapperParamResultInterceptor implements Interceptor {
      *
      * @param result
      */
-    private void executorResults(Object result) {
+    private void executorResults(Object result) throws Throwable {
         if (Objects.isNull(result)){
             return;
         }
@@ -105,24 +105,20 @@ public class MapperParamResultInterceptor implements Interceptor {
                     return;
                 }
                 for (Object obj : resultList) {
-                    fields.stream().forEach(field -> {
-                        try {
-                            field.setAccessible(true);
-                            Desensitization desensitization = field.getAnnotation(Desensitization.class);
-                            Object value = field.get(obj);
-                            if (Objects.nonNull(value) && value.toString().trim().length() > 0) {
-                                field.set(
-                                        obj,
-                                        AbstractDesensitizeService.getDesensitizeServiceByType(desensitization.value()).desensitize(
-                                                value.toString(),
-                                                desensitization
-                                        )
-                                );
-                            }
-                        } catch (Exception e) {
-                            log.error("MapperResultInterceptor.intercept.desensitization invoke error", e);
+                    for (Field field : fields) {
+                        field.setAccessible(true);
+                        Desensitization desensitization = field.getAnnotation(Desensitization.class);
+                        Object value = field.get(obj);
+                        if (Objects.nonNull(value) && value.toString().trim().length() > 0) {
+                            field.set(
+                                    obj,
+                                    AbstractDesensitizeService.getDesensitizeServiceByType(desensitization.value()).desensitize(
+                                            value.toString(),
+                                            desensitization
+                                    )
+                            );
                         }
-                    });
+                    }
                 }
             }
         }
