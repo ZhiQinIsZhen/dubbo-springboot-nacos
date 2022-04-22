@@ -44,4 +44,8 @@ public class RemoteServiceException extends RuntimeException{
         }
         return CommonExceptionCodeEnum.FAIL.getCode();
     }
+
+    public String getCode() {
+        return code;
+    }
 }

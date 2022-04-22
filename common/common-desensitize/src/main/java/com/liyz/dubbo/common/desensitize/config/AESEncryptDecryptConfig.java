@@ -173,7 +173,7 @@ public class AESEncryptDecryptConfig {
             cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key.getBytes(), KEY_ALGORITHM), ivParameterSpec);
             //执行操作
             byte[] result = cipher.doFinal(Base64.getDecoder().decode(content));
-            return new String(result, "utf-8");
+            return new String(result, StandardCharsets.UTF_8.name());
         } catch (Exception ex) {
             log.error("CBC decrypt error ", ex);
         }

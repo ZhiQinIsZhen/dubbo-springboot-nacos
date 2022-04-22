@@ -21,5 +21,6 @@
         <module>common-desensitize</module>
         <module>common-limit</module>
         <module>common-util</module>
+        <module>common-controller</module>
     </modules>
 </project>
