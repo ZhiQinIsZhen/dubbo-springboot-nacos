@@ -19,5 +19,6 @@
         <module>common-core</module>
         <module>common-dao</module>
         <module>common-desensitize</module>
+        <module>common-limit</module>
     </modules>
 </project>
