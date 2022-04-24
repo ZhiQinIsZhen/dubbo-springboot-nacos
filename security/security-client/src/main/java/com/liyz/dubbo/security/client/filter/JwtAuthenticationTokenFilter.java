@@ -65,6 +65,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
+            filterChain.doFilter(request, response);
         } catch (RemoteServiceException exception) {
             log.error("auth token fail, cause by ==> code : {}, msg : {}", exception.getCode(), exception.getMessage());
             response.setCharacterEncoding(String.valueOf(Charsets.UTF_8));

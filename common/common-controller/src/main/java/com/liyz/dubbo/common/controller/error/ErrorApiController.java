@@ -1,8 +1,12 @@
 package com.liyz.dubbo.common.controller.error;
 
 import com.liyz.dubbo.common.core.result.Result;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
@@ -25,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
         @ApiResponse(code = 1, message = "非0都为失败")
 })
 @Slf4j
+@ConditionalOnBean({ErrorProperties.class})
 @RestController
 @RequestMapping("/liyz")
 public class ErrorApiController extends BasicErrorController {
