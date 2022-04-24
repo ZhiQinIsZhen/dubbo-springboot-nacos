@@ -3,8 +3,8 @@ package com.liyz.dubbo.security.client.context;
 import com.liyz.dubbo.common.core.constant.CommonConstant;
 import com.liyz.dubbo.common.core.util.HttpRequestUtil;
 import com.liyz.dubbo.security.core.constant.SecurityEnum;
-import com.liyz.dubbo.security.core.remote.RemoteGrantedAuthorityService;
-import com.liyz.dubbo.security.core.remote.RemoteJwtAuthService;
+import com.liyz.dubbo.security.core.remote.RemoteGrantedAuthorityCoreService;
+import com.liyz.dubbo.security.core.remote.RemoteJwtAuthCoreService;
 import com.liyz.dubbo.security.core.user.AuthUserDetails;
 import com.liyz.dubbo.security.core.user.ClaimDetail;
 import org.springframework.beans.BeansException;
@@ -30,15 +30,15 @@ import java.util.Date;
 public class JwtContextHolder implements ApplicationContextAware, InitializingBean {
 
     private static ApplicationContext applicationContext;
-    private static RemoteJwtAuthService remoteJwtAuthService;
-    private static RemoteGrantedAuthorityService remoteGrantedAuthorityService;
+    private static RemoteJwtAuthCoreService remoteJwtAuthCoreService;
+    private static RemoteGrantedAuthorityCoreService remoteGrantedAuthorityCoreService;
 
-    public static RemoteJwtAuthService getJwtAuthService() {
-        return remoteJwtAuthService;
+    public static RemoteJwtAuthCoreService getJwtAuthService() {
+        return remoteJwtAuthCoreService;
     }
 
-    public static RemoteGrantedAuthorityService getGrantedAuthorityService() {
-        return remoteGrantedAuthorityService;
+    public static RemoteGrantedAuthorityCoreService getGrantedAuthorityService() {
+        return remoteGrantedAuthorityCoreService;
     }
 
     public static String getJWT(Date lastLoginTime, SecurityEnum.AudienceType audienceType) {
@@ -62,7 +62,7 @@ public class JwtContextHolder implements ApplicationContextAware, InitializingBe
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        remoteJwtAuthService = applicationContext.getBean("remoteJwtAuthService", RemoteJwtAuthService.class);
-        remoteGrantedAuthorityService = applicationContext.getBean("remoteGrantedAuthorityService", RemoteGrantedAuthorityService.class);
+        remoteJwtAuthCoreService = applicationContext.getBean("remoteJwtAuthCoreService", RemoteJwtAuthCoreService.class);
+        remoteGrantedAuthorityCoreService = applicationContext.getBean("remoteGrantedAuthorityCoreService", RemoteGrantedAuthorityCoreService.class);
     }
 }

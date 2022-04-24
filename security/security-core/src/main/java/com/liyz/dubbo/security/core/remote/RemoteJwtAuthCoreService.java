@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @version 1.0.0
  * @date 2022/4/24 9:39
  */
-public interface RemoteJwtAuthService {
+public interface RemoteJwtAuthCoreService {
 
     /**
      * 登陆

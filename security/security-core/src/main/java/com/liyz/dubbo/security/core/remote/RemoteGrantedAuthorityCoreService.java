@@ -11,7 +11,7 @@ import java.util.List;
  * @version 1.0.0
  * @date 2022/4/24 9:40
  */
-public interface RemoteGrantedAuthorityService {
+public interface RemoteGrantedAuthorityCoreService {
 
     /**
      * 根据角色id，或者用户组获取对应权限

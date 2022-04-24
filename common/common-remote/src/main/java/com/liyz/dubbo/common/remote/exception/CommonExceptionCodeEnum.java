@@ -26,6 +26,8 @@ public enum CommonExceptionCodeEnum implements IExceptionCodeService{
     EMAIL_CODE_ERROR("10012", "邮件验证码不正确"),
     OLD_FILE_NOT_EXIST("10013", "原文件不存在"),
     OTHERS_LOGIN("10014", "该账户已在其他地方登陆"),
+    GRANTED_AUTHORITY_TRANS("10015", "权限列表转化错误"),
+    AUTH_TRANS("10016", "认证信息转化错误"),
     ;
 
     private String code;

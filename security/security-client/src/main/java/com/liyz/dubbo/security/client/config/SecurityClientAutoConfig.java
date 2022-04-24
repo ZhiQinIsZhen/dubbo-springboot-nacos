@@ -1,8 +1,8 @@
 package com.liyz.dubbo.security.client.config;
 
 import com.liyz.dubbo.security.client.core.RestfulAccessDeniedHandler;
-import com.liyz.dubbo.security.core.remote.RemoteGrantedAuthorityService;
-import com.liyz.dubbo.security.core.remote.RemoteJwtAuthService;
+import com.liyz.dubbo.security.core.remote.RemoteGrantedAuthorityCoreService;
+import com.liyz.dubbo.security.core.remote.RemoteJwtAuthCoreService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -34,17 +34,17 @@ public class SecurityClientAutoConfig {
     }
 
     @DubboReference(timeout = 10000)
-    private RemoteJwtAuthService remoteJwtAuthService;
+    private RemoteJwtAuthCoreService remoteJwtAuthCoreService;
     @DubboReference(timeout = 10000)
-    private RemoteGrantedAuthorityService remoteGrantedAuthorityService;
+    private RemoteGrantedAuthorityCoreService remoteGrantedAuthorityCoreService;
 
     @Bean
-    public RemoteJwtAuthService remoteJwtAuthService() {
-        return remoteJwtAuthService;
+    public RemoteJwtAuthCoreService remoteJwtAuthCoreService() {
+        return remoteJwtAuthCoreService;
     }
 
     @Bean
-    public RemoteGrantedAuthorityService remoteGrantedAuthorityService() {
-        return remoteGrantedAuthorityService;
+    public RemoteGrantedAuthorityCoreService remoteGrantedAuthorityCoreService() {
+        return remoteGrantedAuthorityCoreService;
     }
 }

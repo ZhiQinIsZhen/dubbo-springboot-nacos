@@ -9,6 +9,7 @@ import com.liyz.dubbo.common.core.result.PageResult;
 import com.liyz.dubbo.common.remote.page.Page;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.util.CollectionUtils;
 
@@ -16,6 +17,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -142,6 +145,34 @@ public class CommonCloneUtil {
         }
         SimpleBeanCopier simpleBeanCopier = getCopier(sourcePage.getContent().get(0).getClass(), targetClass);
         return PageBeanCopier.domainPageToPage(sourcePage, simpleBeanCopier);
+    }
+
+    /**
+     * map对象转化为实体类
+     *
+     * @param map
+     * @param targetClass
+     * @param <T>
+     * @return
+     * @throws Exception
+     */
+    public static <T> T MapToBean(Map<String, Object> map, Class<T> targetClass) throws Exception {
+        if (map == null) {
+            return null;
+        }
+        Field[] declaredFields = targetClass.getDeclaredFields();
+        T target = BeanUtils.instantiateClass(targetClass);
+        String fieldName;
+        Method method;
+        for (Field field : declaredFields) {
+            fieldName = field.getName();
+            if (map.containsKey(fieldName) && map.get(fieldName) != null) {
+                fieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+                method = targetClass.getMethod("set" + fieldName, field.getType());
+                method.invoke(target,  map.get(field.getName()));
+            }
+        }
+        return target;
     }
 
     /**

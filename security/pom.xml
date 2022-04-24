@@ -18,5 +18,6 @@
         <module>security-remote</module>
         <module>security-core</module>
         <module>security-client</module>
+        <module>security-server</module>
     </modules>
 </project>
