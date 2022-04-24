@@ -16,5 +16,6 @@
 
     <modules>
         <module>security-remote</module>
+        <module>security-core</module>
     </modules>
 </project>
