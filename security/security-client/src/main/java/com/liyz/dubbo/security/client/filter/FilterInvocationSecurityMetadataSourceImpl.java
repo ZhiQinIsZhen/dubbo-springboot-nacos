@@ -1,6 +1,6 @@
 package com.liyz.dubbo.security.client.filter;
 
-import com.liyz.dubbo.security.client.config.ConfigAttributeImpl;
+import com.liyz.dubbo.security.client.core.ConfigAttributeImpl;
 import com.liyz.dubbo.security.client.context.AnonymousUrlContext;
 import com.liyz.dubbo.security.core.constant.SecurityConstant;
 import org.springframework.security.access.ConfigAttribute;

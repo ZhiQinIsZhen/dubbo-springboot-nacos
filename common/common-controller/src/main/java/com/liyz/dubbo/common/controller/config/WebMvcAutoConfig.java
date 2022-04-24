@@ -16,6 +16,7 @@ import com.liyz.dubbo.common.desensitize.filter.FastjsonDesensitizationContextVa
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.http.MediaType;
@@ -42,6 +43,7 @@ import java.util.TimeZone;
 @Slf4j
 @Configuration
 @AutoConfigureOrder(value = Ordered.HIGHEST_PRECEDENCE)
+@ComponentScan(basePackages = {"com.liyz.dubbo.common.controller"})
 public class WebMvcAutoConfig extends WebMvcConfigurationSupport {
 
     @Value("${use.fastjson:false}")

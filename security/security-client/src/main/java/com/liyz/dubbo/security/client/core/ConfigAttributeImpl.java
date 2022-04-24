@@ -1,4 +1,4 @@
-package com.liyz.dubbo.security.client.config;
+package com.liyz.dubbo.security.client.core;
 
 import lombok.Getter;
 import org.springframework.security.access.ConfigAttribute;
