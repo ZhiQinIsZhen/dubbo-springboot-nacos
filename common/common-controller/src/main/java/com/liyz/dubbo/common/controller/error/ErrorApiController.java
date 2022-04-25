@@ -6,10 +6,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.web.ErrorProperties;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
-import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,13 +28,12 @@ import javax.servlet.http.HttpServletRequest;
         @ApiResponse(code = 1, message = "非0都为失败")
 })
 @Slf4j
-@ConditionalOnBean({ErrorProperties.class})
 @RestController
 @RequestMapping("/liyz")
 public class ErrorApiController extends BasicErrorController {
 
-    public ErrorApiController(ErrorAttributes errorAttributes, ErrorProperties errorProperties) {
-        super(errorAttributes, errorProperties);
+    public ErrorApiController(ServerProperties serverProperties) {
+        super(new DefaultErrorAttributes(), serverProperties.getError());
     }
 
     @ApiOperation(value = "错误重定向", notes = "错误重定向")

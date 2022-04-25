@@ -65,6 +65,7 @@ public class AuthenticationController {
                 .roleIds(authUserDetails.getRoleIds())
                 .token(JwtContextHolder.getJWT(authUserDetails.getLastWebPasswordResetDate(), SecurityEnum.AudienceType.Staff))
                 .build();
+        loginVO.setExpirationDate(JwtContextHolder.getJwtAuthCoreService().getExpirationByToken(loginVO.getToken()));
         return Result.success(loginVO);
     }
 }

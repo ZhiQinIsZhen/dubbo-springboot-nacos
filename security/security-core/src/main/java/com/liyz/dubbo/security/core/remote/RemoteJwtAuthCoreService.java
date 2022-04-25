@@ -5,6 +5,8 @@ import com.liyz.dubbo.security.core.constant.SecurityEnum;
 import com.liyz.dubbo.security.core.user.ClaimDetail;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Date;
+
 /**
  * 注释:jwt认证接口
  *
@@ -47,6 +49,14 @@ public interface RemoteJwtAuthCoreService {
      * @return
      */
     String getJWT(final ClaimDetail claimDetail);
+
+    /**
+     * 获取token失效时间
+     *
+     * @param token
+     * @return
+     */
+    Long getExpirationByToken(final String token);
 
     /**
      * 校验token是否失效

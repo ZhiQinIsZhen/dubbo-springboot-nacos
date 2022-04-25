@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 
@@ -116,6 +117,18 @@ public class RemoteJwtAuthCoreServiceImpl implements RemoteJwtAuthCoreService {
     @Override
     public String getJWT(ClaimDetail claimDetail) {
         return jwtAccessTokenParser.generateToken(claimDetail);
+    }
+
+    /**
+     * 获取token失效时间
+     *
+     * @param token
+     * @return
+     */
+    @Override
+    public Long getExpirationByToken(String token) {
+        Date expiration = jwtAccessTokenParser.getExpirationByToken(token);
+        return Objects.isNull(expiration) ? null : expiration.getTime();
     }
 
     /**
