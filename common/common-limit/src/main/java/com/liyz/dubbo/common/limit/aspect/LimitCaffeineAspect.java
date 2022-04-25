@@ -71,7 +71,7 @@ public class LimitCaffeineAspect extends AbstractLimitService implements Ordered
 
     @Override
     public int getOrder() {
-        return 0;
+        return LOWEST_PRECEDENCE;
     }
 
     @Override

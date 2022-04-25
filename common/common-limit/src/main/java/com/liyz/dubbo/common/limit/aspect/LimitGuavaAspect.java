@@ -12,6 +12,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -30,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Aspect
 @Configuration
+@ConditionalOnBean(CommonLimitAutoConfig.class)
 @AutoConfigureAfter(CommonLimitAutoConfig.class)
 @ConditionalOnProperty(prefix = "request.limit", name = "model", havingValue = "guava")
 public class LimitGuavaAspect extends AbstractLimitService implements Ordered {
@@ -74,7 +76,7 @@ public class LimitGuavaAspect extends AbstractLimitService implements Ordered {
 
     @Override
     public int getOrder() {
-        return 0;
+        return LOWEST_PRECEDENCE;
     }
 
     @Override

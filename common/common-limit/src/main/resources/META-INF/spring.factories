@@ -1,3 +1,5 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.liyz.dubbo.common.limit.config.CommonLimitAutoConfig
+com.liyz.dubbo.common.limit.config.CommonLimitAutoConfig,\
+com.liyz.dubbo.common.limit.aspect.LimitCaffeineAspect,\
+com.liyz.dubbo.common.limit.aspect.LimitGuavaAspect
