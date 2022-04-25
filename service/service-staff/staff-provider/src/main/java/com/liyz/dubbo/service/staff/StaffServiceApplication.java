@@ -1,5 +1,6 @@
 package com.liyz.dubbo.service.staff;
 
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @version 1.0.0
  * @date 2022/4/24 15:25
  */
+@EnableDubbo
 @SpringBootApplication
 @MapperScan(basePackages = {"com.liyz.dubbo.service.staff.dao"})
 public class StaffServiceApplication {

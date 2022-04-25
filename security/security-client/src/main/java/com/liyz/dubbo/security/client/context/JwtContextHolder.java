@@ -33,11 +33,11 @@ public class JwtContextHolder implements ApplicationContextAware, InitializingBe
     private static RemoteJwtAuthCoreService remoteJwtAuthCoreService;
     private static RemoteGrantedAuthorityCoreService remoteGrantedAuthorityCoreService;
 
-    public static RemoteJwtAuthCoreService getJwtAuthService() {
+    public static RemoteJwtAuthCoreService getJwtAuthCoreService() {
         return remoteJwtAuthCoreService;
     }
 
-    public static RemoteGrantedAuthorityCoreService getGrantedAuthorityService() {
+    public static RemoteGrantedAuthorityCoreService getGrantedAuthorityCoreService() {
         return remoteGrantedAuthorityCoreService;
     }
 
@@ -52,7 +52,7 @@ public class JwtContextHolder implements ApplicationContextAware, InitializingBe
         claimDetail.setUserId(authUserDetails.getId());
         claimDetail.setCreation(lastLoginTime);
         claimDetail.setAudience(audienceType.getCode());
-        return getJwtAuthService().getJWT(claimDetail);
+        return getJwtAuthCoreService().getJWT(claimDetail);
     }
 
     @Override

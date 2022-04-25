@@ -52,7 +52,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             String token = request.getHeader(this.tokenHeaderKey);
             if (StringUtils.isNotBlank(token) && !AnonymousUrlContext.getAnonymousUrls().contains(request.getServletPath())) {
                 token = URLDecoder.decode(token, String.valueOf(Charsets.UTF_8));
-                final AuthUser authUser = JwtContextHolder.getJwtAuthService().loadUserByToken(token);
+                final AuthUser authUser = JwtContextHolder.getJwtAuthCoreService().loadUserByToken(token);
                 if (Objects.nonNull(authUser)) {
                     AuthContext.setAuthUser(authUser);
                     AuthUserDetails authUserDetails = UserDetailsServiceImpl.getByAuthUser(authUser);
