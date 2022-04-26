@@ -21,6 +21,7 @@ import java.io.IOException;
  * @date 2022/4/24 9:59
  */
 public class RestfulAccessDeniedHandler implements AccessDeniedHandler {
+
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         response.setCharacterEncoding(String.valueOf(Charsets.UTF_8));

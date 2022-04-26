@@ -26,6 +26,15 @@ public interface RemoteJwtAuthCoreService {
     AuthUser login(final String username, final SecurityEnum.AudienceType audienceType);
 
     /**
+     * 登出
+     *
+     * @param username
+     * @param audienceType
+     * @return
+     */
+    AuthUser logout(final String username, final SecurityEnum.AudienceType audienceType);
+
+    /**
      * 根据用户名获取用户信息
      *
      * @param username
@@ -62,9 +71,9 @@ public interface RemoteJwtAuthCoreService {
      * 校验token是否失效
      *
      * @param token
-     * @param userDetails
+     * @param authUser
      * @param device
      * @return
      */
-    Integer validateToken(final String token, final UserDetails userDetails, final Integer device);
+    void validateToken(final String token, final AuthUser authUser, final Integer device);
 }

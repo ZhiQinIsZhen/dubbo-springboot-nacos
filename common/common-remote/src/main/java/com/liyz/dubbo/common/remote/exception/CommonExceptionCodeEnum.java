@@ -28,6 +28,7 @@ public enum CommonExceptionCodeEnum implements IExceptionCodeService{
     OTHERS_LOGIN("10014", "该账户已在其他地方登陆"),
     GRANTED_AUTHORITY_TRANS("10015", "权限列表转化错误"),
     AUTH_TRANS("10016", "认证信息转化错误"),
+    NON_SAME_DEVICE("10017", "认证设备不一致"),
     ;
 
     private String code;

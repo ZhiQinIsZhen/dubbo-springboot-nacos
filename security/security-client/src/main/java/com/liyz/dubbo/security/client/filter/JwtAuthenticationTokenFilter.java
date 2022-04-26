@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLDecoder;
-import java.util.Objects;
 
 /**
  * 注释:认证过滤器
@@ -47,14 +46,15 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        //处理request head信息
+        String token = request.getHeader(this.tokenHeaderKey);
         try {
-            //处理request head信息
-            String token = request.getHeader(this.tokenHeaderKey);
-            if (StringUtils.isNotBlank(token) && !AnonymousUrlContext.getAnonymousUrls().contains(request.getServletPath())) {
+            if (StringUtils.isNotBlank(token)) {
                 token = URLDecoder.decode(token, String.valueOf(Charsets.UTF_8));
                 final AuthUser authUser = JwtContextHolder.getJwtAuthCoreService().loadUserByToken(token);
-                if (Objects.nonNull(authUser)) {
-                    AuthContext.setAuthUser(authUser);
+                AuthContext.setAuthUser(authUser);
+                if (!AnonymousUrlContext.getAnonymousUrls().contains(request.getServletPath())) {
+                    JwtContextHolder.getJwtAuthCoreService().validateToken(token, authUser, null);
                     AuthUserDetails authUserDetails = UserDetailsServiceImpl.getByAuthUser(authUser);
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(

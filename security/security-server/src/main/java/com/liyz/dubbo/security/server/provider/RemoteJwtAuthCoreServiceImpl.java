@@ -17,7 +17,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -61,6 +60,18 @@ public class RemoteJwtAuthCoreServiceImpl implements RemoteJwtAuthCoreService {
     }
 
     /**
+     * 登出
+     *
+     * @param username
+     * @param audienceType
+     * @return
+     */
+    @Override
+    public AuthUser logout(String username, SecurityEnum.AudienceType audienceType) {
+        return login(username, audienceType);
+    }
+
+    /**
      * 根据用户名获取用户信息
      *
      * @param username
@@ -74,8 +85,14 @@ public class RemoteJwtAuthCoreServiceImpl implements RemoteJwtAuthCoreService {
             authUserBO = getAuthUserByGenericService("loadByUsername", username, audienceType.getCode());
         }
         AuthUser authUser = CommonCloneUtil.objectClone(authUserBO, AuthUser.class);
-        if (Objects.nonNull(authUserBO) && !CollectionUtils.isEmpty(authUserBO.getRoleIds())) {
-            authUser.setAuthorityList(remoteGrantedAuthorityCoreService.getByRoleIds(authUserBO.getRoleIds(), audienceType.getCode()));
+        if (Objects.nonNull(authUserBO)) {
+            authUser.setGroup(audienceType.getCode());
+            if (!CollectionUtils.isEmpty(authUserBO.getRoleIds())) {
+                authUser.setAuthorityList(remoteGrantedAuthorityCoreService.getByRoleIds(
+                        authUserBO.getRoleIds(),
+                        audienceType.getCode())
+                );
+            }
         }
         return authUser;
     }
@@ -91,18 +108,14 @@ public class RemoteJwtAuthCoreServiceImpl implements RemoteJwtAuthCoreService {
         if (StringUtils.isNotBlank(token)) {
             if (token.startsWith(tokenHeaderHead)) {
                 final String authToken = token.substring(tokenHeaderHead.length()).trim();
-                if (jwtAccessTokenParser.isTokenExpired(authToken)) {
-                    throw new RemoteServiceException(CommonExceptionCodeEnum.AUTHORIZATION_TIMEOUT);
-                }
                 ClaimDetail claimDetail = jwtAccessTokenParser.getDetailByToken(authToken);
-                AuthUser authUser = loadUserByUsername(
-                        claimDetail.getUsername(),
-                        SecurityEnum.AudienceType.getByCode(claimDetail.getAudience())
-                );
-                if (jwtAccessTokenParser.getCreationByToken(authToken).compareTo(authUser.getWebTokenTime()) != 0) {
-                    throw new RemoteServiceException(CommonExceptionCodeEnum.OTHERS_LOGIN);
+                if (Objects.nonNull(claimDetail)) {
+                    AuthUser authUser = loadUserByUsername(
+                            claimDetail.getUsername(),
+                            SecurityEnum.AudienceType.getByCode(claimDetail.getAudience())
+                    );
+                    return authUser;
                 }
-                return authUser;
             }
         }
         return null;
@@ -135,27 +148,28 @@ public class RemoteJwtAuthCoreServiceImpl implements RemoteJwtAuthCoreService {
      * 校验token有效性
      *
      * @param token
-     * @param userDetails
+     * @param authUser
      * @param device
      * @return
      */
     @Override
-    public Integer validateToken(String token, UserDetails userDetails, Integer device) {
-        Boolean isExpired = jwtAccessTokenParser.isTokenExpired(token);
-        if (isExpired) {
-            return 1;
-        }
-        if (Objects.nonNull(userDetails) && StringUtils.isNotBlank(userDetails.getUsername())) {
-            if (!userDetails.getUsername().equals(jwtAccessTokenParser.getUsernameByToken(token))) {
-                return 2;
+    public void validateToken(final String token, final AuthUser authUser, final Integer device) {
+        if (token.startsWith(tokenHeaderHead)) {
+            final String authToken = token.substring(tokenHeaderHead.length()).trim();
+            if (jwtAccessTokenParser.isTokenExpired(authToken)) {
+                throw new RemoteServiceException(CommonExceptionCodeEnum.AUTHORIZATION_TIMEOUT);
+            }
+            if (Objects.nonNull(authUser) && Objects.nonNull(authUser.getWebTokenTime())) {
+                if (jwtAccessTokenParser.getCreationByToken(authToken).compareTo(authUser.getWebTokenTime()) != 0) {
+                    throw new RemoteServiceException(CommonExceptionCodeEnum.OTHERS_LOGIN);
+                }
+            }
+            if (Objects.nonNull(device)) {
+                if (!device.equals(jwtAccessTokenParser.getDeviceByToken(authToken))) {
+                    throw new RemoteServiceException(CommonExceptionCodeEnum.NON_SAME_DEVICE);
+                }
             }
         }
-        if (Objects.nonNull(device)) {
-            if (!device.equals(jwtAccessTokenParser.getDeviceByToken(token))) {
-                return 3;
-            }
-        }
-        return 0;
     }
 
     /**

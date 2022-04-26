@@ -2,7 +2,9 @@ package com.liyz.dubbo.api.open.controller.auth;
 
 import com.liyz.dubbo.api.open.dto.auth.LoginDTO;
 import com.liyz.dubbo.api.open.vo.auth.LoginVO;
+import com.liyz.dubbo.common.core.auth.AuthUser;
 import com.liyz.dubbo.common.core.result.Result;
+import com.liyz.dubbo.common.core.util.AuthContext;
 import com.liyz.dubbo.common.limit.annotation.Limit;
 import com.liyz.dubbo.common.limit.annotation.Limits;
 import com.liyz.dubbo.common.limit.enums.LimitType;
@@ -10,10 +12,7 @@ import com.liyz.dubbo.security.client.context.JwtContextHolder;
 import com.liyz.dubbo.security.core.annotation.Anonymous;
 import com.liyz.dubbo.security.core.constant.SecurityEnum;
 import com.liyz.dubbo.security.core.user.AuthUserDetails;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 /**
  * 注释:
@@ -67,5 +67,20 @@ public class AuthenticationController {
                 .build();
         loginVO.setExpirationDate(JwtContextHolder.getJwtAuthCoreService().getExpirationByToken(loginVO.getToken()));
         return Result.success(loginVO);
+    }
+
+    @Anonymous
+    @ApiOperation(value = "登出", notes = "登出")
+    @PostMapping("/logout")
+    @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
+            paramType = "header", defaultValue = "Bearer ")
+    public Result<Boolean> logout() {
+        AuthUser authUser = AuthContext.getAuthUser();
+        if (Objects.isNull(authUser)) {
+            return Result.success(Boolean.FALSE);
+        }
+        SecurityEnum.AudienceType audienceType = SecurityEnum.AudienceType.getByCode(authUser.getGroup());
+        JwtContextHolder.getJwtAuthCoreService().logout(authUser.getLoginName(), audienceType);
+        return Result.success(Boolean.TRUE);
     }
 }

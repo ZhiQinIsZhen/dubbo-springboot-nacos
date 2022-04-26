@@ -2,7 +2,6 @@ package com.liyz.dubbo.security.client.context;
 
 import com.google.common.collect.Lists;
 import com.liyz.dubbo.security.core.annotation.Anonymous;
-import com.liyz.dubbo.security.core.annotation.NonAuthority;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.support.AopUtils;
@@ -35,8 +34,6 @@ public class AnonymousUrlContext implements ApplicationContextAware, Ordered {
 
     //免登陆访问
     private static volatile List<String> anonymousUrls;
-    //免授权访问
-    private static volatile List<String> nonAuthorityUrls;
 
     private static ApplicationContext applicationContext;
 
@@ -73,33 +70,6 @@ public class AnonymousUrlContext implements ApplicationContextAware, Ordered {
             }
         }
         return anonymousUrls;
-    }
-
-    /**
-     * 获取免鉴权的urls {@link NonAuthority}
-     *
-     * @return
-     * @throws ClassNotFoundException
-     */
-    public static List<String> getNonAuthorityUrls() {
-        if (CollectionUtils.isEmpty(nonAuthorityUrls)) {
-            synchronized (AnonymousUrlContext.class) {
-                if (CollectionUtils.isEmpty(nonAuthorityUrls)) {
-                    nonAuthorityUrls = Lists.newArrayList();
-                    Map<String, Object> map = applicationContext.getBeansWithAnnotation(Controller.class);
-                    if (CollectionUtils.isEmpty(map)) {
-                        return nonAuthorityUrls;
-                    }
-                    Class beanClass;
-                    for (Object bean : map.values()) {
-                        //获取原始类而不是代理类
-                        beanClass = AopUtils.isAopProxy(bean) ? AopUtils.getTargetClass(bean) : bean.getClass();
-                        scanMethods(beanClass, NonAuthority.class, nonAuthorityUrls);
-                    }
-                }
-            }
-        }
-        return nonAuthorityUrls;
     }
 
     /**

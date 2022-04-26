@@ -1,76 +1,35 @@
 package com.liyz.dubbo.security.client.filter;
 
+import com.google.common.collect.Lists;
 import com.liyz.dubbo.security.client.core.ConfigAttributeImpl;
-import com.liyz.dubbo.security.client.context.AnonymousUrlContext;
-import com.liyz.dubbo.security.core.constant.SecurityConstant;
 import org.springframework.security.access.ConfigAttribute;
-import org.springframework.security.web.FilterInvocation;
-import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.access.vote.AuthenticatedVoter;
+import org.springframework.security.web.access.intercept.DefaultFilterInvocationSecurityMetadataSource;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.CollectionUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.LinkedHashMap;
 
 /**
- * 注释:资源过滤器
+ * 注释:权限过滤器原数据获取实现类
  *
  * @author liyangzhen
  * @version 1.0.0
- * @date 2022/4/24 10:51
+ * @date 2022/4/26 9:41
  */
-public class FilterInvocationSecurityMetadataSourceImpl implements FilterInvocationSecurityMetadataSource {
+public class FilterInvocationSecurityMetadataSourceImpl extends DefaultFilterInvocationSecurityMetadataSource {
 
-    @Override
-    public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
-        HttpServletRequest request = ((FilterInvocation) object).getRequest();
-        if (!matchUrl(request)) {
-            Set<ConfigAttribute> allAttributes = new HashSet<>();
-            ConfigAttribute configAttribute = new ConfigAttributeImpl(request);
-            allAttributes.add(configAttribute);
-            return allAttributes;
-        } else {
-            return null;
-        }
+    public FilterInvocationSecurityMetadataSourceImpl(LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>> requestMap) {
+        super(requestMap);
     }
 
     @Override
-    public Collection<ConfigAttribute> getAllConfigAttributes() {
-        return null;
-    }
-
-    @Override
-    public boolean supports(Class<?> clazz) {
-        return true;
-    }
-
-    /**
-     * 如果这里返回true，则不去执行AccessDecisionManagerImpl.decide方法
-     *
-     * @param request
-     * @return
-     */
-    private boolean matchUrl(HttpServletRequest request) {
-        //常量urls
-        for (String resource : SecurityConstant.SECURITY_IGNORE_RESOURCES) {
-            AntPathRequestMatcher matcher = new AntPathRequestMatcher(resource);
-            if (matcher.matches(request)) {
-                return true;
-            }
+    public Collection<ConfigAttribute> getAttributes(Object object) {
+        Collection<ConfigAttribute> collection = super.getAttributes(object);
+        if (CollectionUtils.isEmpty(collection)) {
+            collection = Lists.newArrayList(new ConfigAttributeImpl(AuthenticatedVoter.IS_AUTHENTICATED_FULLY));
         }
-        //免登陆urls
-        List<String> list = AnonymousUrlContext.getAnonymousUrls();
-        if (!CollectionUtils.isEmpty(list)) {
-            for (String resource : list) {
-                AntPathRequestMatcher matcher = new AntPathRequestMatcher(resource);
-                if (matcher.matches(request)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return collection;
     }
 }

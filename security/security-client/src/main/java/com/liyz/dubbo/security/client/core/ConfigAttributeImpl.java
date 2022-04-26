@@ -1,9 +1,6 @@
 package com.liyz.dubbo.security.client.core;
 
-import lombok.Getter;
 import org.springframework.security.access.ConfigAttribute;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 注释:获取可访问的 attribute 值
@@ -14,15 +11,14 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class ConfigAttributeImpl implements ConfigAttribute {
 
-    @Getter
-    private final HttpServletRequest httpServletRequest;
+    private String attribute;
 
-    public ConfigAttributeImpl(HttpServletRequest httpServletRequest) {
-        this.httpServletRequest = httpServletRequest;
+    public ConfigAttributeImpl(String attribute) {
+        this.attribute = attribute;
     }
 
     @Override
     public String getAttribute() {
-        return null;
+        return attribute;
     }
 }

@@ -1,15 +1,18 @@
 package com.liyz.dubbo.security.client.filter;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.google.common.collect.Lists;
+import com.liyz.dubbo.security.client.context.AnonymousUrlContext;
+import com.liyz.dubbo.security.client.core.ConfigAttributeImpl;
 import org.springframework.security.access.AccessDecisionManager;
+import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityMetadataSource;
-import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
-import org.springframework.security.access.intercept.InterceptorStatusToken;
-import org.springframework.security.web.FilterInvocation;
+import org.springframework.security.access.vote.AuthenticatedVoter;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
-import javax.servlet.*;
-import java.io.IOException;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 
 /**
  * 注释:授权认证拦截器
@@ -18,44 +21,20 @@ import java.io.IOException;
  * @version 1.0.0
  * @date 2022/4/24 10:47
  */
-public class GrantedAuthoritySecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
-
-    @Getter
-    @Setter
-    private boolean observeOncePerRequest = true;
+public class GrantedAuthoritySecurityInterceptor extends FilterSecurityInterceptor {
 
     public GrantedAuthoritySecurityInterceptor(AccessDecisionManager accessDecisionManager) {
         this.setAccessDecisionManager(accessDecisionManager);
-    }
-
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        FilterInvocation fi = new FilterInvocation(servletRequest, servletResponse, filterChain);
-        if (fi.getRequest() != null && fi.getRequest().getAttribute("__spring_security_filterSecurityInterceptor_filterApplied") != null && this.observeOncePerRequest) {
-            //执行下一个拦截器
-            fi.getChain().doFilter(fi.getRequest(), fi.getResponse());
-        } else {
-            if (fi.getRequest() != null && this.observeOncePerRequest) {
-                fi.getRequest().setAttribute("__spring_security_filterSecurityInterceptor_filterApplied", Boolean.TRUE);
-            }
-            InterceptorStatusToken token = super.beforeInvocation(fi);
-            try {
-                //执行下一个拦截器
-                fi.getChain().doFilter(fi.getRequest(), fi.getResponse());
-            } finally {
-                super.finallyInvocation(token);
-            }
-            super.afterInvocation(token, null);
-        }
-    }
-
-    @Override
-    public Class<?> getSecureObjectClass() {
-        return FilterInvocation.class;
+        LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>> requestMap = new LinkedHashMap<>();
+        AnonymousUrlContext.getAnonymousUrls().stream().forEach(anonymousPath -> {
+            AntPathRequestMatcher matcher = new AntPathRequestMatcher(anonymousPath);
+            requestMap.put(matcher, Lists.newArrayList(new ConfigAttributeImpl(AuthenticatedVoter.IS_AUTHENTICATED_ANONYMOUSLY)));
+        });
+        this.setSecurityMetadataSource(new FilterInvocationSecurityMetadataSourceImpl(requestMap));
     }
 
     @Override
     public SecurityMetadataSource obtainSecurityMetadataSource() {
-        return new FilterInvocationSecurityMetadataSourceImpl();
+        return super.obtainSecurityMetadataSource();
     }
 }

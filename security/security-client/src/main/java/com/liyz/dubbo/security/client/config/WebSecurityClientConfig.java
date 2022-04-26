@@ -1,5 +1,6 @@
 package com.liyz.dubbo.security.client.config;
 
+import com.google.common.collect.Lists;
 import com.liyz.dubbo.common.util.JsonMapperUtil;
 import com.liyz.dubbo.security.client.context.AnonymousUrlContext;
 import com.liyz.dubbo.security.client.core.AccessDecisionManagerImpl;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.vote.AuthenticatedVoter;
 import org.springframework.security.authentication.AuthenticationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
@@ -75,7 +77,6 @@ public class WebSecurityClientConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .accessDeniedHandler(new RestfulAccessDeniedHandler())
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint()).and()
-//                .requestMatcher(new RequestedMatcherImpl())
                 //基于token，所以不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
@@ -96,7 +97,12 @@ public class WebSecurityClientConfig extends WebSecurityConfigurerAdapter {
                 //spring security上使用ifame时候允许跨域
                 .frameOptions().sameOrigin();
         if (authority) {
-            http.addFilterBefore(new GrantedAuthoritySecurityInterceptor(new AccessDecisionManagerImpl()), FilterSecurityInterceptor.class);
+            http.addFilterAfter(
+                    new GrantedAuthoritySecurityInterceptor(
+                            new AccessDecisionManagerImpl(Lists.newArrayList(new AuthenticatedVoter()))
+                    ),
+                    FilterSecurityInterceptor.class
+            );
         }
     }
 

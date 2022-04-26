@@ -43,5 +43,7 @@ public class AuthUser implements Serializable {
 
     private Date appTokenTime;
 
+    private String group;
+
     private List<GrantedAuthority> authorityList;
 }
