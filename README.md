@@ -38,8 +38,9 @@ Swagger Knife4j | 2.0.3
 ### 目录结构说明
 ```lua
 liyz
-├── common-parent -- 它是整个项目的父pom文件，里面主要包含了Springboot框架的版本，和一些常用工具包，方便以后升级版本
-└── common-base -- 基本包，也是整个项目的基本包。里面主要增加了一个Dubbo框架的处理
+├── parent-dependencies -- 它是整个项目的父pom文件，里面主要包含了Springboot框架的版本，和一些常用工具包，方便以后升级版本
+└── common-core -- 基本包，也是整个项目的基本包。里面主要增加了一个Dubbo框架的处理
+└── common-desensitize -- 脱敏加解密包，支持fastjason、jackson、数据库
 	└── @Desensitization -- 自定义脱敏，这个自定义脱敏是基于fastjson，用法如下 注：我将springboot默认的jsckson序列化方式修改成了fastjson
 	
 	```java
@@ -59,7 +60,7 @@ liyz
 	```
 	
 ├── common-dao -- 服务中dao层需要引用，定义了通用mapper的顶层接口（mapper）、service层的顶层接口以及抽象类，所有大家对于单表操作不再需要维护一个*Mapper.xml文件了，当然了我在这里也提倡大家尽量单表操作，将多表关系在业务层来实现
-└── common-security -- Springboot的安全配置
+└── security -- Springboot的安全配置
 	└── @Anonymous -- 加在方法或者类上，代表这个方法或者该类下所有的mapping方法可以免鉴权访问，否则所有的api必须登录后写到token来访问
 └── ommon-controller -- 是api controller服务需要引用的
 	└── @Limits、@Limit -- 限流注解，可以对IP、mapping、以及总调用次数进行限流
@@ -75,6 +76,8 @@ liyz
 └── service-file -- 文件上传下载服务
 
 ```
+
+### 如需之前版本，请关注tag标签，重新拉取tag代码
 
 #### 开源共建
 1.如有问题可以提交[issue](https://github.com/ZhiQinIsZhen/dubbo-springboot-project/issues)
