@@ -2,8 +2,10 @@ package com.liyz.dubbo.security.client.filter;
 
 import com.google.common.base.Charsets;
 import com.liyz.dubbo.common.core.auth.AuthUser;
+import com.liyz.dubbo.common.core.constant.CommonConstant;
 import com.liyz.dubbo.common.core.result.Result;
 import com.liyz.dubbo.common.core.util.AuthContext;
+import com.liyz.dubbo.common.core.util.HttpRequestUtil;
 import com.liyz.dubbo.common.remote.exception.RemoteServiceException;
 import com.liyz.dubbo.common.util.JsonMapperUtil;
 import com.liyz.dubbo.security.client.context.AnonymousUrlContext;
@@ -13,6 +15,8 @@ import com.liyz.dubbo.security.core.user.AuthUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
+import org.springframework.mobile.device.Device;
+import org.springframework.mobile.device.LiteDeviceResolver;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -54,7 +58,13 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 final AuthUser authUser = JwtContextHolder.getJwtAuthCoreService().loadUserByToken(token);
                 AuthContext.setAuthUser(authUser);
                 if (!AnonymousUrlContext.getAnonymousUrls().contains(request.getServletPath())) {
-                    JwtContextHolder.getJwtAuthCoreService().validateToken(token, authUser, null);
+                    HttpServletRequest httpServletRequest = HttpRequestUtil.getRequest();
+                    LiteDeviceResolver resolver = new LiteDeviceResolver();
+                    Device device = resolver.resolveDevice(httpServletRequest);
+                    JwtContextHolder.getJwtAuthCoreService().validateToken(
+                            token,
+                            authUser,
+                            device.isMobile() ? CommonConstant.DEVICE_MOBILE : CommonConstant.DEVICE_WEB);
                     AuthUserDetails authUserDetails = UserDetailsServiceImpl.getByAuthUser(authUser);
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(
