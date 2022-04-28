@@ -97,6 +97,11 @@
 
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
+            <artifactId>sms-remote</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.liyz.dubbo</groupId>
             <artifactId>staff-remote</artifactId>
             <version>${revision}</version>
         </dependency>

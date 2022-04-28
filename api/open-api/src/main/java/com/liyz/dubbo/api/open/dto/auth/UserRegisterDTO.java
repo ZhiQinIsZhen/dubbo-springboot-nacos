@@ -42,5 +42,8 @@ public class UserRegisterDTO implements Serializable {
     @NotBlank(groups = {Register.class}, message = "姓名不能为空")
     private String userName;
 
+    @ApiModelProperty(value = "imageToken", example = "123")
+    private String imageToken;
+
     public interface Register{}
 }

@@ -1,6 +1,8 @@
 package com.liyz.dubbo.service.staff.provider;
 
 import com.liyz.dubbo.common.core.util.CommonCloneUtil;
+import com.liyz.dubbo.service.sms.exception.SmsExceptionCodeEnum;
+import com.liyz.dubbo.service.sms.remote.RemoteSmsService;
 import com.liyz.dubbo.service.staff.bo.CustomerBO;
 import com.liyz.dubbo.service.staff.bo.UserRegisterBO;
 import com.liyz.dubbo.service.staff.exception.RemoteStaffServiceException;
@@ -8,6 +10,7 @@ import com.liyz.dubbo.service.staff.exception.StaffExceptionCodeEnum;
 import com.liyz.dubbo.service.staff.model.CustomerDO;
 import com.liyz.dubbo.service.staff.remote.RemoteCustomerService;
 import com.liyz.dubbo.service.staff.service.ICustomerService;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +30,8 @@ public class RemoteCustomerServiceImpl implements RemoteCustomerService {
 
     @Resource
     private ICustomerService customerService;
+    @DubboReference
+    RemoteSmsService remoteSmsService;
 
     /**
      * 注册
@@ -39,6 +44,18 @@ public class RemoteCustomerServiceImpl implements RemoteCustomerService {
         CustomerBO customerBO = getByUsername(userRegisterBO.getLoginName());
         if (Objects.nonNull(customerBO)) {
             throw new RemoteStaffServiceException(StaffExceptionCodeEnum.ACCOUNT_EXIST);
+        }
+        if (!remoteSmsService.validateImageCode(userRegisterBO.getImageToken(), userRegisterBO.getVerificationCode())) {
+            throw new RemoteStaffServiceException(SmsExceptionCodeEnum.IMAGE_ERROR);
+        }
+        CustomerDO customerDO = new CustomerDO();
+        customerDO.setCustomerName(userRegisterBO.getLoginName());
+        customerDO.setEmail("xxxx@qq.com");
+        customerDO.setMobile("15888888888");
+        customerDO.setNickName(userRegisterBO.getNickName());
+        customerDO.setPassword(userRegisterBO.getLoginPwd());
+        if (!customerService.save(customerDO)) {
+            throw new RemoteStaffServiceException(StaffExceptionCodeEnum.REGISTER_ERROR);
         }
     }
 

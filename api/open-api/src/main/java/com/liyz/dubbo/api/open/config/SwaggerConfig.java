@@ -57,17 +57,17 @@ public class SwaggerConfig extends SwaggerBaseConfig {
                 .groupName("员工-API");
     }
 
-//    @Bean
-    public Docket createProcessApi() {
+    @Bean
+    public Docket createSmsApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .protocols(Sets.newHashSet("https", "http"))
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.open.controller.process"))
+                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.open.controller.sms"))
                 .paths(PathSelectors.any())
                 .build()
                 .extensions(openApiExtensionResolver.buildSettingExtensions())
-                .groupName("流程-API");
+                .groupName("验证类-API");
     }
 
 //    @Bean

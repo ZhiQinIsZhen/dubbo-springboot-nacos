@@ -54,7 +54,7 @@ public class RemoteJwtAuthCoreServiceImpl implements RemoteJwtAuthCoreService {
     public AuthUser login(String username, SecurityEnum.AudienceType audienceType) {
         AuthUserBO authUserBO = null;
         if (StringUtils.isNotBlank(username) && Objects.nonNull(audienceType)) {
-            authUserBO = getAuthUserByGenericService("login", username, audienceType.getCode());
+            authUserBO = getAuthUserByGenericService("login", audienceType.getCode(), username);
         }
         return CommonCloneUtil.objectClone(authUserBO, AuthUser.class);
     }
@@ -82,7 +82,7 @@ public class RemoteJwtAuthCoreServiceImpl implements RemoteJwtAuthCoreService {
     public AuthUser loadUserByUsername(String username, SecurityEnum.AudienceType audienceType) {
         AuthUserBO authUserBO = null;
         if (StringUtils.isNotBlank(username) && Objects.nonNull(audienceType)) {
-            authUserBO = getAuthUserByGenericService("loadByUsername", username, audienceType.getCode());
+            authUserBO = getAuthUserByGenericService("loadByUsername", audienceType.getCode(), username);
         }
         AuthUser authUser = CommonCloneUtil.objectClone(authUserBO, AuthUser.class);
         if (Objects.nonNull(authUserBO)) {
@@ -176,15 +176,21 @@ public class RemoteJwtAuthCoreServiceImpl implements RemoteJwtAuthCoreService {
      * 通过 genericService 获取用户信息
      *
      * @param methodName
-     * @param o
      * @param group
+     * @param os
      * @return
      */
-    private AuthUserBO getAuthUserByGenericService(String methodName, Object o, String group) {
-        String[] parameterTypes = new String[] {String.class.getName()};
+    private AuthUserBO getAuthUserByGenericService(String methodName, String group, Object... os) {
+        String[] parameterTypes = null;
+        if (os != null) {
+            parameterTypes = new String[os.length];
+            for (int i = 0, j = os.length; i < j; i++) {
+                parameterTypes[i] = os[i].getClass().getName();
+            }
+        }
         Map<String, Object> map = (Map<String, Object>) DubboGenericServiceUtil
                 .getByClassName(RemoteLoadByUsernameService.class, SecurityConstant.DEFAULT_VERSION, group)
-                .$invoke(methodName, parameterTypes, new Object[] {o});
+                .$invoke(methodName, parameterTypes, os);
         AuthUserBO authUserBO = null;
         if (!CollectionUtils.isEmpty(map)) {
             try {

@@ -66,6 +66,9 @@ public class AuthenticationController {
         Authentication authentication = new UsernamePasswordAuthenticationToken(loginDTO.getLoginName(), loginDTO.getLoginPwd());
         SecurityContextHolder.getContext().setAuthentication(authenticationManager.authenticate(authentication));
         AuthUserDetails authUserDetails = (AuthUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AuthUser authUser = JwtContextHolder.getJwtAuthCoreService().login(
+                authUserDetails.getLoginName(),
+                SecurityEnum.AudienceType.getByCode(authUserDetails.getGroup()));
         LoginVO loginVO = LoginVO.builder()
                 .userId(authUserDetails.getId())
                 .loginName(authUserDetails.getLoginName())
@@ -74,7 +77,7 @@ public class AuthenticationController {
                 .email(authUserDetails.getEmail())
                 .mobile(authUserDetails.getMobile())
                 .roleIds(authUserDetails.getRoleIds())
-                .token(JwtContextHolder.getJWT(authUserDetails.getLastWebPasswordResetDate(), SecurityEnum.AudienceType.Staff))
+                .token(JwtContextHolder.getJWT(authUser.getWebTokenTime(), SecurityEnum.AudienceType.getByCode(authUserDetails.getGroup())))
                 .build();
         loginVO.setExpirationDate(JwtContextHolder.getJwtAuthCoreService().getExpirationByToken(loginVO.getToken()));
         return Result.success(loginVO);
@@ -108,7 +111,9 @@ public class AuthenticationController {
         log.info("user register，ip:{}, isMobile:{}", ip, device.isMobile());
         UserRegisterBO bo = CommonCloneUtil.objectClone(userRegisterDTO, UserRegisterBO.class);
         bo.setLoginPwd(JwtContextHolder.getPasswordEncoder().encode(userRegisterDTO.getLoginPwd()));
-
+        bo.setDevice(device.isMobile() ? 1: 2);
+        bo.setIp(ip);
+        remoteCustomerService.register(bo);
         return Result.success(Boolean.TRUE);
     }
 }

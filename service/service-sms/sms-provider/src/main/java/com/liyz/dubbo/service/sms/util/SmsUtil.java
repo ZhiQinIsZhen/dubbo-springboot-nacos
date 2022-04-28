@@ -4,6 +4,7 @@ import com.liyz.dubbo.common.core.constant.CommonConstant;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,6 +20,9 @@ import java.util.regex.Pattern;
 public class SmsUtil {
 
     private static ThreadLocalRandom random = ThreadLocalRandom.current();
+
+    // 使用到Arial字体，系统里没有的话需要安装字体，字体只显示大写，去掉了1,0,i,o几个容易混淆的字符(暂时不去除)
+    public static final String VERIFY_CODES = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
      * 匹配手机
@@ -78,5 +82,35 @@ public class SmsUtil {
             sb.append(random.nextInt(10));
         }
         return sb.toString();
+    }
+
+    /**
+     * 使用系统默认字符源生成验证码
+     *
+     * @param verifySize 验证码长度
+     * @return
+     */
+    public static String generateVerifyCode(int verifySize) {
+        return generateVerifyCode(verifySize, VERIFY_CODES);
+    }
+
+    /**
+     * 使用指定源生成验证码
+     *
+     * @param verifySize 验证码长度
+     * @param sources    验证码字符源
+     * @return
+     */
+    public static String generateVerifyCode(int verifySize, String sources) {
+        if (sources == null || sources.length() == 0) {
+            sources = VERIFY_CODES;
+        }
+        int codesLen = sources.length();
+        Random rand = new Random(System.currentTimeMillis());
+        StringBuilder verifyCode = new StringBuilder(verifySize);
+        for (int i = 0; i < verifySize; i++) {
+            verifyCode.append(sources.charAt(rand.nextInt(codesLen - 1)));
+        }
+        return verifyCode.toString();
     }
 }

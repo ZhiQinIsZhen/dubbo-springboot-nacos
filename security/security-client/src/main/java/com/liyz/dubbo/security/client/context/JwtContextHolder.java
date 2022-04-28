@@ -68,8 +68,8 @@ public class JwtContextHolder implements ApplicationContextAware, InitializingBe
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        remoteJwtAuthCoreService = applicationContext.getBean(RemoteJwtAuthCoreService.class);
-        remoteGrantedAuthorityCoreService = applicationContext.getBean(RemoteGrantedAuthorityCoreService.class);
+        remoteJwtAuthCoreService = applicationContext.getBean("remoteJwtAuthCoreService", RemoteJwtAuthCoreService.class);
+        remoteGrantedAuthorityCoreService = applicationContext.getBean("remoteGrantedAuthorityCoreService", RemoteGrantedAuthorityCoreService.class);
         passwordEncoder = applicationContext.getBean(PasswordEncoder.class);
     }
 }

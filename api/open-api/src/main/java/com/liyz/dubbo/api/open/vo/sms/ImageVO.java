@@ -23,6 +23,6 @@ public class ImageVO implements Serializable {
     @ApiModelProperty(value = "图片token")
     private String imageToken;
 
-    @ApiModelProperty(value = "图片验证码zip压缩")
+    @ApiModelProperty(value = "图片验证码base64")
     private String imageBase64;
 }

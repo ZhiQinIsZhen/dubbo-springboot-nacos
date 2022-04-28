@@ -91,6 +91,12 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.liyz.dubbo</groupId>
+            <artifactId>sms-remote</artifactId>
+            <version>${revision}</version>
+        </dependency>
     </dependencies>
 
 </project>

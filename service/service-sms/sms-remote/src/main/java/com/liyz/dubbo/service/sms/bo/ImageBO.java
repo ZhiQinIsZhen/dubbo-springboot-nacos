@@ -19,7 +19,7 @@ public class ImageBO implements Serializable {
 
     private String imageToken;
 
-    private String imageZip;
+    private String imageCode;
 
     public interface Image {}
 }

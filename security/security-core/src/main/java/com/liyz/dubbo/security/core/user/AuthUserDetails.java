@@ -53,9 +53,14 @@ public class AuthUserDetails extends User {
      */
     private final Date lastAppPasswordResetDate;
 
+    /**
+     * 认证组
+     */
+    private final String group;
+
     public AuthUserDetails(Long id, List<Integer> roleIds, String username, String password, String mobile, String email, String loginName,
                            String nikeName, Collection<? extends GrantedAuthority> authorities, Date lastWebPasswordResetDate,
-                           Date lastAppPasswordResetDate) {
+                           Date lastAppPasswordResetDate, String group) {
         super(username, password, authorities);
         this.id = id;
         this.roleIds = roleIds;
@@ -65,12 +70,13 @@ public class AuthUserDetails extends User {
         this.nikeName = nikeName;
         this.lastWebPasswordResetDate = lastWebPasswordResetDate;
         this.lastAppPasswordResetDate = lastAppPasswordResetDate;
+        this.group = group;
     }
 
     public AuthUserDetails(Long id, List<Integer> roleIds, String username, String password, String mobile, String email, String loginName,
                            boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked,
                            String nikeName, Collection<? extends GrantedAuthority> authorities, Date lastWebPasswordResetDate,
-                           Date lastAppPasswordResetDate) {
+                           Date lastAppPasswordResetDate, String group) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.id = id;
         this.roleIds = roleIds;
@@ -80,5 +86,6 @@ public class AuthUserDetails extends User {
         this.nikeName = nikeName;
         this.lastWebPasswordResetDate = lastWebPasswordResetDate;
         this.lastAppPasswordResetDate = lastAppPasswordResetDate;
+        this.group = group;
     }
 }

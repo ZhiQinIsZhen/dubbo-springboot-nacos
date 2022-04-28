@@ -2,6 +2,7 @@ package com.liyz.dubbo.service.sms.remote;
 
 import com.liyz.dubbo.service.sms.bo.ImageBO;
 import com.liyz.dubbo.service.sms.bo.SmsInfoBO;
+import com.liyz.dubbo.service.sms.enums.SmsType;
 import org.springframework.validation.annotation.Validated;
 
 /**
@@ -25,9 +26,28 @@ public interface RemoteSmsService {
     boolean send(@Validated({SmsInfoBO.Sms.class}) SmsInfoBO smsInfoBO);
 
     /**
+     * 验证
+     *
+     * @param smsType
+     * @param address
+     * @param verificationCode
+     * @return
+     */
+    boolean validateSmsCode(SmsType smsType, String address, String verificationCode);
+
+    /**
      * 生成图片验证码
      *
      * @return
      */
     ImageBO imageCode();
+
+    /**
+     * 验证验证码
+     *
+     * @param token
+     * @param imageCode
+     * @return
+     */
+    boolean validateImageCode(String token, String imageCode);
 }

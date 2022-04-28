@@ -40,5 +40,13 @@ public class UserRegisterBO implements Serializable {
     @NotBlank( message = "注册IP不能为空")
     private String ip;
 
+    /**
+     * 图片token
+     *
+     * 注：这里本不该这么设计，应该是在发短信时，需要一个图片验证码，验证通过才能发短信，然后再携带短信验证码来注册，
+     * 这里就简单的测试，用图片验证码代替短信验证码
+     */
+    private String imageToken;
+
     public interface Register{}
 }

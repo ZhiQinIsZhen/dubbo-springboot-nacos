@@ -19,6 +19,18 @@ public class RedisKeyConstant {
 
     private static final String IMAGE_TOKEN = PROJECT_PREFIX + "image:token";
 
+    private static final String SMS_CODE = PROJECT_PREFIX + "sms:code";
+
+    /**
+     * 获取sms验证码 key
+     *
+     * @param keys
+     * @return
+     */
+    public static String getSmsCodeKey(String... keys) {
+        return joinKey(SMS_CODE, keys);
+    }
+
     /**
      * 获取image token
      *

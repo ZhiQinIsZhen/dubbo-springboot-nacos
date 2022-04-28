@@ -57,7 +57,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     private AuthUser getUserByUsername(String username) {
         SecurityEnum.AudienceType audienceType = SecurityEnum.AudienceType.getByCode(this.audienceType);
-        AuthUser authUser = JwtContextHolder.getJwtAuthCoreService().login(username, audienceType);
+        AuthUser authUser = JwtContextHolder.getJwtAuthCoreService().loadUserByUsername(username, audienceType);
         if (Objects.isNull(authUser)) {
             throw new UsernameNotFoundException("No user found with token !");
         }
@@ -102,6 +102,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 authUser.getNickName(),
                 authorityList,
                 authUser.getWebTokenTime(),
-                authUser.getAppTokenTime());
+                authUser.getAppTokenTime(),
+                authUser.getGroup());
     }
 }

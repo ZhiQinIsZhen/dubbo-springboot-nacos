@@ -2,6 +2,8 @@ package com.liyz.dubbo.security.remote;
 
 import com.liyz.dubbo.security.remote.bo.AuthUserBO;
 
+import java.util.Date;
+
 /**
  * 注释:用户鉴权查询接口
  *
