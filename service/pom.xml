@@ -16,5 +16,6 @@
 
     <modules>
         <module>service-staff</module>
+        <module>service-sms</module>
     </modules>
 </project>

@@ -76,9 +76,11 @@ public class WebSecurityClientConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .exceptionHandling()
                 .accessDeniedHandler(new RestfulAccessDeniedHandler())
-                .authenticationEntryPoint(new JwtAuthenticationEntryPoint()).and()
+                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
+                .and()
                 //基于token，所以不需要session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
                 //预请求不拦截
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -87,7 +89,8 @@ public class WebSecurityClientConfig extends WebSecurityConfigurerAdapter {
                 //配置可以匿名访问的api
                 .antMatchers(list.toArray(new String[list.size()])).permitAll()
                 //其余都需要鉴权认证
-                .anyRequest().authenticated().and()
+                .anyRequest().authenticated()
+                .and()
                 //添加jwt过滤器
                 .addFilterBefore(
                         new JwtAuthenticationTokenFilter(tokenHeaderKey, userDetailsService),

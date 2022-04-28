@@ -4,7 +4,8 @@ import com.liyz.dubbo.common.desensitize.annotation.Desensitization;
 import com.liyz.dubbo.common.desensitize.enums.DesensitizationType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,8 +17,9 @@ import java.util.List;
  * @version 1.0.0
  * @date 2019/9/7 22:38
  */
-@ApiModel(value = "UserInfoVO", description = "用户信息")
-@Data
+@ApiModel("UserInfoVO")
+@Getter
+@Setter
 public class UserInfoVO implements Serializable {
     private static final long serialVersionUID = 4010688986098940232L;
 

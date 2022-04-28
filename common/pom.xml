@@ -22,5 +22,6 @@
         <module>common-limit</module>
         <module>common-util</module>
         <module>common-controller</module>
+        <module>common-redisson</module>
     </modules>
 </project>

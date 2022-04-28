@@ -32,7 +32,7 @@ import java.util.Objects;
  * @version 1.0.0
  * @date 2020/1/6 14:31
  */
-@Api(value = "用户信息", tags = "用户信息")
+@Api(tags = "用户信息")
 @ApiResponses(value = {
         @ApiResponse(code = 0, message = "成功"),
         @ApiResponse(code = 1, message = "失败")
@@ -51,7 +51,7 @@ public class UserInfoController {
     @Limits(value = {@Limit(count = 2)})
     @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
             paramType = "header", defaultValue = "Bearer ")
-    @ApiOperation(value = "获取登陆的用户信息", notes = "获取登陆的用户信息")
+    @ApiOperation("获取登陆的用户信息")
     @GetMapping("/info")
     public Result<UserInfoVO> info() {
         applicationContext.publishEvent(new UserEvent(this, AuthContext.getAuthUser().getUserId()));
@@ -59,7 +59,7 @@ public class UserInfoController {
     }
 
     @Limits(value = {@Limit(count = 1)})
-    @ApiOperation(value = "获取登陆的用户ID", notes = "获取登陆的用户ID")
+    @ApiOperation("获取登陆的用户ID")
     @GetMapping("/id")
     @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
             paramType = "header", defaultValue = "Bearer ")
@@ -70,7 +70,7 @@ public class UserInfoController {
 
     @PreAuthorize("hasAuthority('ALL;/user/info')")
     @Limits(value = {@Limit(count = 1)})
-    @ApiOperation(value = "根据用户名查询用户信息", notes = "根据用户名查询用户信息")
+    @ApiOperation("根据用户名查询用户信息")
     @GetMapping("/userInfo")
     @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
             paramType = "header", defaultValue = "Bearer ")

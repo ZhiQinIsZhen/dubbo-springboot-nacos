@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mobile.device.Device;
 import org.springframework.mobile.device.LiteDeviceResolver;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -32,6 +33,7 @@ public class JwtContextHolder implements ApplicationContextAware, InitializingBe
     private static ApplicationContext applicationContext;
     private static RemoteJwtAuthCoreService remoteJwtAuthCoreService;
     private static RemoteGrantedAuthorityCoreService remoteGrantedAuthorityCoreService;
+    private static PasswordEncoder passwordEncoder;
 
     public static RemoteJwtAuthCoreService getJwtAuthCoreService() {
         return remoteJwtAuthCoreService;
@@ -39,6 +41,10 @@ public class JwtContextHolder implements ApplicationContextAware, InitializingBe
 
     public static RemoteGrantedAuthorityCoreService getGrantedAuthorityCoreService() {
         return remoteGrantedAuthorityCoreService;
+    }
+
+    public static PasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
     }
 
     public static String getJWT(Date lastLoginTime, SecurityEnum.AudienceType audienceType) {
@@ -62,7 +68,8 @@ public class JwtContextHolder implements ApplicationContextAware, InitializingBe
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        remoteJwtAuthCoreService = applicationContext.getBean("remoteJwtAuthCoreService", RemoteJwtAuthCoreService.class);
-        remoteGrantedAuthorityCoreService = applicationContext.getBean("remoteGrantedAuthorityCoreService", RemoteGrantedAuthorityCoreService.class);
+        remoteJwtAuthCoreService = applicationContext.getBean(RemoteJwtAuthCoreService.class);
+        remoteGrantedAuthorityCoreService = applicationContext.getBean(RemoteGrantedAuthorityCoreService.class);
+        passwordEncoder = applicationContext.getBean(PasswordEncoder.class);
     }
 }

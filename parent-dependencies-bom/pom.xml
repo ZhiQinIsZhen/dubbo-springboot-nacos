@@ -20,7 +20,7 @@
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <sharding-jdbc.version>4.1.1</sharding-jdbc.version>
         <knife4j.version>2.0.9</knife4j.version>
-        <redisson.version>3.17.0</redisson.version>
+        <redisson.version>3.17.1</redisson.version>
         <spring.kafka.version>2.5.1.RELEASE</spring.kafka.version>
         <seata.version>1.4.2</seata.version>
         <elasticjob.version>3.0.1</elasticjob.version>
@@ -119,6 +119,11 @@
             <dependency>
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-data-26</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
             <!-- mq -->

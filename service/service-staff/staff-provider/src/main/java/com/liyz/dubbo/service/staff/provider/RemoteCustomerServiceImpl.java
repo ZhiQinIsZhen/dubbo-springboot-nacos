@@ -2,13 +2,18 @@ package com.liyz.dubbo.service.staff.provider;
 
 import com.liyz.dubbo.common.core.util.CommonCloneUtil;
 import com.liyz.dubbo.service.staff.bo.CustomerBO;
+import com.liyz.dubbo.service.staff.bo.UserRegisterBO;
+import com.liyz.dubbo.service.staff.exception.RemoteStaffServiceException;
+import com.liyz.dubbo.service.staff.exception.StaffExceptionCodeEnum;
 import com.liyz.dubbo.service.staff.model.CustomerDO;
 import com.liyz.dubbo.service.staff.remote.RemoteCustomerService;
 import com.liyz.dubbo.service.staff.service.ICustomerService;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 
 /**
  * 注释:客户信息
@@ -23,6 +28,26 @@ public class RemoteCustomerServiceImpl implements RemoteCustomerService {
     @Resource
     private ICustomerService customerService;
 
+    /**
+     * 注册
+     *
+     * @param userRegisterBO
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void register(UserRegisterBO userRegisterBO) {
+        CustomerBO customerBO = getByUsername(userRegisterBO.getLoginName());
+        if (Objects.nonNull(customerBO)) {
+            throw new RemoteStaffServiceException(StaffExceptionCodeEnum.ACCOUNT_EXIST);
+        }
+    }
+
+    /**
+     * 根据用户名获取客户信息
+     *
+     * @param username
+     * @return
+     */
     @Override
     public CustomerBO getByUsername(@NotBlank String username) {
         CustomerDO customerDO = new CustomerDO();

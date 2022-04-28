@@ -1,8 +1,11 @@
 package com.liyz.dubbo.service.staff.remote;
 
 import com.liyz.dubbo.service.staff.bo.CustomerBO;
+import com.liyz.dubbo.service.staff.bo.UserRegisterBO;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * 注释:客户信息dubbo接口
@@ -12,6 +15,13 @@ import javax.validation.constraints.NotBlank;
  * @date 2022/4/24 15:15
  */
 public interface RemoteCustomerService {
+
+    /**
+     * 注册
+     *
+     * @param userRegisterBO
+     */
+    void register(@Validated({UserRegisterBO.Register.class}) UserRegisterBO userRegisterBO);
 
     /**
      * 根据用户名获取客户信息

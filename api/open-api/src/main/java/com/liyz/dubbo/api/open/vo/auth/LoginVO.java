@@ -16,7 +16,7 @@ import java.util.List;
  * @version 1.0.0
  * @date 2019/8/27 15:34
  */
-@ApiModel(value = "LoginVO", description = "登录成功后返回信息")
+@ApiModel("LoginVO")
 @Getter
 @Setter
 @Builder
