@@ -23,5 +23,6 @@
         <module>common-util</module>
         <module>common-controller</module>
         <module>common-redisson</module>
+        <module>common-job</module>
     </modules>
 </project>
