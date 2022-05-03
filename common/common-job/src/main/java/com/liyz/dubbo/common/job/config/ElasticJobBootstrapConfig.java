@@ -54,22 +54,20 @@ public class ElasticJobBootstrapConfig implements ApplicationContextAware, BeanP
             log.info("get no beans from @ElasticJob ...");
             return;
         }
-        beanMap.forEach(new BiConsumer<String, Object>() {
-            @Override
-            public void accept(String s, Object o) {
-                Class<?> clz = o.getClass();
-                if (ElasticJob.class.isAssignableFrom(clz)) {
-                    ElasticJob elasticJob = clz.getAnnotation(ElasticJob.class);
-                    ElasticJobConfigurationProperties Properties = new ElasticJobConfigurationProperties();
-                    Properties.setElasticJobClass((Class<? extends org.apache.shardingsphere.elasticjob.api.ElasticJob>) clz);
-                    Properties.setCron(elasticJob.cron());
-                    Properties.setShardingTotalCount(elasticJob.shardingTotalCount());
-                    Properties.setShardingItemParameters(elasticJob.shardingItemParameters());
-                    Properties.setOverwrite(elasticJob.overwrite());
-                    elasticJobProperties.getJobs().put(s, Properties);
-                }
+        log.info("get {} beans from @ElasticJob ...", beanMap.size());
+        for (Map.Entry<String, Object> entry : beanMap.entrySet()) {
+            Class<?> clz = entry.getValue().getClass();
+            if (org.apache.shardingsphere.elasticjob.api.ElasticJob.class.isAssignableFrom(clz)) {
+                ElasticJob elasticJob = clz.getAnnotation(ElasticJob.class);
+                ElasticJobConfigurationProperties Properties = new ElasticJobConfigurationProperties();
+                Properties.setElasticJobClass((Class<? extends org.apache.shardingsphere.elasticjob.api.ElasticJob>) clz);
+                Properties.setCron(elasticJob.cron());
+                Properties.setShardingTotalCount(elasticJob.shardingTotalCount());
+                Properties.setShardingItemParameters(elasticJob.shardingItemParameters());
+                Properties.setOverwrite(elasticJob.overwrite());
+                elasticJobProperties.getJobs().put(entry.getKey(), Properties);
             }
-        });
+        }
         SingletonBeanRegistry singletonBeanRegistry = ((ConfigurableApplicationContext)this.applicationContext).getBeanFactory();
         CoordinatorRegistryCenter registryCenter = this.applicationContext.getBean(CoordinatorRegistryCenter.class);
         TracingConfiguration<?> tracingConfig = this.getTracingConfiguration();
