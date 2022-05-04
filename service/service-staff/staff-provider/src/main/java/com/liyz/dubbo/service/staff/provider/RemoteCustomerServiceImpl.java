@@ -42,12 +42,12 @@ public class RemoteCustomerServiceImpl implements RemoteCustomerService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void register(UserRegisterBO userRegisterBO) {
+        if (!remoteSmsService.validateImageCode(userRegisterBO.getImageToken(), userRegisterBO.getVerificationCode())) {
+            throw new RemoteStaffServiceException(SmsExceptionCodeEnum.IMAGE_ERROR);
+        }
         CustomerBO customerBO = getByUsername(userRegisterBO.getLoginName());
         if (Objects.nonNull(customerBO)) {
             throw new RemoteStaffServiceException(StaffExceptionCodeEnum.ACCOUNT_EXIST);
-        }
-        if (!remoteSmsService.validateImageCode(userRegisterBO.getImageToken(), userRegisterBO.getVerificationCode())) {
-            throw new RemoteStaffServiceException(SmsExceptionCodeEnum.IMAGE_ERROR);
         }
         CustomerDO customerDO = new CustomerDO();
         customerDO.setCustomerName(userRegisterBO.getLoginName());
