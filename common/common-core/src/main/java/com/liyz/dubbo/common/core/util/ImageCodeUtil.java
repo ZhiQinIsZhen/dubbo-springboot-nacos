@@ -1,6 +1,7 @@
 package com.liyz.dubbo.common.core.util;
 
 import lombok.experimental.UtilityClass;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -24,6 +25,10 @@ import java.util.concurrent.ThreadLocalRandom;
 @UtilityClass
 public class ImageCodeUtil {
 
+    public static final String DEFAULT_HEADER_TOKEN = "imageToken";
+    public static final String DEFAULT_CONTENT_TYPE = "image/jpg";
+    public static final int DEFAULT_WIGHT = 100;
+    public static final int DEFAULT_HIGH = 40;
 
     private static ThreadLocalRandom random = ThreadLocalRandom.current();
 

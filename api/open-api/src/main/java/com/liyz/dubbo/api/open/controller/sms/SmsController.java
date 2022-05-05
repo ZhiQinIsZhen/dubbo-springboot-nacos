@@ -49,9 +49,9 @@ public class SmsController {
         String ip = HttpRequestUtil.getIpAddress(request);
         log.info("create imageCode，ip:{}", ip);
         ImageBO imageBO = remoteSmsService.imageCode();
-        response.addHeader("imageToken", imageBO.getImageToken());
-        response.setContentType("image/jpg");
-        ImageCodeUtil.outputImage(100, 40, response.getOutputStream(), imageBO.getImageCode());
+        response.addHeader(ImageCodeUtil.DEFAULT_HEADER_TOKEN, imageBO.getImageToken());
+        response.setContentType(ImageCodeUtil.DEFAULT_CONTENT_TYPE);
+        ImageCodeUtil.outputImage(ImageCodeUtil.DEFAULT_WIGHT, ImageCodeUtil.DEFAULT_HIGH, response.getOutputStream(), imageBO.getImageCode());
     }
 
     @ApiOperation("验证图片验证码")

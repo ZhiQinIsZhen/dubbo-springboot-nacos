@@ -102,7 +102,7 @@ public class RemoteSmsServiceImpl implements RemoteSmsService {
         }
         String key = RedisKeyConstant.getImageTokenKey(token);
         Object result = redissonClient.getBucket(key, RedissonService.getDEFAULT_STRING_CODE()).get();
-        if (imageCode.equals(result == null ? null : result.toString())) {
+        if (imageCode.toUpperCase().equals(result == null ? null : result.toString())) {
             redissonClient.getBucket(key).delete();
             return true;
         }
