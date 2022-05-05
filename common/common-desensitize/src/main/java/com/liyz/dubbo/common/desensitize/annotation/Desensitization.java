@@ -25,6 +25,13 @@ public @interface Desensitization {
 
     DesensitizationType value() default DesensitizationType.DEFAULT;
 
+    /**
+     * 1.beginIndex=-1,endIndex=3,则表示最后3位脱敏
+     * 2.beginIndex=3,endIndex=-1,则表示前3位脱敏
+     * 3.beginIndex=1,endIndex=2,则表示第一位到第二位脱敏
+     * 4.beginIndex=-1,endIndex=-1,则表示全部字符脱敏
+     * @return
+     */
     int beginIndex() default 0;
 
     int endIndex() default 0;

@@ -15,12 +15,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailDesensitizeService extends AbstractDesensitizeService{
 
-    private static final String Email_Regex = "(\\w+)\\w{5}@(\\w+)";
+    private static final String Email_Regex = "(\\w+)\\w{%d}@(\\w+)";
 
     @Override
     public String desensitize(String value, Desensitization annotation) {
         if (StringUtils.isNotBlank(value)) {
-            value = value.replaceAll(Email_Regex, "$1****$2");
+            int index = value.indexOf("@");
+            if (index > 0) {
+                index = (int) (index * 0.6);
+                value = value.replaceAll(String.format(Email_Regex, index), "$1****$2");
+            }
         }
         return value;
     }

@@ -28,7 +28,7 @@ public class LoginVO implements Serializable {
     @ApiModelProperty(value = "用户id", example = "10001")
     private Long userId;
 
-    @Desensitization(endIndex = 3)
+    @Desensitization(value = DesensitizationType.SELF_DEFINITION, beginIndex = 3, endIndex = 7)
     @ApiModelProperty(value = "用户名称", example = "user")
     private String loginName;
 

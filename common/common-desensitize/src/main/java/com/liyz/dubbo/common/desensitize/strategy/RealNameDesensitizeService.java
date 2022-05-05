@@ -13,14 +13,14 @@ import org.springframework.stereotype.Component;
  * @date 2022/4/20 20:36
  */
 @Component
-public class NameDesensitizeService extends AbstractDesensitizeService{
+public class RealNameDesensitizeService extends AbstractDesensitizeService{
 
-    private static final String Name_Regex = "(\\W)(\\W+)";
+    private static final String Name_Regex = "(\\W)(\\w*)(\\W)";
 
     @Override
     public String desensitize(String value, Desensitization annotation) {
         if (StringUtils.isNotBlank(value) && value.length() > 1) {
-            value = value.replaceAll(Name_Regex, "$1*");
+            value = StringUtils.left(value, 1) + StringUtils.leftPad(StringUtils.right(value, 1), value.length() - 1, "*");
         }
         return value;
     }

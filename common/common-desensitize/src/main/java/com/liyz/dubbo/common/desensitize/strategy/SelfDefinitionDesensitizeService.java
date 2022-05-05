@@ -22,16 +22,16 @@ public class SelfDefinitionDesensitizeService extends AbstractDesensitizeService
             int beginIndex = annotation.beginIndex();
             int endIndex = annotation.endIndex();
             if (beginIndex >= 0 && beginIndex < endIndex && endIndex <= length) {
-                StringBuilder format = new StringBuilder(beginIndex > 0 ? "%s" : "");
-                for (int i = endIndex - beginIndex; i > 0; i--) {
-                    format.append("*");
-                }
-                format.append(endIndex == length ? "" : "%s");
-                if (beginIndex > 0) {
-                    value = String.format(format.toString(), value.substring(0, beginIndex), value.substring(endIndex));
-                } else {
-                    value = String.format(format.toString(), value.substring(endIndex));
-                }
+                String begin = StringUtils.left(value, beginIndex);
+                String end = StringUtils.right(value, length - endIndex);
+                end = StringUtils.leftPad(end, length - beginIndex, "*");
+                value = begin + end;
+            } else if (beginIndex == -1 && endIndex == -1) {
+                value = StringUtils.leftPad(StringUtils.EMPTY, length, "*");
+            } else if (beginIndex == -1 && endIndex >= 0 && endIndex <= length) {
+                value = StringUtils.rightPad(StringUtils.left(value, length - endIndex), length, "*");
+            } else if (endIndex == -1 && beginIndex >= 0 && beginIndex <= length) {
+                value = StringUtils.leftPad(StringUtils.right(value, length - beginIndex), length, "*");
             }
         }
         return value;
