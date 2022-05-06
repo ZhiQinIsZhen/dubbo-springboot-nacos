@@ -3,7 +3,6 @@ package com.liyz.dubbo.security.core.remote;
 import com.liyz.dubbo.common.core.auth.AuthUser;
 import com.liyz.dubbo.security.core.constant.SecurityEnum;
 import com.liyz.dubbo.security.core.user.ClaimDetail;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Date;
 
@@ -19,29 +18,32 @@ public interface RemoteJwtAuthCoreService {
     /**
      * 登陆
      *
-     * @param username
+     * @param userId
+     * @param device
      * @param audienceType
      * @return
      */
-    AuthUser login(final String username, final SecurityEnum.AudienceType audienceType);
+    Date login(final Long userId, final Integer device, final SecurityEnum.AudienceType audienceType);
 
     /**
      * 登出
      *
-     * @param username
+     * @param userId
+     * @param device
      * @param audienceType
      * @return
      */
-    AuthUser logout(final String username, final SecurityEnum.AudienceType audienceType);
+    Date logout(final Long userId, final Integer device, final SecurityEnum.AudienceType audienceType);
 
     /**
      * 根据用户名获取用户信息
      *
      * @param username
+     * @param device
      * @param audienceType
      * @return
      */
-    AuthUser loadUserByUsername(final String username, final SecurityEnum.AudienceType audienceType);
+    AuthUser loadUserByUsername(final String username, final Integer device, final SecurityEnum.AudienceType audienceType);
 
     /**
      * 根据token解析认证用户信息
@@ -58,6 +60,14 @@ public interface RemoteJwtAuthCoreService {
      * @return
      */
     String getJWT(final ClaimDetail claimDetail);
+
+    /**
+     * 获取token中的用户名
+     *
+     * @param token
+     * @return
+     */
+    String getUsernameByToken(final String token);
 
     /**
      * 获取token失效时间

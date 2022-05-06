@@ -51,7 +51,7 @@ public class RemoteCustomerServiceImpl implements RemoteCustomerService {
         }
         CustomerDO customerDO = new CustomerDO();
         customerDO.setCustomerName(userRegisterBO.getLoginName());
-        customerDO.setEmail("xxxx@qq.com");
+        customerDO.setEmail("liyangzhen@qq.com");
         customerDO.setMobile("15888888888");
         customerDO.setNickName(userRegisterBO.getNickName());
         customerDO.setPassword(userRegisterBO.getLoginPwd());

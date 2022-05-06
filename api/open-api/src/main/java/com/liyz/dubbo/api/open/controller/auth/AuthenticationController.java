@@ -4,6 +4,7 @@ import com.liyz.dubbo.api.open.dto.auth.LoginDTO;
 import com.liyz.dubbo.api.open.dto.auth.UserRegisterDTO;
 import com.liyz.dubbo.api.open.vo.auth.LoginVO;
 import com.liyz.dubbo.common.core.auth.AuthUser;
+import com.liyz.dubbo.common.core.constant.CommonConstant;
 import com.liyz.dubbo.common.core.result.Result;
 import com.liyz.dubbo.common.core.util.AuthContext;
 import com.liyz.dubbo.common.core.util.CommonCloneUtil;
@@ -34,10 +35,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.Objects;
 
 /**
- * 注释:
+ * 注释:鉴权网关
  *
  * @author liyangzhen
  * @version 1.0.0
@@ -66,8 +68,14 @@ public class AuthenticationController {
         Authentication authentication = new UsernamePasswordAuthenticationToken(loginDTO.getLoginName(), loginDTO.getLoginPwd());
         SecurityContextHolder.getContext().setAuthentication(authenticationManager.authenticate(authentication));
         AuthUserDetails authUserDetails = (AuthUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        AuthUser authUser = JwtContextHolder.getJwtAuthCoreService().login(
-                authUserDetails.getLoginName(),
+        HttpServletRequest request = HttpRequestUtil.getRequest();
+        LiteDeviceResolver resolver = new LiteDeviceResolver();
+        String ip = HttpRequestUtil.getIpAddress(request);
+        //如果需要统计注册设备，这里可以加进去
+        Device device = resolver.resolveDevice(request);
+        Date loginTime = JwtContextHolder.getJwtAuthCoreService().login(
+                authUserDetails.getId(),
+                device.isMobile() ? CommonConstant.DEVICE_MOBILE : CommonConstant.DEVICE_WEB,
                 SecurityEnum.AudienceType.getByCode(authUserDetails.getGroup()));
         LoginVO loginVO = LoginVO.builder()
                 .userId(authUserDetails.getId())
@@ -77,7 +85,7 @@ public class AuthenticationController {
                 .email(authUserDetails.getEmail())
                 .mobile(authUserDetails.getMobile())
                 .roleIds(authUserDetails.getRoleIds())
-                .token(JwtContextHolder.getJWT(authUser.getWebTokenTime(), SecurityEnum.AudienceType.getByCode(authUserDetails.getGroup())))
+                .token(JwtContextHolder.getJWT(loginTime, SecurityEnum.AudienceType.getByCode(authUserDetails.getGroup())))
                 .build();
         loginVO.setExpirationDate(JwtContextHolder.getJwtAuthCoreService().getExpirationByToken(loginVO.getToken()));
         return Result.success(loginVO);
@@ -93,8 +101,16 @@ public class AuthenticationController {
         if (Objects.isNull(authUser)) {
             return Result.success(Boolean.FALSE);
         }
+        HttpServletRequest request = HttpRequestUtil.getRequest();
+        LiteDeviceResolver resolver = new LiteDeviceResolver();
+        String ip = HttpRequestUtil.getIpAddress(request);
+        //如果需要统计注册设备，这里可以加进去
+        Device device = resolver.resolveDevice(request);
         SecurityEnum.AudienceType audienceType = SecurityEnum.AudienceType.getByCode(authUser.getGroup());
-        JwtContextHolder.getJwtAuthCoreService().logout(authUser.getLoginName(), audienceType);
+        JwtContextHolder.getJwtAuthCoreService().logout(
+                authUser.getUserId(),
+                device.isMobile() ? CommonConstant.DEVICE_MOBILE : CommonConstant.DEVICE_WEB,
+                audienceType);
         return Result.success(Boolean.TRUE);
     }
 
@@ -111,7 +127,7 @@ public class AuthenticationController {
         log.info("user register，ip:{}, isMobile:{}", ip, device.isMobile());
         UserRegisterBO bo = CommonCloneUtil.objectClone(userRegisterDTO, UserRegisterBO.class);
         bo.setLoginPwd(JwtContextHolder.getPasswordEncoder().encode(userRegisterDTO.getLoginPwd()));
-        bo.setDevice(device.isMobile() ? 1: 2);
+        bo.setDevice(device.isMobile() ? CommonConstant.DEVICE_MOBILE : CommonConstant.DEVICE_WEB);
         bo.setIp(ip);
         remoteCustomerService.register(bo);
         return Result.success(Boolean.TRUE);

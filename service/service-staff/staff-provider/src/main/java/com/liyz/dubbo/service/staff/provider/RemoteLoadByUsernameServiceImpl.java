@@ -3,15 +3,21 @@ package com.liyz.dubbo.service.staff.provider;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import com.liyz.dubbo.common.core.util.CommonCloneUtil;
+import com.liyz.dubbo.common.util.DateUtil;
 import com.liyz.dubbo.security.remote.RemoteLoadByUsernameService;
 import com.liyz.dubbo.security.remote.bo.AuthUserBO;
 import com.liyz.dubbo.service.staff.model.CustomerDO;
 import com.liyz.dubbo.service.staff.model.CustomerRoleDO;
+import com.liyz.dubbo.service.staff.model.StaLoginDO;
+import com.liyz.dubbo.service.staff.model.StaLoginLogDO;
 import com.liyz.dubbo.service.staff.service.ICustomerRoleService;
 import com.liyz.dubbo.service.staff.service.ICustomerService;
+import com.liyz.dubbo.service.staff.service.IStaLoginLogService;
+import com.liyz.dubbo.service.staff.service.IStaLoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -35,21 +41,55 @@ public class RemoteLoadByUsernameServiceImpl implements RemoteLoadByUsernameServ
     private ICustomerService customerService;
     @Resource
     private ICustomerRoleService customerRoleService;
+    @Resource
+    private IStaLoginService staLoginService;
+    @Resource
+    private IStaLoginLogService staLoginLogService;
 
+    /**
+     * 修改登陆时间
+     *
+     * @param userId
+     * @param device
+     * @param isLogin
+     * @return
+     */
     @Override
-    public AuthUserBO login(String username) {
-        if (StringUtils.isBlank(username)) {
+    @Transactional(rollbackFor = Exception.class)
+    public Date updateLoginTime(final Long userId, final Integer device, final Boolean isLogin) {
+        if (Objects.isNull(userId) || Objects.isNull(device)) {
             return null;
         }
-        boolean count = customerService.updateByUsername(username);
-        if (!count) {
-            log.error("userName : {}, login fail");
+        Date loginTime = DateUtil.currentDate();
+        StaLoginDO staLoginDO = new StaLoginDO();
+        staLoginDO.setCustomerId(userId);
+        staLoginDO.setDevice(device);
+        staLoginDO.setLoginTime(loginTime);
+        boolean success = staLoginService.updateLoginTime(staLoginDO);
+        if (!success) {
+            //没有成功说明该数据没有，则新增一条数据
+            staLoginService.save(staLoginDO);
         }
-        return loadByUsername(username);
+        //如果是登陆时修改时间，则需要记录日志
+        if (isLogin) {
+            StaLoginLogDO staLoginLogDO = new StaLoginLogDO();
+            staLoginLogDO.setCustomerId(userId);
+            staLoginLogDO.setDevice(device);
+            staLoginLogDO.setLoginTime(loginTime);
+            staLoginLogService.save(staLoginLogDO);
+        }
+        return loginTime;
     }
 
+    /**
+     * 通过username查询认证信息
+     *
+     * @param username
+     * @param device
+     * @return
+     */
     @Override
-    public AuthUserBO loadByUsername(String username) {
+    public AuthUserBO loadByUsername(final String username, final Integer device) {
         if (StringUtils.isBlank(username)) {
             return null;
         }
@@ -68,6 +108,14 @@ public class RemoteLoadByUsernameServiceImpl implements RemoteLoadByUsernameServ
             customerRoleDO.setCustomerId(customerDO.getCustomerId());
             List<CustomerRoleDO> roleDOList = customerRoleService.list(Wrappers.lambdaQuery(customerRoleDO));
             authUserBO.setRoleIds(CollectionUtils.isEmpty(roleDOList) ? Lists.newArrayList() : roleDOList.stream().map(CustomerRoleDO::getRoleId).collect(Collectors.toList()));
+            //查询登陆时间
+            StaLoginDO staLoginDO = new StaLoginDO();
+            staLoginDO.setCustomerId(customerDO.getCustomerId());
+            staLoginDO.setDevice(device);
+            staLoginDO = staLoginService.getOne(staLoginDO);
+            if (Objects.nonNull(staLoginDO)) {
+                authUserBO.setLoginTime(staLoginDO.getLoginTime());
+            }
         }
         return authUserBO;
     }

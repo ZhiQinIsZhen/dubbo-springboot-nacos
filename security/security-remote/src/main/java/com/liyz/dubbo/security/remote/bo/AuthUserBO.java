@@ -37,9 +37,7 @@ public class AuthUserBO implements Serializable {
 
     private Date regTime;
 
-    private Date webTokenTime;
-
-    private Date appTokenTime;
+    private Date loginTime;
 
     private List<GrantedAuthorityBO> authorityList;
 }

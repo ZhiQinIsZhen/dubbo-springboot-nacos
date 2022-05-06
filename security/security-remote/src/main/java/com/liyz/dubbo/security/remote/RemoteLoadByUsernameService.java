@@ -14,18 +14,21 @@ import java.util.Date;
 public interface RemoteLoadByUsernameService {
 
     /**
-     * 登陆
+     * 修改登陆时间
      *
-     * @param username
+     * @param userId
+     * @param device
+     * @param isLogin
      * @return
      */
-    AuthUserBO login(String username);
+    Date updateLoginTime(final Long userId, final Integer device, final Boolean isLogin);
 
     /**
      * 通过username查询认证信息
      *
      * @param username
+     * @param device
      * @return
      */
-    AuthUserBO loadByUsername(String username);
+    AuthUserBO loadByUsername(final String username, final Integer device);
 }

@@ -35,10 +35,6 @@ public class CustomerDO implements Serializable {
 
     private Integer isInactive;
 
-    private Date webTokenTime;
-
-    private Date appTokenTime;
-
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Date createTime;
 

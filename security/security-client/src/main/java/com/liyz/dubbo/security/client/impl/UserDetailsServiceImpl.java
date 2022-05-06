@@ -3,6 +3,7 @@ package com.liyz.dubbo.security.client.impl;
 import com.google.common.collect.Lists;
 import com.liyz.dubbo.common.core.auth.AuthUser;
 import com.liyz.dubbo.common.core.auth.GrantedAuthority;
+import com.liyz.dubbo.common.core.constant.CommonConstant;
 import com.liyz.dubbo.security.client.bo.AuthGrantedAuthority;
 import com.liyz.dubbo.security.client.context.JwtContextHolder;
 import com.liyz.dubbo.security.core.constant.SecurityEnum;
@@ -57,7 +58,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     private AuthUser getUserByUsername(String username) {
         SecurityEnum.AudienceType audienceType = SecurityEnum.AudienceType.getByCode(this.audienceType);
-        AuthUser authUser = JwtContextHolder.getJwtAuthCoreService().loadUserByUsername(username, audienceType);
+        AuthUser authUser = JwtContextHolder.getJwtAuthCoreService().loadUserByUsername(username, CommonConstant.DEVICE_WEB, audienceType);
         if (Objects.isNull(authUser)) {
             throw new UsernameNotFoundException("No user found with token !");
         }
@@ -101,8 +102,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 authUser.getLoginName(),
                 authUser.getNickName(),
                 authorityList,
-                authUser.getWebTokenTime(),
-                authUser.getAppTokenTime(),
+                authUser.getLoginTime(),
                 authUser.getGroup());
     }
 }

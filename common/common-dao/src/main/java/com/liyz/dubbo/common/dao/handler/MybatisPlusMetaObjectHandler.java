@@ -21,11 +21,13 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
         Date now = new Date();
         setFieldValByName("create_time", now, metaObject);
         setFieldValByName("update_time", now, metaObject);
+        setFieldValByName("createTime", now, metaObject);
+        setFieldValByName("updateTime", now, metaObject);
         setFieldValByName("isDeleted", 0, metaObject);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        setFieldValByName("update_time", new Date(), metaObject);
+        setFieldValByName("updateTime", new Date(), metaObject);
     }
 }

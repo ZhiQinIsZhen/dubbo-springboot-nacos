@@ -46,43 +46,50 @@ public class RemoteJwtAuthCoreServiceImpl implements RemoteJwtAuthCoreService {
     /**
      * 登录
      *
-     * @param username
+     * @param userId
+     * @param device
      * @param audienceType
      * @return
      */
     @Override
-    public AuthUser login(String username, SecurityEnum.AudienceType audienceType) {
-        AuthUserBO authUserBO = null;
-        if (StringUtils.isNotBlank(username) && Objects.nonNull(audienceType)) {
-            authUserBO = getAuthUserByGenericService("login", audienceType.getCode(), username);
-        }
-        return CommonCloneUtil.objectClone(authUserBO, AuthUser.class);
+    public Date login(final Long userId, final Integer device, final SecurityEnum.AudienceType audienceType) {
+        return updateLoginTime(userId, device, audienceType, Boolean.TRUE);
     }
 
     /**
      * 登出
      *
-     * @param username
+     * @param userId
+     * @param device
      * @param audienceType
      * @return
      */
     @Override
-    public AuthUser logout(String username, SecurityEnum.AudienceType audienceType) {
-        return login(username, audienceType);
+    public Date logout(final Long userId, final Integer device, final SecurityEnum.AudienceType audienceType) {
+        return updateLoginTime(userId, device, audienceType, Boolean.FALSE);
     }
 
     /**
      * 根据用户名获取用户信息
      *
      * @param username
+     * @param device
      * @param audienceType
      * @return
      */
     @Override
-    public AuthUser loadUserByUsername(String username, SecurityEnum.AudienceType audienceType) {
+    public AuthUser loadUserByUsername(String username, final Integer device, SecurityEnum.AudienceType audienceType) {
         AuthUserBO authUserBO = null;
         if (StringUtils.isNotBlank(username) && Objects.nonNull(audienceType)) {
-            authUserBO = getAuthUserByGenericService("loadByUsername", audienceType.getCode(), username);
+            Object result = getAuthUserByGenericService("loadByUsername", audienceType.getCode(), username, device);
+            Map<String, Object> map = (Map<String, Object>) result;
+            if (!CollectionUtils.isEmpty(map)) {
+                try {
+                    authUserBO = CommonCloneUtil.MapToBean(map, AuthUserBO.class);
+                } catch (Exception e) {
+                    throw new RemoteServiceException(CommonExceptionCodeEnum.GRANTED_AUTHORITY_TRANS);
+                }
+            }
         }
         AuthUser authUser = CommonCloneUtil.objectClone(authUserBO, AuthUser.class);
         if (Objects.nonNull(authUserBO)) {
@@ -94,7 +101,7 @@ public class RemoteJwtAuthCoreServiceImpl implements RemoteJwtAuthCoreService {
                 );
             }
         }
-        return authUser;
+         return authUser;
     }
 
     /**
@@ -112,6 +119,7 @@ public class RemoteJwtAuthCoreServiceImpl implements RemoteJwtAuthCoreService {
                 if (Objects.nonNull(claimDetail)) {
                     AuthUser authUser = loadUserByUsername(
                             claimDetail.getUsername(),
+                            claimDetail.getDevice(),
                             SecurityEnum.AudienceType.getByCode(claimDetail.getAudience())
                     );
                     return authUser;
@@ -130,6 +138,17 @@ public class RemoteJwtAuthCoreServiceImpl implements RemoteJwtAuthCoreService {
     @Override
     public String getJWT(ClaimDetail claimDetail) {
         return jwtAccessTokenParser.generateToken(claimDetail);
+    }
+
+    /**
+     * 获取token中的用户名
+     *
+     * @param token
+     * @return
+     */
+    @Override
+    public String getUsernameByToken(String token) {
+        return jwtAccessTokenParser.getUsernameByToken(token);
     }
 
     /**
@@ -159,8 +178,8 @@ public class RemoteJwtAuthCoreServiceImpl implements RemoteJwtAuthCoreService {
             if (jwtAccessTokenParser.isTokenExpired(authToken)) {
                 throw new RemoteServiceException(CommonExceptionCodeEnum.AUTHORIZATION_TIMEOUT);
             }
-            if (Objects.nonNull(authUser) && Objects.nonNull(authUser.getWebTokenTime())) {
-                if (jwtAccessTokenParser.getCreationByToken(authToken).compareTo(authUser.getWebTokenTime()) != 0) {
+            if (Objects.nonNull(authUser) && Objects.nonNull(authUser.getLoginName())) {
+                if (jwtAccessTokenParser.getCreationByToken(authToken).compareTo(authUser.getLoginTime()) != 0) {
                     throw new RemoteServiceException(CommonExceptionCodeEnum.OTHERS_LOGIN);
                 }
             }
@@ -173,6 +192,28 @@ public class RemoteJwtAuthCoreServiceImpl implements RemoteJwtAuthCoreService {
     }
 
     /**
+     * 修改登陆时间
+     *
+     * @param userId
+     * @param device
+     * @param audienceType
+     * @param isLogin
+     * @return
+     */
+    private Date updateLoginTime(final Long userId, final Integer device, final SecurityEnum.AudienceType audienceType,
+                           final Boolean isLogin) {
+        Date loginTime = null;
+        if (Objects.nonNull(userId) && Objects.nonNull(audienceType)) {
+            Object result = getAuthUserByGenericService("updateLoginTime", audienceType.getCode(),
+                    userId, device, isLogin);
+            if (Objects.nonNull(result)) {
+                loginTime = (Date) result;
+            }
+        }
+        return loginTime;
+    }
+
+    /**
      * 通过 genericService 获取用户信息
      *
      * @param methodName
@@ -180,7 +221,7 @@ public class RemoteJwtAuthCoreServiceImpl implements RemoteJwtAuthCoreService {
      * @param os
      * @return
      */
-    private AuthUserBO getAuthUserByGenericService(String methodName, String group, Object... os) {
+    private Object getAuthUserByGenericService(String methodName, String group, Object... os) {
         String[] parameterTypes = null;
         if (os != null) {
             parameterTypes = new String[os.length];
@@ -188,17 +229,7 @@ public class RemoteJwtAuthCoreServiceImpl implements RemoteJwtAuthCoreService {
                 parameterTypes[i] = os[i].getClass().getName();
             }
         }
-        Map<String, Object> map = (Map<String, Object>) DubboGenericServiceUtil
-                .getByClassName(RemoteLoadByUsernameService.class, SecurityConstant.DEFAULT_VERSION, group)
+        return DubboGenericServiceUtil.getByClassName(RemoteLoadByUsernameService.class, SecurityConstant.DEFAULT_VERSION, group)
                 .$invoke(methodName, parameterTypes, os);
-        AuthUserBO authUserBO = null;
-        if (!CollectionUtils.isEmpty(map)) {
-            try {
-                authUserBO = CommonCloneUtil.MapToBean(map, AuthUserBO.class);
-            } catch (Exception e) {
-                throw new RemoteServiceException(CommonExceptionCodeEnum.GRANTED_AUTHORITY_TRANS);
-            }
-        }
-        return authUserBO;
     }
 }

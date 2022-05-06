@@ -39,9 +39,7 @@ public class AuthUser implements Serializable {
 
     private Date regTime;
 
-    private Date webTokenTime;
-
-    private Date appTokenTime;
+    private Date loginTime;
 
     private String group;
 

@@ -13,6 +13,4 @@ import com.liyz.dubbo.service.staff.model.CustomerDO;
 public interface ICustomerService extends IService<CustomerDO> {
 
     CustomerDO getOne(CustomerDO customerDO);
-
-    boolean updateByUsername(String username);
 }
