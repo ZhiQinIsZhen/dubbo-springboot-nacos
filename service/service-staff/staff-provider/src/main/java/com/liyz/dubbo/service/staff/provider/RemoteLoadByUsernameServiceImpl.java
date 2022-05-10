@@ -78,7 +78,10 @@ public class RemoteLoadByUsernameServiceImpl implements RemoteLoadByUsernameServ
             staLoginLogDO.setLoginTime(loginTime);
             staLoginLogService.save(staLoginLogDO);
         }
-        return loginTime;
+        staLoginDO = new StaLoginDO();
+        staLoginDO.setCustomerId(userId);
+        staLoginDO.setDevice(device);
+        return staLoginService.getOne(staLoginDO).getLoginTime();
     }
 
     /**

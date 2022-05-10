@@ -5,6 +5,7 @@ import com.liyz.dubbo.common.core.auth.AuthUser;
 import com.liyz.dubbo.common.core.constant.CommonConstant;
 import com.liyz.dubbo.common.core.result.Result;
 import com.liyz.dubbo.common.core.util.AuthContext;
+import com.liyz.dubbo.common.remote.exception.IExceptionCodeService;
 import com.liyz.dubbo.common.remote.exception.RemoteServiceException;
 import com.liyz.dubbo.common.util.JsonMapperUtil;
 import com.liyz.dubbo.security.client.context.AnonymousUrlContext;
@@ -55,21 +56,27 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             if (StringUtils.isNotBlank(token)) {
                 token = URLDecoder.decode(token, String.valueOf(Charsets.UTF_8));
                 final AuthUser authUser = JwtContextHolder.getJwtAuthCoreService().loadUserByToken(token);
-                AuthContext.setAuthUser(authUser);
-                if (Objects.nonNull(authUser) && !AnonymousUrlContext.getAnonymousUrls().contains(request.getServletPath())) {
-                    JwtContextHolder.getJwtAuthCoreService().validateToken(
+                if (Objects.nonNull(authUser)) {
+                    IExceptionCodeService codeService = JwtContextHolder.getJwtAuthCoreService().validateToken(
                             token,
                             authUser,
-                            new LiteDeviceResolver().resolveDevice(request).isMobile()
-                                    ? CommonConstant.DEVICE_MOBILE : CommonConstant.DEVICE_WEB);
-                    AuthUserDetails authUserDetails = UserDetailsServiceImpl.getByAuthUser(authUser);
-                    UsernamePasswordAuthenticationToken authentication =
-                            new UsernamePasswordAuthenticationToken(
-                                    authUserDetails,
-                                    null,
-                                    authUserDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                            new LiteDeviceResolver().resolveDevice(request).isMobile() ? CommonConstant.DEVICE_MOBILE : CommonConstant.DEVICE_WEB);
+                    if (Objects.isNull(codeService)) {
+                        AuthContext.setAuthUser(authUser);
+                    }
+                    if (!AnonymousUrlContext.getAnonymousUrls().contains(request.getServletPath())) {
+                        if (Objects.nonNull(codeService)) {
+                            throw new RemoteServiceException(codeService.getCode(), codeService.getMessage());
+                        }
+                        AuthUserDetails authUserDetails = UserDetailsServiceImpl.getByAuthUser(authUser);
+                        UsernamePasswordAuthenticationToken authentication =
+                                new UsernamePasswordAuthenticationToken(
+                                        authUserDetails,
+                                        null,
+                                        authUserDetails.getAuthorities());
+                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                    }
                 }
             }
             filterChain.doFilter(request, response);

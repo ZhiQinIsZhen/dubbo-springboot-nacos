@@ -3,6 +3,7 @@ package com.liyz.dubbo.security.server.provider;
 import com.liyz.dubbo.common.core.auth.AuthUser;
 import com.liyz.dubbo.common.core.util.CommonCloneUtil;
 import com.liyz.dubbo.common.remote.exception.CommonExceptionCodeEnum;
+import com.liyz.dubbo.common.remote.exception.IExceptionCodeService;
 import com.liyz.dubbo.common.remote.exception.RemoteServiceException;
 import com.liyz.dubbo.security.core.constant.SecurityConstant;
 import com.liyz.dubbo.security.core.constant.SecurityEnum;
@@ -172,23 +173,24 @@ public class RemoteJwtAuthCoreServiceImpl implements RemoteJwtAuthCoreService {
      * @return
      */
     @Override
-    public void validateToken(final String token, final AuthUser authUser, final Integer device) {
+    public IExceptionCodeService validateToken(final String token, final AuthUser authUser, final Integer device) {
         if (token.startsWith(tokenHeaderHead)) {
             final String authToken = token.substring(tokenHeaderHead.length()).trim();
             if (jwtAccessTokenParser.isTokenExpired(authToken)) {
-                throw new RemoteServiceException(CommonExceptionCodeEnum.AUTHORIZATION_TIMEOUT);
+                return CommonExceptionCodeEnum.AUTHORIZATION_TIMEOUT;
             }
             if (Objects.nonNull(authUser) && Objects.nonNull(authUser.getLoginName())) {
                 if (jwtAccessTokenParser.getCreationByToken(authToken).compareTo(authUser.getLoginTime()) != 0) {
-                    throw new RemoteServiceException(CommonExceptionCodeEnum.OTHERS_LOGIN);
+                    return CommonExceptionCodeEnum.OTHERS_LOGIN;
                 }
             }
             if (Objects.nonNull(device)) {
                 if (!device.equals(jwtAccessTokenParser.getDeviceByToken(authToken))) {
-                    throw new RemoteServiceException(CommonExceptionCodeEnum.NON_SAME_DEVICE);
+                    return CommonExceptionCodeEnum.NON_SAME_DEVICE;
                 }
             }
         }
+        return null;
     }
 
     /**

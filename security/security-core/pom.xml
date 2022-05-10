@@ -29,6 +29,12 @@
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
+            <artifactId>common-remote</artifactId>
+            <version>${revision}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.liyz.dubbo</groupId>
             <artifactId>common-core</artifactId>
             <version>${revision}</version>
             <scope>provided</scope>

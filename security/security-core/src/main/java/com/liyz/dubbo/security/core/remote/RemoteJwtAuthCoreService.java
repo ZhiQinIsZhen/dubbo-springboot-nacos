@@ -1,6 +1,7 @@
 package com.liyz.dubbo.security.core.remote;
 
 import com.liyz.dubbo.common.core.auth.AuthUser;
+import com.liyz.dubbo.common.remote.exception.IExceptionCodeService;
 import com.liyz.dubbo.security.core.constant.SecurityEnum;
 import com.liyz.dubbo.security.core.user.ClaimDetail;
 
@@ -85,5 +86,5 @@ public interface RemoteJwtAuthCoreService {
      * @param device
      * @return
      */
-    void validateToken(final String token, final AuthUser authUser, final Integer device);
+    IExceptionCodeService validateToken(final String token, final AuthUser authUser, final Integer device);
 }
