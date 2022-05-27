@@ -105,6 +105,11 @@
             <artifactId>staff-remote</artifactId>
             <version>${revision}</version>
         </dependency>
+        <dependency>
+            <groupId>com.liyz.dubbo</groupId>
+            <artifactId>common-excel</artifactId>
+            <version>${revision}</version>
+        </dependency>
     </dependencies>
 
 </project>

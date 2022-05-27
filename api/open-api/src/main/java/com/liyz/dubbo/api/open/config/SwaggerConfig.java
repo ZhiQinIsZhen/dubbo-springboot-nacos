@@ -70,16 +70,16 @@ public class SwaggerConfig extends SwaggerBaseConfig {
                 .groupName("验证类-API");
     }
 
-//    @Bean
-    public Docket createOrderApi() {
+    @Bean
+    public Docket createExcelApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .protocols(Sets.newHashSet("https", "http"))
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.open.controller.order"))
+                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.open.controller.excel"))
                 .paths(PathSelectors.any())
                 .build()
                 .extensions(openApiExtensionResolver.buildSettingExtensions())
-                .groupName("订单-API");
+                .groupName("Excel-API");
     }
 }
