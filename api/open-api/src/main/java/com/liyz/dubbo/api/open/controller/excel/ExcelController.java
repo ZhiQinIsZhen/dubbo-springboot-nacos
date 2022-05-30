@@ -4,7 +4,6 @@ import com.alibaba.excel.EasyExcel;
 import com.liyz.dubbo.api.open.excel.FinancialSheetExcel;
 import com.liyz.dubbo.common.core.result.Result;
 import com.liyz.dubbo.common.excel.listener.CommonReadRowListener;
-import com.liyz.dubbo.common.util.JsonMapperUtil;
 import com.liyz.dubbo.security.core.annotation.Anonymous;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * 注释:excel
@@ -38,10 +38,9 @@ public class ExcelController {
     @Anonymous
     @ApiOperation("上传")
     @PostMapping("/upload")
-    public Result upload(MultipartFile file) throws IOException {
+    public Result<List<Object>> upload(MultipartFile file) throws IOException {
         CommonReadRowListener readListener = new CommonReadRowListener<>(FinancialSheetExcel.class);
         EasyExcel.read(file.getInputStream(), readListener).sheet().headRowNumber(0).doRead();
-        log.info("..........:{}", JsonMapperUtil.toJSONString(readListener.getList()));
-        return Result.success();
+        return Result.success(readListener.getList());
     }
 }

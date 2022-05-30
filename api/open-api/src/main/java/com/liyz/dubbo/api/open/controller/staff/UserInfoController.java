@@ -17,10 +17,7 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Objects;
@@ -60,7 +57,7 @@ public class UserInfoController {
 
     @Limits(value = {@Limit(count = 1)})
     @ApiOperation("获取登陆的用户ID")
-    @GetMapping("/id")
+    @PostMapping("/id")
     @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
             paramType = "header", defaultValue = "Bearer ")
     public Result<Long> id(@ApiIgnore @LoginUser AuthUser authUser) {
