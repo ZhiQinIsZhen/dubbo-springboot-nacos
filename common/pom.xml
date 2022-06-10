@@ -25,5 +25,7 @@
         <module>common-redisson</module>
         <module>common-job</module>
         <module>common-excel</module>
+        <module>common-apollo</module>
+        <module>common-oss</module>
     </modules>
 </project>

@@ -1,0 +1,2 @@
+org.springframework.boot.env.EnvironmentPostProcessor=com.liyz.dubbo.common.apollo.BeforeApollo, com.liyz.dubbo.common.apollo.AfterApollo
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.liyz.dubbo.common.apollo.config.JasyptApolloAutoConfiguration

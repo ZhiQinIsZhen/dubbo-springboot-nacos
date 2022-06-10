@@ -25,6 +25,7 @@
         <spring.kafka.version>2.5.1.RELEASE</spring.kafka.version>
         <seata.version>1.4.2</seata.version>
         <elasticjob.version>3.0.1</elasticjob.version>
+        <jasypt.version>3.0.3</jasypt.version>
         <revision>1.0.0-SNAPSHOT</revision>
     </properties>
 
@@ -170,6 +171,11 @@
                 <groupId>org.apache.shardingsphere.elasticjob</groupId>
                 <artifactId>elasticjob-error-handler-dingtalk</artifactId>
                 <version>${elasticjob.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.ulisesbocchio</groupId>
+                <artifactId>jasypt-spring-boot-starter</artifactId>
+                <version>${jasypt.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
