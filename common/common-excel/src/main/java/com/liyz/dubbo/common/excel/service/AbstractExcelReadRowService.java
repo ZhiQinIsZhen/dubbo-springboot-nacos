@@ -21,17 +21,21 @@ import java.util.Map;
 @Slf4j
 public abstract class AbstractExcelReadRowService implements ExcelReadRowService {
 
+    public AbstractExcelReadRowService() {
+        initFieldProperties(this.getClass());
+    }
+
     /**
      * 映射对照表
      */
-    private static Map<String, Field> fieldProperties = Maps.newHashMap();
+    private Map<String, Field> fieldProperties = Maps.newHashMap();
 
     /**
      * 初始化映射表
      *
      * @param clazz
      */
-    protected static void initFieldProperties(Class<? extends AbstractExcelReadRowService> clazz) {
+    protected void initFieldProperties(Class<? extends AbstractExcelReadRowService> clazz) {
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             if (field.isAnnotationPresent(ExcelProperty.class)) {

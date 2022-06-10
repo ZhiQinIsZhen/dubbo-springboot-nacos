@@ -18,10 +18,6 @@ import lombok.Setter;
 public class FinancialSheetExcel extends AbstractExcelReadRowService {
     private static final long serialVersionUID = -2266288970178883046L;
 
-    static {
-        initFieldProperties(FinancialSheetExcel.class);
-    }
-
     @ExcelProperty("报告期")
     @ApiModelProperty("报告期")
     private String year;

@@ -38,7 +38,7 @@ public class ExcelController {
     @Anonymous
     @ApiOperation("上传")
     @PostMapping("/upload")
-    public Result<List<Object>> upload(MultipartFile file) throws IOException {
+    public Result<List> upload(MultipartFile file) throws IOException {
         CommonReadRowListener readListener = new CommonReadRowListener<>(FinancialSheetExcel.class);
         EasyExcel.read(file.getInputStream(), readListener).sheet().headRowNumber(0).doRead();
         return Result.success(readListener.getList());

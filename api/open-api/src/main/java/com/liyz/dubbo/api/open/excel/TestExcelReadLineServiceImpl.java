@@ -22,12 +22,10 @@ public class TestExcelReadLineServiceImpl extends AbstractExcelReadRowService {
 
     @ExcelProperty("string")
     private String age;
+
     @ExcelProperty("date")
     private Date createTime;
+
     @ExcelProperty("doubleData")
     private Double balance;
-
-    static {
-        initFieldProperties(TestExcelReadLineServiceImpl.class);
-    }
 }
