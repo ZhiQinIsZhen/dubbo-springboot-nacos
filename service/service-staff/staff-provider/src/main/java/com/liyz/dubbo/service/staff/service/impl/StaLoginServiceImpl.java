@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liyz.dubbo.service.staff.dao.StaLoginMapper;
 import com.liyz.dubbo.service.staff.model.StaLoginDO;
 import com.liyz.dubbo.service.staff.service.IStaLoginService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,7 @@ public class StaLoginServiceImpl extends ServiceImpl<StaLoginMapper, StaLoginDO>
      * @return
      */
     @Override
+    @Cacheable(cacheNames = {"staff"}, key = "'staLogin:' + #staLoginDO.customerId  + ':' + #staLoginDO.device", unless = "#result == null")
     public StaLoginDO getOne(StaLoginDO staLoginDO) {
         return super.getOne(Wrappers.lambdaQuery(staLoginDO));
     }
@@ -37,6 +40,7 @@ public class StaLoginServiceImpl extends ServiceImpl<StaLoginMapper, StaLoginDO>
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(cacheNames = {"staff"}, key = "'staLogin:' + #staLoginDO.customerId  + ':' + #staLoginDO.device")
     public boolean updateLoginTime(StaLoginDO staLoginDO) {
         return super.update(Wrappers.<StaLoginDO>lambdaUpdate()
                 .set(StaLoginDO::getLoginTime, staLoginDO.getLoginTime())

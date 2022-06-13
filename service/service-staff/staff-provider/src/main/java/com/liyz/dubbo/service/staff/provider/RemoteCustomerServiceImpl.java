@@ -32,7 +32,7 @@ public class RemoteCustomerServiceImpl implements RemoteCustomerService {
     @Resource
     private ICustomerService customerService;
     @DubboReference
-    RemoteSmsService remoteSmsService;
+    private RemoteSmsService remoteSmsService;
 
     /**
      * 注册

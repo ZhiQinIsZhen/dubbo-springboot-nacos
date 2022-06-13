@@ -5,6 +5,7 @@ import com.liyz.dubbo.service.staff.dao.SysRolePermissionMapper;
 import com.liyz.dubbo.service.staff.model.SysPermissionDO;
 import com.liyz.dubbo.service.staff.model.SysRolePermissionDO;
 import com.liyz.dubbo.service.staff.service.ISysRolePermissionService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,11 +21,14 @@ import java.util.List;
 public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionMapper, SysRolePermissionDO> implements ISysRolePermissionService {
 
     @Override
+    @Cacheable(cacheNames = {"staff"}, key = "'sysPermission:roleId:' + #p0", unless = "#result == null || #result.size() == 0")
     public List<SysPermissionDO> getByRoleId(Integer roleId) {
         return getBaseMapper().getByRoleId(roleId);
     }
 
     @Override
+    @Cacheable(cacheNames = {"staff"}, condition = "#roleIds != null  || #roleIds.size() > 0", keyGenerator = "MyKeyGenerator",
+            unless = "#result == null || #result.size() == 0")
     public List<SysPermissionDO> getByRoleIds(List<Integer> roleIds) {
         return getBaseMapper().getByRoleIds(roleIds);
     }
