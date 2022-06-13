@@ -10,22 +10,22 @@
     <packaging>pom</packaging>
 
     <properties>
-        <springboot_parent_version>2.6.5</springboot_parent_version>
+        <springboot_parent_version>2.7.0</springboot_parent_version>
         <guava.version>31.1-jre</guava.version>
         <cglib.version>3.3.0</cglib.version>
         <device.version>1.1.5.RELEASE</device.version>
         <jjwt.version>0.9.1</jjwt.version>
         <easyexcel.version>3.1.0</easyexcel.version>
         <spring-jwt.version>1.1.1.RELEASE</spring-jwt.version>
-        <dubbo.version>3.0.7</dubbo.version>
-        <mybatis-plus.version>3.5.1</mybatis-plus.version>
+        <dubbo.version>3.0.8</dubbo.version>
+        <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <sharding-jdbc.version>4.1.1</sharding-jdbc.version>
         <knife4j.version>2.0.9</knife4j.version>
-        <redisson.version>3.17.1</redisson.version>
+        <redisson.version>3.17.3</redisson.version>
         <spring.kafka.version>2.5.1.RELEASE</spring.kafka.version>
         <seata.version>1.4.2</seata.version>
         <elasticjob.version>3.0.1</elasticjob.version>
-        <jasypt.version>3.0.3</jasypt.version>
+        <jasypt.version>3.0.4</jasypt.version>
         <revision>1.0.0-SNAPSHOT</revision>
     </properties>
 
