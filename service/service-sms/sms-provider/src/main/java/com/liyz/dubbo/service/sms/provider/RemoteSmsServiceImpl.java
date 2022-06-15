@@ -1,6 +1,5 @@
 package com.liyz.dubbo.service.sms.provider;
 
-import com.liyz.dubbo.common.redisson.service.RedissonService;
 import com.liyz.dubbo.service.sms.bo.ImageBO;
 import com.liyz.dubbo.service.sms.bo.SmsInfoBO;
 import com.liyz.dubbo.service.sms.constant.RedisKeyConstant;
@@ -12,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.redisson.api.RedissonClient;
+import org.redisson.client.codec.StringCodec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 
@@ -60,7 +60,7 @@ public class RemoteSmsServiceImpl implements RemoteSmsService {
             return false;
         }
         String smsCodeKey = RedisKeyConstant.getSmsCodeKey(smsType.toString(), address);
-        Object result = redissonClient.getBucket(smsCodeKey, RedissonService.getDEFAULT_STRING_CODE()).get();
+        Object result = redissonClient.getBucket(smsCodeKey, StringCodec.INSTANCE).get();
         if (verificationCode.equals(result == null ? null : result.toString())) {
             return true;
         }
@@ -81,7 +81,7 @@ public class RemoteSmsServiceImpl implements RemoteSmsService {
         String token = DigestUtils.md5DigestAsHex(str.getBytes());
         log.info("************token:{},生成的图形验证码是：{}", token, imageCode);
         String key = RedisKeyConstant.getImageTokenKey(token);
-        redissonClient.getBucket(key, RedissonService.getDEFAULT_STRING_CODE()).set(imageCode, 5, TimeUnit.MINUTES);
+        redissonClient.getBucket(key, StringCodec.INSTANCE).set(imageCode, 5, TimeUnit.MINUTES);
         ImageBO imageBO = new ImageBO();
         imageBO.setImageToken(token);
         imageBO.setImageCode(imageCode);
@@ -101,7 +101,7 @@ public class RemoteSmsServiceImpl implements RemoteSmsService {
             return false;
         }
         String key = RedisKeyConstant.getImageTokenKey(token);
-        Object result = redissonClient.getBucket(key, RedissonService.getDEFAULT_STRING_CODE()).get();
+        Object result = redissonClient.getBucket(key, StringCodec.INSTANCE).get();
         if (imageCode.toUpperCase().equals(result == null ? null : result.toString())) {
             redissonClient.getBucket(key).delete();
             return true;

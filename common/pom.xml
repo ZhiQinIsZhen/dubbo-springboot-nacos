@@ -22,10 +22,10 @@
         <module>common-limit</module>
         <module>common-util</module>
         <module>common-controller</module>
-        <module>common-redisson</module>
         <module>common-job</module>
         <module>common-excel</module>
         <module>common-apollo</module>
         <module>common-oss</module>
+        <module>common-cache</module>
     </modules>
 </project>

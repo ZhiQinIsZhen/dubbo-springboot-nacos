@@ -19,7 +19,7 @@
         <spring-jwt.version>1.1.1.RELEASE</spring-jwt.version>
         <dubbo.version>3.0.8</dubbo.version>
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
-        <sharding-jdbc.version>4.1.1</sharding-jdbc.version>
+        <shardingsphere.version>5.1.1</shardingsphere.version>
         <knife4j.version>2.0.9</knife4j.version>
         <redisson.version>3.17.3</redisson.version>
         <spring.kafka.version>2.5.1.RELEASE</spring.kafka.version>
@@ -114,8 +114,8 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.shardingsphere</groupId>
-                <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
-                <version>${sharding-jdbc.version}</version>
+                <artifactId>shardingsphere-sharding-spring-boot-starter</artifactId>
+                <version>${shardingsphere.version}</version>
             </dependency>
             <!-- swagger -->
             <dependency>
@@ -127,11 +127,6 @@
             <dependency>
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
-                <version>${redisson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.redisson</groupId>
-                <artifactId>redisson-spring-data-26</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
             <!-- mq -->

@@ -29,6 +29,7 @@ public enum CommonExceptionCodeEnum implements IExceptionCodeService{
     GRANTED_AUTHORITY_TRANS("10015", "权限列表转化错误"),
     AUTH_TRANS("10016", "认证信息转化错误"),
     NON_SAME_DEVICE("10017", "认证设备不一致"),
+    CACHE_TYPE_ERROR("10018", "缓存类型设置错误"),
     ;
 
     private String code;

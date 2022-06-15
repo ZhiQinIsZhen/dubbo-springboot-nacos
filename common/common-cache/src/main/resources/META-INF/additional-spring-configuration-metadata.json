@@ -1,0 +1,75 @@
+{
+  "properties": [
+    {
+      "name": "spring.cache.multi.cacheNames",
+      "type": "java.lang.String",
+      "description": "cache names.",
+      "defaultValue": ""
+    },
+    {
+      "name": "spring.cache.multi.type",
+      "type": "java.lang.String",
+      "description": "cache type redis memory all.",
+      "defaultValue": "all"
+    },{
+      "name": "spring.cache.multi.dynamic",
+      "type": "java.lang.Boolean",
+      "description": "multi dynamic.",
+      "defaultValue": true
+    },{
+      "name": "spring.cache.multi.cacheNullValues",
+      "type": "java.lang.Boolean",
+      "description": "multi cacheNullValues.",
+      "defaultValue": true
+    },{
+      "name": "spring.cache.multi.redis.keyPrefix",
+      "type": "java.lang.String",
+      "description": "redis keyPrefix.",
+      "defaultValue": ""
+    },{
+      "name": "spring.cache.multi.redis.defaultExpiration",
+      "type": "java.lang.Long",
+      "description": "redis defaultExpiration.",
+      "defaultValue": 0
+    },{
+      "name": "spring.cache.multi.redis.expires",
+      "type": "java.util.Map",
+      "description": "redis expires."
+    },{
+      "name": "spring.cache.multi.redis.topic",
+      "type": "java.lang.String",
+      "description": "redis topic.",
+      "defaultValue": "cache:redis:caffeine:topic"
+    },{
+      "name": "spring.cache.multi.caffeine.expireAfterAccess",
+      "type": "java.lang.Long",
+      "description": "redis expireAfterAccess.",
+      "defaultValue": 300
+    },{
+      "name": "spring.cache.multi.caffeine.expireAfterWrite",
+      "type": "java.lang.Long",
+      "description": "redis expireAfterWrite.",
+      "defaultValue": 300
+    },{
+      "name": "spring.cache.multi.caffeine.refreshAfterWrite",
+      "type": "java.lang.Long",
+      "description": "redis refreshAfterWrite.",
+      "defaultValue": 300
+    },{
+      "name": "spring.cache.multi.caffeine.initialCapacity",
+      "type": "java.lang.Long",
+      "description": "caffeine initialCapacity.",
+      "defaultValue": 100
+    },{
+      "name": "spring.cache.multi.caffeine.maximumSize",
+      "type": "java.lang.Long",
+      "description": "caffeine maximumSize.",
+      "defaultValue": 1000
+    },{
+      "name": "spring.cache.multi.monitor",
+      "type": "java.lang.Boolean",
+      "description": "multi monitor.",
+      "defaultValue": true
+    }
+  ]
+}

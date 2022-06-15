@@ -27,7 +27,7 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
     }
 
     @Override
-    @Cacheable(cacheNames = {"staff"}, condition = "#roleIds != null  || #roleIds.size() > 0", keyGenerator = "MyKeyGenerator",
+    @Cacheable(cacheNames = {"staff"}, condition = "#roleIds != null  || #roleIds.size() > 0", keyGenerator = "defaultKeyGenerator",
             unless = "#result == null || #result.size() == 0")
     public List<SysPermissionDO> getByRoleIds(List<Integer> roleIds) {
         return getBaseMapper().getByRoleIds(roleIds);
