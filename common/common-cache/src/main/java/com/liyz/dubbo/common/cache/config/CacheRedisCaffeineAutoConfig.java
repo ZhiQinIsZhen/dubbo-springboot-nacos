@@ -3,7 +3,6 @@ package com.liyz.dubbo.common.cache.config;
 import com.liyz.dubbo.common.cache.core.RedisCacheManagerCustomizer;
 import com.liyz.dubbo.common.cache.core.RedisCaffeineCacheManager;
 import com.liyz.dubbo.common.cache.listener.RedisTopicListener;
-import com.liyz.dubbo.common.cache.task.MonitorTask;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -45,11 +44,6 @@ public class CacheRedisCaffeineAutoConfig {
     @Bean
     public RedisTopicListener redisTopicListener() {
         return new RedisTopicListener();
-    }
-
-    @Bean
-    public MonitorTask monitorTask() {
-        return new MonitorTask();
     }
 
     /**

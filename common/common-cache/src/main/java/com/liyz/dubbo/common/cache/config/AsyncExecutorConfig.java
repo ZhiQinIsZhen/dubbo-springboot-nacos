@@ -1,5 +1,6 @@
 package com.liyz.dubbo.common.cache.config;
 
+import com.liyz.dubbo.common.cache.task.MonitorTask;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration;
@@ -44,5 +45,10 @@ public class AsyncExecutorConfig implements SchedulingConfigurer {
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.initialize();
         return executor;
+    }
+
+    @Bean
+    public MonitorTask monitorTask() {
+        return new MonitorTask();
     }
 }
