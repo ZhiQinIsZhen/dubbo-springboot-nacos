@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/bigdata")
 public class BigdataController {
 
-    @DubboReference
+    @DubboReference(timeout = 50000)
     private RemoteCompanyBasicService remoteCompanyBasicService;
 
     @Anonymous
