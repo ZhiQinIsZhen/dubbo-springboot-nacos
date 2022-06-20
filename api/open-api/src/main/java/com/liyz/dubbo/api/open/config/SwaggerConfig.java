@@ -82,4 +82,17 @@ public class SwaggerConfig extends SwaggerBaseConfig {
                 .extensions(openApiExtensionResolver.buildSettingExtensions())
                 .groupName("Excel-API");
     }
+
+    @Bean
+    public Docket createBigdataApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .protocols(Sets.newHashSet("https", "http"))
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.open.controller.bigdata"))
+                .paths(PathSelectors.any())
+                .build()
+                .extensions(openApiExtensionResolver.buildSettingExtensions())
+                .groupName("大数据-API");
+    }
 }

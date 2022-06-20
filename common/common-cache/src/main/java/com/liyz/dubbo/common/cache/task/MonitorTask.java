@@ -26,7 +26,7 @@ public class MonitorTask {
     @Autowired
     private RedisCaffeineCacheManager cacheManager;
 
-    @Scheduled(initialDelay = 5000, fixedRate = 30000)
+    @Scheduled(initialDelay = 60000, fixedRate = 300000)
     public void monitor() {
         ConcurrentMap<String, Cache> cacheMap = cacheManager.getCacheMap();
         if (CollectionUtils.isEmpty(cacheMap)) {

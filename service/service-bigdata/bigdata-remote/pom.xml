@@ -5,19 +5,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
+        <artifactId>service-bigdata</artifactId>
         <groupId>com.liyz.dubbo</groupId>
-        <artifactId>dubbo-parent</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>service</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>bigdata-remote</artifactId>
+    <packaging>jar</packaging>
 
-    <modules>
-        <module>service-staff</module>
-        <module>service-sms</module>
-        <module>service-job</module>
-        <module>service-bigdata</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>com.liyz.dubbo</groupId>
+            <artifactId>common-remote</artifactId>
+            <version>${revision}</version>
+        </dependency>
+    </dependencies>
+
 </project>

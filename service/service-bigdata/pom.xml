@@ -6,18 +6,17 @@
 
     <parent>
         <groupId>com.liyz.dubbo</groupId>
-        <artifactId>dubbo-parent</artifactId>
+        <artifactId>service</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>service</artifactId>
+    <artifactId>service-bigdata</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <module>service-staff</module>
-        <module>service-sms</module>
-        <module>service-job</module>
-        <module>service-bigdata</module>
+        <module>bigdata-dao</module>
+        <module>bigdata-provider</module>
+        <module>bigdata-remote</module>
     </modules>
 </project>
