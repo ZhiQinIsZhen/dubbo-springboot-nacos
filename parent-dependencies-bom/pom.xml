@@ -10,14 +10,14 @@
     <packaging>pom</packaging>
 
     <properties>
-        <springboot_parent_version>2.7.0</springboot_parent_version>
+        <springboot_parent_version>2.7.1</springboot_parent_version>
         <guava.version>31.1-jre</guava.version>
         <cglib.version>3.3.0</cglib.version>
         <device.version>1.1.5.RELEASE</device.version>
         <jjwt.version>0.9.1</jjwt.version>
-        <easyexcel.version>3.1.0</easyexcel.version>
+        <easyexcel.version>3.1.1</easyexcel.version>
         <spring-jwt.version>1.1.1.RELEASE</spring-jwt.version>
-        <dubbo.version>3.0.8</dubbo.version>
+        <dubbo.version>3.0.10</dubbo.version>
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <shardingsphere.version>5.1.1</shardingsphere.version>
         <knife4j.version>2.0.9</knife4j.version>
