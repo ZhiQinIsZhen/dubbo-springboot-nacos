@@ -19,5 +19,6 @@
         <module>security-core</module>
         <module>security-client</module>
         <module>security-server</module>
+        <module>security-encrypt</module>
     </modules>
 </project>

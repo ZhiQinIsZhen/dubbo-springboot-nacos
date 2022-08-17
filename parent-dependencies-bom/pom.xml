@@ -16,6 +16,7 @@
         <device.version>1.1.5.RELEASE</device.version>
         <jjwt.version>0.9.1</jjwt.version>
         <easyexcel.version>3.1.1</easyexcel.version>
+        <commons.io.version>2.11.0</commons.io.version>
         <spring-jwt.version>1.1.1.RELEASE</spring-jwt.version>
         <dubbo.version>3.0.10</dubbo.version>
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
@@ -68,6 +69,11 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>easyexcel</artifactId>
                 <version>${easyexcel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons.io.version}</version>
             </dependency>
 
             <!-- dubbo -->

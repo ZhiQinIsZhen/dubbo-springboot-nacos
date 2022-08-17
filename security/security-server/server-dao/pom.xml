@@ -5,18 +5,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
+        <artifactId>security-server</artifactId>
         <groupId>com.liyz.dubbo</groupId>
-        <artifactId>security</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <modules>
-        <module>server-dao</module>
-        <module>server-provider</module>
-    </modules>
+    <artifactId>server-dao</artifactId>
+    <packaging>jar</packaging>
 
-    <artifactId>security-server</artifactId>
-    <packaging>pom</packaging>
-
+    <dependencies>
+        <dependency>
+            <groupId>com.liyz.dubbo</groupId>
+            <artifactId>common-dao</artifactId>
+            <version>${revision}</version>
+        </dependency>
+    </dependencies>
 </project>
