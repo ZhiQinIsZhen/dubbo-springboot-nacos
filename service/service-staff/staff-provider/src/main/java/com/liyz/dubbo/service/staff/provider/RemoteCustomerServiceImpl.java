@@ -1,18 +1,20 @@
 package com.liyz.dubbo.service.staff.provider;
 
 import com.liyz.dubbo.common.core.util.CommonCloneUtil;
-import com.liyz.dubbo.common.util.DateUtil;
 import com.liyz.dubbo.service.sms.exception.SmsExceptionCodeEnum;
 import com.liyz.dubbo.service.sms.remote.RemoteSmsService;
 import com.liyz.dubbo.service.staff.bo.CustomerBO;
 import com.liyz.dubbo.service.staff.bo.UserRegisterBO;
 import com.liyz.dubbo.service.staff.exception.RemoteStaffServiceException;
 import com.liyz.dubbo.service.staff.exception.StaffExceptionCodeEnum;
+import com.liyz.dubbo.service.staff.listener.UserEvent;
 import com.liyz.dubbo.service.staff.model.CustomerDO;
 import com.liyz.dubbo.service.staff.remote.RemoteCustomerService;
 import com.liyz.dubbo.service.staff.service.ICustomerService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -29,6 +31,8 @@ import java.util.Objects;
 @DubboService
 public class RemoteCustomerServiceImpl implements RemoteCustomerService {
 
+    @Autowired
+    private ApplicationContext applicationContext;
     @Resource
     private ICustomerService customerService;
     @DubboReference
@@ -67,11 +71,13 @@ public class RemoteCustomerServiceImpl implements RemoteCustomerService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public CustomerBO getByUsername(@NotBlank String username) {
         CustomerDO customerDO = new CustomerDO();
         customerDO.setCustomerName(username);
         customerDO.setIsInactive(0);
         customerDO = customerService.getOne(customerDO);
+        applicationContext.publishEvent(new UserEvent(this, 1L));
         return CommonCloneUtil.objectClone(customerDO, CustomerBO.class);
     }
 }

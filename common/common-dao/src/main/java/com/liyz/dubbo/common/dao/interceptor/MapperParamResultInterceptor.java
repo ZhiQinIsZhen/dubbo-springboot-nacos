@@ -6,10 +6,7 @@ import com.liyz.dubbo.common.desensitize.strategy.AbstractDesensitizeService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
-import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.plugin.Intercepts;
-import org.apache.ibatis.plugin.Invocation;
-import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.plugin.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -49,6 +46,11 @@ public class MapperParamResultInterceptor implements Interceptor {
             executorResults(result);
         }
         return result;
+    }
+
+    @Override
+    public Object plugin(Object target) {
+        return target instanceof ParameterHandler || target instanceof ResultSetHandler ? Plugin.wrap(target, this) : target;
     }
 
     /**
