@@ -22,7 +22,7 @@ import java.util.*;
 @Slf4j
 public abstract class AbstractLimitService implements LimitService {
 
-    private static ThreadLocal<Double> permitsPerSecond = new ThreadLocal<>();
+    private static ThreadLocal<Double> permitsPerSecond = new InheritableThreadLocal<>();
 
     private static Map<LimitType, LimitKeyService> map = Maps.newHashMap();
 
