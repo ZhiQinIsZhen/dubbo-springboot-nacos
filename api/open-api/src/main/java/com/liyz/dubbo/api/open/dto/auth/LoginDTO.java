@@ -1,5 +1,6 @@
 package com.liyz.dubbo.api.open.dto.auth;
 
+import com.liyz.dubbo.common.controller.annotation.Trim;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -20,6 +21,7 @@ import java.io.Serializable;
 public class LoginDTO implements Serializable {
     private static final long serialVersionUID = 8763053903614783354L;
 
+    @Trim
     @ApiModelProperty(value = "登录名", example = "159887859", required = true)
     @NotBlank(message = "登录名不能为空", groups = {Login.class})
     private String loginName;

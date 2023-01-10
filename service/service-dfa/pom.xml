@@ -3,22 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <modules>
+        <module>dfa-remote</module>
+        <module>dfa-dao</module>
+        <module>dfa-provider</module>
+    </modules>
 
     <parent>
         <groupId>com.liyz.dubbo</groupId>
-        <artifactId>dubbo-parent</artifactId>
+        <artifactId>service</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>service</artifactId>
+    <artifactId>service-dfa</artifactId>
     <packaging>pom</packaging>
 
-    <modules>
-        <module>service-staff</module>
-        <module>service-sms</module>
-        <module>service-job</module>
-        <module>service-bigdata</module>
-        <module>service-dfa</module>
-    </modules>
 </project>

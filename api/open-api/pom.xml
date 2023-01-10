@@ -135,6 +135,11 @@
             <artifactId>pinyin4j</artifactId>
             <version>2.5.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.liyz.dubbo</groupId>
+            <artifactId>dfa-remote</artifactId>
+            <version>${revision}</version>
+        </dependency>
     </dependencies>
 
 </project>

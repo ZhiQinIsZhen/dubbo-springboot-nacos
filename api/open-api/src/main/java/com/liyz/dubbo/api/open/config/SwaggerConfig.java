@@ -108,4 +108,17 @@ public class SwaggerConfig extends SwaggerBaseConfig {
                 .extensions(openApiExtensionResolver.buildSettingExtensions())
                 .groupName("安全-API");
     }
+
+    @Bean
+    public Docket createDfaApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .protocols(Sets.newHashSet("https", "http"))
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.open.controller.dfa"))
+                .paths(PathSelectors.any())
+                .build()
+                .extensions(openApiExtensionResolver.buildSettingExtensions())
+                .groupName("敏感词-API");
+    }
 }
