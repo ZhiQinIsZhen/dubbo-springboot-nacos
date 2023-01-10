@@ -26,6 +26,7 @@ public class LoginDTO implements Serializable {
     @NotBlank(message = "登录名不能为空", groups = {Login.class})
     private String loginName;
 
+    @Trim
     @ApiModelProperty(value = "密码，8-20位数字或字母组成", example = "123456789", required = true)
     @Pattern(regexp = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,20}$", groups = {Login.class}, message = "请输入8到20位数字和字母组合")
     private String loginPwd;
