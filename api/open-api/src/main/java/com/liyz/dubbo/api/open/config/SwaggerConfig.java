@@ -121,4 +121,22 @@ public class SwaggerConfig extends SwaggerBaseConfig {
                 .extensions(openApiExtensionResolver.buildSettingExtensions())
                 .groupName("敏感词-API");
     }
+
+//    @Bean(value = "swaggerVersion370")
+//    public Docket SwaggerVersion370() {
+//        return new Docket(DocumentationType.SWAGGER_2)
+//                .groupName(GROUP_API_V3_7_0)
+//                .apiInfo(new ApiInfoBuilder()
+//                        .title(GROUP_API_V3_7_0)
+//                        .description("风险专家管理")
+//                        .version(SwaggerVersionConstant.V_370)
+//                        .build())
+//                .select()
+//                .apis(input -> {
+//                    ApiVersion apiVersion = input.getHandlerMethod().getMethodAnnotation(ApiVersion.class);
+//                    return apiVersion != null && Arrays.asList(apiVersion.group()).contains(SwaggerVersionConstant.V_370);
+//                })
+//                .paths(PathSelectors.any())
+//                .build();
+//    }
 }
