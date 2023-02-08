@@ -34,12 +34,9 @@ public class RedisTopicListener implements ApplicationRunner, Ordered {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         RTopic topic = redissonClient.getTopic(cacheRedisCaffeineProperties.getRedis().getTopic(), JsonJacksonCodec.INSTANCE);
-        topic.addListener(CacheMessage.class, new MessageListener<CacheMessage>() {
-            @Override
-            public void onMessage(CharSequence charSequence, CacheMessage cacheMessage) {
-                log.info("redis message : {}", JsonMapperUtil.toJSONString(cacheMessage));
-                redisCaffeineCacheManager.clearLocal(cacheMessage.getCacheName(), cacheMessage.getKey());
-            }
+        topic.addListener(CacheMessage.class, (charSequence, cacheMessage) -> {
+            log.info("redis message : {}", JsonMapperUtil.toJSONString(cacheMessage));
+            redisCaffeineCacheManager.clearLocal(cacheMessage.getCacheName(), cacheMessage.getKey());
         });
     }
 

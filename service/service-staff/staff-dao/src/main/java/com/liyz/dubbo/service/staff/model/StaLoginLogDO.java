@@ -31,6 +31,9 @@ public class StaLoginLogDO implements Serializable {
 
     private String loginIp;
 
+    @TableField(fill = FieldFill.INSERT)
+    private Integer isDeleted;
+
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Date createTime;
 
