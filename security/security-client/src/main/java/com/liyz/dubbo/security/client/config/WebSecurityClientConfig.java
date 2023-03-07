@@ -1,12 +1,8 @@
 package com.liyz.dubbo.security.client.config;
 
-import com.google.common.collect.Lists;
-import com.liyz.dubbo.common.util.JsonMapperUtil;
 import com.liyz.dubbo.security.client.context.AnonymousUrlContext;
-import com.liyz.dubbo.security.client.core.AccessDecisionManagerImpl;
 import com.liyz.dubbo.security.client.core.JwtAuthenticationEntryPoint;
 import com.liyz.dubbo.security.client.core.RestfulAccessDeniedHandler;
-import com.liyz.dubbo.security.client.filter.GrantedAuthoritySecurityInterceptor;
 import com.liyz.dubbo.security.client.filter.JwtAuthenticationTokenFilter;
 import com.liyz.dubbo.security.core.constant.SecurityConstant;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.access.vote.AuthenticatedVoter;
 import org.springframework.security.authentication.AuthenticationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
@@ -27,11 +22,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 注释:Security配置器
@@ -45,8 +38,6 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityClientConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${jwt.user.authority:false}")
-    private boolean authority;
     @Value("${jwt.tokenHeader.key:Authorization}")
     private String tokenHeaderKey;
 
@@ -68,8 +59,6 @@ public class WebSecurityClientConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        List<String> list = AnonymousUrlContext.getAnonymousUrls();
-        log.info("Anonymous api:{}", JsonMapperUtil.toJSONString(list));
         http
                 //由于使用的是JWT，我们这里不需要csrf，并配置entryPoint
                 .csrf()
@@ -87,7 +76,7 @@ public class WebSecurityClientConfig extends WebSecurityConfigurerAdapter {
                 //允许访问所有swagger的静态资源与接口
                 .antMatchers(HttpMethod.GET, SecurityConstant.SECURITY_IGNORE_RESOURCES).permitAll()
                 //配置可以匿名访问的api
-                .antMatchers(list.toArray(new String[list.size()])).permitAll()
+                .antMatchers(AnonymousUrlContext.getAnonymousMappings().toArray(new String[0])).permitAll()
                 //其余都需要鉴权认证
                 .anyRequest().authenticated()
                 .and()
@@ -99,14 +88,6 @@ public class WebSecurityClientConfig extends WebSecurityConfigurerAdapter {
                 .headers().cacheControl().and()
                 //spring security上使用ifame时候允许跨域
                 .frameOptions().sameOrigin();
-        if (authority) {
-            http.addFilterAfter(
-                    new GrantedAuthoritySecurityInterceptor(
-                            new AccessDecisionManagerImpl(Lists.newArrayList(new AuthenticatedVoter()))
-                    ),
-                    FilterSecurityInterceptor.class
-            );
-        }
     }
 
     @Bean

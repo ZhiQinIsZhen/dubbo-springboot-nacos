@@ -64,7 +64,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                     if (Objects.isNull(codeService)) {
                         AuthContext.setAuthUser(authUser);
                     }
-                    if (!AnonymousUrlContext.getAnonymousUrls().contains(request.getServletPath())) {
+                    if (!AnonymousUrlContext.getAnonymousMappings().contains(request.getServletPath())) {
                         if (Objects.nonNull(codeService)) {
                             throw new RemoteServiceException(codeService.getCode(), codeService.getMessage());
                         }
