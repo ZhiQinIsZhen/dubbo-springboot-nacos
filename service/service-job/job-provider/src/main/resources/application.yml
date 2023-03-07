@@ -52,6 +52,8 @@ logging:
     com.liyz.dubbo.service.job.dao: debug
     org.springframework.transaction.*: debug
     org.springframework.jdbc.*: debug
+  pattern:
+    console: %d{yyyy-MM-dd HH:mm:ss.SSS} %clr(%-5level) %clr(${PID:-}){magenta} %clr([%t]){faint} %clr([%F:%L]){cyan} %clr(:){faint} %m%n%throwable
 
 elasticjob:
   auto:
