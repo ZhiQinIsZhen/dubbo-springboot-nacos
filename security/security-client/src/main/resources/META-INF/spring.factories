@@ -1,3 +1,0 @@
-# Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.liyz.dubbo.security.client.config.SecurityClientAutoConfig

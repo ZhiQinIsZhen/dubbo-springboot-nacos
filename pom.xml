@@ -6,16 +6,12 @@
 
     <groupId>com.liyz.dubbo</groupId>
     <artifactId>dubbo-parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>this is project what is parent of all projects</description>
 
     <modules>
-        <module>parent-dependencies-bom</module>
-        <module>common</module>
-        <module>service</module>
-        <module>api</module>
-        <module>security</module>
+        <module>dubbo-dependencies-bom</module>
     </modules>
 
     <properties>
@@ -31,8 +27,8 @@
         <dependencies>
             <dependency>
                 <groupId>com.liyz.dubbo</groupId>
-                <artifactId>parent-dependencies-bom</artifactId>
-                <version>${project.version}</version>
+                <artifactId>dubbo-dependencies-bom</artifactId>
+                <version>2.0.0-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
