@@ -7,8 +7,7 @@
     <parent>
         <groupId>com.liyz.dubbo</groupId>
         <artifactId>api</artifactId>
-        <version>${revision}</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>open-api</artifactId>
@@ -18,47 +17,47 @@
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>common-remote</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>common-core</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>common-desensitize</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>security-core</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>security-remote</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>security-client</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>common-controller</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>common-limit</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>common-util</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -98,27 +97,27 @@
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>sms-remote</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>staff-remote</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>common-excel</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>bigdata-remote</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>security-encrypt</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
@@ -138,7 +137,7 @@
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>dfa-remote</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

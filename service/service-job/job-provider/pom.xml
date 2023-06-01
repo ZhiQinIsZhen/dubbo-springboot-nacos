@@ -7,8 +7,7 @@
     <parent>
         <artifactId>service-job</artifactId>
         <groupId>com.liyz.dubbo</groupId>
-        <version>${revision}</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>job-provider</artifactId>
@@ -18,32 +17,32 @@
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>job-remote</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>job-dao</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>common-util</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>common-core</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>common-job</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>security-remote</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>

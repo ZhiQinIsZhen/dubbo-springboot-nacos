@@ -7,8 +7,7 @@
     <parent>
         <artifactId>security-server</artifactId>
         <groupId>com.liyz.dubbo</groupId>
-        <version>${revision}</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>server-provider</artifactId>
@@ -18,37 +17,37 @@
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>server-dao</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>security-encrypt</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>common-remote</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>common-core</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>common-util</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>security-core</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.liyz.dubbo</groupId>
             <artifactId>security-remote</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>

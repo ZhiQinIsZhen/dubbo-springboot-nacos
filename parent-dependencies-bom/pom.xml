@@ -6,11 +6,11 @@
 
     <groupId>com.liyz.dubbo</groupId>
     <artifactId>parent-dependencies-bom</artifactId>
-    <version>${revision}</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
-        <springboot_parent_version>2.7.9</springboot_parent_version>
+        <springboot.version>2.7.9</springboot.version>
         <guava.version>31.1-jre</guava.version>
         <cglib.version>3.3.0</cglib.version>
         <device.version>1.1.5.RELEASE</device.version>
@@ -27,15 +27,14 @@
         <seata.version>1.4.2</seata.version>
         <elasticjob.version>3.0.1</elasticjob.version>
         <jasypt.version>3.0.5</jasypt.version>
-        <revision>1.0.0-SNAPSHOT</revision>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-parent</artifactId>
-                <version>${springboot_parent_version}</version>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${springboot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -177,6 +176,12 @@
                 <groupId>com.github.ulisesbocchio</groupId>
                 <artifactId>jasypt-spring-boot-starter</artifactId>
                 <version>${jasypt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.liyz.dubbo</groupId>
+                <artifactId>common-remote</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
