@@ -18,6 +18,7 @@
         <module>dubbo-common-dao-starter</module>
         <module>dubbo-common-service</module>
         <module>dubbo-common-api-starter</module>
+        <module>dubbo-common-desensitize</module>
     </modules>
 
 
