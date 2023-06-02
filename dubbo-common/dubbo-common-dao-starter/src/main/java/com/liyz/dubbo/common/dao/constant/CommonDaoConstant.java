@@ -1,4 +1,4 @@
-package com.lyz.auth.common.dao.constant;
+package com.liyz.dubbo.common.dao.constant;
 
 /**
  * Desc:common dao constant
@@ -12,6 +12,10 @@ public interface CommonDaoConstant {
     String DEFAULT_CREATE_TIME = "createTime";
 
     String DEFAULT_UPDATE_TIME = "updateTime";
+
+    String DEFAULT_CREATE_USER = "createUser";
+
+    String DEFAULT_UPDATE_USER = "updateUser";
 
     String DEFAULT_DELETED = "isDeleted";
 

@@ -1,4 +1,4 @@
-package com.lyz.auth.common.dao.model;
+package com.liyz.dubbo.common.dao.model;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -23,6 +23,12 @@ public class BaseDO {
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
+
+    @TableField(fill = FieldFill.INSERT)
+    private Long createUser;
+
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Long updateUser;
 
     @TableField(fill = FieldFill.INSERT)
     private Integer isDeleted;

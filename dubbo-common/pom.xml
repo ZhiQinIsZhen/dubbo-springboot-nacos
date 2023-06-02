@@ -15,6 +15,7 @@
     <modules>
         <module>dubbo-common-util</module>
         <module>dubbo-common-remote</module>
+        <module>dubbo-common-dao-starter</module>
     </modules>
 
 
