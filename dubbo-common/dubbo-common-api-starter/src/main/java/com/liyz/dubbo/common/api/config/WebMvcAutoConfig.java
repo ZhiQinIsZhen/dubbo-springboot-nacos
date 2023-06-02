@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.liyz.dubbo.common.api.advice.GlobalControllerExceptionAdvice;
 import com.liyz.dubbo.common.api.deserializer.JsonTrimDeserializer;
 import com.liyz.dubbo.common.api.error.ErrorApiController;
+import com.liyz.dubbo.common.desensitize.filter.JacksonDesensitizationContextValueFilter;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.context.annotation.Bean;
@@ -45,7 +46,7 @@ public class WebMvcAutoConfig extends WebMvcConfigurationSupport {
     /**
      * 允许加载本地静态资源
      *
-     * @param registry
+     * @param registry 资源注册器
      */
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -65,7 +66,7 @@ public class WebMvcAutoConfig extends WebMvcConfigurationSupport {
                 SimpleModule simpleModule = new SimpleModule();
                 simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
                 simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
-//                simpleModule.addSerializer(String.class, new JacksonDesensitizationContextValueFilter());
+                simpleModule.addSerializer(String.class, new JacksonDesensitizationContextValueFilter());
                 simpleModule.addDeserializer(String.class, new JsonTrimDeserializer());
                 objectMapper.registerModule(simpleModule);
                 //BigDecimal转化为PlainToString
