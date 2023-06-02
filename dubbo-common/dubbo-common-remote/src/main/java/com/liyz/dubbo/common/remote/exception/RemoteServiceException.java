@@ -1,4 +1,4 @@
-package com.lyz.auth.common.remote.exception;
+package com.liyz.dubbo.common.remote.exception;
 
 import lombok.Getter;
 
@@ -22,8 +22,8 @@ public class RemoteServiceException extends RuntimeException{
     }
 
     /**
-     * 获取异常code
+     * 异常code
      */
     @Getter
-    private String code;
+    private final String code;
 }

@@ -12,6 +12,9 @@
 
     <modules>
         <module>dubbo-dependencies-bom</module>
+        <module>dubbo-common</module>
+        <module>dubbo-service</module>
+        <module>dubbo-api</module>
     </modules>
 
     <properties>

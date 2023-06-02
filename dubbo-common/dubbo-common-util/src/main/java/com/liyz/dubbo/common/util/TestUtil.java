@@ -1,4 +1,4 @@
-package com.lyz.auth.common.util;
+package com.liyz.dubbo.common.util;
 
 import lombok.Getter;
 import lombok.Setter;

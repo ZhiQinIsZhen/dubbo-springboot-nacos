@@ -1,4 +1,4 @@
-package com.lyz.auth.common.remote.page;
+package com.liyz.dubbo.common.remote.page;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.lyz.auth.common.util;
+package com.liyz.dubbo.common.util;
 
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;

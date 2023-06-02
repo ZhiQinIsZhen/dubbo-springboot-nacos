@@ -1,4 +1,4 @@
-package com.lyz.auth.common.remote.exception;
+package com.liyz.dubbo.common.remote.exception;
 
 /**
  * Desc:Base interface
@@ -12,14 +12,14 @@ public interface IExceptionService {
     /**
      * 获取异常code
      *
-     * @return
+     * @return code
      */
     String getCode();
 
     /**
      * 获取异常信息
      *
-     * @return
+     * @return 异常信息
      */
     String getMessage();
 }

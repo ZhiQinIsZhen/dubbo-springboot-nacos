@@ -1,4 +1,4 @@
-package com.lyz.auth.common.util;
+package com.liyz.dubbo.common.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;

@@ -1,4 +1,4 @@
-package com.lyz.auth.common.remote.exception;
+package com.liyz.dubbo.common.remote.exception;
 
 /**
  * Desc:
@@ -16,9 +16,9 @@ public enum CommonExceptionCodeEnum implements IExceptionService{
     REMOTE_SERVICE_FAIL("10005", "服务异常"),
     ;
 
-    private String code;
+    private final String code;
 
-    private String message;
+    private final String message;
 
     CommonExceptionCodeEnum(String code, String message) {
         this.code = code;
