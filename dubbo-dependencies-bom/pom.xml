@@ -18,6 +18,7 @@
         <google.guava.version>31.1-jre</google.guava.version>
         <cglib.version>3.3.0</cglib.version>
         <hutool.version>5.8.14</hutool.version>
+        <apache.collections4.version>4.4</apache.collections4.version>
         <mybatis.plus.version>3.5.2</mybatis.plus.version>
         <mybatis.plus.join.version>1.4.3.2</mybatis.plus.join.version>
         <github.knife4j.version>2.0.9</github.knife4j.version>
@@ -89,6 +90,11 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${apache.collections4.version}</version>
             </dependency>
             <!-- dao -->
             <dependency>

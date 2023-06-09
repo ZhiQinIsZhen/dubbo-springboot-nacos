@@ -19,7 +19,7 @@ import java.util.Objects;
 @UtilityClass
 public class DesensitizeUtil {
 
-    private static final Map<DesensitizationType, DesensitizeService> SERVICE_MAP = Maps.newHashMap();
+    private static final Map<DesensitizationType, DesensitizeService> SERVICE_MAP = Maps.newEnumMap(DesensitizationType.class);
 
     static {
         putService(new DefaultDesensitizeServiceImpl());

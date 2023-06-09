@@ -1,0 +1,21 @@
+{
+  "properties": [
+    {
+      "name": "request.limit.enable",
+      "type": "java.lang.Boolean",
+      "description": "Enable request limit mode",
+      "defaultValue": true
+    },
+    {
+      "name": "request.limit.totalCount",
+      "type": "java.lang.Double",
+      "description": "request limit total count",
+      "defaultValue": 1.0
+    },{
+      "name": "request.limit.model",
+      "type": "java.lang.String",
+      "description": "request limit model default caffeine",
+      "defaultValue": "caffeine"
+    }
+  ]
+}
