@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerIntercep
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.liyz.dubbo.common.dao.handler.MybatisPlusMetaObjectHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,8 +16,13 @@ import org.springframework.context.annotation.Configuration;
  * @version 1.0.0
  * @date 2023/6/2 11:20
  */
+@Slf4j
 @Configuration
 public class MybatisPlusAutoConfig {
+
+    public MybatisPlusAutoConfig() {
+        log.info("module dubbo-common-dao-starter init");
+    }
 
     /**
      * 配置插件

@@ -18,8 +18,9 @@ public class RealNameDesensitizeServiceImpl implements DesensitizeService {
 
     @Override
     public String desensitize(String value, Desensitization annotation) {
-        if (StringUtils.isNotBlank(value) && value.length() > 1) {
-            value = StringUtils.left(value, 1) + StringUtils.leftPad(StringUtils.right(value, 1), value.length() - 1, "*");
+        int length;
+        if (StringUtils.isNotBlank(value) && (length = value.length()) > 1) {
+            value = StringUtils.left(value, 1) + StringUtils.leftPad(StringUtils.right(value, 1), length > 2 ? value.length() - 1 : length, "*");
         }
         return value;
     }

@@ -8,6 +8,7 @@ import com.liyz.dubbo.common.api.advice.GlobalControllerExceptionAdvice;
 import com.liyz.dubbo.common.api.deserializer.JsonTrimDeserializer;
 import com.liyz.dubbo.common.api.error.ErrorApiController;
 import com.liyz.dubbo.common.desensitize.filter.JacksonDesensitizationContextValueFilter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.context.annotation.Bean;
@@ -29,9 +30,14 @@ import java.util.Optional;
  * @version 1.0.0
  * @date 2023/3/9 10:30
  */
+@Slf4j
 @Configuration
 @AutoConfigureOrder(value = Ordered.HIGHEST_PRECEDENCE)
 public class WebMvcAutoConfig extends WebMvcConfigurationSupport {
+
+    public WebMvcAutoConfig() {
+        log.info("module dubbo-common-api-starter init");
+    }
 
     @Bean
     public GlobalControllerExceptionAdvice globalControllerExceptionAdvice() {

@@ -5,9 +5,10 @@ import com.liyz.dubbo.common.remote.exception.CommonExceptionCodeEnum;
 import com.liyz.dubbo.common.remote.exception.RemoteServiceException;
 import com.liyz.dubbo.common.service.constant.CommonServiceConstant;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.Ordered;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.core.annotation.Order;
 import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -39,6 +40,9 @@ public class GlobalControllerExceptionAdvice {
         if (Objects.nonNull(exception) && exception.hasErrors()) {
             List<ObjectError> errors = exception.getAllErrors();
             for (ObjectError error : errors) {
+                if (error.contains(TypeMismatchException.class) && error instanceof FieldError) {
+                    return Result.error(CommonExceptionCodeEnum.PARAMS_VALIDATED.getCode(), ((FieldError) error).getField() + "类型转化失败");
+                }
                 return Result.error(CommonExceptionCodeEnum.PARAMS_VALIDATED.getCode(), error.getDefaultMessage());
             }
         }
