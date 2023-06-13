@@ -1,5 +1,6 @@
 package com.liyz.dubbo.api.admin.dto.test;
 
+import com.liyz.dubbo.common.api.annotation.Trim;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +26,7 @@ public class TestDTO implements Serializable {
     @ApiModelProperty(value = "名字")
     @NotBlank(groups = {Hello.class}, message = "名字不能为空")
     @Length(min = 2, max = 10, groups = {Hello.class}, message = "请输入长度2到10长度的名字")
+    @Trim
     private String name;
 
     @ApiModelProperty(value = "时间")
