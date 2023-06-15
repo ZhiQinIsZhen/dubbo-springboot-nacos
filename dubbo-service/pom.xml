@@ -10,5 +10,9 @@
     </parent>
 
     <artifactId>dubbo-service</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>dubbo-service-auth</module>
+    </modules>
 
 </project>

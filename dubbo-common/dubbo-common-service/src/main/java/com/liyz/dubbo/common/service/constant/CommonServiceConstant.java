@@ -17,4 +17,8 @@ public interface CommonServiceConstant {
     String JDK_CLASS_PREFIX = "java.";
 
     String JDK_CLASS_X_PREFIX = "javax.";
+
+    String ATTACHMENT_LOGIN_USER = "loginUser";
+
+    Long DEFAULT_SYSTEM_USER_ID = -1L;
 }

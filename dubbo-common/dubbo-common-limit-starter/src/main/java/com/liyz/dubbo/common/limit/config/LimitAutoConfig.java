@@ -15,7 +15,6 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Objects;
 
 /**

@@ -5,23 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.liyz.dubbo</groupId>
-        <artifactId>dubbo-parent</artifactId>
+        <artifactId>dubbo-service</artifactId>
         <version>2.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>dubbo-common</artifactId>
+    <artifactId>dubbo-service-auth</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <module>dubbo-common-util</module>
-        <module>dubbo-common-remote</module>
-        <module>dubbo-common-dao-starter</module>
-        <module>dubbo-common-service</module>
-        <module>dubbo-common-api-starter</module>
-        <module>dubbo-common-desensitize</module>
-        <module>dubbo-common-limit-starter</module>
-        <module>dubbo-security-client-starter</module>
+        <module>auth-remote</module>
+        <module>auth-dao</module>
+        <module>auth-biz</module>
     </modules>
-
 
 </project>
