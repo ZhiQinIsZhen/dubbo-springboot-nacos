@@ -9,9 +9,10 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -23,7 +24,7 @@ import java.util.Set;
  */
 @Slf4j
 @Configuration
-public class AnonymousMappingConfig implements ApplicationContextAware, InitializingBean, Ordered {
+public class AnonymousMappingConfig implements ApplicationContextAware, InitializingBean {
 
     private static final Set<String> anonymousMappings = Sets.newHashSet();
     private ApplicationContext applicationContext;
@@ -35,13 +36,17 @@ public class AnonymousMappingConfig implements ApplicationContextAware, Initiali
 
     @Override
     public void afterPropertiesSet() {
-        RequestMappingHandlerMapping handlerMapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
-        handlerMapping.getHandlerMethods().forEach((k, v) -> {
-            boolean hasAnonymous = v.getBeanType().isAnnotationPresent(Anonymous.class) || (v.hasMethodAnnotation(Anonymous.class));
-            if (hasAnonymous) {
-                anonymousMappings.addAll(k.getPatternsCondition().getPatterns());
-            }
-        });
+        Map<String, RequestMappingHandlerMapping> map = applicationContext.getBeansOfType(RequestMappingHandlerMapping.class);
+        if (!CollectionUtils.isEmpty(map)) {
+            map.values().forEach(handlerMapping -> {
+                handlerMapping.getHandlerMethods().forEach((k, v) -> {
+                    boolean hasAnonymous = v.getBeanType().isAnnotationPresent(Anonymous.class) || (v.hasMethodAnnotation(Anonymous.class));
+                    if (hasAnonymous) {
+                        anonymousMappings.addAll(k.getPatternsCondition().getPatterns());
+                    }
+                });
+            });
+        }
         log.info("Anonymous mappings : {}", JsonMapperUtil.toJSONString(anonymousMappings));
     }
 
@@ -53,10 +58,5 @@ public class AnonymousMappingConfig implements ApplicationContextAware, Initiali
      */
     public static Set<String> getAnonymousMappings() {
         return anonymousMappings;
-    }
-
-    @Override
-    public int getOrder() {
-        return -1;
     }
 }

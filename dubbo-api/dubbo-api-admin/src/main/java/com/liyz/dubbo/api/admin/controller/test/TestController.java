@@ -7,6 +7,7 @@ import com.liyz.dubbo.common.limit.annotation.Limit;
 import com.liyz.dubbo.common.limit.annotation.Limits;
 import com.liyz.dubbo.common.limit.enums.LimitType;
 import com.liyz.dubbo.common.service.util.BeanUtil;
+import com.liyz.dubbo.security.client.annotation.Anonymous;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
         @ApiResponse(code = 1, message = "失败")
 })
 @Slf4j
+@Anonymous
 @RestController
 @RequestMapping("/test")
 public class TestController {

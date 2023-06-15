@@ -13,8 +13,8 @@ import com.liyz.dubbo.service.auth.bo.AuthUserRegisterBO;
 import com.liyz.dubbo.service.auth.enums.Device;
 import com.liyz.dubbo.service.auth.enums.LoginType;
 import com.liyz.dubbo.service.auth.exception.AuthExceptionCodeEnum;
+import com.liyz.dubbo.service.auth.exception.RemoteAuthServiceException;
 import com.liyz.dubbo.service.auth.remote.RemoteAuthService;
-import com.liyz.dubbo.service.staff.exception.RemoteStaffServiceException;
 import com.liyz.dubbo.service.staff.model.*;
 import com.liyz.dubbo.service.staff.model.base.StaffAuthBaseDO;
 import com.liyz.dubbo.service.staff.service.*;
@@ -77,7 +77,7 @@ public class RemoteAuthServiceImpl implements RemoteAuthService {
                 staffAuthEmailService.lambdaQuery().eq(StaffAuthEmailDO::getEmail, authUserRegister.getUsername()).exists() :
                 staffAuthMobileService.lambdaQuery().eq(StaffAuthMobileDO::getMobile, authUserRegister.getUsername()).exists();
         if (userNameExist) {
-            throw new RemoteStaffServiceException(isEmail ? AuthExceptionCodeEnum.EMAIL_EXIST : AuthExceptionCodeEnum.MOBILE_EXIST);
+            throw new RemoteAuthServiceException(isEmail ? AuthExceptionCodeEnum.EMAIL_EXIST : AuthExceptionCodeEnum.MOBILE_EXIST);
         }
         StaffInfoDO staffInfoDO = BeanUtil.copyProperties(authUserRegister, StaffInfoDO.class, (s, t) -> {
             if (isEmail) {

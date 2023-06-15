@@ -1,18 +1,21 @@
 package com.liyz.dubbo.security.client.config;
 
+import com.liyz.dubbo.security.client.advice.AuthExceptionHandleAdvice;
 import com.liyz.dubbo.security.client.constant.SecurityClientConstant;
 import com.liyz.dubbo.security.client.context.AuthContext;
 import com.liyz.dubbo.security.client.filter.JwtAuthenticationTokenFilter;
 import com.liyz.dubbo.security.client.handler.JwtAuthenticationEntryPoint;
 import com.liyz.dubbo.security.client.handler.RestfulAccessDeniedHandler;
+import com.liyz.dubbo.security.client.user.impl.UserDetailsServiceImpl;
 import com.liyz.dubbo.service.auth.remote.RemoteAuthService;
 import com.liyz.dubbo.service.auth.remote.RemoteJwtParseService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -20,6 +23,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -48,8 +52,19 @@ public class AuthSecurityClientAutoConfig implements InitializingBean {
     }
 
     @Bean
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsServiceImpl();
+    }
+
+    @Bean
     public AnonymousMappingConfig anonymousMappingConfig() {
         return new AnonymousMappingConfig();
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "auth.advice", name = "enable", havingValue = "true", matchIfMissing = true)
+    public AuthExceptionHandleAdvice authExceptionHandleAdvice() {
+        return new AuthExceptionHandleAdvice();
     }
 
     @Bean
@@ -64,7 +79,7 @@ public class AuthSecurityClientAutoConfig implements InitializingBean {
     }
 
     @Bean
-    @ConditionalOnBean({AnonymousMappingConfig.class})
+    @DependsOn({"anonymousMappingConfig"})
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
