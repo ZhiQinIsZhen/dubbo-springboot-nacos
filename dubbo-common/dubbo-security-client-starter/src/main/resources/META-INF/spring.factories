@@ -1,3 +1,4 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.liyz.dubbo.security.client.config.AuthSecurityClientAutoConfig
+com.liyz.dubbo.security.client.config.AuthSecurityClientAutoConfig,\
+com.liyz.dubbo.security.client.advice.AuthExceptionHandleAdvice

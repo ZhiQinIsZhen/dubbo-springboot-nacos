@@ -107,7 +107,7 @@ public class RemoteAuthServiceImpl implements RemoteAuthService {
             log.warn("查询资源客户端ID失败，原因没有找到对应的配置信息，clientId : {}", authUserLogin.getClientId());
             throw new RemoteAuthServiceException(AuthExceptionCodeEnum.LOGIN_ERROR);
         }
-        RpcContext.getClientAttachment().setAttachment(DUBBO_TAG, authUserLogin.getClientId());
+        RpcContext.getClientAttachment().setAttachment(DUBBO_TAG, authSourceDO.getClientTag());
         return remoteAuthService.login(authUserLogin);
     }
 

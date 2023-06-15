@@ -2,6 +2,7 @@ package com.liyz.dubbo.security.client.advice;
 
 import com.liyz.dubbo.common.api.result.Result;
 import com.liyz.dubbo.service.auth.exception.AuthExceptionCodeEnum;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.access.AccessDeniedException;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  */
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
+@ConditionalOnProperty(prefix = "auth.advice", name = "enable", havingValue = "true", matchIfMissing = true)
 public class AuthExceptionHandleAdvice {
 
     @ExceptionHandler({BadCredentialsException.class, UsernameNotFoundException.class})

@@ -25,6 +25,6 @@ public class AuthJwtServiceImpl extends ServiceImpl<AuthJwtMapper, AuthJwtDO> im
      */
     @Override
     public AuthJwtDO getByClientId(String clientId) {
-        return getOne(Wrappers.lambdaQuery(AuthJwtDO.class).eq(AuthJwtDO::getClient, clientId));
+        return getOne(Wrappers.lambdaQuery(AuthJwtDO.class).eq(AuthJwtDO::getClientId, clientId));
     }
 }

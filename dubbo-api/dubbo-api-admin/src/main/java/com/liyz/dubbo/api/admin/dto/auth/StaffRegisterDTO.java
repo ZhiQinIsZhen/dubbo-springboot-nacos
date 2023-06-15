@@ -37,8 +37,8 @@ public class StaffRegisterDTO implements Serializable {
     @Pattern(regexp = PatternUtil.EMAIL_REG, groups = {Register.class}, message = "请输入正确的邮箱地址")
     private String email;
 
-    @ApiModelProperty(value = "用户名", hidden = true)
-    private String username;
+//    @ApiModelProperty(value = "用户名", hidden = true)
+//    private String username;
 
     @NotBlank(groups = {Register.class}, message = "请输入注册的手机号码或邮箱地址")
     public String getUsername() {

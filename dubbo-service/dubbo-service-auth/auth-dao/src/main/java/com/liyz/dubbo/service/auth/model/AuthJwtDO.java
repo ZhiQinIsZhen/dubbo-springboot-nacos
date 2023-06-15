@@ -28,7 +28,7 @@ public class AuthJwtDO extends BaseDO implements Serializable {
     /**
      * 应用名
      */
-    private String client;
+    private String clientId;
 
     /**
      * jwt前缀

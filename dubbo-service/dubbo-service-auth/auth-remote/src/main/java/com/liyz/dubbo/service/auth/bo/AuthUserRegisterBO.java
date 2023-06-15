@@ -33,6 +33,16 @@ public class AuthUserRegisterBO implements Serializable {
     private String salt;
 
     /**
+     * 用户昵称
+     */
+    private String nickName;
+
+    /**
+     * 用户真实名称
+     */
+    private String realName;
+
+    /**
      * 客户端ID
      */
     private String clientId;

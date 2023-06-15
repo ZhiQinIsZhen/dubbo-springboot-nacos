@@ -115,10 +115,9 @@ public class AuthContext implements EnvironmentAware, ApplicationContextAware, I
             authUserLoginBO.setDevice(DeviceContext.getDevice(HttpServletContext.getRequest()));
             authUserLoginBO.setLoginType(LoginType.getByType(PatternUtil.checkMobileEmail(authUserLoginBO.getUsername())));
             authUserLoginBO.setIp(HttpServletContext.getIpAddress(HttpServletContext.getRequest()));
-            //todo
             Authentication authentication = new UsernamePasswordAuthenticationToken(
                     Joiner.on(CommonServiceConstant.DEFAULT_JOINER).join(
-                            authUserLoginBO.getDevice(),
+                            authUserLoginBO.getDevice().getType(),
                             authUserLoginBO.getClientId(),
                             authUserLoginBO.getUsername()),
                     authUserLoginBO.getPassword());
@@ -132,9 +131,12 @@ public class AuthContext implements EnvironmentAware, ApplicationContextAware, I
                             .device(authUserLoginBO.getDevice())
                             .ip(authUserLoginBO.getIp())
                             .build());
-            return BeanUtil.copyProperties(authUserDetails, AuthUserBO.class, (s, t) -> {
+            return BeanUtil.copyProperties(authUserDetails.getAuthUser(), AuthUserBO.class, (s, t) -> {
+                t.setPassword(null);
+                t.setSalt(null);
                 t.setCheckTime(checkTime);
-                t.setToken(JwtService.generateToken(t));
+                s.setCheckTime(checkTime);
+                t.setToken(JwtService.generateToken(s));
             });
         }
 

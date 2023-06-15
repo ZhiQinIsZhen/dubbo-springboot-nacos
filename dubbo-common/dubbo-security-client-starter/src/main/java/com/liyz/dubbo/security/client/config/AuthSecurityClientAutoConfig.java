@@ -1,6 +1,5 @@
 package com.liyz.dubbo.security.client.config;
 
-import com.liyz.dubbo.security.client.advice.AuthExceptionHandleAdvice;
 import com.liyz.dubbo.security.client.constant.SecurityClientConstant;
 import com.liyz.dubbo.security.client.context.AuthContext;
 import com.liyz.dubbo.security.client.filter.JwtAuthenticationTokenFilter;
@@ -13,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.http.HttpMethod;
@@ -59,12 +57,6 @@ public class AuthSecurityClientAutoConfig implements InitializingBean {
     @Bean
     public AnonymousMappingConfig anonymousMappingConfig() {
         return new AnonymousMappingConfig();
-    }
-
-    @Bean
-    @ConditionalOnProperty(prefix = "auth.advice", name = "enable", havingValue = "true", matchIfMissing = true)
-    public AuthExceptionHandleAdvice authExceptionHandleAdvice() {
-        return new AuthExceptionHandleAdvice();
     }
 
     @Bean
