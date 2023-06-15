@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-public class BasePageBO implements Serializable {
+public class PageBO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long pageNum = 1L;

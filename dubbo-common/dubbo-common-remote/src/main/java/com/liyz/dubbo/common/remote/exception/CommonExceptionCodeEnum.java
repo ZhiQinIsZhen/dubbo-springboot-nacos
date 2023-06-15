@@ -1,7 +1,7 @@
 package com.liyz.dubbo.common.remote.exception;
 
 /**
- * Desc:
+ * Desc:1开头的错误码
  *
  * @author lyz
  * @version 1.0.0

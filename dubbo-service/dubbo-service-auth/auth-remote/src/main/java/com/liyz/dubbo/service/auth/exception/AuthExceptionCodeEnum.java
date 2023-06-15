@@ -4,7 +4,7 @@ import com.liyz.dubbo.common.remote.exception.IExceptionService;
 import lombok.AllArgsConstructor;
 
 /**
- * Desc:
+ * Desc:2开头的错误码
  *
  * @author lyz
  * @version 1.0.0

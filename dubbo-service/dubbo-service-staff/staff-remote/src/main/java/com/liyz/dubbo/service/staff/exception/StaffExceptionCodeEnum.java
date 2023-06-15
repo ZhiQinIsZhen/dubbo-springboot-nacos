@@ -1,18 +1,17 @@
-package com.liyz.dubbo.common.service.exception;
+package com.liyz.dubbo.service.staff.exception;
 
 import com.liyz.dubbo.common.remote.exception.IExceptionService;
 import lombok.AllArgsConstructor;
 
 /**
- * Desc:11开头的错误码
+ * Desc:
  *
  * @author lyz
  * @version 1.0.0
  * @date 2023/3/10 9:31
  */
 @AllArgsConstructor
-public enum CommonServiceExceptionCodeEnum implements IExceptionService {
-    DEEP_COPY_ERROR("11001", "对象深拷贝错误"),
+public enum StaffExceptionCodeEnum implements IExceptionService {
     ;
 
     private final String code;

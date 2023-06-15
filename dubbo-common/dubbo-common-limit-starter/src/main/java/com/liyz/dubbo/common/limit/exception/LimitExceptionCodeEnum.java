@@ -3,7 +3,7 @@ package com.liyz.dubbo.common.limit.exception;
 import com.liyz.dubbo.common.remote.exception.IExceptionService;
 
 /**
- * 注释:限流异常类枚举值
+ * 注释:限流异常类枚举值 (12开头的错误码)
  *
  * @author liyangzhen
  * @version 1.0.0
