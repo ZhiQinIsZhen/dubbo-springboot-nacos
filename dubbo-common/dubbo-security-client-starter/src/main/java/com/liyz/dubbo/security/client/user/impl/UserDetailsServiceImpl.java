@@ -6,6 +6,7 @@ import com.liyz.dubbo.security.client.user.AuthUserDetails;
 import com.liyz.dubbo.service.auth.bo.AuthUserBO;
 import com.liyz.dubbo.service.auth.enums.Device;
 import com.liyz.dubbo.service.auth.exception.AuthExceptionCodeEnum;
+import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,6 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         AuthUserBO authUserBO = AuthContext.AuthService.loadByUsername(username.substring(index + 1),
                 Device.getByType(Integer.parseInt(username.substring(0, index))));
+        RpcContext.getClientAttachment().setAttachment(CommonServiceConstant.ATTACHMENT_LOGIN_USER, authUserBO.getAuthId().toString());
         return AuthUserDetails.build(authUserBO);
     }
 }
