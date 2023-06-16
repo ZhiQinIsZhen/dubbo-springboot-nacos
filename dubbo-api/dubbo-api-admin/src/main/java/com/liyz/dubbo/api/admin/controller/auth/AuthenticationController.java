@@ -64,7 +64,6 @@ public class AuthenticationController {
         return Result.success(authLoginVO);
     }
 
-    @Anonymous
     @ApiOperation("登出")
     @PostMapping("/logout")
     @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",

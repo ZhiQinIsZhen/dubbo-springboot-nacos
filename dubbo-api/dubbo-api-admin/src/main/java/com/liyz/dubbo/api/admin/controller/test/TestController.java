@@ -1,8 +1,11 @@
 package com.liyz.dubbo.api.admin.controller.test;
 
+import com.liyz.dubbo.api.admin.dto.auth.StaffLoginDTO;
 import com.liyz.dubbo.api.admin.dto.test.TestDTO;
+import com.liyz.dubbo.api.admin.vo.auth.AuthLoginVO;
 import com.liyz.dubbo.api.admin.vo.test.TestVO;
 import com.liyz.dubbo.common.api.result.Result;
+import com.liyz.dubbo.common.api.result.TestResult;
 import com.liyz.dubbo.common.limit.annotation.Limit;
 import com.liyz.dubbo.common.limit.annotation.Limits;
 import com.liyz.dubbo.common.limit.enums.LimitType;
@@ -14,9 +17,9 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 /**
  * Desc:
@@ -41,5 +44,11 @@ public class TestController {
     @GetMapping("/hello")
     public Result<TestVO> hello(@Validated(TestDTO.Hello.class) TestDTO testDTO) {
         return Result.success(BeanUtil.copyProperties(testDTO, TestVO::new));
+    }
+
+    @ApiOperation("登录")
+    @PostMapping("/login")
+    public TestResult<StaffLoginDTO, AuthLoginVO> login(@Validated({StaffLoginDTO.Login.class}) @RequestBody StaffLoginDTO loginDTO) {
+        return TestResult.success();
     }
 }

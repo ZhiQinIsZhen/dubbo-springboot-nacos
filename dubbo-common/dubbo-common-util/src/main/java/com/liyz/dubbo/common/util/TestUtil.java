@@ -22,4 +22,9 @@ public class TestUtil implements Comparable<Integer> {
     public int compareTo(Integer o) {
         return o.compareTo(age);
     }
+
+
+    public static class Wrapper<T> {
+
+    }
 }

@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonPropertyOrder({"code", "message", "data"})
-public class Result<T> {
+public class TestResult<T, V> {
 
     @ApiModelProperty(value = "code码")
     private String code;
@@ -25,36 +25,41 @@ public class Result<T> {
     @ApiModelProperty(value = "消息")
     private String message;
 
+    @ApiModelProperty(value = "结果")
+    private V value;
+
     @ApiModelProperty(value = "数据体")
     private T data;
 
-    public Result(String code, String message) {
+
+
+    public TestResult(String code, String message) {
         this.code = code;
         this.message = message;
     }
 
-    public Result(T data) {
+    public TestResult(T data) {
         this(CommonExceptionCodeEnum.SUCCESS);
         this.data = data;
     }
 
-    public Result(IExceptionService codeEnum) {
+    public TestResult(IExceptionService codeEnum) {
         this(codeEnum.getCode(), codeEnum.getMessage());
     }
 
-    public static <E> Result<E> success(E data) {
-        return new Result<>(data);
+    public static <E, G> TestResult<E, G> success(E data) {
+        return new TestResult<>(data);
     }
 
-    public static <E> Result<E> success() {
+    public static <E, G> TestResult<E, G> success() {
         return success(null);
     }
 
-    public static <E> Result<E> error(IExceptionService codeEnum) {
-        return new Result<>(codeEnum);
+    public static <E, G> TestResult<E, G> error(IExceptionService codeEnum) {
+        return new TestResult<>(codeEnum);
     }
 
-    public static <E> Result<E> error(String code, String message) {
-        return new Result<>(code, message);
+    public static <E, G> TestResult<E, G> error(String code, String message) {
+        return new TestResult<>(code, message);
     }
 }

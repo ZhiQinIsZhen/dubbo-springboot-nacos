@@ -119,7 +119,7 @@ public class RemoteJwtParseServiceImpl implements RemoteJwtParseService {
         claims.setAudience(authUser.getClientId());
         claims.setExpiration(new Date(System.currentTimeMillis() + authJwtDO.getExpiration() * 1000));
         claims.setNotBefore(authUser.getCheckTime());
-        claims.put(CLAIM_DEVICE, authUser.getDevice());
+        claims.put(CLAIM_DEVICE, authUser.getDevice().getType());
         return Jwts.builder()
                 .setClaims(claims)
                 .signWith(

@@ -147,6 +147,8 @@ public class RemoteAuthServiceImpl implements RemoteAuthService {
         StaffLoginLogDO staffLoginLogDO = BeanUtil.copyProperties(authUserLogin, StaffLoginLogDO.class, (s, t) -> {
             t.setStaffId(s.getAuthId());
             t.setLoginTime(DateUtil.currentDate());
+            t.setLoginType(s.getLoginType().getType());
+            t.setDevice(s.getDevice().getType());
         });
         staffLoginLogService.save(staffLoginLogDO);
         //可能会有时间误差
@@ -171,24 +173,33 @@ public class RemoteAuthServiceImpl implements RemoteAuthService {
 
     /**
      * 获取权限列表
+     * todo 父角色功能暂未实现，即只有一层关系
      *
      * @param authUser 认证用户信息
      * @return 权限列表
      */
     @Override
     public List<AuthUserBO.AuthGrantedAuthorityBO> authorities(AuthUserBO authUser) {
+        Set<Integer> authorityIdSet = Sets.newHashSet();
+        //查询角色拥有的权限
+        if (!CollectionUtils.isEmpty(authUser.getRoleIds())) {
+            List<SystemRoleAuthorityDO> roleAuthorityList = systemRoleAuthorityService.list(Wrappers.lambdaQuery(SystemRoleAuthorityDO.class)
+                    .in(SystemRoleAuthorityDO::getRoleId, authUser.getRoleIds()));
+            if (!CollectionUtils.isEmpty(roleAuthorityList)) {
+                roleAuthorityList.forEach(item -> authorityIdSet.add(item.getAuthorityId()));
+            }
+        }
+        //查询临时权限
         List<StaffAuthorityDO> list = staffAuthorityService.list(Wrappers.lambdaQuery(StaffAuthorityDO.class)
                 .eq(StaffAuthorityDO::getStaffId, authUser.getAuthId())
                 .le(StaffAuthorityDO::getAuthorityEndTime, DateUtil.currentDate()));
-        List<SystemRoleAuthorityDO> roleAuthorityList = systemRoleAuthorityService.list(Wrappers.lambdaQuery(SystemRoleAuthorityDO.class)
-                .in(SystemRoleAuthorityDO::getRoleId, authUser.getRoleIds()));
-        Set<Integer> authorityIdSet = Sets.newHashSet();
         if (!CollectionUtils.isEmpty(list)) {
             list.forEach(item -> authorityIdSet.add(item.getAuthorityId()));
         }
-        if (!CollectionUtils.isEmpty(roleAuthorityList)) {
-            roleAuthorityList.forEach(item -> authorityIdSet.add(item.getAuthorityId()));
+        if (CollectionUtils.isEmpty(authorityIdSet)) {
+            return RemoteAuthService.super.authorities(authUser);
         }
+        //查询权限列表
         List<SystemAuthorityDO> authorityList = systemAuthorityService.list(Wrappers.lambdaQuery(SystemAuthorityDO.class)
                 .in(SystemAuthorityDO::getAuthorityId, authorityIdSet));
         return BeanUtil.copyProperties(authorityList, AuthUserBO.AuthGrantedAuthorityBO.class);
