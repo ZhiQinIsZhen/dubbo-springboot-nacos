@@ -55,4 +55,17 @@ public class ApiSwaggerConfig extends SwaggerConfig {
                 .extensions(openApiExtensionResolver.buildSettingExtensions())
                 .groupName("认证鉴权-API");
     }
+
+    @Bean
+    public Docket authorityApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .protocols(PROTOCOL)
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.admin.controller.authority"))
+                .paths(PathSelectors.any())
+                .build()
+                .extensions(openApiExtensionResolver.buildSettingExtensions())
+                .groupName("权限信息-API");
+    }
 }
