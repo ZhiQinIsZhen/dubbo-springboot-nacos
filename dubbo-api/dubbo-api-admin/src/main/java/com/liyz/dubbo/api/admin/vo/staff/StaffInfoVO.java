@@ -1,11 +1,11 @@
 package com.liyz.dubbo.api.admin.vo.staff;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.liyz.dubbo.common.desensitize.annotation.Desensitization;
 import com.liyz.dubbo.common.desensitize.enums.DesensitizationType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -41,6 +41,6 @@ public class StaffInfoVO implements Serializable {
     private String email;
 
     @ApiModelProperty(value = "注册时间")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date registryTime;
 }
