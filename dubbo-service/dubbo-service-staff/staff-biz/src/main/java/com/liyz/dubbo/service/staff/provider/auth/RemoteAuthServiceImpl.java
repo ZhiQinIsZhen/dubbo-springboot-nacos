@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 /**
@@ -202,7 +203,8 @@ public class RemoteAuthServiceImpl implements RemoteAuthService {
         //查询权限列表
         List<SystemAuthorityDO> authorityList = systemAuthorityService.list(Wrappers.lambdaQuery(SystemAuthorityDO.class)
                 .in(SystemAuthorityDO::getAuthorityId, authorityIdSet));
-        return BeanUtil.copyProperties(authorityList, AuthUserBO.AuthGrantedAuthorityBO.class);
+        return BeanUtil.copyProperties(authorityList, AuthUserBO.AuthGrantedAuthorityBO.class,
+                (BiConsumer<SystemAuthorityDO, AuthUserBO.AuthGrantedAuthorityBO>) (s, t) -> t.setAuthorityCode(s.getAuthority()));
     }
 
     /**

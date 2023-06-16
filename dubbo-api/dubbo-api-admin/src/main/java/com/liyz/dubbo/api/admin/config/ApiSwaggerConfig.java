@@ -68,4 +68,17 @@ public class ApiSwaggerConfig extends SwaggerConfig {
                 .extensions(openApiExtensionResolver.buildSettingExtensions())
                 .groupName("权限信息-API");
     }
+
+    @Bean
+    public Docket staffApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .protocols(PROTOCOL)
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.admin.controller.staff"))
+                .paths(PathSelectors.any())
+                .build()
+                .extensions(openApiExtensionResolver.buildSettingExtensions())
+                .groupName("员工信息-API");
+    }
 }

@@ -32,7 +32,7 @@ public class GlobalControllerExceptionAdvice {
     @ExceptionHandler({Exception.class})
     public Result<String> exception(Exception exception) {
         log.error("未知异常", exception);
-        return Result.error(CommonExceptionCodeEnum.UNKNOWN_EXCEPTION);
+        return Result.error(CommonExceptionCodeEnum.REMOTE_SERVICE_FAIL);
     }
 
     @ExceptionHandler({BindException.class})

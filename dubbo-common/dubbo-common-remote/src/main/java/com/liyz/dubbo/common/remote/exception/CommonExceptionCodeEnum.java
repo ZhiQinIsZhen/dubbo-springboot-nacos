@@ -12,7 +12,6 @@ public enum CommonExceptionCodeEnum implements IExceptionService{
     SUCCESS("0", "成功"),
     FAIL("1", "失败"),
     PARAMS_VALIDATED("10000", "参数校验失败"),
-    UNKNOWN_EXCEPTION("10001", "未知异常"),
     REMOTE_SERVICE_FAIL("10005", "服务异常"),
     ;
 
