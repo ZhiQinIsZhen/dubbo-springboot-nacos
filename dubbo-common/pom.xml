@@ -21,6 +21,7 @@
         <module>dubbo-common-desensitize</module>
         <module>dubbo-common-limit-starter</module>
         <module>dubbo-security-client-starter</module>
+        <module>dubbo-common-cache-starter</module>
     </modules>
 
 

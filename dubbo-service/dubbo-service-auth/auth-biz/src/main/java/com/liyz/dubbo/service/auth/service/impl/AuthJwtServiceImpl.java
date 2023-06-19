@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liyz.dubbo.service.auth.dao.AuthJwtMapper;
 import com.liyz.dubbo.service.auth.model.AuthJwtDO;
 import com.liyz.dubbo.service.auth.service.AuthJwtService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,6 +25,7 @@ public class AuthJwtServiceImpl extends ServiceImpl<AuthJwtMapper, AuthJwtDO> im
      * @return JWT配置信息
      */
     @Override
+    @Cacheable(cacheNames = {"test"}, key = "'authJwt:clientId:' + #clientId", unless = "#result == null")
     public AuthJwtDO getByClientId(String clientId) {
         return getOne(Wrappers.lambdaQuery(AuthJwtDO.class).eq(AuthJwtDO::getClientId, clientId));
     }

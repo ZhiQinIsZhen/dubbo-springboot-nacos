@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liyz.dubbo.service.auth.dao.AuthSourceMapper;
 import com.liyz.dubbo.service.auth.model.AuthSourceDO;
 import com.liyz.dubbo.service.auth.service.AuthSourceService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,6 +25,7 @@ public class AuthSourceServiceImpl extends ServiceImpl<AuthSourceMapper, AuthSou
      * @return 资源配置信息
      */
     @Override
+    @Cacheable(cacheNames = {"bug"}, key = "'authSource:clientId:' + #clientId", unless = "#result == null")
     public AuthSourceDO getByClientId(String clientId) {
         return getOne(Wrappers.lambdaQuery(AuthSourceDO.class)
                 .select(AuthSourceDO::getClientId, AuthSourceDO::getClientTag)
