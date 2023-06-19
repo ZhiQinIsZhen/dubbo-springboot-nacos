@@ -167,6 +167,7 @@ public class RemoteAuthServiceImpl implements RemoteAuthService {
     public Boolean logout(AuthUserLogoutBO authUserLogout) {
         StaffLogoutLogDO staffLogoutLogDO = BeanUtil.copyProperties(authUserLogout, StaffLogoutLogDO.class, (s, t) -> {
             t.setStaffId(s.getAuthId());
+            t.setDevice(s.getDevice().getType());
             t.setLogoutTime(DateUtil.currentDate());
         });
         return staffLogoutLogService.save(staffLogoutLogDO);
