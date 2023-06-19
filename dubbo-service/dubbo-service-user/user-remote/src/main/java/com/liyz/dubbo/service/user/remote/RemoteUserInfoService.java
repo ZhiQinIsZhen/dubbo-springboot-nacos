@@ -30,4 +30,6 @@ public interface RemoteUserInfoService {
      * @return 客户信息
      */
     RemotePage<UserInfoBO> page(@NotNull PageBO pageBO);
+
+    void test();
 }

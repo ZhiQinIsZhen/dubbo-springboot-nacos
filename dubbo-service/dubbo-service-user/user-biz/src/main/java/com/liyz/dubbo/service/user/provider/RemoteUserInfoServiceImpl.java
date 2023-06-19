@@ -8,6 +8,7 @@ import com.liyz.dubbo.service.user.bo.UserInfoBO;
 import com.liyz.dubbo.service.user.remote.RemoteUserInfoService;
 import com.liyz.dubbo.service.user.service.UserInfoService;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.cache.annotation.CacheEvict;
 
 import javax.annotation.Resource;
 
@@ -45,5 +46,11 @@ public class RemoteUserInfoServiceImpl implements RemoteUserInfoService {
     public RemotePage<UserInfoBO> page(PageBO pageBO) {
         Page page = userInfoService.page(Page.of(pageBO.getPageNum(), pageBO.getPageSize()));
         return BeanUtil.copyProperties(page, UserInfoBO.class);
+    }
+
+    @Override
+    @CacheEvict(cacheNames = {"userInfo"}, key = "'*'")
+    public void test() {
+
     }
 }

@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liyz.dubbo.service.user.dao.UserInfoMapper;
 import com.liyz.dubbo.service.user.model.UserInfoDO;
 import com.liyz.dubbo.service.user.service.UserInfoService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import java.io.Serializable;
 
 /**
  * Desc:
@@ -15,4 +18,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfoDO> implements UserInfoService {
+
+    @Override
+    @Cacheable(cacheNames = {"userInfo"}, key = "'id:' + #id", unless = "#result == null")
+    public UserInfoDO getById(Serializable id) {
+        return super.getById(id);
+    }
 }

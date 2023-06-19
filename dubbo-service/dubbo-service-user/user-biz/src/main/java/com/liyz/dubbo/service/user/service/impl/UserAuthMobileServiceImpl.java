@@ -7,7 +7,11 @@ import com.liyz.dubbo.service.user.dao.UserAuthMobileMapper;
 import com.liyz.dubbo.service.user.model.UserAuthMobileDO;
 import com.liyz.dubbo.service.user.model.base.UserAuthBaseDO;
 import com.liyz.dubbo.service.user.service.UserAuthMobileService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import java.io.Serializable;
 
 /**
  * Desc:
@@ -26,8 +30,21 @@ public class UserAuthMobileServiceImpl extends ServiceImpl<UserAuthMobileMapper,
      * @return 认证信息
      */
     @Override
+    @Cacheable(cacheNames = {"userInfo"}, key = "'mobile:' + #username", unless = "#result == null")
     public UserAuthBaseDO getByUsername(String username) {
         return getOne(Wrappers.lambdaQuery(UserAuthMobileDO.builder().mobile(username).build()));
+    }
+
+    @Override
+    @CacheEvict(cacheNames = {"userInfo"}, key = "'mobile:' + #entity.mobile")
+    public boolean save(UserAuthMobileDO entity) {
+        return super.save(entity);
+    }
+
+    @Override
+    @Cacheable(cacheNames = {"userInfo"}, key = "'mobile:id:' + #id", unless = "#result == null")
+    public UserAuthMobileDO getById(Serializable id) {
+        return super.getById(id);
     }
 
     /**

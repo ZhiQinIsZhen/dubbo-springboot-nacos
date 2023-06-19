@@ -57,11 +57,10 @@ public class RemoteAuthenticationServiceImpl implements RemoteAuthService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean registry(AuthUserRegisterBO authUserRegister) {
-        boolean isEmail = PatternUtil.matchEmail(authUserRegister.getUsername());
+        String username = authUserRegister.getUsername();
+        boolean isEmail = PatternUtil.matchEmail(username);
         //判断该用户名是否存在
-        boolean userNameExist = isEmail ?
-                userAuthEmailService.lambdaQuery().eq(UserAuthEmailDO::getEmail, authUserRegister.getUsername()).exists() :
-                userAuthMobileService.lambdaQuery().eq(UserAuthMobileDO::getMobile, authUserRegister.getUsername()).exists();
+        boolean userNameExist = isEmail ? Objects.nonNull(userAuthEmailService.getByUsername(username)) : Objects.nonNull(userAuthMobileService.getByUsername(username));
         if (userNameExist) {
             throw new RemoteAuthServiceException(isEmail ? AuthExceptionCodeEnum.EMAIL_EXIST : AuthExceptionCodeEnum.MOBILE_EXIST);
         }
@@ -148,6 +147,7 @@ public class RemoteAuthenticationServiceImpl implements RemoteAuthService {
     public Boolean logout(AuthUserLogoutBO authUserLogout) {
         UserLogoutLogDO userLogoutLogDO = BeanUtil.copyProperties(authUserLogout, UserLogoutLogDO.class, (s, t) -> {
             t.setUserId(s.getAuthId());
+            t.setDevice(s.getDevice().getType());
             t.setLogoutTime(DateUtil.currentDate());
         });
         return userLogoutLogService.save(userLogoutLogDO);

@@ -1,14 +1,13 @@
 package com.liyz.dubbo.service.user.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liyz.dubbo.service.auth.enums.Device;
 import com.liyz.dubbo.service.user.dao.UserLogoutLogMapper;
 import com.liyz.dubbo.service.user.model.UserLogoutLogDO;
 import com.liyz.dubbo.service.user.service.UserLogoutLogService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.Objects;
@@ -31,15 +30,21 @@ public class UserLogoutLogServiceImpl extends ServiceImpl<UserLogoutLogMapper, U
      * @return 上次登出时间
      */
     @Override
+    @Cacheable(cacheNames = {"userInfo"}, key = "'lastLogoutTime:' + #device.type + ':' + #userId", unless = "#result == null")
     public Date lastLogoutTime(Long userId, Device device) {
-        Page<UserLogoutLogDO> page = page(
-                new Page<>(1, 1),
-                Wrappers.lambdaQuery(UserLogoutLogDO.builder().userId(userId).device(device.getType()).build()).orderByDesc(UserLogoutLogDO::getId)
-        );
-        Date lastLogoutTime = null;
-        if (Objects.nonNull(page) && !CollectionUtils.isEmpty(page.getRecords())) {
-            lastLogoutTime = page.getRecords().get(0).getLogoutTime();
-        }
-        return lastLogoutTime;
+        UserLogoutLogDO userLogoutLogDO = lambdaQuery()
+                .select(UserLogoutLogDO::getLogoutTime)
+                .eq(UserLogoutLogDO::getUserId, userId)
+                .eq(UserLogoutLogDO::getDevice, device.getType())
+                .orderByDesc(UserLogoutLogDO::getId)
+                .last(" limit 1")
+                .one();
+        return Objects.nonNull(userLogoutLogDO) ? userLogoutLogDO.getLogoutTime() : null;
+    }
+
+    @Override
+    @CacheEvict(cacheNames = {"userInfo"}, key = "'lastLogoutTime:' + #entity.device + ':' + #entity.userId")
+    public boolean save(UserLogoutLogDO entity) {
+        return super.save(entity);
     }
 }

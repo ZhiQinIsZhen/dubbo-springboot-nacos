@@ -12,6 +12,7 @@ import com.liyz.dubbo.common.limit.enums.LimitType;
 import com.liyz.dubbo.common.remote.page.PageBO;
 import com.liyz.dubbo.common.remote.page.RemotePage;
 import com.liyz.dubbo.common.service.util.BeanUtil;
+import com.liyz.dubbo.security.client.annotation.Anonymous;
 import com.liyz.dubbo.security.client.context.AuthContext;
 import com.liyz.dubbo.service.auth.bo.AuthUserBO;
 import com.liyz.dubbo.service.user.bo.UserLoginLogBO;
@@ -84,5 +85,13 @@ public class UserInfoController {
         page = Objects.nonNull(page) ? page : new PageDTO();
         RemotePage<UserLogoutLogBO> remotePage = remoteUserLogoutLogService.page(authUserBO.getAuthId(), BeanUtil.copyProperties(page, PageBO.class));
         return PageResult.success(BeanUtil.copyProperties(remotePage, UserLogoutLogVO.class));
+    }
+
+    @Anonymous
+    @ApiOperation("测试")
+    @GetMapping("/test")
+    public Result<Boolean> test() {
+        remoteUserInfoService.test();
+        return Result.success(Boolean.TRUE);
     }
 }
