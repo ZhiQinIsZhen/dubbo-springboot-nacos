@@ -1,6 +1,5 @@
 package com.liyz.dubbo.service.user.provider.auth;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import com.liyz.dubbo.common.service.util.BeanUtil;
 import com.liyz.dubbo.common.util.DateUtil;
@@ -22,13 +21,10 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * Desc:

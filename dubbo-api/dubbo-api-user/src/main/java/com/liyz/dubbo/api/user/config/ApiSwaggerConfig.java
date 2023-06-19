@@ -42,4 +42,30 @@ public class ApiSwaggerConfig extends SwaggerConfig {
                 .extensions(openApiExtensionResolver.buildSettingExtensions())
                 .groupName("接口测试-API");
     }
+
+    @Bean
+    public Docket authApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .protocols(PROTOCOL)
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.user.controller.auth"))
+                .paths(PathSelectors.any())
+                .build()
+                .extensions(openApiExtensionResolver.buildSettingExtensions())
+                .groupName("认证鉴权-API");
+    }
+
+    @Bean
+    public Docket userApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .protocols(PROTOCOL)
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.user.controller.user"))
+                .paths(PathSelectors.any())
+                .build()
+                .extensions(openApiExtensionResolver.buildSettingExtensions())
+                .groupName("客户信息-API");
+    }
 }
