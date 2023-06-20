@@ -30,6 +30,45 @@ Dubbo-Springboot-Nacos-Seata
 
 ---
 
+### api结构说明
+
+---
+1.**dubbo-api-admin**: 管理后台网关层，鉴权基于spring-security
+```java
+@Api(tags = "员工权限信息")
+@ApiResponses(value = {
+        @ApiResponse(code = 0, message = "成功"),
+        @ApiResponse(code = 1, message = "失败")
+})
+@Slf4j
+@RestController
+@RequestMapping("/staff/authority")
+public class StaffAuthorityController {
+
+    @DubboReference
+    private RemoteStaffRoleService remoteStaffRoleService;
+
+    @PreAuthorize("hasAuthority('DUBBO-API-ADMIN:STAFF-BIND-ROLE'.toUpperCase())")
+    @ApiOperation("给员工绑定一个角色")
+    @PostMapping("/bindRole")
+    @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
+            paramType = "header", defaultValue = "Bearer ")
+    public Result<Boolean> bindRole(@RequestBody @Validated StaffRoleDTO staffRoleDTO) {
+        AuthUserBO authUser = AuthContext.getAuthUser();
+        staffRoleDTO.setStaffId(Objects.nonNull(staffRoleDTO.getStaffId()) ? staffRoleDTO.getStaffId() : authUser.getAuthId());
+        remoteStaffRoleService.bindRole(BeanUtil.copyProperties(staffRoleDTO, StaffRoleBO.class));
+        return Result.success(Boolean.TRUE);
+    }
+}
+```
+
+---
+2.**dubbo-api-user**: 客户前台网关层
+
+---
+
+---
+
 ### common结构说明
 
 ---
@@ -166,9 +205,44 @@ Dubbo-Springboot-Nacos-Seata
 8.**dubbo-security-client-starter**: security-client，适用于各个网关服务中
 > + AuthExceptionHandleAdvice: 认证网关的Advice
 > + Anonymous: 匿名访问注解
-> + WebSecurityClientConfig: Security的配置类
+> + AuthSecurityClientAutoConfig: Security的配置类
 > + JwtAuthenticationTokenFilter: JWT认证的过滤器
 > + UserDetailsServiceImpl: Security的用户获取接口(UserDetailsService)的实现类
+
+---
+9.**dubbo-common-cacge-starter**: 缓存，基于spring-cache和redisson
+```java
+    @Override
+    @Cacheable(cacheNames = {"userInfo"}, key = "'email:' + #username", unless = "#result == null")
+    public UserAuthBaseDO getByUsername(String username) {
+        return getOne(Wrappers.lambdaQuery(UserAuthEmailDO.builder().email(username).build()));
+    }
+
+    @Override
+    @CacheEvict(cacheNames = {"userInfo"}, key = "'email:' + #entity.email")
+    public boolean save(UserAuthEmailDO entity) {
+        return super.save(entity);
+    }
+
+    @Override
+    @Cacheable(cacheNames = {"userInfo"}, key = "'email:id:' + #id", unless = "#result == null")
+    public UserAuthEmailDO getById(Serializable id) {
+        return super.getById(id);
+    }
+```
+
+---
+
+### service结构说明
+
+---
+1.**dubbo-service-auth**: 认证资源服务，基于spring-security以及jwt
+
+---
+2.**dubbo-service-staff**: 员工信息服务
+
+---
+1.**dubbo-service-user**: 客户信息服务
 
 ---
 
