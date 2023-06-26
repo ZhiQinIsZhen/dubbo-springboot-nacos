@@ -8,6 +8,7 @@ import com.liyz.dubbo.security.client.config.AnonymousMappingConfig;
 import com.liyz.dubbo.security.client.context.AuthContext;
 import com.liyz.dubbo.security.client.user.AuthUserDetails;
 import com.liyz.dubbo.service.auth.bo.AuthUserBO;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +30,7 @@ import java.net.URLDecoder;
  * @version 1.0.0
  * @date 2023/3/9 14:34
  */
+@Slf4j
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     private final String tokenHeaderKey;
@@ -41,8 +43,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader(this.tokenHeaderKey);
         try {
-            if (!AnonymousMappingConfig.getAnonymousMappings().contains(request.getServletPath())
-                    && StringUtils.isNotBlank(token)) {
+            if (!AnonymousMappingConfig.getAnonymousMappings().contains(request.getServletPath()) && StringUtils.isNotBlank(token)) {
                 token = URLDecoder.decode(token, String.valueOf(Charsets.UTF_8));
                 final AuthUserBO authUser = AuthContext.JwtService.parseToken(token);
                 AuthUserDetails authUserDetails = AuthUserDetails.build(authUser);

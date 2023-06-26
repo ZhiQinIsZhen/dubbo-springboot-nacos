@@ -78,7 +78,7 @@ public class AuthSecurityClientAutoConfig implements InitializingBean {
                 .exceptionHandling()
                 .accessDeniedHandler(new RestfulAccessDeniedHandler())
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and().authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, SecurityClientConstant.OPTIONS_PATTERNS).permitAll()
                 .antMatchers(HttpMethod.GET, SecurityClientConstant.SECURITY_IGNORE_RESOURCES).permitAll()

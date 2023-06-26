@@ -22,6 +22,7 @@
         <module>dubbo-common-limit-starter</module>
         <module>dubbo-security-client-starter</module>
         <module>dubbo-common-cache-starter</module>
+        <module>dubbo-common-job-starter</module>
     </modules>
 
 
