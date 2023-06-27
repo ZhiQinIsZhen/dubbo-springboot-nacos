@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.http.HttpMethod;
@@ -25,7 +26,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 /**
  * Desc:
@@ -72,6 +75,7 @@ public class AuthSecurityClientAutoConfig implements InitializingBean {
 
     @Bean
     @DependsOn({"anonymousMappingConfig"})
+    @ConditionalOnProperty(prefix = "monitor", name = "enable", havingValue = "false", matchIfMissing = true)
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
@@ -81,7 +85,8 @@ public class AuthSecurityClientAutoConfig implements InitializingBean {
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and().authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, SecurityClientConstant.OPTIONS_PATTERNS).permitAll()
-                .antMatchers(HttpMethod.GET, SecurityClientConstant.SECURITY_IGNORE_RESOURCES).permitAll()
+                .antMatchers(HttpMethod.GET, SecurityClientConstant.ACTUATOR_IGNORE_RESOURCES).permitAll()
+                .antMatchers(HttpMethod.GET, SecurityClientConstant.KNIFE4J_IGNORE_RESOURCES).permitAll()
                 /**
                  * {@link com.lyz.security.auth.client.annotation.Anonymous}注解的mappings
                  */
@@ -93,6 +98,30 @@ public class AuthSecurityClientAutoConfig implements InitializingBean {
                         UsernamePasswordAuthenticationFilter.class)
                 .headers().cacheControl()
                 .and().frameOptions().sameOrigin();
+        return http.build();
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "monitor", name = "enable", havingValue = "true")
+    public SecurityFilterChain monitorConfigure(HttpSecurity http) throws Exception {
+        SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
+        successHandler.setTargetUrlParameter("redirectTo");
+        http
+                .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, SecurityClientConstant.OPTIONS_PATTERNS).permitAll()
+                .antMatchers(SecurityClientConstant.ACTUATOR_IGNORE_RESOURCES).permitAll()
+                .antMatchers(HttpMethod.GET, SecurityClientConstant.ADMIN_IGNORE_RESOURCES).permitAll()
+                .antMatchers(SecurityClientConstant.ADMIN_LOGIN).permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().loginPage(SecurityClientConstant.ADMIN_LOGIN).successHandler(successHandler).and()
+                .logout().logoutUrl(SecurityClientConstant.ADMIN_LOGOUT)
+                .and()
+                .httpBasic()
+                .and()
+                .csrf()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .ignoringAntMatchers(SecurityClientConstant.ACTUATOR_IGNORE_RESOURCES);
         return http.build();
     }
 

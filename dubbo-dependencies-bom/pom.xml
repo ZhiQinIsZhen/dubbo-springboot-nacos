@@ -11,6 +11,7 @@
 
     <properties>
         <springboot.version>2.7.9</springboot.version>
+        <springboot.admin.version>2.7.9</springboot.admin.version>
         <apache.dubbo.version>3.1.10</apache.dubbo.version>
         <spring.device.version>1.1.5.RELEASE</spring.device.version>
         <spring.jwt.version>1.1.1.RELEASE</spring.jwt.version>
@@ -135,6 +136,17 @@
                 <groupId>org.apache.shardingsphere.elasticjob</groupId>
                 <artifactId>elasticjob-lite-spring-boot-starter</artifactId>
                 <version>${elasticjob.version}</version>
+            </dependency>
+            <!-- admin -->
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>${springboot.admin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-client</artifactId>
+                <version>${springboot.admin.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

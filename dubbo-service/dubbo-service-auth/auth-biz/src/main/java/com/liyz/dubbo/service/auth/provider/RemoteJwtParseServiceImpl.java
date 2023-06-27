@@ -1,6 +1,5 @@
 package com.liyz.dubbo.service.auth.provider;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.liyz.dubbo.common.service.constant.CommonServiceConstant;

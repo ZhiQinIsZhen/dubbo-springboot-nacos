@@ -12,6 +12,7 @@ Dubbo-Springboot-Nacos-Seata
 ![Netty Version](https://img.shields.io/badge/Netty-4.1.90.Final-brightgreen)
 ![Mybatis-plus Version](https://img.shields.io/badge/MybatisPlus-3.5.3.1-brightgreen)
 ![Swagger Version](https://img.shields.io/badge/knife4j-2.0.9-brightgreen)
+![ElasticJob Version](https://img.shields.io/badge/ElasticJob-3.0.3-brightgreen)
 
 ---
 

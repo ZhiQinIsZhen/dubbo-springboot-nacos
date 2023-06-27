@@ -12,21 +12,28 @@ public interface SecurityClientConstant {
     /**
      * 免登录资源
      */
-    String[] SECURITY_IGNORE_RESOURCES = new String[] {
-            "/",
-            "/instances/**",
-            "/actuator/**",
-            "/*.html",
+    String[] KNIFE4J_IGNORE_RESOURCES = new String[] {
+            "/doc.html",
             "/favicon.ico",
-            "/**/*.html",
-            "/**/*.css",
-            "/**/*.js",
+            "/webjars/**",
             "/v2/api-docs",
             "/configuration/ui",
-            "/swagger-resources",
-            "/configuration/security",
-            "/swagger-ui.html",
-            "/webjars/**"};
+            "/swagger-resources"
+    };
+
+    String[] ACTUATOR_IGNORE_RESOURCES = new String[] {
+            "/",
+            "/instances",
+            "/instances/**",
+            "/actuator/**",
+    };
+
+    String[] ADMIN_IGNORE_RESOURCES = new String[] {
+            "/assets/**"
+    };
+
+    String ADMIN_LOGIN = "/login";
+    String ADMIN_LOGOUT = "/logout";
 
     String OPTIONS_PATTERNS = "/**";
 

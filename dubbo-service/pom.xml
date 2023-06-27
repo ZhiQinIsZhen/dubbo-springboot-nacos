@@ -17,6 +17,7 @@
         <module>dubbo-service-staff</module>
         <module>dubbo-service-user</module>
         <module>dubbo-service-job</module>
+        <module>dubbo-service-monitor</module>
     </modules>
 
 </project>
