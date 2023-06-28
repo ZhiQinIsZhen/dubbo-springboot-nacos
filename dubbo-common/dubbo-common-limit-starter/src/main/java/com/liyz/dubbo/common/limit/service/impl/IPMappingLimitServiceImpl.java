@@ -21,6 +21,6 @@ public class IPMappingLimitServiceImpl extends AbstractLimitService {
 
     @Override
     protected LimitType getLimitType() {
-        return LimitType.IP;
+        return LimitType.IP_MAPPING;
     }
 }
