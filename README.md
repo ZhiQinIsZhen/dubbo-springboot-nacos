@@ -243,7 +243,13 @@ public class StaffAuthorityController {
 2.**dubbo-service-staff**: 员工信息服务
 
 ---
-1.**dubbo-service-user**: 客户信息服务
+3.**dubbo-service-user**: 客户信息服务
+
+---
+4.**dubbo-service-job**: 定时任务服务：基于Elastic-Job
+
+---
+5.**dubbo-service-monitor**: Springboot监控monitor
 
 ---
 
