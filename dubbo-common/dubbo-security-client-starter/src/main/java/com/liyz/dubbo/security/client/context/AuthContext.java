@@ -1,9 +1,9 @@
 package com.liyz.dubbo.security.client.context;
 
 import com.google.common.base.Joiner;
+import com.liyz.dubbo.common.api.util.HttpServletContext;
 import com.liyz.dubbo.common.service.constant.CommonServiceConstant;
 import com.liyz.dubbo.common.service.util.BeanUtil;
-import com.liyz.dubbo.common.service.util.HttpServletContext;
 import com.liyz.dubbo.common.util.PatternUtil;
 import com.liyz.dubbo.security.client.constant.SecurityClientConstant;
 import com.liyz.dubbo.security.client.user.AuthUserDetails;
@@ -73,19 +73,19 @@ public class AuthContext implements EnvironmentAware, ApplicationContextAware, I
 
     @Override
     public void setEnvironment(Environment environment) {
-        this.clientId = environment.getProperty(SecurityClientConstant.DUBBO_APPLICATION_NAME_PROPERTY);
+        clientId = environment.getProperty(SecurityClientConstant.DUBBO_APPLICATION_NAME_PROPERTY);
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        this.remoteAuthService = applicationContext.getBean(SecurityClientConstant.AUTH_SERVICE_BEAN_NAME, RemoteAuthService.class);
-        this.remoteJwtParseService = applicationContext.getBean(SecurityClientConstant.JWT_SERVICE_BEAN_NAME, RemoteJwtParseService.class);
-        this.authenticationManager = applicationContext.getBean(SecurityClientConstant.AUTH_MANAGER_BEAN_NAME, AuthenticationManager.class);
+        remoteAuthService = applicationContext.getBean(SecurityClientConstant.AUTH_SERVICE_BEAN_NAME, RemoteAuthService.class);
+        remoteJwtParseService = applicationContext.getBean(SecurityClientConstant.JWT_SERVICE_BEAN_NAME, RemoteJwtParseService.class);
+        authenticationManager = applicationContext.getBean(SecurityClientConstant.AUTH_MANAGER_BEAN_NAME, AuthenticationManager.class);
     }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
+        AuthContext.applicationContext = applicationContext;
     }
 
     /**

@@ -65,6 +65,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             response.getWriter().flush();
         } finally {
             AuthContext.remove();
+            SecurityContextHolder.getContextHolderStrategy().clearContext();
+            SecurityContextHolder.clearContext();
         }
     }
 }

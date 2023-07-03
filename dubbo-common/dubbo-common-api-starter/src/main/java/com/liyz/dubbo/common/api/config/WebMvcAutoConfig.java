@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.liyz.dubbo.common.api.advice.GlobalControllerExceptionAdvice;
 import com.liyz.dubbo.common.api.deserializer.JsonTrimDeserializer;
 import com.liyz.dubbo.common.api.error.ErrorApiController;
+import com.liyz.dubbo.common.api.resolver.AuthUserArgumentResolver;
 import com.liyz.dubbo.common.desensitize.filter.JacksonDesensitizationContextValueFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -21,7 +22,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ReflectionUtils;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping;
@@ -72,11 +73,6 @@ public class WebMvcAutoConfig extends WebMvcConfigurationSupport {
     }
 
     @Override
-    protected void addInterceptors(InterceptorRegistry registry) {
-        super.addInterceptors(registry);
-    }
-
-    @Override
     protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         super.extendMessageConverters(converters);
         if (!CollectionUtils.isEmpty(converters)) {
@@ -95,6 +91,12 @@ public class WebMvcAutoConfig extends WebMvcConfigurationSupport {
                 objectMapper.enable(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN);
             });
         }
+    }
+
+    @Override
+    protected void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(new AuthUserArgumentResolver());
+        super.addArgumentResolvers(argumentResolvers);
     }
 
     @Configuration(proxyBeanMethods = false)

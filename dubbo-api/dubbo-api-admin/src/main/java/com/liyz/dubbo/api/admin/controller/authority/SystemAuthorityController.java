@@ -11,7 +11,10 @@ import com.liyz.dubbo.service.staff.bo.SystemRoleBO;
 import com.liyz.dubbo.service.staff.remote.RemoteSystemAuthorityService;
 import com.liyz.dubbo.service.staff.remote.RemoteSystemRoleAuthorityService;
 import com.liyz.dubbo.service.staff.remote.RemoteSystemRoleService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -48,8 +51,6 @@ public class SystemAuthorityController {
     @PreAuthorize("hasAuthority('DUBBO-API-ADMIN:SYSTEM-AUTHORITY-ADD'.toUpperCase())")
     @ApiOperation("增加一个系统权限码")
     @PostMapping("/addAuthority")
-    @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
-            paramType = "header", defaultValue = "Bearer ")
     public Result<Boolean> addAuthority(@RequestBody @Validated SystemAuthorityDTO systemAuthorityDTO) {
         remoteSystemAuthorityService.addSystemAuthority(BeanUtil.copyProperties(systemAuthorityDTO, SystemAuthorityBO.class));
         return Result.success(Boolean.TRUE);
@@ -58,8 +59,6 @@ public class SystemAuthorityController {
     @PreAuthorize("hasAuthority('DUBBO-API-ADMIN:SYSTEM-ROLE-ADD'.toUpperCase())")
     @ApiOperation("增加一个系统角色")
     @PostMapping("/addRole")
-    @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
-            paramType = "header", defaultValue = "Bearer ")
     public Result<Boolean> addRole(@RequestBody @Validated SystemRoleDTO systemRoleDTO) {
         remoteSystemRoleService.addSystemRole(BeanUtil.copyProperties(systemRoleDTO, SystemRoleBO.class));
         return Result.success(Boolean.TRUE);
@@ -68,8 +67,6 @@ public class SystemAuthorityController {
     @PreAuthorize("hasAuthority('DUBBO-API-ADMIN:AUTHORITY-BIND-ROLE'.toUpperCase())")
     @ApiOperation("给某个权限绑定一个角色")
     @PostMapping("/bindRole")
-    @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
-            paramType = "header", defaultValue = "Bearer ")
     public Result<Boolean> bindRole(@RequestBody @Validated SystemRoleAuthorityDTO systemRoleAuthorityDTO) {
         remoteSystemRoleAuthorityService.bindRole(BeanUtil.copyProperties(systemRoleAuthorityDTO, SystemRoleAuthorityBO.class));
         return Result.success(Boolean.TRUE);

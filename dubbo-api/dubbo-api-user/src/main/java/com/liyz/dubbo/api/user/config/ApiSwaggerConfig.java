@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
@@ -32,40 +30,19 @@ public class ApiSwaggerConfig extends SwaggerConfig {
 
     @Bean
     public Docket testApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .protocols(PROTOCOL)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.user.controller.test"))
-                .paths(PathSelectors.any())
-                .build()
-                .extensions(openApiExtensionResolver.buildSettingExtensions())
-                .groupName("接口测试-API");
+        return docket("com.liyz.dubbo.api.user.controller.test", "接口测试-API",
+                PathSelectors.none());
     }
 
     @Bean
     public Docket authApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .protocols(PROTOCOL)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.user.controller.auth"))
-                .paths(PathSelectors.any())
-                .build()
-                .extensions(openApiExtensionResolver.buildSettingExtensions())
-                .groupName("认证鉴权-API");
+        return docket("com.liyz.dubbo.api.user.controller.auth", "认证鉴权-API",
+                PathSelectors.none());
     }
 
     @Bean
     public Docket userApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .protocols(PROTOCOL)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.user.controller.user"))
-                .paths(PathSelectors.any())
-                .build()
-                .extensions(openApiExtensionResolver.buildSettingExtensions())
-                .groupName("客户信息-API");
+        return docket("com.liyz.dubbo.api.user.controller.user", "客户信息-API",
+                PathSelectors.any());
     }
 }

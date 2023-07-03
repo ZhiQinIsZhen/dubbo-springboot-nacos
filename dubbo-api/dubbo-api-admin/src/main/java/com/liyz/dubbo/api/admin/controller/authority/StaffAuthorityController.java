@@ -7,7 +7,10 @@ import com.liyz.dubbo.security.client.context.AuthContext;
 import com.liyz.dubbo.service.auth.bo.AuthUserBO;
 import com.liyz.dubbo.service.staff.bo.StaffRoleBO;
 import com.liyz.dubbo.service.staff.remote.RemoteStaffRoleService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,8 +45,6 @@ public class StaffAuthorityController {
     @PreAuthorize("hasAuthority('DUBBO-API-ADMIN:STAFF-BIND-ROLE'.toUpperCase())")
     @ApiOperation("给员工绑定一个角色")
     @PostMapping("/bindRole")
-    @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
-            paramType = "header", defaultValue = "Bearer ")
     public Result<Boolean> bindRole(@RequestBody @Validated StaffRoleDTO staffRoleDTO) {
         AuthUserBO authUser = AuthContext.getAuthUser();
         staffRoleDTO.setStaffId(Objects.nonNull(staffRoleDTO.getStaffId()) ? staffRoleDTO.getStaffId() : authUser.getAuthId());

@@ -1,11 +1,11 @@
-package com.liyz.dubbo.api.admin.controller.auth;
+package com.liyz.dubbo.api.admin.controller.authenticate;
 
 import com.liyz.dubbo.api.admin.dto.auth.StaffLoginDTO;
 import com.liyz.dubbo.api.admin.dto.auth.StaffRegisterDTO;
 import com.liyz.dubbo.api.admin.vo.auth.AuthLoginVO;
 import com.liyz.dubbo.common.api.result.Result;
+import com.liyz.dubbo.common.api.util.HttpServletContext;
 import com.liyz.dubbo.common.service.util.BeanUtil;
-import com.liyz.dubbo.common.service.util.HttpServletContext;
 import com.liyz.dubbo.security.client.annotation.Anonymous;
 import com.liyz.dubbo.security.client.constant.SecurityClientConstant;
 import com.liyz.dubbo.security.client.context.AuthContext;

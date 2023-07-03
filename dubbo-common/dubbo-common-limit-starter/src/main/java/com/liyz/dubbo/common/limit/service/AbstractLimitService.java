@@ -6,9 +6,10 @@ import com.liyz.dubbo.common.limit.context.LimitContext;
 import com.liyz.dubbo.common.limit.enums.LimitType;
 import com.liyz.dubbo.common.limit.exception.LimitException;
 import com.liyz.dubbo.common.limit.exception.LimitExceptionCodeEnum;
-import com.liyz.dubbo.common.service.constant.CommonServiceConstant;
-import com.liyz.dubbo.common.service.util.HttpServletContext;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
@@ -33,29 +34,28 @@ public abstract class AbstractLimitService implements LimitService {
     }
 
     @Override
+    @SuppressWarnings("UnstableApiUsage")
     public boolean limit(Limit limit) {
-        HttpServletRequest httpServletRequest = HttpServletContext.getRequest();
-        if (Objects.nonNull(httpServletRequest)) {
-            String mapping = httpServletRequest.getServletPath();
-            Limit limitAware = LimitContext.getLimit(mapping, limit);
-            if (Objects.isNull(limitAware)) {
-                log.info("mapping : {}, LimitType : {}, name : {}, 无对应包装Limit", mapping, limit.type().name(), limit.type().getDesc());
-                return false;
+        HttpServletRequest httpServletRequest = this.getRequest();
+        String mapping = httpServletRequest.getServletPath();
+        Limit limitAware = LimitContext.getLimit(mapping, limit);
+        if (Objects.isNull(limitAware)) {
+            log.info("mapping : {}, LimitType : {}, name : {}, 无对应包装Limit", mapping, limit.type().name(), limit.type().getDesc());
+            return false;
+        }
+        Double totalCount;
+        String key;
+        if ((totalCount = getTotalCount(limitAware)) <= 0) {
+            throw new LimitException(LimitExceptionCodeEnum.LIMIT_REQUEST);
+        }
+        try {
+            LimitContext.setCount(totalCount);
+            if (!LimitContext.getCacheLimit(key = getKey(limitAware)).tryAcquire()) {
+                log.warn("key:{} --> 触发了限流，每秒只能允许 {} 次访问", key, totalCount);
+                return true;
             }
-            Double totalCount;
-            String key;
-            if ((totalCount = getTotalCount(limitAware)) <= 0) {
-                throw new LimitException(LimitExceptionCodeEnum.LIMIT_REQUEST);
-            }
-            try {
-                LimitContext.setCount(totalCount);
-                if (!LimitContext.getCacheLimit(key = getKey(limitAware)).tryAcquire()) {
-                    log.warn("key:{} --> 触发了限流，每秒只能允许 {} 次访问", key, totalCount);
-                    return true;
-                }
-            } finally {
-                LimitContext.removeCount();
-            }
+        } finally {
+            LimitContext.removeCount();
         }
         return false;
     }
@@ -75,5 +75,40 @@ public abstract class AbstractLimitService implements LimitService {
      */
     protected String getKey(String... keys) {
         return Joiner.on("_").join(keys);
+    }
+
+    /**
+     * 获取HttpServletRequest
+     *
+     * @return HttpServletRequest
+     */
+    protected HttpServletRequest getRequest() {
+        return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+    }
+
+    /**
+     * 获取远程真实IP地址
+     *
+     * @return IP地址
+     */
+    protected String getRemoteIpAddr() {
+        HttpServletRequest request = this.getRequest();
+        String ipAddress = request.getHeader("X-Forwarded-For");
+        if (StringUtils.isBlank(ipAddress)|| "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("ProxyAop-Client-IP");
+        }
+        if (StringUtils.isBlank(ipAddress) || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("WL-ProxyAop-Client-IP");
+        }
+        if (StringUtils.isEmpty(ipAddress) || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (StringUtils.isEmpty(ipAddress) || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (StringUtils.isEmpty(ipAddress) || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getRemoteAddr();
+        }
+        return ipAddress.split(",")[0];
     }
 }

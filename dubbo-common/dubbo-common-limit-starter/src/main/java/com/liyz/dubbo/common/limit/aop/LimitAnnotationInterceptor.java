@@ -8,8 +8,6 @@ import com.liyz.dubbo.common.limit.exception.LimitExceptionCodeEnum;
 import com.liyz.dubbo.common.limit.service.LimitService;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.util.ClassUtils;
 
 import java.lang.reflect.Method;
@@ -33,9 +31,8 @@ public class LimitAnnotationInterceptor implements MethodInterceptor {
      * @return result
      * @throws Throwable
      */
-    @Nullable
     @Override
-    public Object invoke(@NotNull MethodInvocation invocation) throws Throwable {
+    public Object invoke(MethodInvocation invocation) throws Throwable {
         Class<?> userClass = ClassUtils.getUserClass(invocation.getThis().getClass());
         Method specificMethod = ClassUtils.getMostSpecificMethod(invocation.getMethod(), userClass);
         Limits limits = specificMethod.getAnnotation(Limits.class);

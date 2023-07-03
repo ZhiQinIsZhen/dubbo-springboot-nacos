@@ -1,5 +1,6 @@
 package com.liyz.dubbo.service.job.service;
 
+import com.liyz.dubbo.common.util.JsonMapperUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shardingsphere.elasticjob.annotation.ElasticJobConfiguration;
 import org.apache.shardingsphere.elasticjob.api.ShardingContext;
@@ -18,6 +19,6 @@ public class TestJob implements SimpleJob {
 
     @Override
     public void execute(ShardingContext shardingContext) {
-        log.info("test job");
+        log.info("test job : {}", JsonMapperUtil.toJSONString(shardingContext));
     }
 }

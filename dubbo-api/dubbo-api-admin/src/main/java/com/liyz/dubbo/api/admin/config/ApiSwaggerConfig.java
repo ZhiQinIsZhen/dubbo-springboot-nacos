@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
@@ -32,53 +30,22 @@ public class ApiSwaggerConfig extends SwaggerConfig {
 
     @Bean
     public Docket testApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .protocols(PROTOCOL)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.admin.controller.test"))
-                .paths(PathSelectors.any())
-                .build()
-                .extensions(openApiExtensionResolver.buildSettingExtensions())
-                .groupName("接口测试-API");
+        return docket("com.liyz.dubbo.api.admin.controller.test", "接口测试-API", PathSelectors.none());
     }
 
     @Bean
     public Docket authApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .protocols(PROTOCOL)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.admin.controller.auth"))
-                .paths(PathSelectors.any())
-                .build()
-                .extensions(openApiExtensionResolver.buildSettingExtensions())
-                .groupName("认证鉴权-API");
+        return docket("com.liyz.dubbo.api.admin.controller.authenticate", "认证鉴权-API", PathSelectors.none());
     }
 
     @Bean
     public Docket authorityApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .protocols(PROTOCOL)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.admin.controller.authority"))
-                .paths(PathSelectors.any())
-                .build()
-                .extensions(openApiExtensionResolver.buildSettingExtensions())
-                .groupName("权限信息-API");
+        return docket("com.liyz.dubbo.api.admin.controller.authority", "权限信息-API", PathSelectors.any());
     }
 
     @Bean
     public Docket staffApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .protocols(PROTOCOL)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.liyz.dubbo.api.admin.controller.staff"))
-                .paths(PathSelectors.any())
-                .build()
-                .extensions(openApiExtensionResolver.buildSettingExtensions())
-                .groupName("员工信息-API");
+        return docket("com.liyz.dubbo.api.admin.controller.staff", "员工信息-API", PathSelectors.any());
     }
+
 }

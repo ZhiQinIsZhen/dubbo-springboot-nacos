@@ -1,6 +1,5 @@
 package com.liyz.dubbo.common.service.selector;
 
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.extension.Activate;

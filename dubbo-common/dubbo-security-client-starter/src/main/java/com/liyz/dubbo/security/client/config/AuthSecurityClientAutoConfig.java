@@ -77,12 +77,13 @@ public class AuthSecurityClientAutoConfig implements InitializingBean {
     @DependsOn({"anonymousMappingConfig"})
     @ConditionalOnProperty(prefix = "monitor", name = "enable", havingValue = "false", matchIfMissing = true)
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+        log.info("configure init");
         http
                 .csrf().disable()
                 .exceptionHandling()
                 .accessDeniedHandler(new RestfulAccessDeniedHandler())
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, SecurityClientConstant.OPTIONS_PATTERNS).permitAll()
                 .antMatchers(HttpMethod.GET, SecurityClientConstant.ACTUATOR_IGNORE_RESOURCES).permitAll()
@@ -104,6 +105,7 @@ public class AuthSecurityClientAutoConfig implements InitializingBean {
     @Bean
     @ConditionalOnProperty(prefix = "monitor", name = "enable", havingValue = "true")
     public SecurityFilterChain monitorConfigure(HttpSecurity http) throws Exception {
+        log.info("monitorConfigure init");
         SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
         successHandler.setTargetUrlParameter("redirectTo");
         http

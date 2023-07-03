@@ -18,7 +18,10 @@ import com.liyz.dubbo.service.staff.bo.StaffLogoutLogBO;
 import com.liyz.dubbo.service.staff.remote.RemoteStaffInfoService;
 import com.liyz.dubbo.service.staff.remote.RemoteStaffLoginLogService;
 import com.liyz.dubbo.service.staff.remote.RemoteStaffLogoutLogService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -54,8 +57,6 @@ public class StaffInfoController {
 
     @ApiOperation("查询当前登录员工信息")
     @GetMapping("/current")
-    @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
-            paramType = "header", defaultValue = "Bearer ")
     public Result<StaffInfoVO> userInfo() {
         AuthUserBO authUserBO = AuthContext.getAuthUser();
         return Result.success(BeanUtil.copyProperties(remoteStaffInfoService.getByStaffId(authUserBO.getAuthId()), StaffInfoVO.class));
@@ -64,8 +65,6 @@ public class StaffInfoController {
     @PreAuthorize("hasAuthority('DUBBO-API-ADMIN:STAFFINFO'.toUpperCase())")
     @ApiOperation("分页查询员工信息")
     @GetMapping("/page")
-    @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
-            paramType = "header", defaultValue = "Bearer ")
     public PageResult<StaffInfoVO> page(PageDTO page) {
         RemotePage<StaffInfoBO> remotePage = remoteStaffInfoService.page(BeanUtil.copyProperties(page, PageBO.class));
         return PageResult.success(BeanUtil.copyProperties(remotePage, StaffInfoVO.class));
@@ -74,8 +73,6 @@ public class StaffInfoController {
     @PreAuthorize("hasAuthority('DUBBO-API-ADMIN:STAFFLOG'.toUpperCase())")
     @ApiOperation("分页查询员工登录日志")
     @GetMapping("/loginLogs/page")
-    @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
-            paramType = "header", defaultValue = "Bearer ")
     public PageResult<StaffLoginLogVO> pageLoginLogs(StaffLogPageDTO page) {
         AuthUserBO authUserBO = AuthContext.getAuthUser();
         page = Objects.nonNull(page) ? page : new StaffLogPageDTO();
@@ -87,8 +84,6 @@ public class StaffInfoController {
     @PreAuthorize("hasAuthority('DUBBO-API-ADMIN:STAFFLOG'.toUpperCase())")
     @ApiOperation("分页查询员工登出日志")
     @GetMapping("/logoutLogs/page")
-    @ApiImplicitParam(name = "Authorization", value = "认证token", required = true, dataType = "String",
-            paramType = "header", defaultValue = "Bearer ")
     public PageResult<StaffLogoutLogVO> pageLogoutLogs(StaffLogPageDTO page) {
         AuthUserBO authUserBO = AuthContext.getAuthUser();
         page = Objects.nonNull(page) ? page : new StaffLogPageDTO();

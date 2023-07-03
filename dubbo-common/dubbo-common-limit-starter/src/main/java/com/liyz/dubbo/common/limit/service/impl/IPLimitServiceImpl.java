@@ -3,7 +3,6 @@ package com.liyz.dubbo.common.limit.service.impl;
 import com.liyz.dubbo.common.limit.annotation.Limit;
 import com.liyz.dubbo.common.limit.enums.LimitType;
 import com.liyz.dubbo.common.limit.service.AbstractLimitService;
-import com.liyz.dubbo.common.service.util.HttpServletContext;
 
 /**
  * Desc:
@@ -16,7 +15,7 @@ public class IPLimitServiceImpl extends AbstractLimitService {
 
     @Override
     public String getKey(Limit limit) {
-        return  HttpServletContext.getIpAddress();
+        return getRemoteIpAddr();
     }
 
     @Override

@@ -135,6 +135,7 @@ public class LimitContext {
      *
      * @return 限流器
      */
+    @SuppressWarnings("UnstableApiUsage")
     private static RateLimiter createRateLimiter() {
         Double count = getCount();
         log.info("初始化限流器  count: {}", count);
