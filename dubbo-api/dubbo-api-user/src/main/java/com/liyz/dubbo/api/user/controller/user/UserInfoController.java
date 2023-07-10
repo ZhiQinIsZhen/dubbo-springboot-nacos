@@ -58,12 +58,10 @@ public class UserInfoController {
     @DubboReference
     private RemoteUserLogoutLogService remoteUserLogoutLogService;
 
-    @Limits(@Limit(count = 100))
+    @Limits(@Limit(count = 10))
     @ApiOperation("查询当前登录员工信息")
     @GetMapping("/current")
-    public Result<UserInfoVO> userInfo(@ApiIgnore AuthUserBO authUserBO1) {
-        log.info("authUserBO : {}", JsonMapperUtil.toJSONString(authUserBO1));
-        AuthUserBO authUserBO = AuthContext.getAuthUser();
+    public Result<UserInfoVO> userInfo(@ApiIgnore AuthUserBO authUserBO) {
         return Result.success(BeanUtil.copyProperties(remoteUserInfoService.getByUserId(authUserBO.getAuthId()), UserInfoVO.class));
     }
 

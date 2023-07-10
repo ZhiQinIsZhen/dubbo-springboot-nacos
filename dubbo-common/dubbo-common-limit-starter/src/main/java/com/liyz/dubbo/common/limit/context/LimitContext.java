@@ -30,23 +30,29 @@ import java.util.concurrent.TimeUnit;
 @UtilityClass
 public class LimitContext {
 
-    private static final LoadingCache<String, RateLimiter> CACHE = Caffeine.newBuilder()
-            .maximumSize(1000)
-            .initialCapacity(100)
-            .expireAfterAccess(5, TimeUnit.SECONDS)
-            .removalListener((k, v, removalCause) -> log.info("key -> [{}], value -> [{}], 已被移除， case -> {}", k, v, removalCause))
-            .build(key -> createRateLimiter());
-
-    private static final Map<LimitType, LimitService> SERVICE_MAP = Maps.newEnumMap(LimitType.class);
-    private static final MultiKeyMap<String, Limit> MULTI_KEY_MAP = new MultiKeyMap<>();
-    private static final ThreadLocal<Double> PERMITS_PER_SECOND = new InheritableThreadLocal<>();
+    private static final Map<LimitType, LimitService> SERVICE_MAP;
+    private static final MultiKeyMap<String, Limit> MULTI_KEY_MAP;
 
     static{
+        SERVICE_MAP = Maps.newEnumMap(LimitType.class);
+        MULTI_KEY_MAP = new MultiKeyMap<>();
         new CustomizationLimitServiceImpl();
         new IPLimitServiceImpl();
         new IPMappingLimitServiceImpl();
         new MappingLimitServiceImpl();
     }
+
+    private static final LoadingCache<String, RateLimiter> CACHE = Caffeine.newBuilder()
+            .maximumSize(1000)
+            .initialCapacity(100)
+            .expireAfterAccess(5, TimeUnit.HOURS)
+            .removalListener((k, v, removalCause) -> log.info("key -> [{}], value -> [{}], 已被移除， case -> {}", k, v, removalCause))
+            .build(key -> createRateLimiter());
+
+
+    private static final ThreadLocal<Double> PERMITS_PER_SECOND = new InheritableThreadLocal<>();
+
+
 
     /**
      * 获取限流信息
