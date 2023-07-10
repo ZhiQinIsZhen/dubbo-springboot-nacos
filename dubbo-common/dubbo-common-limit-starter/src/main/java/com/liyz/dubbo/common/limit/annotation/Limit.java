@@ -20,7 +20,7 @@ public @interface Limit {
      *
      * @return 每秒访问次数
      */
-    double count() default 0.0;
+    long count() default 0;
 
     /**
      * 限流的key：只有在type=customize的时候，该值才会有效

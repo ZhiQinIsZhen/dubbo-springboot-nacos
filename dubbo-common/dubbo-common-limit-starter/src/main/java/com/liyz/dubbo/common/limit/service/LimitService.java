@@ -25,7 +25,7 @@ public interface LimitService {
      * @param limit 限流注解
      * @return 限流阈值
      */
-    default double getTotalCount(Limit limit) {
+    default long getTotalCount(Limit limit) {
         return limit.count();
     }
 

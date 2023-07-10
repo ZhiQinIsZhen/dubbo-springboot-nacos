@@ -6,6 +6,8 @@ import com.liyz.dubbo.common.limit.aop.CaffeineLimitPointcutAdvisor;
 import com.liyz.dubbo.common.limit.aop.LimitAnnotationInterceptor;
 import com.liyz.dubbo.common.limit.context.LimitContext;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RedissonClient;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationListener;
@@ -26,14 +28,19 @@ import java.util.Objects;
  */
 @Slf4j
 @Configuration
-@ConditionalOnProperty(prefix = "request.limit", name = "enable", havingValue = "true", matchIfMissing = false)
+@AutoConfiguration
 @EnableConfigurationProperties({LimitProperties.class})
+@ConditionalOnProperty(prefix = "request.limit", name = "enable", havingValue = "true")
 public class LimitAutoConfig implements ApplicationListener<ContextRefreshedEvent> {
 
     private final LimitProperties properties;
 
-    public LimitAutoConfig(LimitProperties properties) {
+    public LimitAutoConfig(LimitProperties properties, RedissonClient redissonClient) {
         this.properties = properties;
+        if ("local".equalsIgnoreCase(properties.getType())) {
+            LimitContext.setRedisLimit(false);
+        }
+        LimitContext.setRedissonClient(redissonClient);
         log.info("module dubbo-common-limit-starter init");
     }
 

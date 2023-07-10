@@ -10,7 +10,7 @@ import com.liyz.dubbo.common.remote.exception.IExceptionService;
  * @date 2022/4/22 11:12
  */
 public enum LimitExceptionCodeEnum implements IExceptionService {
-    OUT_LIMIT_COUNT("12001", "超出最大访问限制"),
+    OUT_LIMIT_COUNT("12001", "访问频率过快"),
     LIMIT_REQUEST("12002", "限制访问"),
     NON_SUPPORT_LIMIT_TYPE("12003", "不支持当前限流类型"),
     ;

@@ -43,21 +43,16 @@ public abstract class AbstractLimitService implements LimitService {
             log.info("mapping : {}, LimitType : {}, name : {}, 无对应包装Limit", mapping, limit.type().name(), limit.type().getDesc());
             return false;
         }
-        Double totalCount;
-        String key;
+        Long totalCount;
         if ((totalCount = getTotalCount(limitAware)) <= 0) {
             throw new LimitException(LimitExceptionCodeEnum.LIMIT_REQUEST);
         }
         try {
             LimitContext.setCount(totalCount);
-            if (!LimitContext.getCacheLimit(key = getKey(limitAware)).tryAcquire()) {
-                log.warn("key:{} --> 触发了限流，每秒只能允许 {} 次访问", key, totalCount);
-                return true;
-            }
+            return LimitContext.tryAcquire(getKey(limitAware));
         } finally {
             LimitContext.removeCount();
         }
-        return false;
     }
 
     /**

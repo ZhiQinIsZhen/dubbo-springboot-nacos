@@ -20,6 +20,12 @@
       "defaultValue": "caffeine"
     },
     {
+      "name": "request.limit.type",
+      "type": "java.lang.String",
+      "sourceType": "com.liyz.dubbo.common.limit.config.LimitProperties",
+      "defaultValue": "redis"
+    },
+    {
       "name": "request.limit.total-count",
       "type": "java.lang.Double",
       "sourceType": "com.liyz.dubbo.common.limit.config.LimitProperties",

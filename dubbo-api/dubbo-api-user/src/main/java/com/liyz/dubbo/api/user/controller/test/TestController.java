@@ -75,6 +75,7 @@ public class TestController {
     public Result<Boolean> redisLimit(LimitDTO limitDTO) {
         redissonClient.getConfig().setCodec(new StringCodec());
         RRateLimiter rRateLimiter = redissonClient.getRateLimiter("user_limit");
+        rRateLimiter.availablePermits();
         rRateLimiter.expire(Duration.of(5, ChronoUnit.MINUTES));
         rRateLimiter.trySetRate(RateType.OVERALL, 10, 1, RateIntervalUnit.MINUTES);
         int count = 0;

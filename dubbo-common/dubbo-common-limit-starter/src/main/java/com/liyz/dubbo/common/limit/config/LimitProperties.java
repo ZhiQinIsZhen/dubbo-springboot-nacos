@@ -21,4 +21,6 @@ public class LimitProperties {
     private double totalCount = 1.0;
 
     private String model = "caffeine";
+
+    private String type = "redis";
 }

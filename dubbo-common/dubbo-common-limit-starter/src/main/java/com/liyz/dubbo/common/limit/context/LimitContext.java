@@ -14,7 +14,13 @@ import com.liyz.dubbo.common.limit.service.impl.MappingLimitServiceImpl;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.map.MultiKeyMap;
+import org.redisson.api.RRateLimiter;
+import org.redisson.api.RateIntervalUnit;
+import org.redisson.api.RateType;
+import org.redisson.api.RedissonClient;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -42,6 +48,9 @@ public class LimitContext {
         new MappingLimitServiceImpl();
     }
 
+    private static boolean redisLimit = true;
+    private static RedissonClient redissonClient;
+
     private static final LoadingCache<String, RateLimiter> CACHE = Caffeine.newBuilder()
             .maximumSize(1000)
             .initialCapacity(100)
@@ -50,18 +59,69 @@ public class LimitContext {
             .build(key -> createRateLimiter());
 
 
-    private static final ThreadLocal<Double> PERMITS_PER_SECOND = new InheritableThreadLocal<>();
+    private static final ThreadLocal<Long> PERMITS_PER_SECOND = new InheritableThreadLocal<>();
 
+    public static void setRedisLimit(boolean redisLimit) {
+        LimitContext.redisLimit = redisLimit;
+    }
 
+    public static void setRedissonClient(RedissonClient redissonClient) {
+        LimitContext.redissonClient = redissonClient;
+    }
 
     /**
-     * 获取限流信息
+     * 从速率限制器获取许可证，如果可以立即立即获得，则立即获得许可证
      *
-     * @param key 缓存key
-     * @return 对应的限流数据
+     * @param key 限流key
+     * @return 是否可以立刻获取许可证
      */
-    public static RateLimiter getCacheLimit(final String key) {
-        return CACHE.get(key);
+    public static boolean tryAcquire(final String key) {
+        return tryAcquire(key, 1);
+    }
+
+    /**
+     * 从速率限制器获取许可证，如果可以立即立即获得，则立即获得许可证
+     *
+     * @param key 限流key
+     * @param permits 许可证数
+     * @return 是否可以立刻获取多个许可证
+     */
+    public static boolean tryAcquire(final String key, int permits) {
+        return redisLimit ? redisTryAcquire(key, permits) : localTryAcquire(key, permits);
+    }
+
+    /**
+     * 本地速率限制器
+     *
+     * @param key 限流key
+     * @param permits 许可证数
+     * @return 是否可以立刻获取多个许可证
+     */
+    private static boolean localTryAcquire(final String key, int permits) {
+        RateLimiter rateLimiter =  CACHE.get(key);
+        if (!rateLimiter.tryAcquire(permits)) {
+            log.warn("key:{} --> 触发了local限流，每秒只能允许 {} 次访问", key, getCount());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * redis速率限制器
+     *
+     * @param key 限流key
+     * @param permits 许可证数
+     * @return 是否可以立刻获取多个许可证
+     */
+    private static boolean redisTryAcquire(final String key, int permits) {
+        RRateLimiter rRateLimiter = redissonClient.getRateLimiter(key);
+        rRateLimiter.expire(Duration.of(2, ChronoUnit.SECONDS));
+        rRateLimiter.trySetRate(RateType.OVERALL, getCount(), 1, RateIntervalUnit.SECONDS);
+        if (!rRateLimiter.tryAcquire(permits)) {
+            log.warn("key:{} --> 触发了redis限流，每秒只能允许 {} 次访问", key, getCount());
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -116,7 +176,7 @@ public class LimitContext {
      *
      * @return 限流阈值
      */
-    public static Double getCount() {
+    public static Long getCount() {
         return PERMITS_PER_SECOND.get();
     }
 
@@ -125,7 +185,7 @@ public class LimitContext {
      *
      * @param count 限流阈值
      */
-    public static void setCount(Double count) {
+    public static void setCount(Long count) {
         PERMITS_PER_SECOND.set(count);
     }
 
@@ -143,7 +203,7 @@ public class LimitContext {
      */
     @SuppressWarnings("UnstableApiUsage")
     private static RateLimiter createRateLimiter() {
-        Double count = getCount();
+        Long count = getCount();
         log.info("初始化限流器  count: {}", count);
         return RateLimiter.create(count);
     }
