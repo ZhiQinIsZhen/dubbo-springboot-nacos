@@ -18,6 +18,7 @@
         <module>dubbo-service-user</module>
         <module>dubbo-service-job</module>
         <module>dubbo-service-monitor</module>
+        <module>dubbo-service-pdf</module>
     </modules>
 
 </project>
