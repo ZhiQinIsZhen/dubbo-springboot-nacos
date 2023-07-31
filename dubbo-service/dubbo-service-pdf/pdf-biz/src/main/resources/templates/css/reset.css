@@ -1,0 +1,295 @@
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+    /*blockquote,*/
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+    /*em,*/
+font,
+img,
+ins,
+kbd,
+q,
+    /*s,*/
+samp,
+small,
+strike,
+    /*strong,*/
+    /*sub,*/
+    /*sup,*/
+tt,
+var,
+b,
+    /*u,*/
+i,
+center,
+dl,
+dt,
+dd,
+    /*ol,*/
+    /*ul,*/
+    /*li,*/
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+fieldset,
+img {
+    border: 0;
+    display: block;
+}
+
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+strong,
+th,
+var {
+    font-style: normal;
+    font-weight: normal;
+}
+
+/*ol,*/
+/*ul {*/
+/*  list-style: none;*/
+/*}*/
+caption,
+th {
+    text-align: left;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: 100%;
+    font-weight: normal;
+}
+
+q:before,
+q:after {
+    content: "";
+}
+
+div {
+    box-sizing: border-box;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+.empty {
+    height: 45pt;
+    line-height: 45pt;
+    text-align: center;
+    border: 1pt solid #ebeff4;
+    border-radius: 6pt;
+    background-color: #eff3fd;
+    margin-top: 19pt;
+    color: #6289ef;
+    font-size: 13pt;
+    font-weight: 600;
+}
+
+body {
+    width: 842pt;
+    margin: 0 auto;
+    color: #27243F;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+}
+
+.margin-46 {
+    margin-top: 46pt !important;
+}
+
+.margin-32 {
+    margin-top: 32pt !important;
+}
+
+.margin-12 {
+    margin-top: 12pt;
+}
+
+.margin-16 {
+    margin-top: 16pt !important;
+}
+
+.margin-18 {
+    margin-top: 18pt !important;
+}
+
+.margin-28 {
+    margin-top: 28pt !important;
+}
+
+.margin-24 {
+    margin-top: 24pt !important;
+}
+
+.margin-22 {
+    margin-top: 22pt !important;
+}
+
+.margin-20 {
+    margin-top: 20pt !important;
+}
+
+/* 页眉 */
+/* 页眉 */
+.page-hd {
+    position: relative;
+    /* height: 63pt; */
+    height: 0;
+    width: 842pt;
+}
+
+.page-hd img {
+    height: 63pt;
+    width: 842pt;
+}
+
+.page-hd div.num {
+    position: absolute;
+    color: #fff;
+    font-size: 10pt;
+    top: 37pt;
+    right: 61pt;
+}
+
+.page-hd div.name {
+    position: absolute;
+    color: #fff;
+    font-size: 10pt;
+    top: 15pt;
+    right: 61pt;
+    font-size: 14pt;
+}
+
+.hd-logo {
+    margin: auto;
+    max-width: 28pt;
+    max-height: 28pt;
+}
+
+.hd-logo-div {
+    position: absolute;
+    width: 28pt;
+    width: 28pt;
+    top: 17pt;
+    left: 170pt;
+    background-color: #fff;
+    border-radius: 4pt;
+    display: flex;
+}
+
+.page-hd div.hd-company-name {
+    position: absolute;
+    font-size: 14pt;
+    top: 22pt;
+    left: 210pt;
+    color: #fff;
+}
+
+.title-hd {
+    display: flex;
+    align-items: center;
+}
+
+.title-hd .col-line {
+    width: 4pt;
+    height: 14pt;
+    background-color: #2761f6;
+    border-radius: 4pt;
+    margin-top: 1pt;
+}
+
+.title-hd .text {
+    font-size: 18pt;
+    font-weight: 600;
+    line-height: 25pt;
+    margin-left: 7pt;
+}
+
+.detail-title {
+    display: flex;
+    font-size: 16pt;
+    line-height: 28pt;
+}
+
+.detail-title img {
+    width: 48pt;
+    height: 28pt;
+}
+
+.detail-title div {
+    margin-left: 3pt;
+    font-weight: 600;
+}
+
+.content-title {
+    height: 38pt;
+    font-size: 16pt;
+    color: #fff;
+    padding-left: 10pt;
+    line-height: 38pt;
+    font-weight: 600;
+    background: linear-gradient(to right, #2970F6, #fff);
+    border-radius: 6pt;
+}
+
+.remark {
+    padding: 16pt;
+    min-height: 64pt;
+    line-height: 22pt;
+    border: 1pt solid #EAEFF4;
+    color: #4E5969;
+}

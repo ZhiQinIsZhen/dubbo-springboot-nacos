@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>equity-structure_Compoent</title>
+    <link href="./css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/table.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/quill.core.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="detail">
+    <div class="base-info02" th:fragment="equity-structure_Compoent(shareholdingStructure,thisToc)">
+        <div th:replace="~{headline :: headline(toc=${thisToc},riskMark=0)}">
+            <div class="detail-title">
+                <img src="./image/common/02.png"/>
+                <div class="title" th:id="${thisToc.dest}" th:text="${thisToc.getName()}">DD股权结构</div>
+            </div>
+        </div>
+        <!--工商登记-->
+        <div th:with="tToc=${thisToc.access.getFirstChild()}">
+            <div th:replace="~{headline :: headline(toc=${tToc},riskMark=0)}">
+                <div class="manage-title margin-24" th:id="${tToc.dest}" th:text="${tToc.getName}">DD工商登记</div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(shareholdingStructure?.shareholderList)}">
+                <th:block th:if="${not dataIsEmpty}">
+                    <div class="total">共<span class="total_num"
+                                               th:text="${shareholdingStructure?.shareholderList?.size()}">0</span>条
+                    </div>
+                    <table class="table1">
+                        <tr>
+                            <td class="th">股东名称</td>
+                            <td class="th">持股比例</td>
+                            <td class="th">认缴出资额</td>
+                            <td class="th">公示时间</td>
+                        </tr>
+                        <tr th:each="i : ${shareholdingStructure?.shareholderList}">
+                            <td th:text="${i.name ?: '--'}">-</td>
+                            <td th:text="${i.percent ?: '--'}">60%</td>
+                            <td th:text="${i.amomon ?: '--'}">60万人民币</td>
+                            <td th:text="${i.time ?: '--'}">2022-01-01</td>
+                        </tr>
+                    </table>
+                </th:block>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!--最新公示-->
+        <div th:with="tToc=${thisToc.access.getNext()}">
+            <!--                th:if="${not #lists.isEmpty(shareholdingStructure?.top10Shareholders)}"-->
+            <div th:replace="~{headline :: headline(toc=${tToc},riskMark=0)}">
+                <div class="manage-title margin-24" th:id="${tToc.dest}" th:text="${tToc.getName}">DD最新公示</div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(shareholdingStructure?.top10Shareholders)}">
+                <th:block th:if="${not dataIsEmpty}">
+                    <div class="total">共<span class="total_num"
+                                               th:text="${shareholdingStructure?.top10Shareholders?.size()}">0</span>条
+                    </div>
+                    <table class="table10 margin-24">
+                        <tr>
+                            <td class="th">股东名称</td>
+                            <td class="th">股份类型</td>
+                            <td class="th">持股数</td>
+                            <td class="th">持股变化 （万股）</td>
+                            <td class="th">占总股本比例（%）</td>
+                            <td class="th">增减情况（%）</td>
+                        </tr>
+                        <tr th:each="i : ${shareholdingStructure?.top10Shareholders}">
+                            <td th:text="${i.name} ?: '--'">--</td>
+                            <!--类型  1 ⼗⼤股东 2 ⼗⼤流通股东-->
+                            <td th:text="${1 == i.type ? '⼗⼤股东':(2 == i.type ? '⼗⼤流通股东':null)} ?:'--'">--</td>
+                            <td th:text="${i.holdingNum} ?: '--'">--</td>
+                            <td th:text="${i.compareChange ?: null} ?: _">--</td>
+                            <td th:text="${i.proportion} ?: '--'">--</td>
+                            <td th:text="${#strings.isEmpty(i.actual) ? null:i.actual} ?: '--'">--</td>
+                        </tr>
+                    </table>
+                </th:block>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

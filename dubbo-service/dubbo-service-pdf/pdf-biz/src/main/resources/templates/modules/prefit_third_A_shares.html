@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>prefit_third_A_shares</title>
+    <link href="../css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/table.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!--利润表-三方A股-->
+<table class="table4 margin-24" th:fragment="thirdAShares">
+    <tr>
+        <td class="th text-left">报告期</td>
+        <td class="th text-left" th:text="${titleList[0]}">2018</td>
+        <td class="th text-left" th:text="${titleList[1]}">2019</td>
+        <td class="th text-left" th:text="${titleList[2]}">2020</td>
+        <td class="th text-left" th:text="${titleList[3]}">2021</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">营业总收入</td>
+        <td class="text-left" th:text="${dataList[0]?.totalRevenue ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.totalRevenue ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.totalRevenue ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.totalRevenue ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">营业收入</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.revenue ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.revenue ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.revenue ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.revenue ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">营业总成本</td>
+        <td class="text-left" th:text="${dataList[0]?.operatingCosts ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.operatingCosts ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.operatingCosts ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.operatingCosts ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">营业成本</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.operatingCost ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.operatingCost ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.operatingCost ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.operatingCost ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">研发费用</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.radCost ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.radCost ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.radCost ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.radCost ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">营业税金及附加</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.operatingTaxesAndSurcharge ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.operatingTaxesAndSurcharge ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.operatingTaxesAndSurcharge ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.operatingTaxesAndSurcharge ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">销售费用</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.salesFee ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.salesFee ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.salesFee ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.salesFee ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">管理费用</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.manageFee ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.manageFee ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.manageFee ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.manageFee ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">财务费用</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.financingExpenses ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.financingExpenses ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.financingExpenses ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.financingExpenses ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">资产减值损失</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.assetImpairmentLoss ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.assetImpairmentLoss ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.assetImpairmentLoss ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.assetImpairmentLoss ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">其他经营收益</td>
+        <td class="text-left" th:text="${dataList[0]?.othrIncome ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.othrIncome ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.othrIncome ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.othrIncome ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">加：公允价值变动收益</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.incomeFromChgInFv ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.incomeFromChgInFv ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.incomeFromChgInFv ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.incomeFromChgInFv ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">加：投资收益</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.investIncome ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.investIncome ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.investIncome ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.investIncome ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">其中：对联营企业和合营企业的投资收益</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.investIncomesFromRr ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.investIncomesFromRr ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.investIncomesFromRr ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.investIncomesFromRr ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">营业利润</td>
+        <td class="text-left" th:text="${dataList[0]?.op ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.op ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.op ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.op ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">加：营业外收入</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.nonOperatingIncome ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.nonOperatingIncome ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.nonOperatingIncome ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.nonOperatingIncome ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">减：营业外支出</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.nonOperatingPayout ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.nonOperatingPayout ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.nonOperatingPayout ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.nonOperatingPayout ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">利润总额</td>
+        <td class="text-left" th:text="${dataList[0]?.profitTotalAmt ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.profitTotalAmt ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.profitTotalAmt ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.profitTotalAmt ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">减：所得税费用</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.incomeTaxExpenses ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.incomeTaxExpenses ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.incomeTaxExpenses ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.incomeTaxExpenses ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">净利润</td>
+        <td class="text-left" th:text="${dataList[0]?.netProfit ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.netProfit ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.netProfit ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.netProfit ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">其中：归属于母公司股东的净利润</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.netProfitAtsopc ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.netProfitAtsopc ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.netProfitAtsopc ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.netProfitAtsopc ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">少数股东损益</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.minorityGal ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.minorityGal ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.minorityGal ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.minorityGal ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">扣除非经常性损益后的净利润</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.profitDeductNrgalLySq ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.profitDeductNrgalLySq ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.profitDeductNrgalLySq ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.profitDeductNrgalLySq ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th font-bold font-14" colspan="5">每股收益</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">基本每股收益</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.basicEps ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.basicEps ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.basicEps ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.basicEps ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">稀释每股收益</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.dltEarningsPerShare ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.dltEarningsPerShare ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.dltEarningsPerShare ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.dltEarningsPerShare ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">其他综合收益</td>
+        <td class="text-left" th:text="${dataList[0]?.othrCompreIncome ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.othrCompreIncome ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.othrCompreIncome ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.othrCompreIncome ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">归属于母公司股东的其他综合收益</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.othrCompreIncomeAtoopc ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.othrCompreIncomeAtoopc ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.othrCompreIncomeAtoopc ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.othrCompreIncomeAtoopc ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">归属于少数股东的其他综合收益</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.othrCompreIncomeAtms ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.othrCompreIncomeAtms ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.othrCompreIncomeAtms ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.othrCompreIncomeAtms ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">综合收益总额</td>
+        <td class="text-left" th:text="${dataList[0]?.totalCompreIncome ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.totalCompreIncome ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.totalCompreIncome ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.totalCompreIncome ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">归属于母公司所有者的综合收益总额</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.totalCompreIncomeAtsopc ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.totalCompreIncomeAtsopc ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.totalCompreIncomeAtsopc ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.totalCompreIncomeAtsopc ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left">
+            <div class="text-left-15">归属于少数股东的综合收益总额</div>
+        </td>
+        <td class="text-left" th:text="${dataList[0]?.totalCompreIncomeAtms ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.totalCompreIncomeAtms ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.totalCompreIncomeAtms ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.totalCompreIncomeAtms ?: '--'}">-</td>
+    </tr>
+</table>
+
+</body>
+</html>

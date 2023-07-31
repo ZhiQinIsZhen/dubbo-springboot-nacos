@@ -1,0 +1,121 @@
+body {
+    width: 842pt;
+    margin: 0 auto;
+    color: #27243f;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+}
+
+.cover {
+    position: relative;
+}
+
+.cover-company {
+    position: absolute;
+    font-size: 67pt;
+    line-height: 75pt;
+    font-weight: 300;
+    color: #fff;
+    top: 318pt;
+    width: 842pt;
+    text-align: center;
+    padding: 0 30pt;
+}
+
+.cover .application {
+    position: absolute;
+    font-size: 16pt;
+    line-height: 16pt;
+    color: #fff;
+    top: 975pt;
+    left: 91pt;
+}
+
+.cover .create {
+    position: absolute;
+    font-size: 16pt;
+    line-height: 16pt;
+    color: #fff;
+    top: 1012pt;
+    left: 91pt;
+}
+
+.cover .rp-number-label {
+    position: absolute;
+    width: 193pt;
+    font-size: 16pt;
+    line-height: 16pt;
+    word-wrap: break-word;
+    color: #fff;
+    top: 975pt;
+    left: 366pt;
+}
+
+.cover .rp-number {
+    position: absolute;
+    /* width: 193pt; */
+    font-size: 16pt;
+    line-height: 16pt;
+    word-wrap: break-word;
+    color: #fff;
+    top: 975pt;
+    left: 475pt;
+}
+
+.cover,
+.result,
+.summary,
+.detail {
+    width: 842pt;
+}
+
+.cover-logo {
+    max-width: 35pt;
+    max-height: 35pt;
+    margin: auto;
+}
+
+.logo-div {
+    /* background-color: #fff; */
+    width: 35pt;
+    height: 35pt;
+    position: absolute;
+    top: 42pt;
+    left: 195pt;
+    border-radius: 4pt;
+    display: flex;
+}
+
+.cover-company-name {
+    position: absolute;
+    left: 242pt;
+    top: 46pt;
+    color: #fff;
+    font-size: 21pt;
+    font-weight: bold;
+}
+
+.cover-company-name-no-logo {
+    position: absolute;
+    left: 197pt;
+    top: 44pt;
+    color: #fff;
+    font-size: 21pt;
+    font-weight: bold;
+}
+
+.cover-small-img {
+    float: left;
+    margin-right: 12pt;
+}
+
+.cover-des {
+    position: absolute;
+    left: 64pt;
+    right: 64pt;
+    top: 1090pt;
+    color: #0cc9a2;
+    font-size: 14pt;
+    line-height: 17pt;
+    font-family: SourceHanSansCN-Normal;
+}

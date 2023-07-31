@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>project_room_open</title>
+    <link href="./css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/table.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/quill.core.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- 封面 -->
+<div th:replace="~{cover :: cover(imageBG='cover')}"/>
+<!-- 评估结果 -->
+<div th:replace="~{resultContent :: resultContent}"/>
+<!-- 详情 -->
+<div class="detail">
+    <!-- 风险核查   -->
+    <div th:replace="~{riskCheck :: riskCheck}"/>
+    <!-- 项目方信息 -->
+    <div th:replace="~{projectPartyInfo :: projectPartyInfo(processId=${ctx?.processId?:''},token=${ctx?.token?:''})}"/>
+    <!-- 项目信息 -->
+    <div th:replace="~{projectInfo :: projectInfo(ifRegionInfo=true)}"/>
+    <!-- 经营状况 -->
+    <div th:replace="~{ocModules :: ocModule}"/>
+    <!-- 商票情况 -->
+    <div th:replace="~{commercialTicket :: commercialTicket}"/>
+    <!-- 债券及信用评级 -->
+    <div th:replace="~{bond :: bond}"/>
+    <!-- 司法风险 -->
+    <div th:replace="~{legalRisk :: legalRisk}"/>
+    <!-- 关联风险 -->
+    <div th:replace="~{associatedRisk :: associatedRisk}"/>
+    <!-- 舆情信息 -->
+    <div th:replace="~{newsNotice :: newsNotice}"/>
+</div>
+</body>
+</html>

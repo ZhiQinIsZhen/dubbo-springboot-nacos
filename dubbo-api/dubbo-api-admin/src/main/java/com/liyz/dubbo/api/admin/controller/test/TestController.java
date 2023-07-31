@@ -39,7 +39,7 @@ import java.io.IOException;
 @RequestMapping("/test")
 public class TestController {
 
-    @Limits({@Limit(type = LimitType.IP, count = 2), @Limit(count = 1)})
+    @Limits({@Limit(type = LimitType.IP, count = 5), @Limit(count = 6)})
     @ApiOperation("你好")
     @GetMapping("/hello")
     public Result<TestVO> hello(@Validated(TestDTO.Hello.class) TestDTO testDTO) {

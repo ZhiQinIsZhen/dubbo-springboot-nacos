@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>some-risks_Component</title>
+    <link href="./css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/table.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/quill.core.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="detail">
+    <div th:fragment="lawSuitList(dataIsEmpty,list)">
+        <!--    <div th:with="dataIsEmpty=${#lists.isEmpty(ctx.legalRisk?.lawSuitList)} ,list=${ctx.legalRisk?.lawSuitList}">-->
+        <div th:if="${not dataIsEmpty}">
+            <div th:each="data : ${list}">
+                <div th:with="companyName=${data.companyName} ,labels=${data.labels} ,gTableList=${data.gTableList}">
+                    <div th:replace="~{companyTitle:: riskCompanyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                        <div class="risk-company-title">
+                            <img
+                                    class="risk-company-img"
+                                    src="./image/common/company.png"
+                            />
+                            <div>
+                                <div class="risk-company-name">广西交通什么什么投资有限公司资有限公司</div>
+                                <div class="risk-company-tag-item">项目公司</div>
+                                <div class="risk-company-tag-item">实际控股公司</div>
+                                <div class="risk-company-tag-item">其他关联公司</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="total">共<span class="total_num" th:text="${gTableList?.size()}">0</span>条</div>
+                    <table class="table8 margin-22">
+                        <tr>
+                            <td class="th">案件身份</td>
+                            <td class="th">案由</td>
+                            <td class="th">案件金额</td>
+                            <td class="th">案号</td>
+                            <td class="th">案件名称</td>
+                            <td class="th">裁判日期</td>
+                            <td class="th">详情</td>
+                        </tr>
+                        <tr th:each="i : ${gTableList}">
+                            <td th:text="${i.role ?: '--'}">-</td>
+                            <td th:text="${i.caseReason ?: '--'}">-</td>
+                            <td th:text="${i.caseMoney ?: '--'}">-</td>
+                            <td th:text="${i.caseNo ?: '--'}">-</td>
+                            <td th:text="${i.title ?: '--'}">-</td>
+                            <td th:text="${#dates.format(i.judgeTime,'yyyy-MM-dd') ?: '--'}">-</td>
+                            <td class="link"><a
+                                    th:href="|${ctx.fuwuDomain}/report/raLawsuitPart?tycUuid=${i.tycUuid}|"
+                                    th:if="${i.dataSourceType == 0}">查看</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+            经全网扫描，未查得该信息
+        </div>
+    </div>
+    <div th:fragment="ktannouncementList(dataIsEmpty,list)">
+        <!--    <div th:with="dataIsEmpty=${#lists.isEmpty(ctx.legalRisk?.ktannouncementList)} ,list=${ctx.legalRisk?.ktannouncementList}">-->
+        <div th:if="${not dataIsEmpty}">
+            <div th:each="data : ${list}">
+                <div th:with="companyName=${data.companyName} ,labels=${data.labels} ,gTableList=${data.gTableList}">
+                    <div th:replace="~{companyTitle:: riskCompanyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                        <div class="risk-company-title">
+                            <img
+                                    class="risk-company-img"
+                                    src="./image/common/company.png"
+                            />
+                            <div>
+                                <div class="risk-company-name">广西交通什么什么投资有限公司资有限公司</div>
+                                <div class="risk-company-tag-item">项目公司</div>
+                                <div class="risk-company-tag-item">实际控股公司</div>
+                                <div class="risk-company-tag-item">其他关联公司</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="total">共<span class="total_num" th:text="${gTableList?.size()}">0</span>条</div>
+                    <table class="table10 margin-22">
+                        <tr>
+                            <td class="th">原告</td>
+                            <td class="th">被告</td>
+                            <td class="th">案由</td>
+                            <td class="th">案号</td>
+                            <td class="th">开庭日期</td>
+                            <td class="th">详情</td>
+                        </tr>
+                        <tr th:each="i : ${gTableList}">
+                            <td th:text="${i.plaintiff}"></td>
+                            <td th:text="${i.defendant}"></td>
+                            <td th:text="${i.caseReason}"></td>
+                            <td th:text="${i.caseNo}"></td>
+                            <td th:text="${#dates.format(i.startDate,'yyyy-MM-dd')}"></td>
+                            <td class="link"><a
+                                    th:href="|${ctx.fuwuDomain}/report/ktannouncementPart?raKtannouncementId=${i.id}|"
+                                    th:if="${i.dataSourceType == 0}">查看</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+            经全网扫描，未查得该信息
+        </div>
+    </div>
+    <div th:fragment="zhixinginfoList(dataIsEmpty,list)">
+        <!--  <div th:with="dataIsEmpty=${#lists.isEmpty(ctx.legalRisk?.zhixinginfoList)} ,list=${ctx.legalRisk?.zhixinginfoList}">-->
+        <div th:if="${not dataIsEmpty}">
+            <div th:each="data : ${list}">
+                <div th:with="companyName=${data.companyName} ,labels=${data.labels} ,gTableList=${data.gTableList}">
+                    <div th:replace="~{companyTitle:: riskCompanyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                        <div class="risk-company-title">
+                            <img
+                                    class="risk-company-img"
+                                    src="./image/common/company.png"
+                            />
+                            <div>
+                                <div class="risk-company-name">广西交通什么什么投资有限公司资有限公司</div>
+                                <div class="risk-company-tag-item">项目公司</div>
+                                <div class="risk-company-tag-item">实际控股公司</div>
+                                <div class="risk-company-tag-item">其他关联公司</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="total">共<span class="total_num" th:text="${gTableList?.size()}">0</span>条</div>
+                    <table class="table9 margin-22 img-table">
+                        <tr>
+                            <td class="th">被执行人名称</td>
+                            <td class="th">立案日期</td>
+                            <td class="th">执行标的</td>
+                            <td class="th">案号</td>
+                            <td class="th">执行法院</td>
+                        </tr>
+                        <tr th:each="i : ${gTableList}">
+                            <td>
+                                <div>
+                                    <img class="risk-check-stag1" src="./image/risk-check/stag1.png"
+                                         th:if="${(i.riskMark?:0) gt 0}"/>
+                                    <span th:text="${i.pname}">被执行人名称被执行人名称被执行人名称</span>
+                                </div>
+                            </td>
+                            <td th:text="${#dates.format(i.caseCreateTime,'yyyy-MM-dd')}"></td>
+                            <td th:text="${#strings.isEmpty(i.execMoney) ? null:(i.execMoney+'元')} ?: _">--
+                            </td>
+                            <td th:text="${i.caseNo}"></td>
+                            <td th:text="${i.court}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+            经全网扫描，未查得该信息
+        </div>
+    </div>
+    <div th:fragment="dishonestList(dataIsEmpty,list)">
+        <!--  <div th:with="dataIsEmpty=${#lists.isEmpty(ctx.legalRisk?.dishonestList)} ,list=${ctx.legalRisk?.dishonestList}">-->
+        <div th:if="${not dataIsEmpty}">
+            <div th:each="data : ${list}">
+                <div th:with="companyName=${data.companyName} ,labels=${data.labels} ,gTableList=${data.gTableList}">
+                    <div th:replace="~{companyTitle:: riskCompanyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                        <div class="risk-company-title">
+                            <img
+                                    class="risk-company-img"
+                                    src="./image/common/company.png"
+                            />
+                            <div>
+                                <div class="risk-company-name">广西交通什么什么投资有限公司资有限公司</div>
+                                <div class="risk-company-tag-item">项目公司</div>
+                                <div class="risk-company-tag-item">实际控股公司</div>
+                                <div class="risk-company-tag-item">其他关联公司</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="total">共<span class="total_num" th:text="${gTableList?.size()}">0</span>条</div>
+                    <table class="table8 margin-22 img-table">
+                        <tr>
+                            <td class="th">被执行人名称</td>
+                            <td class="th">立案日期</td>
+                            <td class="th">履行情况</td>
+                            <td class="th">案号</td>
+                            <td class="th">执行法院</td>
+                            <td class="th">执行依据文号</td>
+                            <td class="th">详情</td>
+                        </tr>
+                        <tr th:each="i : ${gTableList}">
+                            <td>
+                                <div>
+                                    <img class="risk-check-stag1" src="./image/risk-check/stag1.png"
+                                         th:if="${(i.riskMark?:0) gt 0}"/>
+                                    <span th:text="${i.iname}">啦啦啦啦啦啦啦啦</span>
+                                </div>
+                            </td>
+                            <td th:text="${#dates.format(i.caseCreateTime,'yyyy-MM-dd')}"></td>
+                            <td th:text="${i.performance}"></td>
+                            <td th:text="${i.caseNo}"></td>
+                            <td th:text="${i.court}"></td>
+                            <td th:text="${i.gistid}"></td>
+                            <td class="link"><a
+                                    th:href="|${ctx.fuwuDomain}/report/dishonestPart?raDishonestId=${i.id}|"
+                                    th:if="${i.dataSourceType == 0}">查看</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+            经全网扫描，未查得该信息
+        </div>
+    </div>
+    <div th:fragment="consumptionRestrictionList(dataIsEmpty,list)">
+        <!--  <div th:with="dataIsEmpty=${#lists.isEmpty(ctx.legalRisk?.consumptionRestrictionList)} ,list=${ctx.legalRisk?.consumptionRestrictionList}">-->
+        <div th:if="${not dataIsEmpty}">
+            <div th:each="data : ${list}">
+                <div th:with="companyName=${data.companyName} ,labels=${data.labels} ,gTableList=${data.gTableList}">
+                    <div th:replace="~{companyTitle:: riskCompanyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                        <div class="risk-company-title">
+                            <img
+                                    class="risk-company-img"
+                                    src="./image/common/company.png"
+                            />
+                            <div>
+                                <div class="risk-company-name">广西交通什么什么投资有限公司资有限公司</div>
+                                <div class="risk-company-tag-item">项目公司</div>
+                                <div class="risk-company-tag-item">实际控股公司</div>
+                                <div class="risk-company-tag-item">其他关联公司</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="total">共<span class="total_num" th:text="${gTableList?.size()}">0</span>条</div>
+                    <table class="table13 margin-22 img-table">
+                        <tr>
+                            <td class="th">限制消费者</td>
+                            <td class="th">立案时间</td>
+                            <td class="th">企业信息</td>
+                            <td class="th">案号</td>
+                            <td class="th">申请人信息</td>
+                        </tr>
+                        <tr th:each="i : ${gTableList}">
+                            <td>
+                                <div>
+                                    <img class="risk-check-stag1" src="./image/risk-check/stag1.png"
+                                         th:if="${(i.riskMark?:0) gt 0}">
+                                    <span th:text="${i.xname}">限制消费者</span>
+                                </div>
+                            </td>
+                            <td th:text="${#dates.format(i.caseCreateTime,'yyyy-MM-dd')}"></td>
+                            <td th:text="${i.qyinfo}"></td>
+                            <td th:text="${i.caseNo}"></td>
+                            <td th:text="${i.applicant}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+            经全网扫描，未查得该信息
+        </div>
+    </div>
+
+    <div th:fragment="personConsumptionRestriction(dataIsEmpty,list)">
+        <!--    <div th:with="dataIsEmpty=${#lists.isEmpty(list)}">-->
+        <th:block th:if="${not dataIsEmpty}">
+            <div class="total">共<span class="total_num" th:text="${list?.size()}">0</span>条</div>
+            <table class="table9 margin-22">
+                <tr>
+                    <td class="th">立案日期</td>
+                    <td class="th">关联人</td>
+                    <td class="th">申请人信息</td>
+                    <td class="th">案号</td>
+                    <td class="th">发布日期</td>
+                </tr>
+                <tr th:each="i : ${list}">
+                    <td th:text="${#dates.format(i.caseCreateTime,'yyyy-MM-dd') ?: '--'}">-</td>
+                    <td th:text="${i.xname ?: '--'}">-</td>
+                    <td th:text="${i.applicant ?: '--'}">-</td>
+                    <td th:text="${i.caseNo ?: '--'}">-</td>
+                    <td th:text="${#dates.format(i.publishDate,'yyyy-MM-dd') ?: '--'}">-</td>
+                </tr>
+            </table>
+        </th:block>
+        <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+            经全网扫描，未查得该信息
+        </div>
+    </div>
+    <div th:fragment="personDishonest(dataIsEmpty,list)">
+        <!--    <div th:with="dataIsEmpty=${#lists.isEmpty(list)}">-->
+        <th:block th:if="${not dataIsEmpty}">
+            <div class="total">共<span class="total_num" th:text="${list?.size()}">0</span>条</div>
+            <table class="table8 margin-22">
+                <tr>
+                    <td class="th">被执行人名称</td>
+                    <td class="th">立案日期</td>
+                    <td class="th">履行情况</td>
+                    <td class="th">案号</td>
+                    <td class="th">执行法院</td>
+                    <td class="th">执行依据文号</td>
+                    <td class="th">详情</td>
+                </tr>
+                <tr th:each="i : ${list}">
+                    <td th:text="${i.iname}"></td>
+                    <td th:text="${#dates.format(i.caseCreateTime,'yyyy-MM-dd')}"></td>
+                    <td th:text="${i.performance}"></td>
+                    <td th:text="${i.caseNo}"></td>
+                    <td th:text="${i.court}"></td>
+                    <td th:text="${i.gistid}"></td>
+                    <td class="link"><a th:href="|${ctx.fuwuDomain}/report/dishonestPart?raDishonestId=${i.id}|"
+                                        th:if="${i.dataSourceType == 0}">查看</a>
+                    </td>
+                </tr>
+            </table>
+        </th:block>
+        <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+            经全网扫描，未查得该信息
+        </div>
+    </div>
+    <div th:fragment="personZhixinginfo(dataIsEmpty,list)">
+        <!--    <div th:with="dataIsEmpty=${#lists.isEmpty(list)}">-->
+        <th:block th:if="${not dataIsEmpty}">
+            <div class="total">共<span class="total_num" th:text="${list?.size()}">0</span>条</div>
+            <table class="table14 margin-22">
+                <tr>
+                    <td class="th">被执行人名称</td>
+                    <td class="th">立案日期</td>
+                    <td class="th">执行标的</td>
+                    <td class="th">案号</td>
+                    <td class="th">执行法院</td>
+                </tr>
+                <tr th:each="i : ${list}">
+                    <td th:text="${i.pname}"></td>
+                    <td th:text="${#dates.format(i.caseCreateTime,'yyyy-MM-dd')}"></td>
+                    <td th:text="${#strings.isEmpty(i.execMoney) ? null:(i.execMoney+'元')} ?: _">--</td>
+                    <td th:text="${i.caseNo}"></td>
+                    <td th:text="${i.court}"></td>
+                </tr>
+            </table>
+        </th:block>
+        <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+            经全网扫描，未查得该信息
+        </div>
+    </div>
+</div>
+</body>
+</html>

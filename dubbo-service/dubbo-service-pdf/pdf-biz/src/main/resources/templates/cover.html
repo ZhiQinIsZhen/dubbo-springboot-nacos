@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>cover</title>
+    <link href="./css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/table.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/quill.core.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!--封面-->
+<div class="cover" th:fragment="cover(imageBG)">
+    <img src="./image/cover.jpg" th:src="|./image/${imageBG}.jpg|"/>
+    <div class="logo-div" th:if="${not #strings.isEmpty(ctx?.getOriginateCorpLogo())}">
+        <img class="cover-logo" src="./image/logo.png" th:src="${ctx?.getOriginateCorpLogo()}">
+    </div>
+    <div class="cover-company-name"
+         th:class="|${#strings.isEmpty(ctx?.getOriginateCorpLogo()) ? 'cover-company-name-no-logo':'cover-company-name'}|"
+         th:text="${ctx?.getOriginateCorpName()}">
+        北京星图计划科技有限公司
+    </div>
+
+    <div class="cover-company">评估对象：<span th:text="${ctx?.getCorpName()}">北京星图计划科技有限公司</span></div>
+
+    <div class="application" th:if="${not #strings.isEmpty(ctx?.getApplyDate())}">申请日期：<span
+            th:text="${ctx?.getApplyDate()}">2022年05月XX日</span></div>
+    <!-- XX日X月XX日 -->
+    <div class="create" th:if="${not #strings.isEmpty(ctx?.getGenDate())}">生成日期：<span
+            th:text="${ctx?.getGenDate()}">2022年05月XX日</span></div>
+    <div class="rp-number-label" th:if="${not #strings.isEmpty(ctx?.getReportNo())}">报告编号：</div>
+    <div class="rp-number" th:text="${ctx?.getReportNo()}">SXBZYYYYMMDDhhmm0001</div>
+</div>
+</body>
+</html>

@@ -86,7 +86,9 @@ public class WebMvcAutoConfig extends WebMvcConfigurationSupport {
                 simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
                 simpleModule.addSerializer(String.class, new JacksonDesensitizationContextValueFilter());
                 simpleModule.addDeserializer(String.class, new JsonTrimDeserializer());
+//                simpleModule.setSerializerModifier(new JsonNameBeanSerializerModifier());
                 objectMapper.registerModule(simpleModule);
+                objectMapper.setSerializerFactory(objectMapper.getSerializerFactory().withSerializerModifier(new JsonNameBeanSerializerModifier()));
                 //BigDecimal转化为PlainToString
                 objectMapper.enable(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN);
             });

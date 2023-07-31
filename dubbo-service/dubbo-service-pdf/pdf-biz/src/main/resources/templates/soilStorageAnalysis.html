@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>soilStorageAnalysis</title>
+    <link href="./css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/table.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/quill.core.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="detail">
+    <!-- 土储分析 -->
+    <div class="soil-storage-analysis" th:fragment="soilStorageAnalysis(soilStorageAnalysis,soilStorageAnalysisToc)">
+        <div th:replace="~{headline :: headline(toc=${soilStorageAnalysisToc},riskMark=0)}">
+            <div class="detail-title margin-32">
+                <img src="./image/common/05.png"/>
+                <div class="title" th:id="${soilStorageAnalysisToc.dest}"
+                     th:text="${soilStorageAnalysisToc.getName()}">
+                    DD土储分析
+                </div>
+            </div>
+        </div>
+        <div>
+            <div th:with="companyName=${soilStorageAnalysis?.companyName} ,labels=${soilStorageAnalysis?.labels}">
+                <div th:replace="~{companyTitle:: companyTitleMargin24(desc='当前土储企业:',companyName=${companyName},labels=${labels})}">
+                    <div class="company-title">
+                        <div class="company-title-left">
+                            <div class="company-des-name">
+                                广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团
+                            </div>
+                        </div>
+                        <div class="company-title-tag">
+                            <span class="company-title-tag-item">实际控股公司</span>
+                            <span class="company-title-tag-item">其他关联公司</span>
+                            <span class="company-title-tag-item">项目公司</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <th:block th:with="soilTakeLastYear=${soilStorageAnalysis?.soilTakeLastYear},
+                   lastYearTopCity=${soilStorageAnalysis?.lastYearTopCity},lastYearNewCity=${soilStorageAnalysis?.lastYearNewCity}">
+                <div class="title-des margin-18"
+                     th:if="${null!=soilTakeLastYear or not #lists.isEmpty(lastYearTopCity)  or not #lists.isEmpty(lastYearNewCity)}">
+                    <div class="title-des-item" th:if="${null!=soilTakeLastYear}">
+                        <div class="detail-tag">
+                            <div class="dot"></div>
+                        </div>
+                        <div class="soil-des">
+                            <div>
+                                从土地储备量看，近一年新增土地 <span
+                                    th:text="${soilTakeLastYear?.soilCount ?: '--'}">xx</span> 宗，
+                                拿地金额总计 <span th:text="${soilTakeLastYear?.closingCost ?: '--'}">xxxx.xxxx</span>万元，
+                                规划建面积总计 <span
+                                    th:text="${soilTakeLastYear?.planningBuildingArea ?: '--'}">xxxx.xx</span> ㎡，
+                                平均溢价率 <span th:text="${soilTakeLastYear?.shareValue ?: '--'}">xxx</span> % 。
+                            </div>
+                        </div>
+                    </div>
+                    <div class="title-des-item"
+                         th:if="${ not #lists.isEmpty(lastYearTopCity)  or not #lists.isEmpty(lastYearNewCity)}">
+                        <div class="detail-tag">
+                            <div class="dot"></div>
+                        </div>
+                        <div class="soil-des">
+                            <span>从城市分布看，</span>
+                            <th:block th:if="${ not #lists.isEmpty(lastYearTopCity)}">
+                                <span>近一年新增土地集中分布在</span>
+                                <span th:each="topCity,topCityStat:${lastYearTopCity}"
+                                      th:text="|${topCity}${topCityStat.last?'':' 、'}|">xxx 、</span>
+                                <span>。</span>
+                            </th:block>
+                            <th:block th:if="${ not #lists.isEmpty(lastYearNewCity)}">
+                                <span>其中</span>
+                                <span th:each="newCity,newCityStat:${lastYearNewCity}"
+                                      th:text="|${newCity}${newCityStat.last?'':' 、'}|">xxx 、</span>
+                                <span>为新拓展城市。</span>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+        <div class="soil-info">
+            <div th:with="cgFbToc=${soilStorageAnalysisToc.access.getFirstChild()}">
+                <div th:replace="~{headline :: headline(toc=${cgFbToc},riskMark=0)}">
+                    <div class="manage-title margin-22" th:id="${cgFbToc.dest}"
+                         th:text="${cgFbToc.getName()}">DD拿地趋势
+                    </div>
+                </div>
+                <div>
+                    <div th:with="soilTakeStatistics=${soilStorageAnalysis?.soilTakeStatistics}">
+                        <div class="manage-child-title margin-28">拿地统计</div>
+                        <div class="soil-item margin-20">
+                            <div class="soild-total">
+                                <div class="soild-total-item">
+                                    <div class="soild-total-num" th:text="${soilTakeStatistics?.soilCount ?: '--'}">
+                                        283590
+                                    </div>
+                                    <img class="solid-item-img" src="./image/soil/soil-1.png"/>
+                                </div>
+                                <div style="clear: both"></div>
+                                <div class="soild-total-label">拿地宗总数</div>
+                            </div>
+                            <div class="soild-total">
+                                <div class="soild-total-item">
+                                    <div class="soild-total-num"
+                                         th:text="${soilTakeStatistics?.planningBuildingArea ?: '--'}">283590
+                                    </div>
+                                    <img class="solid-item-img" src="./image/soil/soil-2.png"/>
+                                </div>
+                                <div style="clear: both"></div>
+                                <div class="soild-total-label">规划建筑总面积（万㎡）</div>
+                            </div>
+                            <div class="soild-total">
+                                <div class="soild-total-item">
+                                    <div class="soild-total-num"
+                                         th:text="${soilTakeStatistics?.sharePlanningArea ?: '--'}">283590
+                                    </div>
+                                    <img class="solid-item-img" src="./image/soil/soil-3.png"/>
+                                </div>
+                                <div style="clear: both"></div>
+                                <div class="soild-total-label">权益规划建筑总面积（万㎡）</div>
+                            </div>
+                        </div>
+                        <div class="soil-item margin-16">
+                            <div class="soild-total">
+                                <div class="soild-total-item">
+                                    <div class="soild-total-num" th:text="${soilTakeStatistics?.closingCost ?: '--'}">
+                                        283590.34
+                                    </div>
+                                    <img class="solid-item-img" src="./image/soil/soil-4.png"/>
+                                </div>
+                                <div style="clear: both"></div>
+                                <div class="soild-total-label">拿地总金额（亿元）</div>
+                            </div>
+                            <div class="soild-total">
+                                <div class="soild-total-item">
+                                    <div class="soild-total-num"
+                                         th:text="${soilTakeStatistics?.shareClosingCost ?: '--'}">283590.34
+                                    </div>
+                                    <img class="solid-item-img" src="./image/soil/soil-5.png"/>
+                                </div>
+                                <div style="clear: both"></div>
+                                <div class="soild-total-label">权益拿地总金额（亿元）</div>
+                            </div>
+                            <div class="soild-total">
+                                <div class="soild-total-item">
+                                    <div class="soild-total-num" th:text="${soilTakeStatistics?.shareValue ?: '--'}">
+                                        283590.34
+                                    </div>
+                                    <img class="solid-item-img" src="./image/soil/soil-6.png"/>
+                                </div>
+                                <div style="clear: both"></div>
+                                <div class="soild-total-label">平均权益占比</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:with="soilQuarterTable=${soilStorageAnalysis?.soilQuarterTable}">
+                        <div class="manage-child-title margin-46">
+                            <div>拿地态度</div>
+                        </div>
+                        <div th:with="dataIsEmpty=${#strings.isEmpty(soilQuarterTable?.svg)}">
+                            <div class="standard-svg margin-12" th:if="${not dataIsEmpty}"
+                                 th:utext="${soilQuarterTable?.svg}">
+                                <!--                        <svg height="322pt" width="720pt">-->
+                                <!--                            <circle cx="100" cy="50" fill="red" r="40" stroke="black" stroke-width="2"/>-->
+                                <!--                        </svg>-->
+                            </div>
+                            <div class="empty"
+                                 th:replace="~{empty_Component :: empty_Component(dataIsEmpty=${dataIsEmpty})}">
+                                empty_Component :: empty_Component空空
+                            </div>
+                        </div>
+                    </div>
+                    <div th:with="soilTakeMonthAreaTable=${soilStorageAnalysis?.soilTakeMonthAreaTable}">
+                        <div class="manage-child-title margin-46">
+                            <div>拿地趋势</div>
+                        </div>
+                        <div th:with="dataIsEmpty=${#strings.isEmpty(soilTakeMonthAreaTable?.svg)}">
+                            <div class="standard-svg margin-12" th:if="${not dataIsEmpty}"
+                                 th:utext="${soilTakeMonthAreaTable?.svg}">
+                                <!--                        <svg height="322pt" width="720pt">-->
+                                <!--                            <circle cx="100" cy="50" fill="red" r="40" stroke="black" stroke-width="2"/>-->
+                                <!--                        </svg>-->
+                            </div>
+                            <div class="empty"
+                                 th:replace="~{empty_Component :: empty_Component(dataIsEmpty=${dataIsEmpty})}">
+                                empty_Component :: empty_Component空空
+                            </div>
+                        </div>
+                    </div>
+                    <div th:with="soilTakeMonthAmountTable=${soilStorageAnalysis?.soilTakeMonthAmountTable}">
+                        <div class="manage-child-title margin-46">
+                            <div>拿地金额</div>
+                        </div>
+                        <div th:with="dataIsEmpty=${#strings.isEmpty(soilTakeMonthAmountTable?.svg)}">
+                            <div class="standard-svg margin-12" th:if="${not dataIsEmpty}"
+                                 th:utext="${soilTakeMonthAmountTable?.svg}">
+                                <!--                        <svg height="322pt" width="720pt">-->
+                                <!--                            <circle cx="100" cy="50" fill="red" r="40" stroke="black" stroke-width="2"/>-->
+                                <!--                        </svg>-->
+                            </div>
+                            <div class="empty"
+                                 th:replace="~{empty_Component :: empty_Component(dataIsEmpty=${dataIsEmpty})}">
+                                empty_Component :: empty_Component空空
+                            </div>
+                        </div>
+                    </div>
+                    <div th:with="list=${soilStorageAnalysis?.soilTakeMonthDetails}">
+                        <div class="manage-child-title margin-46">
+                            <div>拿地明细</div>
+                        </div>
+                        <div class="total">共<span class="total_num" th:text="${list?.size()?:'0'}">0</span>条</div>
+                        <table class="table26 margin-22">
+                            <tr>
+                                <td class="th text-left">年-月</td>
+                                <td class="th text-left">拿地宗数</td>
+                                <td class="th text-left">拿地金额（万元）</td>
+                                <td class="th text-left">权益拿地金额（万元）</td>
+                                <td class="th text-left">规划建筑面积（㎡）</td>
+                                <td class="th text-left">权益规划建筑面积（㎡）</td>
+                                <td class="th text-left">成交楼面均价（元/㎡）</td>
+                                <td class="th text-left">平均溢价率（%）</td>
+                            </tr>
+                            <tr th:each="i : ${list}">
+                                <td class="text-left" th:text="${i.yearMonth ?: '--'}">2023-01</td>
+                                <td class="text-left" th:text="${i.soilCount ?: '--'}">92,546.89</td>
+                                <td class="text-left" th:text="${i.closingCost ?: '--'}">70.25</td>
+                                <td class="text-left" th:text="${i.shareClosingCost ?: '--'}">92,546.89</td>
+                                <td class="text-left" th:text="${i.planningBuildingArea ?: '--'}">1</td>
+                                <td class="text-left" th:text="${i.sharePlanningArea ?: '--'}">92,546.89</td>
+                                <td class="text-left" th:text="${i.closingFloorPrice ?: '--'}">70.25</td>
+                                <td class="text-left" th:text="${i.averagePremiumRate ?: '--'}">92,546.89</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div th:with="cgFbToc=${soilStorageAnalysisToc.access.getNext()}">
+                <div th:replace="~{headline :: headline(toc=${cgFbToc},riskMark=0)}">
+                    <div class="manage-title margin-22" th:id="${cgFbToc.dest}"
+                         th:text="${cgFbToc.getName()}">DD土储分布
+                    </div>
+                </div>
+                <div>
+                    <div th:with="soilTakeQuarterCityLevelTable=${soilStorageAnalysis?.soilTakeQuarterCityLevelTable}">
+                        <div class="manage-child-title margin-28">分布趋势</div>
+                        <div th:with="dataIsEmpty=${#strings.isEmpty(soilTakeQuarterCityLevelTable?.svg)}">
+                            <div class="standard-svg margin-12" th:if="${not dataIsEmpty}"
+                                 th:utext="${soilTakeQuarterCityLevelTable?.svg}">
+                                <!--                        <svg height="322pt" width="720pt">-->
+                                <!--                            <circle cx="100" cy="50" fill="red" r="40" stroke="black" stroke-width="2"/>-->
+                                <!--                        </svg>-->
+                            </div>
+                            <div class="empty"
+                                 th:replace="~{empty_Component :: empty_Component(dataIsEmpty=${dataIsEmpty})}">
+                                empty_Component :: empty_Component空空
+                            </div>
+                        </div>
+                    </div>
+                    <div th:with="soilTakeProvinceTable=${soilStorageAnalysis?.soilTakeProvinceTable}">
+                        <div class="manage-child-title margin-28">分布地区</div>
+                        <div th:with="dataIsEmpty=${#strings.isEmpty(soilTakeProvinceTable?.svg)}">
+                            <div class="standard-svg margin-12" th:if="${not dataIsEmpty}"
+                                 th:utext="${soilTakeProvinceTable?.svg}">
+                                <!--                        <svg height="322pt" width="720pt">-->
+                                <!--                            <circle cx="100" cy="50" fill="red" r="40" stroke="black" stroke-width="2"/>-->
+                                <!--                        </svg>-->
+                            </div>
+                            <div class="empty"
+                                 th:replace="~{empty_Component :: empty_Component(dataIsEmpty=${dataIsEmpty})}">
+                                empty_Component :: empty_Component空空
+                            </div>
+                        </div>
+                    </div>
+                    <div th:with="list=${soilStorageAnalysis?.soilTakeType}">
+                        <div class="manage-child-title margin-28">地区明细</div>
+                        <div class="total">共<span class="total_num" th:text="${list?.size()?:'0'}">0</span>条</div>
+                        <table class="table27 margin-22">
+                            <tr>
+                                <td class="th text-left">地区</td>
+                                <td class="th">拿地宗数</td>
+                                <td class="th">规划建筑面积（㎡）</td>
+                                <td class="th">权益规划建筑面积（㎡）</td>
+                            </tr>
+                            <tr th:each="i : ${list}">
+                                <td class="text-left"
+                                    th:text="|${i.province ?: '--'}-${i.city ?: '--'}-${i.area ?: '--'}|">浙江省-杭州市-滨江区
+                                </td>
+                                <td th:text="${i.getTotalCount() ?: '--'}">92,546.89</td>
+                                <td th:text="${i.getTotalPlanningBuildingArea() ?: '--'}">70.25</td>
+                                <td th:text="${i.getTotalSharePlanningArea() ?: '--'}">92,546.89</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

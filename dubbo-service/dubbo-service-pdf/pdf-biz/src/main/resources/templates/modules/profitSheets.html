@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>profitSheets</title>
+    <link href="../css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/table.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+
+<div th:fragment="profitSheets(dataTable)">
+    <th:block
+            th:with="dataType=${dataTable.properties['dataType']},titleList=${dataTable.titleList},dataList=${dataTable.dataList}">
+        <div th:if="${1 == dataType}">
+            <table th:replace="modules/prefit_third_A_shares.html :: thirdAShares"></table>
+        </div>
+        <!-- excel港股 -->
+        <div th:if="${0 == dataType}">
+            <table th:replace="modules/prefit_excel_HK_shares.html :: excelHKShares"></table>
+        </div>
+        <!-- excelA股 -->
+        <div th:if="${2 == dataType}">
+            <table th:replace="modules/prefit_excel_A_shares.html :: excelAShares"></table>
+        </div>
+        <div th:if="${3 == dataType}">
+            <table th:replace="modules/prefit_wd_HK_shares.html :: wdHKShares"></table>
+        </div>
+        <div th:if="${4 == dataType}">
+            <table th:replace="modules/prefit_wd_A_shares.html :: wdAShares"></table>
+        </div>
+    </th:block>
+</div>
+
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.liyz.dubbo.api.admin.vo.test;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.liyz.dubbo.common.desensitize.annotation.Desensitization;
 import com.liyz.dubbo.common.desensitize.enums.DesensitizationType;
 import io.swagger.annotations.ApiModelProperty;
@@ -22,6 +23,7 @@ import java.util.Date;
 public class TestVO implements Serializable {
     private static final long serialVersionUID = -8814136605692691847L;
 
+    @JsonPropertyDescription("1111")
     @ApiModelProperty(value = "名字")
     @Desensitization(value = DesensitizationType.REAL_NAME)
     private String name;
@@ -29,4 +31,7 @@ public class TestVO implements Serializable {
     @ApiModelProperty(value = "时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date time;
+
+//    @JsonProperty("iName")
+    private String aName;
 }

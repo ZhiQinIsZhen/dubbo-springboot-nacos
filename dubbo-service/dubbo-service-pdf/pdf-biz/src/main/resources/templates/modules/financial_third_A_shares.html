@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>financial_third_A_shares</title>
+    <link href="../css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/table.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!--资产负债表-三方获取的A股-->
+<!--第三方获取的（A股）资产负债表数据-->
+<table class="table4 margin-24" th:fragment="thirdAshares">
+    <tr>
+        <td class="th text-left">报告期</td>
+        <td class="th text-left" th:text="${titleList[0]}">2018</td>
+        <td class="th text-left" th:text="${titleList[1]}">2019</td>
+        <td class="th text-left" th:text="${titleList[2]}">2020</td>
+        <td class="th text-left" th:text="${titleList[3]}">2021</td>
+    </tr>
+    <tr class="row">
+        <td class="th font-bold font-14" colspan="5">流动资产</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">货币资金</td>
+        <td class="text-left" th:text="${dataList[0]?.currencyFunds ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.currencyFunds ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.currencyFunds ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.currencyFunds ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">以公允价值计量且其变动计入当期损益的金融资产</td>
+        <td class="text-left" th:text="${dataList[0]?.specifiedFnnclAssetsAtFv ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.specifiedFnnclAssetsAtFv ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.specifiedFnnclAssetsAtFv ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.specifiedFnnclAssetsAtFv ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">其中：交易性金融资产</td>
+        <td class="text-left" th:text="${dataList[0]?.tradableFnnclAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.tradableFnnclAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.tradableFnnclAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.tradableFnnclAssets ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">应收票据</td>
+        <td class="text-left" th:text="${dataList[0]?.billsReceivable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.billsReceivable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.billsReceivable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.billsReceivable ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">应收账款</td>
+        <td class="text-left" th:text="${dataList[0]?.accountReceivable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.accountReceivable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.accountReceivable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.accountReceivable ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">预付款项</td>
+        <td class="text-left" th:text="${dataList[0]?.prePayment ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.prePayment ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.prePayment ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.prePayment ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">其他应收款</td>
+        <td class="text-left" th:text="${dataList[0]?.othrReceivables ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.othrReceivables ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.othrReceivables ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.othrReceivables ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">存货</td>
+        <td class="text-left" th:text="${dataList[0]?.inventory ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.inventory ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.inventory ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.inventory ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">其他流动资产</td>
+        <td class="text-left" th:text="${dataList[0]?.othrCurrentAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.othrCurrentAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.othrCurrentAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.othrCurrentAssets ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">流动资产合计</td>
+        <td class="text-left" th:text="${dataList[0]?.totalCurrentAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.totalCurrentAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.totalCurrentAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.totalCurrentAssets ?: '--'}">-</td>
+    </tr>
+    <tr class="row">
+        <td class="th font-bold font-14" colspan="5">非流动资产</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">可供出售金融资产字段</td>
+        <td class="text-left" th:text="${dataList[0]?.salableFinancialAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.salableFinancialAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.salableFinancialAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.salableFinancialAssets ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">长期股权投资</td>
+        <td class="text-left" th:text="${dataList[0]?.ltEquityInvest ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.ltEquityInvest ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.ltEquityInvest ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.ltEquityInvest ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">投资性房地产</td>
+        <td class="text-left" th:text="${dataList[0]?.investProperty ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.investProperty ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.investProperty ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.investProperty ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">固定资产</td>
+        <td class="text-left" th:text="${dataList[0]?.fixedAsset ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.fixedAsset ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.fixedAsset ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.fixedAsset ?: '--'}">-</td>
+    </tr>
+    <!--v1.4.1新增的-->
+    <tr>
+        <td class="th text-left nd-td">在建工程</td>
+        <td class="text-left" th:text="${dataList[0]?.constructionInProcess ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.constructionInProcess ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.constructionInProcess ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.constructionInProcess ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">无形资产</td>
+        <td class="text-left" th:text="${dataList[0]?.intangibleAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.intangibleAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.intangibleAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.intangibleAssets ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">商誉</td>
+        <td class="text-left" th:text="${dataList[0]?.goodwill ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.goodwill ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.goodwill ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.goodwill ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">长期待摊费用</td>
+        <td class="text-left" th:text="${dataList[0]?.ltDeferredExpense ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.ltDeferredExpense ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.ltDeferredExpense ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.ltDeferredExpense ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">递延所得税资产</td>
+        <td class="text-left" th:text="${dataList[0]?.dtAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.dtAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.dtAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.dtAssets ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">其他非流动资产</td>
+        <td class="text-left" th:text="${dataList[0]?.othrNoncurrentAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.othrNoncurrentAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.othrNoncurrentAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.othrNoncurrentAssets ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">非流动资产合计</td>
+        <td class="text-left" th:text="${dataList[0]?.totalNoncurrentAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.totalNoncurrentAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.totalNoncurrentAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.totalNoncurrentAssets ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">资产总计</td>
+        <td class="text-left" th:text="${dataList[0]?.totalAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.totalAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.totalAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.totalAssets ?: '--'}">-</td>
+    </tr>
+    <tr class="row">
+        <td class="th font-bold font-14" colspan="5">流动负债</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">短期借款</td>
+        <td class="text-left" th:text="${dataList[0]?.stLoan ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.stLoan ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.stLoan ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.stLoan ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">应付票据</td>
+        <td class="text-left" th:text="${dataList[0]?.billPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.billPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.billPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.billPayable ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">应付账款</td>
+        <td class="text-left" th:text="${dataList[0]?.accountsPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.accountsPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.accountsPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.accountsPayable ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">预收款项</td>
+        <td class="text-left" th:text="${dataList[0]?.preReceivable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.preReceivable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.preReceivable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.preReceivable ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">应付职工薪酬</td>
+        <td class="text-left" th:text="${dataList[0]?.payrollPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.payrollPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.payrollPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.payrollPayable ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">应交税费</td>
+        <td class="text-left" th:text="${dataList[0]?.taxPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.taxPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.taxPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.taxPayable ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">应付利息</td>
+        <td class="text-left" th:text="${dataList[0]?.interestPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.interestPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.interestPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.interestPayable ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">应付股利</td>
+        <td class="text-left" th:text="${dataList[0]?.dividendPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.dividendPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.dividendPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.dividendPayable ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">其他应付款</td>
+        <td class="text-left" th:text="${dataList[0]?.othrPayables ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.othrPayables ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.othrPayables ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.othrPayables ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">一年内到期的非流动负债</td>
+        <td class="text-left" th:text="${dataList[0]?.noncurrentLiabDueIn1y ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.noncurrentLiabDueIn1y ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.noncurrentLiabDueIn1y ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.noncurrentLiabDueIn1y ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">其他流动负债</td>
+        <td class="text-left" th:text="${dataList[0]?.othrCurrentLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.othrCurrentLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.othrCurrentLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.othrCurrentLiab ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">流动负债合计</td>
+        <td class="text-left" th:text="${dataList[0]?.totalCurrentLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.totalCurrentLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.totalCurrentLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.totalCurrentLiab ?: '--'}">-</td>
+    </tr>
+    <tr class="row">
+        <td class="th font-bold font-14" colspan="5">非流动负债</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">长期借款</td>
+        <td class="text-left" th:text="${dataList[0]?.ltLoan ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.ltLoan ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.ltLoan ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.ltLoan ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">应付债券</td>
+        <td class="text-left" th:text="${dataList[0]?.bondPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.bondPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.bondPayable ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.bondPayable ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">预计负债</td>
+        <td class="text-left" th:text="${dataList[0]?.estimatedLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.estimatedLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.estimatedLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.estimatedLiab ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">递延所得税负债</td>
+        <td class="text-left" th:text="${dataList[0]?.dtLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.dtLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.dtLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.dtLiab ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">其他非流动负债</td>
+        <td class="text-left" th:text="${dataList[0]?.othrNonCurrentLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.othrNonCurrentLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.othrNonCurrentLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.othrNonCurrentLiab ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">非流动负债合计</td>
+        <td class="text-left" th:text="${dataList[0]?.totalNoncurrentLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.totalNoncurrentLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.totalNoncurrentLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.totalNoncurrentLiab ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">负债合计</td>
+        <td class="text-left" th:text="${dataList[0]?.totalLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.totalLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.totalLiab ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.totalLiab ?: '--'}">-</td>
+    </tr>
+    <tr class="row">
+        <td class="th font-bold font-14" colspan="5">所有者权益（或股东权益）</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">实收资本（或股本）</td>
+        <td class="text-left" th:text="${dataList[0]?.shares ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.shares ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.shares ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.shares ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">资本公积</td>
+        <td class="text-left" th:text="${dataList[0]?.capitalReserve ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.capitalReserve ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.capitalReserve ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.capitalReserve ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">盈余公积</td>
+        <td class="text-left" th:text="${dataList[0]?.earnedSurplus ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.earnedSurplus ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.earnedSurplus ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.earnedSurplus ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">未分配利润</td>
+        <td class="text-left" th:text="${dataList[0]?.undstrbtdProfit ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.undstrbtdProfit ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.undstrbtdProfit ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.undstrbtdProfit ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">归属于母公司股东权益合计</td>
+        <td class="text-left" th:text="${dataList[0]?.totalQuityAtsopc ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.totalQuityAtsopc ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.totalQuityAtsopc ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.totalQuityAtsopc ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">少数股东权益</td>
+        <td class="text-left" th:text="${dataList[0]?.minorityEquity ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.minorityEquity ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.minorityEquity ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.minorityEquity ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">股东权益合计</td>
+        <td class="text-left" th:text="${dataList[0]?.totalHoldersEquity ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.totalHoldersEquity ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.totalHoldersEquity ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.totalHoldersEquity ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">负债和股东权益合计</td>
+        <td class="text-left" th:text="${dataList[0]?.totalLiabAndHoldersEquity ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.totalLiabAndHoldersEquity ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.totalLiabAndHoldersEquity ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.totalLiabAndHoldersEquity ?: '--'}">-</td>
+    </tr>
+</table>
+
+</body>
+</html>

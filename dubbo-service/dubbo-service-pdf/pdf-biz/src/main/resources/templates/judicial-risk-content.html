@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>judicial-risk-content</title>
+    <link href="./css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/table.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/quill.core.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="detail">
+    <!-- 工商信息 -->
+    <div class="judicial-risk-content" th:fragment="judicialRisk(dataVo,myToc)">
+        <div th:replace="~{headline :: headline(toc=${myToc},riskMark=0)}">
+            <div class="content-title">
+                DD司法风险
+            </div>
+        </div>
+        <!-- 法律诉讼 -->
+        <div th:with="lrLawSuitToc=${myToc.access.getFirstChild()}">
+            <div th:replace="~{headline :: headline(toc=${lrLawSuitToc},riskMark=0)}">
+                <div class="detail-title margin-22">
+                    <img src="./image/common/01.png"/>
+                    <div class="title" th:id="${lrLawSuitToc.dest}" th:text="${lrLawSuitToc.getName()}">DD法律诉讼</div>
+                </div>
+            </div>
+            <div class="margin-22"
+                 th:replace="~{some-risks_Component::lawSuitList(dataIsEmpty=${#lists.isEmpty(dataVo?.lawSuitList)},list=${dataVo?.lawSuitList})}">
+                some-risks_Component::lawSuitList法律诉讼
+            </div>
+        </div>
+        <!-- 开庭报告 -->
+        <div th:with="lrKtannouncementToc=${myToc.access.getNext()}">
+            <div th:replace="~{headline :: headline(toc=${lrKtannouncementToc},riskMark=0)}">
+                <div class="detail-title margin-24">
+                    <img src="./image/common/02.png"/>
+                    <div class="title" th:id="${lrKtannouncementToc.dest}" th:text="${lrKtannouncementToc.getName()}">
+                        DD开庭报告
+                    </div>
+                </div>
+            </div>
+            <div class="margin-22"
+                 th:replace="~{some-risks_Component::ktannouncementList(dataIsEmpty=${#lists.isEmpty(dataVo?.ktannouncementList)},list=${dataVo?.ktannouncementList})}">
+                some-risks_Component::ktannouncementList开庭报告
+            </div>
+        </div>
+        <!-- 被执行人 -->
+        <div th:with="lrZhixinginfoToc=${myToc.access.getNext()}">
+            <div th:replace="~{headline :: headline(toc=${lrZhixinginfoToc},riskMark=${ctx?.riskCheckZhixingin()})}">
+                <div class="detail-title margin-24">
+                    <img src="./image/common/03.png"/>
+                    <div class="title" th:id="${lrZhixinginfoToc.dest}" th:text="${lrZhixinginfoToc.getName()}">DD被执行人
+                    </div>
+                </div>
+            </div>
+            <div class="margin-22"
+                 th:replace="~{some-risks_Component::zhixinginfoList(dataIsEmpty=${#lists.isEmpty(dataVo?.zhixinginfoList)},list=${dataVo?.zhixinginfoList})}">
+                some-risks_Component::zhixinginfoList被执行人
+            </div>
+        </div>
+        <!-- 失信 -->
+        <div th:with="lrDishonestToc=${myToc.access.getNext()}">
+            <div th:replace="~{headline :: headline(toc=${lrDishonestToc},riskMark=${ctx?.riskCheckDishonest()})}">
+                <div class="detail-title margin-24">
+                    <img src="./image/common/04.png"/>
+                    <div class="title" th:id="${lrDishonestToc.dest}" th:text="${lrDishonestToc.getName()}">
+                        DD失信
+                    </div>
+                </div>
+            </div>
+            <div class="margin-22"
+                 th:replace="~{some-risks_Component::dishonestList(dataIsEmpty=${#lists.isEmpty(dataVo?.dishonestList)},list=${dataVo?.dishonestList})}">
+                some-risks_Component::dishonestList失信
+            </div>
+        </div>
+        <!-- 限制消费 -->
+        <div th:with="lrConsumptionRestrictionToc=${myToc.access.getNext()}">
+            <div th:replace="~{headline :: headline(toc=${lrConsumptionRestrictionToc},riskMark=${ctx?.riskCheckRestriction()})}">
+                <div class="detail-title margin-24">
+                    <img src="./image/common/05.png"/>
+                    <div class="title" th:id="${lrConsumptionRestrictionToc.dest}"
+                         th:text="${lrConsumptionRestrictionToc.getName()}">
+                        DD限制消费
+                    </div>
+                </div>
+            </div>
+            <div class="margin-22"
+                 th:replace="~{some-risks_Component::consumptionRestrictionList(dataIsEmpty=${#lists.isEmpty(dataVo?.consumptionRestrictionList)},list=${dataVo?.consumptionRestrictionList})}">
+                some-risks_Component::consumptionRestrictionList限制消费
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

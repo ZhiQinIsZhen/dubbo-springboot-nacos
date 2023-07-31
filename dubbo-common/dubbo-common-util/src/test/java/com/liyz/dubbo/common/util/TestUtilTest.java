@@ -70,4 +70,9 @@ public class TestUtilTest {
         log.info("{}", Integer.TYPE.isPrimitive());
         log.info("{}", Double.TYPE.isPrimitive());
     }
+
+    @Test
+    public void test3() {
+
+    }
 }

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>cashFlow_wd_HK_shares</title>
+    <link href="../css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/table.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<table class="table4 margin-24" th:fragment="wdHKShares">
+    <tr>
+        <td class="th text-left">报告期</td>
+        <td class="th text-left"
+            th:text="|${titleList[0]}${T(com.liyz.dubbo.service.pdf.utils.FinanceTypeConvertUtils).Type2Chinese(dataList[0]?.type)}|">
+            2022-09-30
+        </td>
+        <td class="th text-left"
+            th:text="|${titleList[1]}${T(com.liyz.dubbo.service.pdf.utils.FinanceTypeConvertUtils).Type2Chinese(dataList[1]?.type)}|">
+            2021-11-23
+        </td>
+        <td class="th text-left"
+            th:text="|${titleList[2]}${T(com.liyz.dubbo.service.pdf.utils.FinanceTypeConvertUtils).Type2Chinese(dataList[2]?.type)}|">
+            2020-12-11
+        </td>
+        <td class="th text-left"
+            th:text="|${titleList[3]}${T(com.liyz.dubbo.service.pdf.utils.FinanceTypeConvertUtils).Type2Chinese(dataList[3]?.type)}|">
+            2023-10-21
+        </td>
+    </tr>
+    <!--    <tr>-->
+    <!--        <td class="th text-left">报告类型</td>-->
+    <!--        <td class="text-left"-->
+    <!--            th:text="${T(com.liyz.dubbo.service.pdf.utils.FinanceTypeConvertUtils).Type2Chinese(dataList[0]?.type)}">年报-->
+    <!--        </td>-->
+    <!--        <td class="text-left"-->
+    <!--            th:text="${T(com.liyz.dubbo.service.pdf.utils.FinanceTypeConvertUtils).Type2Chinese(dataList[1]?.type)}">中报-->
+    <!--        </td>-->
+    <!--        <td class="text-left"-->
+    <!--            th:text="${T(com.liyz.dubbo.service.pdf.utils.FinanceTypeConvertUtils).Type2Chinese(dataList[2]?.type)}">一季度-->
+    <!--        </td>-->
+    <!--        <td class="text-left"-->
+    <!--            th:text="${T(com.liyz.dubbo.service.pdf.utils.FinanceTypeConvertUtils).Type2Chinese(dataList[3]?.type)}">三季度-->
+    <!--        </td>-->
+    <!--    </tr>-->
+    <!--    <tr>-->
+    <!--        <td class="th text-left">报表类型</td>-->
+    <!--        <td class="text-left">合并报表</td>-->
+    <!--        <td class="text-left">合并报表</td>-->
+    <!--        <td class="text-left">合并报表</td>-->
+    <!--        <td class="text-left">合并报表</td>-->
+    <!--    </tr>-->
+    <tr>
+        <td class="th text-left font-bold font-14" colspan="5">将净利润调整为经营活动的现金流量：</td>
+    </tr>
+    <tr>
+        <td class="th text-left">净利润</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdNetInc ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdNetInc ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdNetInc ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdNetInc ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">加：折旧与摊销</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdDepExpCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdDepExpCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdDepExpCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdDepExpCf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">营运资本变动</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdWkcapChg ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdWkcapChg ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdWkcapChg ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdWkcapChg ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">其他非现金调整</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdNonCashChg ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdNonCashChg ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdNonCashChg ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdNonCashChg ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">经营活动产生的现金流量净额</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdOperCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdOperCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdOperCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdOperCf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left font-bold font-14" colspan="5">投资活动：</td>
+    </tr>
+    <tr>
+        <td class="th text-left">出售固定资产收到的现金</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdAssetsBusCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdAssetsBusCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdAssetsBusCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdAssetsBusCf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">减：资本性支出</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdCapexFf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdCapexFf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdCapexFf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdCapexFf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">投资减少</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdInvestSaleCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdInvestSaleCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdInvestSaleCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdInvestSaleCf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">减：投资增加</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdInvestPurchCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdInvestPurchCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdInvestPurchCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdInvestPurchCf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">其他投资活动产生的现金流量净额</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdInvestOthCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdInvestOthCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdInvestOthCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdInvestOthCf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">投资活动产生的现金流量净额</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdInvestCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdInvestCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdInvestCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdInvestCf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left font-bold font-14" colspan="5">筹资活动：</td>
+    </tr>
+    <tr>
+        <td class="th text-left">债务增加</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdDebtIssCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdDebtIssCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdDebtIssCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdDebtIssCf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">减：债务减少</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdDebtReductCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdDebtReductCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdDebtReductCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdDebtReductCf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">股本增加</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdStkPurchCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdStkPurchCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdStkPurchCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdStkPurchCf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">减：股本减少</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdStkSaleCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdStkSaleCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdStkSaleCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdStkSaleCf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">支付的股利合计</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdDivCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdDivCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdDivCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdDivCf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">其他筹资活动产生的现金流量净额</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdFinOthCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdFinOthCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdFinOthCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdFinOthCf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">筹资活动产生的现金流量净额</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdFinCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdFinCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdFinCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdFinCf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left font-bold font-14" colspan="5">现金净流量：</td>
+    </tr>
+    <tr>
+        <td class="th text-left">汇率变动影响</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdForExchCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdForExchCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdForExchCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdForExchCf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">其他现金流量调整</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdCashBalChgCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdCashBalChgCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdCashBalChgCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdCashBalChgCf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">现金及现金等价物净增加额</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdChgCashCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdChgCashCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdChgCashCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdChgCashCf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">现金及现金等价物期初余额</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdCashBegBalCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdCashBegBalCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdCashBegBalCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdCashBegBalCf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">现金及现金等价物期末余额</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdCashEndBalCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdCashEndBalCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdCashEndBalCf ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdCashEndBalCf ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">区间起始日</td>
+        <td class="text-left" th:text="${dataList[0]?.stmRptS ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.stmRptS ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.stmRptS ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.stmRptS ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">区间截止日</td>
+        <td class="text-left" th:text="${dataList[0]?.stmRptE ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.stmRptE ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.stmRptE ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.stmRptE ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">公告日期</td>
+        <td class="text-left" th:text="${dataList[0]?.stmIssuingdate ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.stmIssuingdate ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.stmIssuingdate ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.stmIssuingdate ?: '--'}">--</td>
+    </tr>
+</table>
+</body>

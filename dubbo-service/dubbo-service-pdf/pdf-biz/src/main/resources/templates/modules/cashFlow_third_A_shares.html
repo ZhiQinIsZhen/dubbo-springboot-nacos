@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>cashFlow_third_A_shares</title>
+    <link href="../css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/table.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!--现金流量表-三方-A股-->
+<table class="table4 margin-24" th:fragment="thirdAShares">
+    <tr>
+        <td class="th text-left">报告期</td>
+        <td class="th text-left" th:text="${titleList[0]}">2018</td>
+        <td class="th text-left" th:text="${titleList[1]}">2019</td>
+        <td class="th text-left" th:text="${titleList[2]}">2020</td>
+        <td class="th text-left" th:text="${titleList[3]}">2021</td>
+    </tr>
+    <tr class="row">
+        <td class="th font-bold font-14" colspan="5">经营活动产生的现金流量</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">销售商品、提供劳务收到的现金</td>
+        <td class="text-left" th:text="${dataList[0]?.cashReceivedOfSalesService ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.cashReceivedOfSalesService ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.cashReceivedOfSalesService ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.cashReceivedOfSalesService ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">收到其他与经营活动有关的现金</td>
+        <td class="text-left" th:text="${dataList[0]?.cashReceivedOfOtherFa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.cashReceivedOfOtherFa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.cashReceivedOfOtherFa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.cashReceivedOfOtherFa ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">经营活动现金流入小计</td>
+        <td class="text-left" th:text="${dataList[0]?.subTotalOfCiFromOa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.subTotalOfCiFromOa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.subTotalOfCiFromOa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.subTotalOfCiFromOa ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">购买商品、接受劳务支付的现金</td>
+        <td class="text-left" th:text="${dataList[0]?.goodsBuyAndServiceCashPay ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.goodsBuyAndServiceCashPay ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.goodsBuyAndServiceCashPay ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.goodsBuyAndServiceCashPay ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">支付给职工以及为职工支付的现金</td>
+        <td class="text-left" th:text="${dataList[0]?.cashPaidToStaffEtc ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.cashPaidToStaffEtc ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.cashPaidToStaffEtc ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.cashPaidToStaffEtc ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">支付的各项税费</td>
+        <td class="text-left" th:text="${dataList[0]?.paymentsOfAllTaxes ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.paymentsOfAllTaxes ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.paymentsOfAllTaxes ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.paymentsOfAllTaxes ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">支付其他与经营活动有关的现金</td>
+        <td class="text-left" th:text="${dataList[0]?.otherCashPaidRelatedToOa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.otherCashPaidRelatedToOa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.otherCashPaidRelatedToOa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.otherCashPaidRelatedToOa ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">经营活动现金流出小计</td>
+        <td class="text-left" th:text="${dataList[0]?.subTotalOfCosFromOa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.subTotalOfCosFromOa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.subTotalOfCosFromOa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.subTotalOfCosFromOa ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">经营活动产生的现金流量净额</td>
+        <td class="text-left" th:text="${dataList[0]?.ncfFromOa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.ncfFromOa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.ncfFromOa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.ncfFromOa ?: '--'}">-</td>
+    </tr>
+    <tr class="row">
+        <td class="th font-bold font-14" colspan="5">投资活动产生的现金流量</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">收回投资收到的现金</td>
+        <td class="text-left" th:text="${dataList[0]?.cashReceivedOfDspslInvest ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.cashReceivedOfDspslInvest ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.cashReceivedOfDspslInvest ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.cashReceivedOfDspslInvest ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">取得投资收益收到的现金</td>
+        <td class="text-left" th:text="${dataList[0]?.investIncomeCashReceived ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.investIncomeCashReceived ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.investIncomeCashReceived ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.investIncomeCashReceived ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">处置固定资产、无形资产和其他长期资产收回的现金净额</td>
+        <td class="text-left" th:text="${dataList[0]?.netCashOfDisposalAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.netCashOfDisposalAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.netCashOfDisposalAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.netCashOfDisposalAssets ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">处置子公司及其他营业单位收到的现金净额</td>
+        <td class="text-left" th:text="${dataList[0]?.netCashOfDisposalBranch ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.netCashOfDisposalBranch ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.netCashOfDisposalBranch ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.netCashOfDisposalBranch ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">收到其他与投资活动有关的现金</td>
+        <td class="text-left" th:text="${dataList[0]?.cashReceivedOfOtherIa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.cashReceivedOfOtherIa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.cashReceivedOfOtherIa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.cashReceivedOfOtherIa ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">投资活动现金流入小计</td>
+        <td class="text-left" th:text="${dataList[0]?.subTotalOfCiFromIa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.subTotalOfCiFromIa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.subTotalOfCiFromIa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.subTotalOfCiFromIa ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">购建固定资产、无形资产和其他长期资产支付的现金</td>
+        <td class="text-left" th:text="${dataList[0]?.cashPaidForAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.cashPaidForAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.cashPaidForAssets ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.cashPaidForAssets ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">投资支付的现金</td>
+        <td class="text-left" th:text="${dataList[0]?.investPaidCash ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.investPaidCash ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.investPaidCash ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.investPaidCash ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">取得子公司及其他营业单位支付的现金净额</td>
+        <td class="text-left" th:text="${dataList[0]?.netCashAmtFromBranch ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.netCashAmtFromBranch ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.netCashAmtFromBranch ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.netCashAmtFromBranch ?: '--'}">-</td>
+    </tr>
+    <!--        <tr>-->
+    <!--            <td class="th text-left nd-td">支付其他与投资活动有关的现金</td>-->
+    <!--            <td class="text-left" th:text="${dataList[0]?.otherCashPaidRelatingToFa ?: '&#45;&#45;'}">-</td>-->
+    <!--            <td class="text-left" th:text="${dataList[1]?.otherCashPaidRelatingToFa ?: '&#45;&#45;'}">-</td>-->
+    <!--            <td class="text-left" th:text="${dataList[2]?.otherCashPaidRelatingToFa ?: '&#45;&#45;'}">-</td>-->
+    <!--            <td class="text-left" th:text="${dataList[3]?.otherCashPaidRelatingToFa ?: '&#45;&#45;'}">-</td>-->
+    <!--        </tr>-->
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">投资活动现金流出小计</td>
+        <td class="text-left" th:text="${dataList[0]?.subTotalOfCosFromIa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.subTotalOfCosFromIa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.subTotalOfCosFromIa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.subTotalOfCosFromIa ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">投资活动产生的现金流量净额</td>
+        <td class="text-left" th:text="${dataList[0]?.ncfFromIa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.ncfFromIa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.ncfFromIa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.ncfFromIa ?: '--'}">-</td>
+    </tr>
+    <tr class="row">
+        <td class="th font-bold font-14" colspan="5">筹资活动产生的现金流量</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-14">吸收投资收到的现金</td>
+        <td class="text-left" th:text="${dataList[0]?.cashReceivedOfAbsorbInvest ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.cashReceivedOfAbsorbInvest ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.cashReceivedOfAbsorbInvest ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.cashReceivedOfAbsorbInvest ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-14">子公司吸收少数股东投资收到的现金</td>
+        <td class="text-left" th:text="${dataList[0]?.cashReceivedFromInvestor ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.cashReceivedFromInvestor ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.cashReceivedFromInvestor ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.cashReceivedFromInvestor ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-14">取得借款收到的现金</td>
+        <td class="text-left" th:text="${dataList[0]?.cashReceivedOfBorrowing ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.cashReceivedOfBorrowing ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.cashReceivedOfBorrowing ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.cashReceivedOfBorrowing ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-14">发行债券收到的现金</td>
+        <td class="text-left" th:text="${dataList[0]?.cashReceivedFromBondIssue ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.cashReceivedFromBondIssue ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.cashReceivedFromBondIssue ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.cashReceivedFromBondIssue ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-14">收到其他与筹资活动有关的现金</td>
+        <td class="text-left" th:text="${dataList[0]?.cashReceivedOfOthrFa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.cashReceivedOfOthrFa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.cashReceivedOfOthrFa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.cashReceivedOfOthrFa ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-14">筹资活动现金流入小计</td>
+        <td class="text-left" th:text="${dataList[0]?.subTotalOfCiFromFa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.subTotalOfCiFromFa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.subTotalOfCiFromFa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.subTotalOfCiFromFa ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">偿还债务支付的现金</td>
+        <td class="text-left" th:text="${dataList[0]?.cashPayForDebt ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.cashPayForDebt ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.cashPayForDebt ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.cashPayForDebt ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">分配股利、利润或偿付利息支付的现金</td>
+        <td class="text-left" th:text="${dataList[0]?.cashPaidOfDistribution ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.cashPaidOfDistribution ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.cashPaidOfDistribution ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.cashPaidOfDistribution ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">子公司支付给少数股东的股利、利润</td>
+        <td class="text-left" th:text="${dataList[0]?.branchPaidToMinorityHolder ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.branchPaidToMinorityHolder ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.branchPaidToMinorityHolder ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.branchPaidToMinorityHolder ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">支付其他与筹资活动有关的现金</td>
+        <td class="text-left" th:text="${dataList[0]?.otherCashPaidRelatingToFa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.otherCashPaidRelatingToFa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.otherCashPaidRelatingToFa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.otherCashPaidRelatingToFa ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-14">筹资活动现金流出小计</td>
+        <td class="text-left" th:text="${dataList[0]?.subTotalOfCosFromFa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.subTotalOfCosFromFa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.subTotalOfCosFromFa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.subTotalOfCosFromFa ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-14">筹资活动产生的现金流量净额</td>
+        <td class="text-left" th:text="${dataList[0]?.ncfFromFa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.ncfFromFa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.ncfFromFa ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.ncfFromFa ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">汇率变动对现金及现金等价物的影响</td>
+        <td class="text-left" th:text="${dataList[0]?.effectOfExchangeChgOnCce ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.effectOfExchangeChgOnCce ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.effectOfExchangeChgOnCce ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.effectOfExchangeChgOnCce ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">现金及现金等价物净增加额</td>
+        <td class="text-left" th:text="${dataList[0]?.netIncreaseInCce ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.netIncreaseInCce ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.netIncreaseInCce ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.netIncreaseInCce ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left nd-td">加：期初现金及现金等价物余额</td>
+        <td class="text-left" th:text="${dataList[0]?.initialBalanceOfCce ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.initialBalanceOfCce ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.initialBalanceOfCce ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.initialBalanceOfCce ?: '--'}">-</td>
+    </tr>
+    <tr>
+        <td class="th text-left color-blue font-bold font-14">期末现金及现金等价物余额</td>
+        <td class="text-left" th:text="${dataList[0]?.finalBalanceOfCce ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[1]?.finalBalanceOfCce ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[2]?.finalBalanceOfCce ?: '--'}">-</td>
+        <td class="text-left" th:text="${dataList[3]?.finalBalanceOfCce ?: '--'}">-</td>
+    </tr>
+</table>
+</body>
+</html>

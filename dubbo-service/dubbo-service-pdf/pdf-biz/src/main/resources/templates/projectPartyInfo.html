@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>projectPartyInfo</title>
+    <link href="./css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/table.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/quill.core.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="detail">
+    <!-- 基本信息 -->
+    <div class="base-project-party-content" th:fragment="projectPartyInfo(processId,token)"
+         th:with="dataVo=${ctx.projectPartyInfo},projectPartyInfoToc=${toc.projectPartyInfo}">
+        <div th:replace="~{headline :: headline(toc=${projectPartyInfoToc},riskMark=0)}">
+            <div class="content-title" th:id="${projectPartyInfoToc.dest}" th:text="${projectPartyInfoToc.getName()}">
+                DD项目方信息
+            </div>
+        </div>
+        <!-- 项目方基本信息 -->
+        <div class="base-info01" th:with="thisToc=${projectPartyInfoToc.access.getFirstChild()}">
+            <div th:replace="~{headline :: headline(toc=${thisToc},riskMark=0)}">
+                <div class="detail-title">
+                    <img src="./image/common/01.png"/>
+                    <div class="title" th:id="${thisToc.dest}" th:text="${thisToc.getName()}">DD基本信息</div>
+                </div>
+            </div>
+            <div class="margin-top22"
+                 th:replace="~{baseInfo_Component :: baseInfo_Component(dataStructure=${dataVo?.basic})}">
+                baseInfo_Component基本信息
+            </div>
+        </div>
+        <!-- 企业股权结构 -->
+        <div class="base-info02"
+             th:replace="~{equity-structure_Compoent :: equity-structure_Compoent(shareholdingStructure=${dataVo?.shareholdingStructure},thisToc=${projectPartyInfoToc.access.getNext()})}">
+            equity-structure_Componet企业股权结构
+        </div>
+        <!-- 项目方关联信息 -->
+        <div class="base-info03"
+             th:replace="~{associated-information_Component :: associated-information_Component(associationInformationStructure=${dataVo?.associationInformationStructure},thisToc=${projectPartyInfoToc.access.getNext()},processId=${processId},token=${token})}">
+            associated-information_Component项目方关联信息
+        </div>
+        <!-- 参保人数 -->
+        <div class="base-info04"
+             th:replace="~{insured_Component :: insured_Component(socialStaffInfoStructure=${dataVo?.socialStaffInfoStructure},thisToc=${projectPartyInfoToc.access.getNext()})}">
+            insured_Component参保人数
+        </div>
+    </div>
+</div>
+</body>
+</html>

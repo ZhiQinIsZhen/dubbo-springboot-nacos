@@ -34,7 +34,6 @@ public abstract class AbstractLimitService implements LimitService {
     }
 
     @Override
-    @SuppressWarnings("UnstableApiUsage")
     public boolean limit(Limit limit) {
         HttpServletRequest httpServletRequest = this.getRequest();
         String mapping = httpServletRequest.getServletPath();
@@ -43,13 +42,13 @@ public abstract class AbstractLimitService implements LimitService {
             log.info("mapping : {}, LimitType : {}, name : {}, 无对应包装Limit", mapping, limit.type().name(), limit.type().getDesc());
             return false;
         }
-        Long totalCount;
+        long totalCount;
         if ((totalCount = getTotalCount(limitAware)) <= 0) {
             throw new LimitException(LimitExceptionCodeEnum.LIMIT_REQUEST);
         }
         try {
             LimitContext.setCount(totalCount);
-            return LimitContext.tryAcquire(getKey(limitAware));
+            return !LimitContext.tryAcquire(getKey(limitAware));
         } finally {
             LimitContext.removeCount();
         }

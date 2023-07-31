@@ -3,8 +3,10 @@ package com.liyz.dubbo.common.util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Objects;
 
@@ -34,6 +36,14 @@ public class JsonMapperUtil {
             return null;
         }
         return OBJECT_MAPPER.readValue(content, clazz);
+    }
+
+    @SneakyThrows
+    public static <T> T readValue(InputStream inputStream, Class<T> clazz) {
+        if (ObjectUtils.anyNull(inputStream, clazz)) {
+            return null;
+        }
+        return OBJECT_MAPPER.readValue(inputStream, clazz);
     }
 
     @SneakyThrows
