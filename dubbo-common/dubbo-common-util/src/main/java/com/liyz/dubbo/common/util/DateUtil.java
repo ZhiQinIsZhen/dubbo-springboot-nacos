@@ -38,6 +38,7 @@ public class DateUtil {
     public static final String PATTERN_DATE = "yyyy-MM-dd";
     public static final String PATTERN_DATE_TIME = "yyyy-MM-dd HH:mm:ss";
     public static final String PATTERN_DATE_1 = "yyyy/MM/dd";
+    public static final String TIME_ZONE_GMT8 = "GMT+8";
 
     /**
      * 获取目标日期的时间戳

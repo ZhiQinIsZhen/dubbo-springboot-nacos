@@ -1,14 +1,25 @@
 package com.liyz.dubbo.common.util;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.liyz.dubbo.common.util.serializer.DoubleSerializer;
+import com.liyz.dubbo.common.util.serializer.LyzBeanSerializerModifier;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
+import java.util.TimeZone;
 
 /**
  * Desc:Json tool
@@ -20,7 +31,41 @@ import java.util.Objects;
 @UtilityClass
 public class JsonMapperUtil {
 
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private static final ObjectMapper OBJECT_MAPPER = Jackson2ObjectMapperBuilder
+            .json()
+            .createXmlMapper(false)
+            .dateFormat(new SimpleDateFormat(DateUtil.PATTERN_DATE_TIME))
+            .timeZone(TimeZone.getTimeZone(DateUtil.TIME_ZONE_GMT8))
+            .build()
+            .enable(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS,false)
+            .registerModule(new SimpleModule()
+                    .addSerializer(Long.class, ToStringSerializer.instance)
+                    .addSerializer(Long.TYPE, ToStringSerializer.instance)
+                    .addSerializer(Double.class, new DoubleSerializer())
+                    .addSerializer(Double.TYPE, new DoubleSerializer())
+            );
+
+
+
+    private static final ObjectMapper LYZ_OBJECT_MAPPER = Jackson2ObjectMapperBuilder
+            .json()
+            .createXmlMapper(false)
+            .dateFormat(new SimpleDateFormat(DateUtil.PATTERN_DATE_TIME))
+            .timeZone(TimeZone.getTimeZone(DateUtil.TIME_ZONE_GMT8))
+            .build()
+            .enable(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS,false)
+            .registerModule(new SimpleModule()
+                    .addSerializer(Long.class, ToStringSerializer.instance)
+                    .addSerializer(Long.TYPE, ToStringSerializer.instance)
+                    .addSerializer(Double.class, new DoubleSerializer())
+                    .addSerializer(Double.TYPE, new DoubleSerializer())
+                    .setSerializerModifier(new LyzBeanSerializerModifier())
+            );
+
 
     @SneakyThrows
     public static String toJSONString(Object obj) {
@@ -49,5 +94,16 @@ public class JsonMapperUtil {
     @SneakyThrows
     public static void writeValue(OutputStream out, Object value) {
         OBJECT_MAPPER.writeValue(out, value);
+    }
+
+    @SneakyThrows
+    public static JsonNode readTree(Object obj) {
+        if (Objects.isNull(obj)) {
+            return null;
+        }
+        if (obj.getClass() == String.class) {
+            return LYZ_OBJECT_MAPPER.readTree((String) obj);
+        }
+        return LYZ_OBJECT_MAPPER.readTree(LYZ_OBJECT_MAPPER.writeValueAsString(obj));
     }
 }

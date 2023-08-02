@@ -1,4 +1,4 @@
-package com.liyz.dubbo.common.api.annotation;
+package com.liyz.dubbo.common.util.annotation;
 
 import java.lang.annotation.*;
 
@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
-public @interface MyJsonProperty {
+public @interface LyzJsonProperty {
 
     String value() default "";
 }

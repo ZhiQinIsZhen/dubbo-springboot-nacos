@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.liyz.dubbo.common.desensitize.annotation.Desensitization;
 import com.liyz.dubbo.common.desensitize.enums.DesensitizationType;
+import com.liyz.dubbo.common.util.annotation.LyzJsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,10 +29,8 @@ public class TestVO implements Serializable {
     @Desensitization(value = DesensitizationType.REAL_NAME)
     private String name;
 
+    @LyzJsonProperty("dog")
     @ApiModelProperty(value = "时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date time;
-
-//    @JsonProperty("iName")
-    private String aName;
 }

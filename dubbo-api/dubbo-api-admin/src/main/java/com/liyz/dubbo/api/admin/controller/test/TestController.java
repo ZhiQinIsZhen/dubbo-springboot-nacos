@@ -19,8 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-
 /**
  * Desc:
  *
@@ -50,5 +48,11 @@ public class TestController {
     @PostMapping("/login")
     public TestResult<StaffLoginDTO, AuthLoginVO> login(@Validated({StaffLoginDTO.Login.class}) @RequestBody StaffLoginDTO loginDTO) {
         return TestResult.success();
+    }
+
+    @ApiOperation("test")
+    @GetMapping("/test")
+    public String test() {
+        return TestResult.success().getMessage();
     }
 }

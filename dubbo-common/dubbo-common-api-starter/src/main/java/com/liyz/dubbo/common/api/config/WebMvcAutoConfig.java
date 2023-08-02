@@ -1,14 +1,19 @@
 package com.liyz.dubbo.common.api.config;
 
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.liyz.dubbo.common.api.advice.GlobalControllerExceptionAdvice;
+import com.liyz.dubbo.common.api.advice.LyzApiResponseBodyAdvice;
 import com.liyz.dubbo.common.api.deserializer.JsonTrimDeserializer;
 import com.liyz.dubbo.common.api.error.ErrorApiController;
 import com.liyz.dubbo.common.api.resolver.AuthUserArgumentResolver;
 import com.liyz.dubbo.common.desensitize.filter.JacksonDesensitizationContextValueFilter;
+import com.liyz.dubbo.common.util.DateUtil;
+import com.liyz.dubbo.common.util.serializer.DoubleSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -30,8 +35,10 @@ import springfox.documentation.spring.web.plugins.WebMvcRequestHandlerProvider;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 /**
@@ -60,6 +67,11 @@ public class WebMvcAutoConfig extends WebMvcConfigurationSupport {
         return new ErrorApiController(serverProperties);
     }
 
+    @Bean
+    public LyzApiResponseBodyAdvice lyzApiResponseBodyAdvice() {
+        return new LyzApiResponseBodyAdvice();
+    }
+
     /**
      * 允许加载本地静态资源
      *
@@ -80,16 +92,18 @@ public class WebMvcAutoConfig extends WebMvcConfigurationSupport {
             optional.ifPresent(item -> {
                 MappingJackson2HttpMessageConverter converter = (MappingJackson2HttpMessageConverter) item;
                 ObjectMapper objectMapper = converter.getObjectMapper();
-                //生成JSON时,将所有Long转换成String
                 SimpleModule simpleModule = new SimpleModule();
                 simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
                 simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
+                simpleModule.addSerializer(Double.class, new DoubleSerializer());
+                simpleModule.addSerializer(Double.TYPE, new DoubleSerializer());
                 simpleModule.addSerializer(String.class, new JacksonDesensitizationContextValueFilter());
                 simpleModule.addDeserializer(String.class, new JsonTrimDeserializer());
-//                simpleModule.setSerializerModifier(new JsonNameBeanSerializerModifier());
+                objectMapper.setDateFormat(new SimpleDateFormat(DateUtil.PATTERN_DATE_TIME));
+                objectMapper.setTimeZone(TimeZone.getTimeZone(DateUtil.TIME_ZONE_GMT8));
                 objectMapper.registerModule(simpleModule);
-                objectMapper.setSerializerFactory(objectMapper.getSerializerFactory().withSerializerModifier(new JsonNameBeanSerializerModifier()));
-                //BigDecimal转化为PlainToString
+                objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS,false);
                 objectMapper.enable(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN);
             });
         }

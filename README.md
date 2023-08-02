@@ -81,6 +81,7 @@ public class StaffAuthorityController {
 > + RandomUtil: 随机字符串或者数字生成工具
 > + TraceIdUtil: Skywalking获取Traceid的工具类
 > + TestUtil: 单元测试工具
+> + @LyzJsonProperty: 作用与@JsonProperty效果一样，但是你可以再class LyzBeanSerializerModifier中增加序列化逻辑，动态控制
 
 ---
 2.**dubbo-common-remote**: 通用Dubbo远程接口框架(包含了参数验证器:validation)
