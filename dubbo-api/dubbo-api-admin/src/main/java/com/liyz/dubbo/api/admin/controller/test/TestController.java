@@ -44,15 +44,15 @@ public class TestController {
         return Result.success(BeanUtil.copyProperties(testDTO, TestVO::new));
     }
 
-    @ApiOperation("登录")
-    @PostMapping("/login")
-    public TestResult<StaffLoginDTO, AuthLoginVO> login(@Validated({StaffLoginDTO.Login.class}) @RequestBody StaffLoginDTO loginDTO) {
+    @ApiOperation("test")
+    @PostMapping("/test")
+    public TestResult<StaffLoginDTO, AuthLoginVO> test(@Validated({StaffLoginDTO.Login.class}) @RequestBody StaffLoginDTO loginDTO) {
         return TestResult.success();
     }
 
-    @ApiOperation("test")
-    @GetMapping("/test")
-    public String test() {
+    @ApiOperation("test1")
+    @GetMapping("/test1")
+    public String test1() {
         return TestResult.success().getMessage();
     }
 }
