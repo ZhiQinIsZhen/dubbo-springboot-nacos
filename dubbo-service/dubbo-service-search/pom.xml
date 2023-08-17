@@ -5,21 +5,22 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.liyz.dubbo</groupId>
-        <artifactId>dubbo-parent</artifactId>
+        <artifactId>dubbo-service</artifactId>
         <version>2.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>dubbo-service</artifactId>
+    <artifactId>dubbo-service-search</artifactId>
     <packaging>pom</packaging>
-
     <modules>
-        <module>dubbo-service-auth</module>
-        <module>dubbo-service-staff</module>
-        <module>dubbo-service-user</module>
-        <module>dubbo-service-job</module>
-        <module>dubbo-service-monitor</module>
-        <module>dubbo-service-pdf</module>
-        <module>dubbo-service-search</module>
+        <module>search-remote</module>
+        <module>search-biz</module>
+        <module>search-dao</module>
     </modules>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
 </project>
