@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Desc:
@@ -21,7 +22,13 @@ public class CompanyBO implements Serializable {
 
     private String companyId;
 
+    private String regNumber;
+
     private String companyName;
 
     private String creditCode;
+
+    private String address;
+
+    private Date establishmentTime;
 }

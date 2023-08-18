@@ -3,11 +3,13 @@ package com.liyz.dubbo.service.search.model;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Desc:
@@ -32,6 +34,9 @@ public class CompanyDO implements Serializable {
     private String companyName;
 
     @Field(name = "company_code", type = FieldType.Keyword)
+    private String regNumber;
+
+    @Field(name = "credit_no", type = FieldType.Keyword)
     private String creditCode;
 
     @Field(name = "legal_person_flag", type = FieldType.Keyword)
@@ -39,4 +44,7 @@ public class CompanyDO implements Serializable {
 
     @Field(name = "address_tag", type = FieldType.Keyword)
     private String address;
+
+    @Field(name = "establishment_time", type = FieldType.Date, format = {DateFormat.epoch_second})
+    private Date establishmentTime;
 }

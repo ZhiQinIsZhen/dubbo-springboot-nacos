@@ -92,6 +92,14 @@ public class JsonMapperUtil {
     }
 
     @SneakyThrows
+    public static <T> T readValue(JsonNode jsonNode, Class<T> clazz) {
+        if (ObjectUtils.anyNull(jsonNode, clazz)) {
+            return null;
+        }
+        return OBJECT_MAPPER.treeToValue(jsonNode, clazz);
+    }
+
+    @SneakyThrows
     public static void writeValue(OutputStream out, Object value) {
         OBJECT_MAPPER.writeValue(out, value);
     }

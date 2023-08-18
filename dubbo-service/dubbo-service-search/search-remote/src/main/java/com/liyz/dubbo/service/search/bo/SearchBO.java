@@ -26,4 +26,14 @@ public class SearchBO implements Serializable {
      * 公司ID
      */
     private String companyId;
+
+    /**
+     * 公司名称
+     */
+    private String companyName;
+
+    /**
+     * list查询最大数量
+     */
+    private Integer listMaxCount = 50;
 }

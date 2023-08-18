@@ -5,7 +5,6 @@ import com.liyz.dubbo.service.search.bo.SearchBO;
 import com.liyz.dubbo.service.search.bo.SearchPageBO;
 import com.liyz.dubbo.service.search.constant.SearchType;
 import com.liyz.dubbo.service.search.remote.RemoteSearchService;
-import com.liyz.dubbo.service.search.service.SearchService;
 import com.liyz.dubbo.service.search.service.abs.AbstractSearchService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;

@@ -11,4 +11,6 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  * @date 2023/8/17 14:49
  */
 public interface CompanyRepository extends ElasticsearchRepository<CompanyDO, String> {
+
+
 }
