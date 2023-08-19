@@ -10,11 +10,15 @@ import com.liyz.dubbo.service.search.model.CompanyDO;
 import com.liyz.dubbo.service.search.repository.CompanyRepository;
 import com.liyz.dubbo.service.search.service.abs.AbstractSearchService;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -52,21 +56,31 @@ public class CompanySearchServiceImpl extends AbstractSearchService<CompanyBO> {
 
     @Override
     public List<CompanyBO> searchList(SearchBO searchBO) {
-        Query query = new NativeSearchQueryBuilder()
+        NativeSearchQuery query = new NativeSearchQueryBuilder()
                 .withQuery(QueryBuilders.matchPhraseQuery("company_name_tag", searchBO.getCompanyName()).slop(100))
                 .withPageable(Pageable.ofSize(searchBO.getListMaxCount()))
+                .withMaxResults(searchBO.getListMaxCount())
+                .withSorts(SortBuilders.scoreSort().order(SortOrder.DESC))
                 .build();
+        log.info("{}", query.getQuery());
         SearchHits<CompanyDO> searchHits = elasticsearchRestTemplate.search(query, CompanyDO.class, IndexCoordinates.of("search-company-online"));
         return searchHits.getSearchHits().stream().map(item -> BeanUtil.copyProperties(item.getContent(), CompanyBO.class)).collect(Collectors.toList());
     }
 
     @Override
     public RemotePage<CompanyBO> searchPage(SearchPageBO searchPageBO) {
-        Query query = new NativeSearchQueryBuilder()
-                .withQuery(QueryBuilders.matchPhraseQuery("company_name_tag", searchPageBO.getCompanyName()).slop(100))
+        NativeSearchQuery query = new NativeSearchQueryBuilder()
+                .withQuery(QueryBuilders
+                        .matchQuery("company_name_tag", searchPageBO.getCompanyName())
+                        .operator(Operator.AND)
+                        .minimumShouldMatch("85%")
+                )
                 .withPageable(Pageable.ofSize(searchPageBO.getPageSize()).withPage(searchPageBO.getPageNum() - 1))
+                .withSorts(SortBuilders.scoreSort().order(SortOrder.DESC))
                 .withTrackTotalHits(Boolean.TRUE)
                 .build();
+        query.setTrackTotalHitsUpTo(searchPageBO.getTrackTotalHits());
+        log.info("{}", query.getQuery());
         SearchHits<CompanyDO> searchHits = elasticsearchRestTemplate.search(query, CompanyDO.class, IndexCoordinates.of("search-company-online"));
         long pages = Double.valueOf(Math.ceil((double) searchHits.getTotalHits() / searchPageBO.getPageSize())).longValue();
         return new RemotePage<>(searchHits.getSearchHits().stream().map(item -> BeanUtil.copyProperties(item.getContent(), CompanyBO.class)).collect(Collectors.toList()),

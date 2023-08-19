@@ -25,19 +25,19 @@ import java.util.Objects;
  */
 public abstract class AbstractSearchService<T> implements SearchService<T>, ApplicationListener<ContextRefreshedEvent> {
 
-    private static final Map<SearchType, SearchService> SEARCH_TYPE_MAP = Maps.newEnumMap(SearchType.class);
+    private static final Map<SearchType, SearchService<Object>> SEARCH_TYPE_MAP = Maps.newEnumMap(SearchType.class);
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         SEARCH_TYPE_MAP.put(this.getSearchType(), event.getApplicationContext().getBean(this.getClass()));
     }
 
-    public static SearchService getSearchService(SearchType searchType) {
+    public static SearchService<Object> getSearchService(SearchType searchType) {
         return getSearchService(searchType, false);
     }
 
-    public static SearchService getSearchService(SearchType searchType, boolean noServiceException) {
-        SearchService service = SEARCH_TYPE_MAP.get(searchType);
+    public static SearchService<Object> getSearchService(SearchType searchType, boolean noServiceException) {
+        SearchService<Object> service = SEARCH_TYPE_MAP.get(searchType);
         if (noServiceException && Objects.isNull(service)) {
             throw new RemoteSearchServiceException(CommonExceptionCodeEnum.PARAMS_VALIDATED);
         }

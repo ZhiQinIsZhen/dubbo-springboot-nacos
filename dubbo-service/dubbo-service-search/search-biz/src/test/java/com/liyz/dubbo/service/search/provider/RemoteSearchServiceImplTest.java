@@ -50,7 +50,7 @@ public class RemoteSearchServiceImplTest {
     @Test
     public void testSearchPage() {
         SearchPageBO searchBO = new SearchPageBO();
-        searchBO.setCompanyName("阿里巴巴");
+        searchBO.setCompanyName("杭州商商查网络科技有限公司");
         RemotePage<CompanyBO> remotePage = remoteSearchService.searchPage(SearchType.COMPANY, searchBO);
         log.info("value : {}", JsonMapperUtil.toJSONString(remotePage));
     }

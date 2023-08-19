@@ -45,7 +45,7 @@ public class RemoteSearchServiceImpl implements RemoteSearchService {
      */
     @Override
     public <T> List<T> searchList(SearchType searchType, SearchBO searchBO) {
-        return AbstractSearchService.getSearchService(searchType).searchList(searchBO);
+        return (List<T>) AbstractSearchService.getSearchService(searchType).searchList(searchBO);
     }
 
     /**
@@ -58,6 +58,6 @@ public class RemoteSearchServiceImpl implements RemoteSearchService {
      */
     @Override
     public <T> RemotePage<T> searchPage(SearchType searchType, SearchPageBO searchPageBO) {
-        return AbstractSearchService.getSearchService(searchType).searchPage(searchPageBO);
+        return (RemotePage<T>) AbstractSearchService.getSearchService(searchType).searchPage(searchPageBO);
     }
 }

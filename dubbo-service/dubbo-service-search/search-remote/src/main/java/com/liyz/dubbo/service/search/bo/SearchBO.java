@@ -36,4 +36,6 @@ public class SearchBO implements Serializable {
      * list查询最大数量
      */
     private Integer listMaxCount = 50;
+
+    private Integer trackTotalHits = 1000;
 }
