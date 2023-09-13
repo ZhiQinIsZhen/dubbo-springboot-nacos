@@ -73,6 +73,7 @@ public class TestUtilTest {
 
     @Test
     public void test3() {
-
+        String name = "乐视控股(北京）有限公司";
+        log.info("{}", name.replaceAll("\\(", "（").replaceAll("\\)", "）"));
     }
 }
