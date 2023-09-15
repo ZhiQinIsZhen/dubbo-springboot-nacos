@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.liyz.dubbo.common.util.serializer.DoubleSerializer;
-import com.liyz.dubbo.common.util.serializer.LyzBeanSerializerModifier;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.ObjectUtils;
@@ -46,26 +45,6 @@ public class JsonMapperUtil {
                     .addSerializer(Double.class, new DoubleSerializer())
                     .addSerializer(Double.TYPE, new DoubleSerializer())
             );
-
-
-
-    private static final ObjectMapper LYZ_OBJECT_MAPPER = Jackson2ObjectMapperBuilder
-            .json()
-            .createXmlMapper(false)
-            .dateFormat(new SimpleDateFormat(DateUtil.PATTERN_DATE_TIME))
-            .timeZone(TimeZone.getTimeZone(DateUtil.TIME_ZONE_GMT8))
-            .build()
-            .enable(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN)
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS,false)
-            .registerModule(new SimpleModule()
-                    .addSerializer(Long.class, ToStringSerializer.instance)
-                    .addSerializer(Long.TYPE, ToStringSerializer.instance)
-                    .addSerializer(Double.class, new DoubleSerializer())
-                    .addSerializer(Double.TYPE, new DoubleSerializer())
-                    .setSerializerModifier(new LyzBeanSerializerModifier())
-            );
-
 
     @SneakyThrows
     public static String toJSONString(Object obj) {
@@ -110,8 +89,8 @@ public class JsonMapperUtil {
             return null;
         }
         if (obj.getClass() == String.class) {
-            return LYZ_OBJECT_MAPPER.readTree((String) obj);
+            return OBJECT_MAPPER.readTree((String) obj);
         }
-        return LYZ_OBJECT_MAPPER.readTree(LYZ_OBJECT_MAPPER.writeValueAsString(obj));
+        return OBJECT_MAPPER.readTree(OBJECT_MAPPER.writeValueAsString(obj));
     }
 }
