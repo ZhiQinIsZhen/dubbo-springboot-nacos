@@ -2,7 +2,6 @@ package com.liyz.dubbo.common.desensitize.util;
 
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -19,6 +18,7 @@ import java.util.Base64;
  */
 @Slf4j
 @UtilityClass
+@Deprecated
 public class AESEncryptDecryptUtil {
 
     private static final String DEFAULT_AES_KEY = "rZxl3zy!rZxl3zy!";
