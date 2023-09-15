@@ -3,7 +3,7 @@ package com.liyz.dubbo.common.desensitize.service.impl;
 import com.liyz.dubbo.common.desensitize.annotation.Desensitization;
 import com.liyz.dubbo.common.desensitize.enums.DesensitizationType;
 import com.liyz.dubbo.common.desensitize.service.DesensitizeService;
-import com.liyz.dubbo.common.desensitize.util.AESEncryptDecryptUtil;
+import com.liyz.dubbo.common.desensitize.util.CryptoUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
@@ -21,9 +21,9 @@ public class EncryptDecryptDesensitizeServiceImpl implements DesensitizeService 
     public String desensitize(String value, Desensitization annotation) {
         if (StringUtils.isNotBlank(value)) {
             if (Objects.isNull(annotation)) {
-                value = AESEncryptDecryptUtil.encrypt(value);
+                value = CryptoUtil.Symmetric.encryptAES(value, "rZxl3zy!rZxl3zy!");
             } else {
-                value = AESEncryptDecryptUtil.decrypt(value);
+                value = CryptoUtil.Symmetric.decryptAES(value, "rZxl3zy!rZxl3zy!");
             }
         }
         return value;
