@@ -30,6 +30,7 @@ public class DesensitizeUtil {
         putService(new MobileDesensitizeServiceImpl());
         putService(new RealNameDesensitizeServiceImpl());
         putService(new SelfDefinitionDesensitizeServiceImpl());
+        putService(new DfaDesensitizeServiceImpl());
     }
 
     /**

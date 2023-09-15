@@ -33,4 +33,13 @@ public class TestVO implements Serializable {
     @ApiModelProperty(value = "时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date time;
+
+    @Desensitization(value = DesensitizationType.DFA)
+    private String mobile;
+
+    @Desensitization(value = DesensitizationType.DFA)
+    private String email;
+
+    @Desensitization(value = DesensitizationType.DFA)
+    private String realName;
 }

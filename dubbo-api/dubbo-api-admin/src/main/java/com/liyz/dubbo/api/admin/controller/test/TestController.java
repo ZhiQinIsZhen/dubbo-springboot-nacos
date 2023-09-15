@@ -55,4 +55,15 @@ public class TestController {
     public String test1() {
         return TestResult.success().getMessage();
     }
+
+    @ApiOperation("test2")
+    @GetMapping("/test2")
+    public Result<TestVO> test2() {
+        TestVO testVO = new TestVO();
+        testVO.setName("王晓刚");
+        testVO.setEmail("我有一颗大土豆");
+        testVO.setMobile("刚出锅的");
+        testVO.setRealName("我有一颗大土豆，刚出锅的");
+        return Result.success(testVO);
+    }
 }
