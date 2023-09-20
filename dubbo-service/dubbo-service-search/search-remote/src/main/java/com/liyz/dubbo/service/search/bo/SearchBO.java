@@ -38,4 +38,6 @@ public class SearchBO implements Serializable {
     private Integer listMaxCount = 50;
 
     private Integer trackTotalHits = 1000;
+
+    private Integer slop;
 }

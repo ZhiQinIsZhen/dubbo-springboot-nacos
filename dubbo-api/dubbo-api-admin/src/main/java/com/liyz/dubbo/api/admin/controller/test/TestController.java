@@ -16,8 +16,12 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RAtomicLong;
+import org.redisson.api.RedissonClient;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 /**
  * Desc:
@@ -36,6 +40,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/test")
 public class TestController {
+
+    @Resource
+    private RedissonClient redissonClient;
 
     @Limits({@Limit(type = LimitType.IP, count = 5), @Limit(count = 6)})
     @ApiOperation("你好")
@@ -65,5 +72,20 @@ public class TestController {
         testVO.setMobile("刚出锅的");
         testVO.setRealName("我有一颗大土豆，刚出锅的");
         return Result.success(testVO);
+    }
+
+    @ApiOperation("test3")
+    @GetMapping("/test3")
+    public Result<Long> test3(@RequestParam(value = "count") Long count) {
+        RAtomicLong atomicVar = redissonClient.getAtomicLong("test");
+        if (!atomicVar.isExists()) {
+            boolean isSet = atomicVar.compareAndSet(0, 100);
+            log.info("isSet : {}", isSet);
+            atomicVar.set(1000);
+        }
+        boolean isSet = atomicVar.compareAndSet(0, 100);
+        log.info("isSet : {}", isSet);
+        long result = atomicVar.addAndGet(count);
+        return Result.success(result);
     }
 }

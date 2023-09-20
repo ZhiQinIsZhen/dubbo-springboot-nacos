@@ -1,10 +1,7 @@
 package com.liyz.dubbo.common.util;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.liyz.dubbo.common.util.serializer.DoubleSerializer;
@@ -46,12 +43,22 @@ public class JsonMapperUtil {
                     .addSerializer(Double.TYPE, new DoubleSerializer())
             );
 
+    private static final ObjectWriter OBJECT_WRITER = OBJECT_MAPPER.writerWithDefaultPrettyPrinter();
+
     @SneakyThrows
     public static String toJSONString(Object obj) {
         if (Objects.isNull(obj)) {
             return null;
         }
         return OBJECT_MAPPER.writeValueAsString(obj);
+    }
+
+    @SneakyThrows
+    public static String toJSONPrettyString(Object obj) {
+        if (Objects.isNull(obj)) {
+            return null;
+        }
+        return OBJECT_WRITER.writeValueAsString(obj);
     }
 
     @SneakyThrows

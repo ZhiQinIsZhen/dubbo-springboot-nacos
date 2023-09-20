@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -56,7 +57,7 @@ public class CompanySearchServiceImpl extends AbstractSearchService<CompanyBO> {
     @Override
     public List<CompanyBO> searchList(SearchBO searchBO) {
         NativeSearchQuery query = new NativeSearchQueryBuilder()
-                .withQuery(QueryBuilders.matchPhraseQuery("company_name_tag", searchBO.getCompanyName()).slop(100))
+                .withQuery(QueryBuilders.matchPhraseQuery("company_name_tag", searchBO.getCompanyName()).slop(Optional.ofNullable(searchBO.getSlop()).orElse(100)))
                 .withPageable(Pageable.ofSize(searchBO.getListMaxCount()))
                 .withMaxResults(searchBO.getListMaxCount())
                 .withSorts(SortBuilders.scoreSort().order(SortOrder.DESC))

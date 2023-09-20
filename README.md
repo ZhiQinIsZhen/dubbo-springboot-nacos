@@ -168,6 +168,7 @@ public class StaffAuthorityController {
         SELF_DEFINITION("自定义"),
         IGNORE("忽略"),
         ENCRYPT_DECRYPT("加密"),
+        DFA("DFA算法"),
         ;
     
         @Getter

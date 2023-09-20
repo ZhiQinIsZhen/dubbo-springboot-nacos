@@ -42,9 +42,27 @@ public class RemoteSearchServiceImplTest {
     @Test
     public void testSearchList() {
         SearchPageBO searchBO = new SearchPageBO();
-        searchBO.setCompanyName("阿里巴巴");
+        searchBO.setCompanyName("杭州阿里巴巴");
         List<CompanyBO> list = remoteSearchService.searchList(SearchType.COMPANY, searchBO);
-        log.info("value : {}", JsonMapperUtil.toJSONString(list));
+        log.info("value : {}", JsonMapperUtil.toJSONPrettyString(list));
+    }
+
+    @Test
+    public void testSearchList1() {
+        SearchPageBO searchBO = new SearchPageBO();
+        searchBO.setCompanyName("杭州阿里巴巴");
+        searchBO.setSlop(0);
+        List<CompanyBO> list = remoteSearchService.searchList(SearchType.COMPANY, searchBO);
+        log.info("value : {}", JsonMapperUtil.toJSONPrettyString(list));
+    }
+
+    @Test
+    public void testSearchList2() {
+        SearchPageBO searchBO = new SearchPageBO();
+        searchBO.setCompanyName("阿里巴巴杭州");
+        searchBO.setSlop(1);
+        List<CompanyBO> list = remoteSearchService.searchList(SearchType.COMPANY, searchBO);
+        log.info("value : {}", JsonMapperUtil.toJSONPrettyString(list));
     }
 
     @Test
