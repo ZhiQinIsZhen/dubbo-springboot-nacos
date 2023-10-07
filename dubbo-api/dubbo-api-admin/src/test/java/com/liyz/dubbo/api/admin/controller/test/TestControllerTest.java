@@ -18,8 +18,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Desc:
@@ -135,5 +137,22 @@ public class TestControllerTest {
 
         String text3 = CryptoUtil.Asymmetric.decryptPublicRSA(text2, publicKey);
         log.info("公钥解密明文: {}", text3);
+    }
+
+    @Test
+    public void test8() {
+        ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+        Integer value = map.computeIfAbsent("1", (k) -> 1);
+        log.info("value: {}", value);
+        value = map.computeIfAbsent("1", (k) -> 1);
+        log.info("value: {}", value);
+        value = map.computeIfAbsent("1", (k) -> 2);
+        log.info("value: {}", value);
+
+        value = map.computeIfAbsent("3", (k) -> 2);
+        log.info("value: {}", value);
+
+        value = map.computeIfAbsent("3", (k) -> 4);
+        log.info("value: {}", value);
     }
 }

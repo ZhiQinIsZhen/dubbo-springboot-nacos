@@ -153,7 +153,7 @@ public class CryptoUtil {
             if (StringUtils.isBlank(content)) {
                 return content;
             }
-            if (Objects.isNull(key) || !isKeySizeValid(key.getBytes().length)) {
+            if (Objects.isNull(key) || keySizeValid(key.getBytes().length)) {
                 throw new DesensitizeException(DesensitizeExceptionCodeEnum.AEC_KEY_LENGTH_ERROR);
             }
             AES aes = new AES(Mode.ECB, Padding.PKCS5Padding, key.getBytes());
@@ -172,7 +172,7 @@ public class CryptoUtil {
             if (StringUtils.isBlank(content)) {
                 return content;
             }
-            if (Objects.isNull(key) || !isKeySizeValid(key.getBytes().length)) {
+            if (Objects.isNull(key) || keySizeValid(key.getBytes().length)) {
                 throw new DesensitizeException(DesensitizeExceptionCodeEnum.AEC_KEY_LENGTH_ERROR);
             }
             AES aes = new AES(Mode.ECB, Padding.PKCS5Padding, key.getBytes());
@@ -192,7 +192,7 @@ public class CryptoUtil {
             if (StringUtils.isBlank(content)) {
                 return content;
             }
-            if (Objects.isNull(key) || !isKeySizeValid(key.getBytes().length)) {
+            if (Objects.isNull(key) || keySizeValid(key.getBytes().length)) {
                 throw new DesensitizeException(DesensitizeExceptionCodeEnum.AEC_KEY_LENGTH_ERROR);
             }
             if (Objects.isNull(iv) || iv.getBytes().length != 16) {
@@ -215,7 +215,7 @@ public class CryptoUtil {
             if (StringUtils.isBlank(content)) {
                 return content;
             }
-            if (Objects.isNull(key) || !isKeySizeValid(key.getBytes().length)) {
+            if (Objects.isNull(key) || keySizeValid(key.getBytes().length)) {
                 throw new DesensitizeException(DesensitizeExceptionCodeEnum.AEC_KEY_LENGTH_ERROR);
             }
             if (Objects.isNull(iv) || iv.getBytes().length != 16) {
@@ -231,13 +231,13 @@ public class CryptoUtil {
          * @param length key的长度
          * @return 是否通过验证
          */
-        private static boolean isKeySizeValid(int length) {
+        private static boolean keySizeValid(int length) {
             for (int aesKeySize : AES_KEY_SIZES) {
                 if (length == aesKeySize) {
-                    return true;
+                    return false;
                 }
             }
-            return false;
+            return true;
         }
     }
 

@@ -22,6 +22,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Desc:
@@ -81,7 +84,9 @@ public class TestController {
         if (!atomicVar.isExists()) {
             boolean isSet = atomicVar.compareAndSet(0, 100);
             log.info("isSet : {}", isSet);
-            atomicVar.set(1000);
+            if (isSet) {
+                atomicVar.expire(Duration.ofMinutes(1));
+            }
         }
         boolean isSet = atomicVar.compareAndSet(0, 100);
         log.info("isSet : {}", isSet);

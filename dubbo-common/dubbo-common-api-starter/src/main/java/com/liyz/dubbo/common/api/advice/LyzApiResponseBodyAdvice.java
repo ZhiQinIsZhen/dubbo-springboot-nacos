@@ -2,7 +2,6 @@ package com.liyz.dubbo.common.api.advice;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -72,13 +71,18 @@ public class LyzApiResponseBodyAdvice implements ResponseBodyAdvice<Result> {
     }
 
     @SneakyThrows
-    private static JsonNode readTree(Object obj) {
+    private static Object readTree(Object obj) {
         if (Objects.isNull(obj)) {
             return null;
         }
-        if (obj.getClass() == String.class) {
+        char head;
+        if (obj.getClass() == String.class && ((head = ((String) obj).charAt(0)) == '[' || head == '{')) {
             return LYZ_OBJECT_MAPPER.readTree((String) obj);
         }
-        return LYZ_OBJECT_MAPPER.readTree(LYZ_OBJECT_MAPPER.writeValueAsString(obj));
+        try {
+            return LYZ_OBJECT_MAPPER.readTree(LYZ_OBJECT_MAPPER.writeValueAsString(obj));
+        } catch (Exception e) {
+            return obj;
+        }
     }
 }
