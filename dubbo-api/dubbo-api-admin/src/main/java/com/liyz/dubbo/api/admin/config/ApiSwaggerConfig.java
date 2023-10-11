@@ -48,4 +48,8 @@ public class ApiSwaggerConfig extends SwaggerConfig {
         return docket("com.liyz.dubbo.api.admin.controller.staff", "员工信息-API", PathSelectors.any());
     }
 
+    @Bean
+    public Docket algorithmApi() {
+        return docket("com.liyz.dubbo.api.admin.controller.algorithm", "算法-API", PathSelectors.none());
+    }
 }

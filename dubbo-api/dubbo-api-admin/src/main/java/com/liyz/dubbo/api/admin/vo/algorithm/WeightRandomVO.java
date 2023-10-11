@@ -1,4 +1,4 @@
-package com.liyz.dubbo.api.admin.vo.test;
+package com.liyz.dubbo.api.admin.vo.algorithm;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;

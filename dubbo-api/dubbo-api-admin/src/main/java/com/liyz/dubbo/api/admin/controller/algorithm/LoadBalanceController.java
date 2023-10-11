@@ -1,9 +1,9 @@
-package com.liyz.dubbo.api.admin.controller.test;
+package com.liyz.dubbo.api.admin.controller.algorithm;
 
 import com.google.common.collect.Lists;
-import com.liyz.dubbo.api.admin.vo.test.LeastActiveVO;
-import com.liyz.dubbo.api.admin.vo.test.WeightRandomVO;
-import com.liyz.dubbo.api.admin.vo.test.WeightedRoundRobinVO;
+import com.liyz.dubbo.api.admin.vo.algorithm.LeastActiveVO;
+import com.liyz.dubbo.api.admin.vo.algorithm.WeightRandomVO;
+import com.liyz.dubbo.api.admin.vo.algorithm.WeightedRoundRobinVO;
 import com.liyz.dubbo.common.api.result.Result;
 import com.liyz.dubbo.security.client.annotation.Anonymous;
 import io.swagger.annotations.Api;
@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @version 1.0.0
  * @date 2023/9/27 15:19
  */
-@Api(tags = "负载均衡")
+@Api(tags = "负载均衡算法")
 @ApiResponses(value = {
         @ApiResponse(code = 0, message = "成功"),
         @ApiResponse(code = 1, message = "失败")
