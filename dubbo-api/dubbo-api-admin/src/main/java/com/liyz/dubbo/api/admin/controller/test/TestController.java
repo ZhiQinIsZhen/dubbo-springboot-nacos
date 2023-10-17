@@ -9,6 +9,7 @@ import com.liyz.dubbo.common.api.result.TestResult;
 import com.liyz.dubbo.common.limit.annotation.Limit;
 import com.liyz.dubbo.common.limit.annotation.Limits;
 import com.liyz.dubbo.common.limit.enums.LimitType;
+import com.liyz.dubbo.common.lock.util.RedisLockUtil;
 import com.liyz.dubbo.common.service.util.BeanUtil;
 import com.liyz.dubbo.security.client.annotation.Anonymous;
 import io.swagger.annotations.Api;
@@ -18,13 +19,15 @@ import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RAtomicLong;
 import org.redisson.api.RedissonClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Desc:
@@ -44,6 +47,8 @@ import java.util.Date;
 @RequestMapping("/test")
 public class TestController {
 
+    @Autowired
+    private ApplicationContext ctx;
     @Resource
     private RedissonClient redissonClient;
 
@@ -51,7 +56,8 @@ public class TestController {
     @ApiOperation("你好")
     @GetMapping("/hello")
     public Result<TestVO> hello(@Validated(TestDTO.Hello.class) TestDTO testDTO) {
-        return Result.success(BeanUtil.copyProperties(testDTO, TestVO::new));
+        TestVO testVO = RedisLockUtil.lock("111", 1, TimeUnit.MINUTES, () -> BeanUtil.copyProperties(testDTO, TestVO::new), true);
+        return Result.success(testVO);
     }
 
     @ApiOperation("test")
