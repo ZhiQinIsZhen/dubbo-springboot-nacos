@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.Pair;
 import org.redisson.api.RAtomicLong;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Desc:
@@ -56,7 +56,18 @@ public class TestController {
     @ApiOperation("你好")
     @GetMapping("/hello")
     public Result<TestVO> hello(@Validated(TestDTO.Hello.class) TestDTO testDTO) {
-        TestVO testVO = RedisLockUtil.lock("111", 1, TimeUnit.MINUTES, () -> BeanUtil.copyProperties(testDTO, TestVO::new), true);
+        TestVO testVO = RedisLockUtil.lock("111", 1, TimeUnit.MINUTES, true, () -> BeanUtil.copyProperties(testDTO, TestVO::new));
+        Pair<Boolean, TestVO> pair = RedisLockUtil.tryLock("222", 5, 8, TimeUnit.SECONDS, true, () ->{
+            try {
+                log.info("step 1");
+                Thread.sleep(10000);
+                log.info("step 2");
+            } catch (InterruptedException e) {
+                log.info("step 3");
+                throw new RuntimeException(e);
+            }
+            return BeanUtil.copyProperties(testDTO, TestVO::new);
+        });
         return Result.success(testVO);
     }
 
