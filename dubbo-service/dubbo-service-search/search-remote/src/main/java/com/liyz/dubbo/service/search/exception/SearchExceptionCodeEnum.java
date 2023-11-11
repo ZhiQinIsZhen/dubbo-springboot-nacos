@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public enum SearchExceptionCodeEnum implements IExceptionService {
     NOT_SUPPORT_METHOD("50001", "不支持该方法"),
+    ES_SEARCH_ERROR("50002", "数据查询错误"),
     ;
 
     private final String code;
