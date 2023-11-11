@@ -1,4 +1,4 @@
-package com.liyz.dubbo.service.search.bo;
+package com.liyz.dubbo.service.search.query;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,11 +10,11 @@ import java.io.Serializable;
  *
  * @author lyz
  * @version 1.0.0
- * @date 2023/8/17 15:14
+ * @date 2023/11/10 15:05
  */
 @Getter
 @Setter
-public class SearchPageBO extends SearchBO {
+public class PageQuery implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

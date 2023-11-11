@@ -35,10 +35,8 @@ public class PageBeanCopier<S, T> extends BaseBeanCopier<S, T> {
         return new RemotePage<>(
                 targetList,
                 sourceRemotePageInfo.getTotal(),
-                sourceRemotePageInfo.getPages(),
                 sourceRemotePageInfo.getPageNum(),
-                sourceRemotePageInfo.getPageSize(),
-                sourceRemotePageInfo.isHasNextPage()
+                sourceRemotePageInfo.getPageSize()
         );
     }
 }

@@ -11,14 +11,13 @@ import lombok.Getter;
  * @version 1.0.0
  * @date 2023/8/17 15:10
  */
+@Getter
 @AllArgsConstructor
 public enum SearchType {
     COMPANY(CompanyBO.class, "公司基本信息"),
     ;
 
-    @Getter
     private final Class<?> clazz;
 
-    @Getter
     private final String desc;
 }

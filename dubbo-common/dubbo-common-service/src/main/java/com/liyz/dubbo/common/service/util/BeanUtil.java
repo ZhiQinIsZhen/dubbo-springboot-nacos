@@ -153,10 +153,8 @@ public class BeanUtil {
         return new RemotePage<>(
                 copyProperties(pageSource.getList(), targetClass, ext),
                 pageSource.getTotal(),
-                pageSource.getPages(),
                 pageSource.getPageNum(),
-                pageSource.getPageSize(),
-                pageSource.isHasNextPage()
+                pageSource.getPageSize()
         );
     }
 
@@ -190,10 +188,8 @@ public class BeanUtil {
         return new RemotePage<>(
                 copyProperties(pageSource.getRecords(), targetClass, ext),
                 pageSource.getTotal(),
-                pageSource.getPages(),
                 pageSource.getCurrent(),
-                pageSource.getSize(),
-                pageSource.hasNext()
+                pageSource.getSize()
         );
     }
 

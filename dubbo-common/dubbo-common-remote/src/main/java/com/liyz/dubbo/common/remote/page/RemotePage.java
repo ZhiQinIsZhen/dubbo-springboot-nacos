@@ -1,8 +1,5 @@
 package com.liyz.dubbo.common.remote.page;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -13,18 +10,14 @@ import java.util.List;
  * @version 1.0.0
  * @date 2023/3/8 15:35
  */
-@Getter
-@Setter
 public class RemotePage<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public RemotePage(List<T> list, long total, long pages, long pageNum, long pageSize, boolean hasNextPage) {
+    public RemotePage(List<T> list, long total, long pageNum, long pageSize) {
         this.list = list;
         this.total = total;
-        this.pages = pages;
         this.pageNum = pageNum;
         this.pageSize = pageSize;
-        this.hasNextPage = hasNextPage;
     }
 
     /**
@@ -38,11 +31,6 @@ public class RemotePage<T> implements Serializable {
     private long total;
 
     /**
-     * 总页数
-     */
-    private long pages;
-
-    /**
      * 当前页
      */
     private long pageNum;
@@ -52,8 +40,43 @@ public class RemotePage<T> implements Serializable {
      */
     private long pageSize;
 
-    /**
-     * 是否有下一页
-     */
-    private boolean hasNextPage = false;
+    public List<T> getList() {
+        return list;
+    }
+
+    public void setList(List<T> list) {
+        this.list = list;
+    }
+
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
+    }
+
+    public long getPages() {
+        return this.total % this.pageSize == 0 ? this.total / this.pageSize : this.total / this.pageSize + 1;
+    }
+
+    public long getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(long pageNum) {
+        this.pageNum = Math.max(1L, pageNum);
+    }
+
+    public long getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(long pageSize) {
+        this.pageSize = Math.max(1L, pageSize);
+    }
+
+    public boolean isHasNextPage() {
+        return getPages() > pageNum;
+    }
 }
