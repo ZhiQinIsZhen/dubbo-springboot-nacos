@@ -3,6 +3,7 @@ package com.liyz.dubbo.service.search.service.abs;
 import com.google.common.collect.Lists;
 import com.liyz.dubbo.common.remote.page.RemotePage;
 import com.liyz.dubbo.common.util.JsonMapperUtil;
+import com.liyz.dubbo.service.search.bo.BaseBO;
 import com.liyz.dubbo.service.search.exception.RemoteSearchServiceException;
 import com.liyz.dubbo.service.search.exception.SearchExceptionCodeEnum;
 import com.liyz.dubbo.service.search.query.BasePageQuery;
@@ -37,7 +38,7 @@ import java.util.stream.Collectors;
  * @date 2023/11/11 14:39
  */
 @Slf4j
-public abstract class AbstractOldSearchServiceImpl<BO, BaseQuery extends BasePageQuery> extends AbstractSearchService<BO, BaseQuery> {
+public abstract class AbstractOldSearchServiceImpl<BO extends BaseBO, BaseQuery extends BasePageQuery> extends AbstractSearchService<BO, BaseQuery> {
 
     @Resource
     protected RestHighLevelClient restHighLevelClient;
@@ -81,7 +82,7 @@ public abstract class AbstractOldSearchServiceImpl<BO, BaseQuery extends BasePag
                 .query(QueryBuilders.idsQuery().addIds(ids.toArray(new String[0])));
         RemotePage<BO> remotePage = this.doQuery(sourceBuilder, null);
         if (CollectionUtils.isEmpty(remotePage.getList())) {
-            return null;
+            return Lists.newArrayList();
         }
         return remotePage.getList();
     }
@@ -141,7 +142,24 @@ public abstract class AbstractOldSearchServiceImpl<BO, BaseQuery extends BasePag
      */
     @Override
     public List<BO> searchList(BaseQuery query) {
-        throw new RemoteSearchServiceException(SearchExceptionCodeEnum.NOT_SUPPORT_METHOD);
+        if (StringUtils.isNotBlank(query.getId())) {
+            return this.getByIds(Lists.newArrayList(query.getId()));
+        }
+        if (!CollectionUtils.isEmpty(query.getIds())) {
+            return this.getByIds(query.getIds());
+        }
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder()
+                .from(0)
+                .size(query.getListMaxCount())
+                .query(this.buildQuery(query))
+                .trackTotalHits(Boolean.TRUE)
+                .sort(SortBuilders.scoreSort().order(SortOrder.DESC))
+                ;
+        RemotePage<BO> remotePage = doQuery(sourceBuilder, null);
+        if (CollectionUtils.isEmpty(remotePage.getList())) {
+            return Lists.newArrayList();
+        }
+        return remotePage.getList();
     }
 
     /**
@@ -152,7 +170,22 @@ public abstract class AbstractOldSearchServiceImpl<BO, BaseQuery extends BasePag
      */
     @Override
     public RemotePage<BO> searchPage(BaseQuery query) {
-        throw new RemoteSearchServiceException(SearchExceptionCodeEnum.NOT_SUPPORT_METHOD);
+        if (StringUtils.isNotBlank(query.getId())) {
+            List<BO> boList = this.getByIds(Lists.newArrayList(query.getId()));
+            return new RemotePage<>(boList, boList.size(), query.getPageNum(), query.getPageSize());
+        }
+        if (!CollectionUtils.isEmpty(query.getIds())) {
+            List<BO> boList = this.getByIds(query.getIds());
+            return new RemotePage<>(boList, boList.size(), query.getPageNum(), query.getPageSize());
+        }
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder()
+                .from(query.getPageNum() - 1)
+                .size(query.getPageSize())
+                .query(this.buildQuery(query))
+                .trackTotalHits(Boolean.TRUE)
+                .sort(SortBuilders.scoreSort().order(SortOrder.DESC))
+                ;
+        return doQuery(sourceBuilder, null);
     }
 
     /**
@@ -187,7 +220,11 @@ public abstract class AbstractOldSearchServiceImpl<BO, BaseQuery extends BasePag
         TotalHits totalHits = searchHits.getTotalHits();
         long total = totalHits.value;
         List<BO> boList = Arrays.stream(searchHits.getHits())
-                .map(item -> JsonMapperUtil.readValue(item.getSourceAsString(), boClass))
+                .map(item -> {
+                    BO bo = JsonMapperUtil.readValue(item.getSourceAsString(), boClass);
+                    bo.setId(item.getId());
+                    return bo;
+                })
                 .peek(this::afterHandle)
                 .collect(Collectors.toList());
         return new RemotePage<>(boList, total, searchSourceBuilder.from() + 1, searchSourceBuilder.size());

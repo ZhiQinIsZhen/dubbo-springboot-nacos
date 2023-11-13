@@ -1,9 +1,9 @@
 package com.liyz.dubbo.service.search.bo.company;
 
+import com.liyz.dubbo.service.search.bo.BaseBO;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -15,10 +15,8 @@ import java.util.Date;
  */
 @Getter
 @Setter
-public class CompanyBO implements Serializable {
+public class CompanyBO extends BaseBO {
     private static final long serialVersionUID = -1431102148095190647L;
-
-    private String id;
 
     private String companyId;
 

@@ -2,6 +2,7 @@ package com.liyz.dubbo.service.search.service.abs;
 
 import com.google.common.collect.Maps;
 import com.liyz.dubbo.common.remote.exception.CommonExceptionCodeEnum;
+import com.liyz.dubbo.service.search.bo.BaseBO;
 import com.liyz.dubbo.service.search.constant.SearchType;
 import com.liyz.dubbo.service.search.exception.RemoteSearchServiceException;
 import com.liyz.dubbo.service.search.properties.BaseProperties;
@@ -23,9 +24,9 @@ import java.util.Objects;
  * @version 1.0.0
  * @date 2023/8/17 15:24
  */
-public abstract class AbstractSearchService<BO, BaseQuery extends BasePageQuery> implements SearchService<BO, BaseQuery>, ApplicationListener<ContextRefreshedEvent> {
+public abstract class AbstractSearchService<BO extends BaseBO, BaseQuery extends BasePageQuery> implements SearchService<BO, BaseQuery>, ApplicationListener<ContextRefreshedEvent> {
 
-    private static final Map<SearchType, SearchService<Object, BasePageQuery>> SEARCH_TYPE_MAP = Maps.newEnumMap(SearchType.class);
+    private static final Map<SearchType, SearchService<BaseBO, BasePageQuery>> SEARCH_TYPE_MAP = Maps.newEnumMap(SearchType.class);
     protected final Class<BO> boClass;
     protected final Class<BaseQuery> queryClass;
     protected BaseProperties properties;
@@ -44,12 +45,12 @@ public abstract class AbstractSearchService<BO, BaseQuery extends BasePageQuery>
         this.properties = BaseProperties.SEARCH_TYPE_MAP.get(this.getSearchType());
     }
 
-    public static SearchService<Object, BasePageQuery> getSearchService(SearchType searchType) {
+    public static SearchService<BaseBO, BasePageQuery> getSearchService(SearchType searchType) {
         return getSearchService(searchType, false);
     }
 
-    public static SearchService<Object, BasePageQuery> getSearchService(SearchType searchType, boolean noServiceException) {
-        SearchService<Object, BasePageQuery> service = SEARCH_TYPE_MAP.get(searchType);
+    public static SearchService<BaseBO, BasePageQuery> getSearchService(SearchType searchType, boolean noServiceException) {
+        SearchService<BaseBO, BasePageQuery> service = SEARCH_TYPE_MAP.get(searchType);
         if (noServiceException && Objects.isNull(service)) {
             throw new RemoteSearchServiceException(CommonExceptionCodeEnum.PARAMS_VALIDATED);
         }

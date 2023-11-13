@@ -45,6 +45,10 @@ public class JsonMapperUtil {
 
     private static final ObjectWriter OBJECT_WRITER = OBJECT_MAPPER.writerWithDefaultPrettyPrinter();
 
+    public static ObjectMapper getObjectMapper() {
+        return OBJECT_MAPPER;
+    }
+
     @SneakyThrows
     public static String toJSONString(Object obj) {
         if (Objects.isNull(obj)) {

@@ -1,6 +1,7 @@
 package com.liyz.dubbo.service.search.service;
 
 import com.liyz.dubbo.common.remote.page.RemotePage;
+import com.liyz.dubbo.service.search.bo.BaseBO;
 import com.liyz.dubbo.service.search.query.BasePageQuery;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  * @version 1.0.0
  * @date 2023/8/17 15:22
  */
-public interface SearchService<BO, BaseQuery extends BasePageQuery> {
+public interface SearchService<BO extends BaseBO, BaseQuery extends BasePageQuery> {
 
     /**
      * 根据主键查询

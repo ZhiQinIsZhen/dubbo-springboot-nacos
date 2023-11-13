@@ -2,8 +2,7 @@ package com.liyz.dubbo.service.search.service.abs;
 
 import com.google.common.collect.Lists;
 import com.liyz.dubbo.common.remote.page.RemotePage;
-import com.liyz.dubbo.service.search.exception.RemoteSearchServiceException;
-import com.liyz.dubbo.service.search.exception.SearchExceptionCodeEnum;
+import com.liyz.dubbo.service.search.bo.BaseBO;
 import com.liyz.dubbo.service.search.query.BasePageQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -15,7 +14,6 @@ import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
-import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
@@ -35,7 +33,7 @@ import java.util.stream.Collectors;
  * @date 2023/11/11 14:39
  */
 @Slf4j
-public abstract class AbstractSearchServiceImpl<BO, BaseQuery extends BasePageQuery> extends AbstractSearchService<BO, BaseQuery> {
+public abstract class AbstractSearchServiceImpl<BO extends BaseBO, BaseQuery extends BasePageQuery> extends AbstractSearchService<BO, BaseQuery> {
 
     @Resource
     protected ElasticsearchRestTemplate esRestTemplate;
@@ -53,7 +51,7 @@ public abstract class AbstractSearchServiceImpl<BO, BaseQuery extends BasePageQu
         }
         NativeSearchQuery query = new NativeSearchQueryBuilder()
                 .withIds(id)
-                .withPageable(Pageable.ofSize(1).withPage(0))
+                .withPageable(Query.DEFAULT_PAGE)
                 .build();
         RemotePage<BO> remotePage = doQuery(query);
         if (CollectionUtils.isEmpty(remotePage.getList())) {
@@ -75,11 +73,11 @@ public abstract class AbstractSearchServiceImpl<BO, BaseQuery extends BasePageQu
         }
         NativeSearchQuery query = new NativeSearchQueryBuilder()
                 .withIds(ids)
-                .withPageable(Pageable.ofSize(ids.size()).withPage(0))
+                .withPageable(Query.DEFAULT_PAGE)
                 .build();
         RemotePage<BO> remotePage = doQuery(query);
         if (CollectionUtils.isEmpty(remotePage.getList())) {
-            return null;
+            return Lists.newArrayList();
         }
         return remotePage.getList();
     }
@@ -101,7 +99,7 @@ public abstract class AbstractSearchServiceImpl<BO, BaseQuery extends BasePageQu
         }
         NativeSearchQuery query = new NativeSearchQueryBuilder()
                 .withQuery(this.buildQuery(baseQuery))
-                .withPageable(Pageable.ofSize(baseQuery.getPageSize()).withPage(baseQuery.getPageNum() - 1))
+                .withPageable(Pageable.ofSize(baseQuery.getPageSize()).withPage(0))
                 .withTrackTotalHits(Boolean.TRUE)
                 .withMaxResults(baseQuery.getListMaxCount())
                 .withSorts(SortBuilders.scoreSort().order(SortOrder.DESC))
@@ -139,7 +137,24 @@ public abstract class AbstractSearchServiceImpl<BO, BaseQuery extends BasePageQu
      */
     @Override
     public List<BO> searchList(BaseQuery query) {
-        throw new RemoteSearchServiceException(SearchExceptionCodeEnum.NOT_SUPPORT_METHOD);
+        if (StringUtils.isNotBlank(query.getId())) {
+            return this.getByIds(Lists.newArrayList(query.getId()));
+        }
+        if (!CollectionUtils.isEmpty(query.getIds())) {
+            return this.getByIds(query.getIds());
+        }
+        NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
+                .withQuery(this.buildQuery(query))
+                .withPageable(Pageable.ofSize(query.getListMaxCount()).withPage(0))
+                .withTrackTotalHits(Boolean.TRUE)
+                .withMaxResults(query.getListMaxCount())
+                .withSorts(SortBuilders.scoreSort().order(SortOrder.DESC))
+                .build();
+        RemotePage<BO> remotePage = doQuery(searchQuery);
+        if (CollectionUtils.isEmpty(remotePage.getList())) {
+            return Lists.newArrayList();
+        }
+        return remotePage.getList();
     }
 
     /**
@@ -150,7 +165,22 @@ public abstract class AbstractSearchServiceImpl<BO, BaseQuery extends BasePageQu
      */
     @Override
     public RemotePage<BO> searchPage(BaseQuery query) {
-        throw new RemoteSearchServiceException(SearchExceptionCodeEnum.NOT_SUPPORT_METHOD);
+        if (StringUtils.isNotBlank(query.getId())) {
+            List<BO> boList = this.getByIds(Lists.newArrayList(query.getId()));
+            return new RemotePage<>(boList, boList.size(), query.getPageNum(), query.getPageSize());
+        }
+        if (!CollectionUtils.isEmpty(query.getIds())) {
+            List<BO> boList = this.getByIds(query.getIds());
+            return new RemotePage<>(boList, boList.size(), query.getPageNum(), query.getPageSize());
+        }
+        NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
+                .withQuery(this.buildQuery(query))
+                .withPageable(Pageable.ofSize(query.getPageSize()).withPage(query.getPageNum() - 1))
+                .withTrackTotalHits(Boolean.TRUE)
+                .withMaxResults(query.getListMaxCount())
+                .withSorts(SortBuilders.scoreSort().order(SortOrder.DESC))
+                .build();
+        return doQuery(searchQuery);
     }
 
     /**
@@ -174,7 +204,11 @@ public abstract class AbstractSearchServiceImpl<BO, BaseQuery extends BasePageQu
         Pageable pageable = query.getPageable();
         List<BO> boList = searchHits.getSearchHits()
                 .stream()
-                .map(SearchHit::getContent)
+                .map(item -> {
+                    BO bo = item.getContent();
+                    bo.setId(item.getId());
+                    return bo;
+                })
                 .peek(this::afterHandle)
                 .collect(Collectors.toList());
         return new RemotePage<>(boList, searchHits.getTotalHits(), Math.max(0, pageable.getPageNumber()) + 1, pageable.getPageSize());
