@@ -4,8 +4,6 @@ import com.liyz.dubbo.service.search.bo.company.CompanyBO;
 import com.liyz.dubbo.service.search.constant.SearchType;
 import com.liyz.dubbo.service.search.query.company.CompanySearchQuery;
 import com.liyz.dubbo.service.search.service.abs.AbstractNewSearchServiceImpl;
-import com.liyz.dubbo.service.search.service.abs.AbstractOldSearchServiceImpl;
-import com.liyz.dubbo.service.search.service.abs.AbstractSearchServiceImpl;
 import com.liyz.dubbo.service.search.service.company.CompanySearchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

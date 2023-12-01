@@ -2,7 +2,6 @@ package com.liyz.dubbo.service.search.service.abs;
 
 import com.google.common.collect.Lists;
 import com.liyz.dubbo.common.remote.page.RemotePage;
-import com.liyz.dubbo.common.util.JsonMapperUtil;
 import com.liyz.dubbo.service.search.bo.BaseBO;
 import com.liyz.dubbo.service.search.exception.RemoteSearchServiceException;
 import com.liyz.dubbo.service.search.exception.SearchExceptionCodeEnum;
@@ -18,6 +17,7 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
@@ -28,6 +28,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -220,13 +221,23 @@ public abstract class AbstractOldSearchServiceImpl<BO extends BaseBO, BaseQuery 
         TotalHits totalHits = searchHits.getTotalHits();
         long total = totalHits.value;
         List<BO> boList = Arrays.stream(searchHits.getHits())
-                .map(item -> {
-                    BO bo = JsonMapperUtil.readValue(item.getSourceAsString(), boClass);
-                    bo.setId(item.getId());
-                    return bo;
-                })
+                .map(this::setId)
                 .peek(this::afterHandle)
                 .collect(Collectors.toList());
         return new RemotePage<>(boList, total, searchSourceBuilder.from() + 1, searchSourceBuilder.size());
+    }
+
+    /**
+     * 设置id
+     *
+     * @param searchHit es hit
+     * @return bo
+     */
+    private BO setId(SearchHit searchHit) {
+        BO bo = readValue(searchHit.getSourceAsString(), boClass);
+        if (Objects.nonNull(bo)) {
+            bo.setId(searchHit.getId());
+        }
+        return bo;
     }
 }

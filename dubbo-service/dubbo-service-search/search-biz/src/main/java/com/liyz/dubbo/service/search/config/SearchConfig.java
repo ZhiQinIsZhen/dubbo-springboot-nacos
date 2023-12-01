@@ -6,6 +6,7 @@ import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
 import com.google.common.collect.Lists;
 import com.liyz.dubbo.common.util.JsonMapperUtil;
+import com.liyz.dubbo.service.search.service.abs.AbstractSearchService;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponseInterceptor;
@@ -48,7 +49,7 @@ public class SearchConfig {
 
     @Bean
     public ElasticsearchClient elasticsearchClient() {
-        JacksonJsonpMapper jacksonJsonpMapper = new JacksonJsonpMapper(JsonMapperUtil.getObjectMapper());
+        JacksonJsonpMapper jacksonJsonpMapper = new JacksonJsonpMapper(AbstractSearchService.objectMapper);
         ElasticsearchTransport transport = new RestClientTransport(this.restClientBuilder().build(), jacksonJsonpMapper);
         return new ElasticsearchClient(transport);
     }

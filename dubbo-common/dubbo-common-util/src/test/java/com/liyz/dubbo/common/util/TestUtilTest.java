@@ -1,6 +1,8 @@
 package com.liyz.dubbo.common.util;
 
+import com.google.common.base.Splitter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Desc:
@@ -75,5 +78,16 @@ public class TestUtilTest {
     public void test3() {
         String name = "乐视控股(北京）有限公司";
         log.info("{}", name.replaceAll("\\(", "（").replaceAll("\\)", "）"));
+    }
+
+    @Test
+    public void test4() {
+        String name = "就是你, 你是谁";
+        List<String> list = Splitter.on(",").splitToList(name)
+                .stream()
+                .filter(StringUtils::isNotBlank)
+                .map(String::trim)
+                .collect(Collectors.toList());
+        log.info("{}", JsonMapperUtil.toJSONString(list));
     }
 }

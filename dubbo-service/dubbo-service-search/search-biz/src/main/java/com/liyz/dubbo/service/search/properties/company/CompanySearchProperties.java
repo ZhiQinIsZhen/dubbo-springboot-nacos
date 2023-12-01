@@ -1,5 +1,6 @@
-package com.liyz.dubbo.service.search.properties;
+package com.liyz.dubbo.service.search.properties.company;
 
+import com.liyz.dubbo.service.search.properties.BaseProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;

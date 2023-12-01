@@ -6,6 +6,7 @@ import co.elastic.clients.elasticsearch._types.query_dsl.IdsQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import com.google.common.collect.Lists;
 import com.liyz.dubbo.common.remote.page.RemotePage;
 import com.liyz.dubbo.service.search.bo.BaseBO;
@@ -19,6 +20,7 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -73,7 +75,7 @@ public abstract class AbstractNewSearchServiceImpl<BO extends BaseBO, BaseQuery 
                 .from(0)
                 .size(10)
         );
-        RemotePage<BO> remotePage = doQuery(request);
+        RemotePage<BO> remotePage = this.doQuery(request);
         if (CollectionUtils.isEmpty(remotePage.getList())) {
             return Lists.newArrayList();
         }
@@ -187,11 +189,7 @@ public abstract class AbstractNewSearchServiceImpl<BO extends BaseBO, BaseQuery 
             SearchResponse<BO> response = client.search(request, boClass);
             List<BO> boList = response.hits().hits()
                     .stream()
-                    .map(item -> {
-                        BO bo = item.source();
-                        bo.setId(item.id());
-                        return bo;
-                    })
+                    .map(this::getByHit)
                     .peek(this::afterHandle)
                     .collect(Collectors.toList());
             return new RemotePage<>(boList, response.hits().hits().size(), Math.max(0, request.from()) + 1, request.size());
@@ -199,5 +197,19 @@ public abstract class AbstractNewSearchServiceImpl<BO extends BaseBO, BaseQuery 
             log.error("query es error", e);
             throw new RemoteSearchServiceException(SearchExceptionCodeEnum.ES_SEARCH_ERROR);
         }
+    }
+
+    /**
+     * 获取BO，并且设置id
+     *
+     * @param hit es hit
+     * @return BO
+     */
+    private BO getByHit(Hit<BO> hit) {
+        BO bo = hit.source();
+        if (Objects.nonNull(bo)) {
+            bo.setId(hit.id());
+        }
+        return bo;
     }
 }

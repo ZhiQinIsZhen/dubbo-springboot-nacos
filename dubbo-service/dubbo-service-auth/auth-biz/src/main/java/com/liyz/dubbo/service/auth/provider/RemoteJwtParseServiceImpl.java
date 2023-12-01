@@ -4,7 +4,6 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.liyz.dubbo.common.service.constant.CommonServiceConstant;
 import com.liyz.dubbo.common.util.DateUtil;
-import com.liyz.dubbo.common.util.JsonMapperUtil;
 import com.liyz.dubbo.common.util.PatternUtil;
 import com.liyz.dubbo.service.auth.bo.AuthUserBO;
 import com.liyz.dubbo.service.auth.enums.Device;
@@ -15,14 +14,13 @@ import com.liyz.dubbo.service.auth.model.AuthJwtDO;
 import com.liyz.dubbo.service.auth.remote.RemoteAuthService;
 import com.liyz.dubbo.service.auth.remote.RemoteJwtParseService;
 import com.liyz.dubbo.service.auth.service.AuthJwtService;
+import com.liyz.dubbo.service.auth.util.JwtUtil;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClaims;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.security.jwt.JwtHelper;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -74,7 +72,7 @@ public class RemoteJwtParseServiceImpl implements RemoteJwtParseService {
         if (authJwtDO.getOneOnline() && Objects.nonNull(authUser.getCheckTime()) && claims.getNotBefore().compareTo(authUser.getCheckTime()) < 0) {
             throw new RemoteAuthServiceException(AuthExceptionCodeEnum.OTHERS_LOGIN);
         }
-        if (!clientId.equals(claims.getAudience())) {
+        if (!clientId.equals(claims.getAudience().stream().findFirst().orElse(StringUtils.EMPTY))) {
             throw new RemoteAuthServiceException(AuthExceptionCodeEnum.AUTHORIZATION_FAIL);
         }
         if (DateUtil.currentDate().compareTo(claims.getExpiration()) > 0) {
@@ -90,7 +88,7 @@ public class RemoteJwtParseServiceImpl implements RemoteJwtParseService {
                 .checkTime(claims.getNotBefore())
                 .roleIds(Lists.newArrayList())
                 .token(authToken)
-                .clientId(claims.getAudience())
+                .clientId(claims.getAudience().stream().findFirst().orElse(StringUtils.EMPTY))
                 .authorities(authJwtDO.getIsAuthority() ? remoteAuthService.authorities(authUser) : Lists.newArrayList())
                 .build();
     }
@@ -112,15 +110,13 @@ public class RemoteJwtParseServiceImpl implements RemoteJwtParseService {
             log.warn("生成token失败, 没有找到该应用下jwt配置信息，clientId : {}", authUser.getClientId());
             throw new RemoteAuthServiceException(AuthExceptionCodeEnum.LOGIN_ERROR);
         }
-        Claims claims = new DefaultClaims();
-        claims.setId(authUser.getAuthId().toString());
-        claims.setSubject(authUser.getUsername());
-        claims.setAudience(authUser.getClientId());
-        claims.setExpiration(new Date(System.currentTimeMillis() + authJwtDO.getExpiration() * 1000));
-        claims.setNotBefore(authUser.getCheckTime());
-        claims.put(CLAIM_DEVICE, authUser.getDevice().getType());
-        return Jwts.builder()
-                .setClaims(claims)
+        return JwtUtil.builder()
+                .id(authUser.getAuthId().toString())
+                .subject(authUser.getUsername())
+                .audience().add(authUser.getClientId()).and()
+                .expiration(new Date(System.currentTimeMillis() + authJwtDO.getExpiration() * 1000))
+                .notBefore(authUser.getCheckTime())
+                .claim(CLAIM_DEVICE, authUser.getDevice().getType())
                 .signWith(
                         SignatureAlgorithm.forName(authJwtDO.getSignatureAlgorithm()),
                         Joiner.on(CommonServiceConstant.DEFAULT_JOINER).join(authJwtDO.getSigningKey(), authUser.getSalt())
@@ -149,7 +145,7 @@ public class RemoteJwtParseServiceImpl implements RemoteJwtParseService {
     private Claims parseClaimsJws(final String token, final String signingKey) {
         Claims claims;
         try {
-            claims = Jwts.parser().setSigningKey(signingKey).parseClaimsJws(token).getBody();
+            claims = JwtUtil.parser().setSigningKey(signingKey).build().parseClaimsJws(token).getBody();
         } catch (Exception e) {
             throw new RemoteAuthServiceException(AuthExceptionCodeEnum.AUTHORIZATION_FAIL);
         }
@@ -163,6 +159,6 @@ public class RemoteJwtParseServiceImpl implements RemoteJwtParseService {
      * @return 解析后属性
      */
     private Claims parseClaimsJws(final String token) {
-        return JsonMapperUtil.readValue(JwtHelper.decode(token).getClaims(), DefaultClaims.class);
+        return JwtUtil.decode(token, DefaultClaims.class);
     }
 }

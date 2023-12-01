@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.liyz.dubbo.common.util.deserializer.DateTimeDeserializer;
 import com.liyz.dubbo.common.util.serializer.DoubleSerializer;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -14,6 +15,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 import java.util.TimeZone;
 
@@ -41,6 +43,7 @@ public class JsonMapperUtil {
                     .addSerializer(Long.TYPE, ToStringSerializer.instance)
                     .addSerializer(Double.class, new DoubleSerializer())
                     .addSerializer(Double.TYPE, new DoubleSerializer())
+                    .addDeserializer(Date.class, new DateTimeDeserializer())
             );
 
     private static final ObjectWriter OBJECT_WRITER = OBJECT_MAPPER.writerWithDefaultPrettyPrinter();
