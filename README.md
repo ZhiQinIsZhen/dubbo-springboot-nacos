@@ -6,8 +6,7 @@ Dubbo-Springboot-Nacos-Seata
 ![License](https://img.shields.io/github/license/alibaba/dubbo.svg)
 ![Springboot Version](https://img.shields.io/badge/Springboot-2.7.9-brightgreen)
 ![Device Version](https://img.shields.io/badge/Device-1.1.5.RELEASE-brightgreen)
-![SpringJwt Version](https://img.shields.io/badge/SpringJwt-1.1.1.RELEASE-brightgreen)
-![Device Version](https://img.shields.io/badge/jjwt-0.9.1-brightgreen)
+![jjwt Version](https://img.shields.io/badge/jjwt-0.12.3-brightgreen)
 ![Dubbo Version](https://img.shields.io/badge/Dubbo-3.1.10-brightgreen)
 ![Netty Version](https://img.shields.io/badge/Netty-4.1.90.Final-brightgreen)
 ![Mybatis-plus Version](https://img.shields.io/badge/MybatisPlus-3.5.3.1-brightgreen)
@@ -261,3 +260,5 @@ public class StaffAuthorityController {
 1.如有问题可以提交[issue](https://github.com/ZhiQinIsZhen/dubbo-springboot-project/issues)
 
 2.如有需要Spring Cloud，请点击[Spring Cloud](https://github.com/ZhiQinIsZhen/springcloud-demo)
+
+3.如有需要Springboot3，请点击[Dubbo-Springboot3](https://github.com/ZhiQinIsZhen/dubbo-springboot3)
