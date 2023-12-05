@@ -18,6 +18,8 @@ import com.liyz.dubbo.service.auth.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClaims;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -119,7 +121,7 @@ public class RemoteJwtParseServiceImpl implements RemoteJwtParseService {
                 .claim(CLAIM_DEVICE, authUser.getDevice().getType())
                 .signWith(
                         SignatureAlgorithm.forName(authJwtDO.getSignatureAlgorithm()),
-                        Joiner.on(CommonServiceConstant.DEFAULT_JOINER).join(authJwtDO.getSigningKey(), authUser.getSalt())
+                        Keys.hmacShaKeyFor(Decoders.BASE64.decode(Joiner.on(CommonServiceConstant.DEFAULT_PADDING).join(authJwtDO.getSigningKey(), authUser.getSalt())))
                 )
                 .compact();
     }

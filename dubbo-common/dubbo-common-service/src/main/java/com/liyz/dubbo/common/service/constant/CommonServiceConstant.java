@@ -21,4 +21,6 @@ public interface CommonServiceConstant {
     String ATTACHMENT_LOGIN_USER = "loginUser";
 
     Long DEFAULT_SYSTEM_USER_ID = -1L;
+
+    String DEFAULT_PADDING = "================================================================";
 }
