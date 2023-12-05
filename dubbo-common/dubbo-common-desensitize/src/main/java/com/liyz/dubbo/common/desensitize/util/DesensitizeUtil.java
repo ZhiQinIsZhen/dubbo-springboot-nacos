@@ -40,6 +40,7 @@ public class DesensitizeUtil {
      * @return 对应服务实例 注：没有对应的服务实列会返回默认的服务实例
      */
     public static DesensitizeService getService(DesensitizationType desensitizationType) {
+        desensitizationType = Objects.isNull(desensitizationType) ? DesensitizationType.DEFAULT : desensitizationType;
         DesensitizeService service = SERVICE_MAP.get(desensitizationType);
         return Objects.nonNull(service) ? service : SERVICE_MAP.get(DesensitizationType.DEFAULT);
     }

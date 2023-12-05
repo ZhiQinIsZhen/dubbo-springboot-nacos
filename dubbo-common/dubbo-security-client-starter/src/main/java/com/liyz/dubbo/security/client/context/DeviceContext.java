@@ -2,7 +2,8 @@ package com.liyz.dubbo.security.client.context;
 
 import com.liyz.dubbo.service.auth.enums.Device;
 import lombok.experimental.UtilityClass;
-import org.springframework.mobile.device.LiteDeviceResolver;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
  * @version 1.0.0
  * @date 2023/3/9 14:52
  */
+@Slf4j
 @UtilityClass
 public class DeviceContext {
 
@@ -23,6 +25,21 @@ public class DeviceContext {
      * @return 设备类型
      */
     public static Device getDevice(HttpServletRequest request) {
-        return new LiteDeviceResolver().resolveDevice(request).isMobile() ? Device.MOBILE : Device.WEB;
+        String userAgent = request.getHeader("User-Agent");
+        if (StringUtils.isBlank(userAgent)) {
+            return Device.WEB;
+        }
+        userAgent = userAgent.toLowerCase();
+        log.info("http header User-Agent : {}", userAgent);
+        if (userAgent.contains("android")
+                || userAgent.contains("mobile")
+                || userAgent.contains("ipad")
+                || userAgent.contains("iphone")
+                || userAgent.contains("ipod")
+                || userAgent.contains("silk")) {
+            return Device.MOBILE;
+        } else {
+            return Device.WEB;
+        }
     }
 }
