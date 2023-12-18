@@ -28,8 +28,9 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping;
 import springfox.documentation.spring.web.plugins.WebMvcRequestHandlerProvider;
 
@@ -43,6 +44,14 @@ import java.util.stream.Collectors;
 
 /**
  * Desc:mvc auto config
+ * <p>这里注意使用{@link WebMvcConfigurer}与{@link WebMvcConfigurationSupport}区别
+ * 主要区别在于{@link org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration}中的
+ * condition {ConditionalOnMissingBean({WebMvcConfigurationSupport.class})}，使用support则springboot原生的config则不会
+ * 创建，并且在{@link org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.EnableWebMvcConfiguration}
+ * 的父类{@link DelegatingWebMvcConfiguration}中会找出所有的{@link WebMvcConfigurer}进行逐步配置
+ * </p>
+ *
+ * 注: 所以建议大家使用{@link WebMvcConfigurer}来或者自己的mvc配置
  *
  * @author lyz
  * @version 1.0.0
@@ -51,7 +60,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Configuration
 @AutoConfigureOrder(value = Ordered.HIGHEST_PRECEDENCE)
-public class WebMvcAutoConfig extends WebMvcConfigurationSupport {
+public class WebMvcAutoConfig implements WebMvcConfigurer {
 
     public WebMvcAutoConfig() {
         log.info("module dubbo-common-api-starter init");
@@ -72,21 +81,8 @@ public class WebMvcAutoConfig extends WebMvcConfigurationSupport {
         return new LyzApiResponseBodyAdvice();
     }
 
-    /**
-     * 允许加载本地静态资源
-     *
-     * @param registry 资源注册器
-     */
     @Override
-    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/META-INF/resources/");
-        super.addResourceHandlers(registry);
-    }
-
-    @Override
-    protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        super.extendMessageConverters(converters);
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         if (!CollectionUtils.isEmpty(converters)) {
             Optional<HttpMessageConverter<?>> optional = converters.stream().filter(item -> item instanceof MappingJackson2HttpMessageConverter).findFirst();
             optional.ifPresent(item -> {
@@ -110,9 +106,8 @@ public class WebMvcAutoConfig extends WebMvcConfigurationSupport {
     }
 
     @Override
-    protected void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(new AuthUserArgumentResolver());
-        super.addArgumentResolvers(argumentResolvers);
     }
 
     @Configuration(proxyBeanMethods = false)

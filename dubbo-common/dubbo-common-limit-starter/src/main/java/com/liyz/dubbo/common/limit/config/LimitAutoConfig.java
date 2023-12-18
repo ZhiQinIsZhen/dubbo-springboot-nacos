@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Desc:
@@ -65,7 +66,12 @@ public class LimitAutoConfig implements ApplicationListener<ContextRefreshedEven
                 Limits limits = v.getMethodAnnotation(Limits.class);
                 Limit[] limitArray = limits.value();
                 if (Objects.nonNull(limitArray) && limitArray.length > 0) {
-                    Arrays.stream(limitArray).forEach(limit -> k.getPatternsCondition().getPatterns().stream().forEach(mapping -> LimitContext.putLimit(mapping, limit)));
+                    Arrays.stream(limitArray).forEach(limit -> {
+                        Set<String> patterns;
+                        if (k.getPatternsCondition() != null && (patterns = k.getPatternsCondition().getPatterns()) != null) {
+                            patterns.forEach(mapping -> LimitContext.putLimit(mapping, limit));
+                        }
+                    });
                 }
             }
         });

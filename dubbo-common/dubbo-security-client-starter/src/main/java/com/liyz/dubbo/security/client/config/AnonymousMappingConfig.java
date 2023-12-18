@@ -13,6 +13,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -40,9 +41,10 @@ public class AnonymousMappingConfig implements ApplicationContextAware, Initiali
         if (!CollectionUtils.isEmpty(map)) {
             map.values().forEach(handlerMapping -> {
                 handlerMapping.getHandlerMethods().forEach((k, v) -> {
-                    boolean hasAnonymous = v.getBeanType().isAnnotationPresent(Anonymous.class) || (v.hasMethodAnnotation(Anonymous.class));
-                    if (hasAnonymous) {
-                        anonymousMappings.addAll(k.getPatternsCondition().getPatterns());
+                    if (v.getBeanType().isAnnotationPresent(Anonymous.class) || (v.hasMethodAnnotation(Anonymous.class))) {
+                        if (Objects.nonNull(k.getPathPatternsCondition())) {
+                            anonymousMappings.addAll(k.getPathPatternsCondition().getPatternValues());
+                        }
                     }
                 });
             });

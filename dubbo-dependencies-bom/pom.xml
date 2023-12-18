@@ -22,6 +22,7 @@
         <mybatis.plus.join.version>1.4.7.2</mybatis.plus.join.version>
         <github.knife4j.version>2.0.9</github.knife4j.version>
         <knife4j-openapi3.version>4.1.0</knife4j-openapi3.version>
+        <knife4j-openapi2.version>4.4.0</knife4j-openapi2.version>
         <redisson.version>3.21.3</redisson.version>
         <elasticjob.version>3.0.3</elasticjob.version>
     </properties>
@@ -128,6 +129,11 @@
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-spring-boot-starter</artifactId>
                 <version>${knife4j-openapi3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
+                <version>${knife4j-openapi2.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.redisson</groupId>
