@@ -15,14 +15,14 @@ Dubbo Springboot2 Project
 基于[SpringBoot](https://spring.io/projects/spring-boot)、[Mybatis-plus](https://baomidou.com/)、
 [Nacos](https://nacos.io/zh-cn/)、[Seata](https://seata.io/zh-cn/index.html)等框架。
 
-### 项目结构
+## 项目结构
 
 1. `dubbo-api`：网关层
 2. `dubbo-common`：基础包的框架
 3. `dubbo-dependencies-bom`：Jar版本管理父pom
 4. `dubbo-service`：Dubbo的服务提供者
 
-### api结构说明
+## api结构说明
 
 1. `dubbo-api-admin`: 管理后台网关层，鉴权基于spring-security
     ```java
@@ -54,7 +54,7 @@ Dubbo Springboot2 Project
     ```
 2. `dubbo-api-user`: 客户前台网关层
 
-### common结构说明
+## common结构说明
 
 1. `dubbo-common-util`: 通用工具类框架
     >  + DateUtil: 日期工具类
@@ -201,16 +201,16 @@ Dubbo Springboot2 Project
         }
     ```
    
-### service结构说明
+## service结构说明
 1. `dubbo-service-auth`: 认证资源服务，基于spring-security以及jwt
 2. `dubbo-service-staff`: 员工信息服务
 3. `dubbo-service-user`: 客户信息服务
 4. `dubbo-service-job`: 定时任务服务：基于Elastic-Job
 5. `dubbo-service-monitor`: Springboot监控monitor
 
-### 如需之前版本，请关注tag标签，重新拉取tag代码
+## 如需之前版本，请关注tag标签，重新拉取tag代码
 
-#### 开源共建
+## 开源共建
 1. 如有问题可以提交[issue](https://github.com/ZhiQinIsZhen/dubbo-springboot-project/issues)
 2. 如有需要Spring Cloud，请点击[Spring Cloud](https://github.com/ZhiQinIsZhen/springcloud-demo)
 3. 如有需要Springboot3，请点击[Dubbo-Springboot3](https://github.com/ZhiQinIsZhen/dubbo-springboot3)
