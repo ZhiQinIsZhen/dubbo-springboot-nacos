@@ -20,6 +20,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
+import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -44,11 +45,16 @@ import java.util.stream.Collectors;
 
 /**
  * Desc:mvc auto config
- * <p>这里注意使用{@link WebMvcConfigurer}与{@link WebMvcConfigurationSupport}区别
- * 主要区别在于{@link org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration}中的
- * condition {ConditionalOnMissingBean({WebMvcConfigurationSupport.class})}，使用support则springboot原生的config则不会
- * 创建，并且在{@link org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.EnableWebMvcConfiguration}
- * 的父类{@link DelegatingWebMvcConfiguration}中会找出所有的{@link WebMvcConfigurer}进行逐步配置
+ * <p>
+ *     这里注意使用{@link WebMvcConfigurer}与{@link WebMvcConfigurationSupport}区别
+ *     主要区别在于{@link org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration}中的
+ *     condition {ConditionalOnMissingBean({WebMvcConfigurationSupport.class})}，使用support则springboot原生的config则不会
+ *     创建，并且在{@link org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.EnableWebMvcConfiguration}
+ *     的父类{@link DelegatingWebMvcConfiguration}中会找出所有的{@link WebMvcConfigurer}进行逐步配置
+ * </p>
+ * <p>
+ *     静态资源默认四个位置{@link WebProperties}
+ *     webjars资源默认两个位置 "/webjars/**", "classpath:/META-INF/resources/webjars/"
  * </p>
  *
  * 注: 所以建议大家使用{@link WebMvcConfigurer}来或者自己的mvc配置

@@ -13,7 +13,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2023/6/26 16:23
  */
 @EnableAdminServer
-@SpringBootApplication(exclude = {WebMvcAutoConfig.class})
+@SpringBootApplication
+//@SpringBootApplication(exclude = {WebMvcAutoConfig.class})
 public class MonitorServiceApplication {
 
     public static void main(String[] args) {
