@@ -12,8 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,9 +26,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 /**
  * Desc:
@@ -38,6 +36,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
  * @date 2023/6/13 20:19
  */
 @Slf4j
+@Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AuthSecurityClientAutoConfig implements InitializingBean {
@@ -75,7 +74,7 @@ public class AuthSecurityClientAutoConfig implements InitializingBean {
 
     @Bean
     @DependsOn({"anonymousMappingConfig"})
-    @ConditionalOnProperty(prefix = "monitor", name = "enable", havingValue = "false", matchIfMissing = true)
+    @ConditionalOnMissingBean(SecurityFilterChain.class)
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         log.info("configure init");
         http
@@ -99,31 +98,6 @@ public class AuthSecurityClientAutoConfig implements InitializingBean {
                         UsernamePasswordAuthenticationFilter.class)
                 .headers().cacheControl()
                 .and().frameOptions().sameOrigin();
-        return http.build();
-    }
-
-    @Bean
-    @ConditionalOnProperty(prefix = "monitor", name = "enable", havingValue = "true")
-    public SecurityFilterChain monitorConfigure(HttpSecurity http) throws Exception {
-        log.info("monitorConfigure init");
-        SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
-        successHandler.setTargetUrlParameter("redirectTo");
-        http
-                .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, SecurityClientConstant.OPTIONS_PATTERNS).permitAll()
-                .antMatchers(SecurityClientConstant.ACTUATOR_IGNORE_RESOURCES).permitAll()
-                .antMatchers(HttpMethod.GET, SecurityClientConstant.ADMIN_IGNORE_RESOURCES).permitAll()
-                .antMatchers(SecurityClientConstant.ADMIN_LOGIN).permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().loginPage(SecurityClientConstant.ADMIN_LOGIN).successHandler(successHandler).and()
-                .logout().logoutUrl(SecurityClientConstant.ADMIN_LOGOUT)
-                .and()
-                .httpBasic()
-                .and()
-                .csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringAntMatchers(SecurityClientConstant.ACTUATOR_IGNORE_RESOURCES);
         return http.build();
     }
 
