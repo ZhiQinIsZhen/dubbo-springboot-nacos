@@ -35,6 +35,9 @@ public class JsonTrimDeserializer extends JsonDeserializer<String> implements Co
 
     @Override
     public JsonDeserializer<?> createContextual(DeserializationContext deserializationContext, BeanProperty beanProperty) {
+        if (beanProperty == null) {
+            return this;
+        }
         Trim trim = beanProperty.getAnnotation(Trim.class);
         return Objects.isNull(trim) ? this : new JsonTrimDeserializer(trim);
     }

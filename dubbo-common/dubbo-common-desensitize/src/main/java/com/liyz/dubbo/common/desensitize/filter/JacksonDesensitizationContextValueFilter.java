@@ -41,6 +41,9 @@ public class JacksonDesensitizationContextValueFilter extends JsonSerializer<Str
 
     @Override
     public JsonSerializer<?> createContextual(SerializerProvider prov, BeanProperty property) throws JsonMappingException {
+        if (property == null) {
+            return this;
+        }
         Desensitization desensitization = property.getAnnotation(Desensitization.class);
         return Objects.isNull(desensitization) ? this : new JacksonDesensitizationContextValueFilter(desensitization);
     }
