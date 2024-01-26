@@ -70,7 +70,7 @@ public class RemoteJwtParseServiceImpl implements RemoteJwtParseService {
         if (Objects.isNull(authUser)) {
             throw new RemoteAuthServiceException(AuthExceptionCodeEnum.AUTHORIZATION_FAIL);
         }
-        Claims claims = this.parseClaimsJws(authToken, Joiner.on(CommonServiceConstant.DEFAULT_JOINER).join(authJwtDO.getSigningKey(), authUser.getSalt()));
+        Claims claims = this.parseClaimsJws(authToken, Joiner.on(CommonServiceConstant.DEFAULT_PADDING).join(authJwtDO.getSigningKey(), authUser.getSalt()));
         if (authJwtDO.getOneOnline() && Objects.nonNull(authUser.getCheckTime()) && claims.getNotBefore().compareTo(authUser.getCheckTime()) < 0) {
             throw new RemoteAuthServiceException(AuthExceptionCodeEnum.OTHERS_LOGIN);
         }
