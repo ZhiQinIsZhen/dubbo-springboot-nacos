@@ -1,5 +1,6 @@
 package com.liyz.dubbo.security.client.user;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.liyz.dubbo.common.service.util.BeanUtil;
 import com.liyz.dubbo.service.auth.bo.AuthUserBO;
 import lombok.Getter;
@@ -18,6 +19,7 @@ import java.util.Collection;
  */
 @Getter
 @Setter
+@JsonPropertyOrder
 public class AuthUserDetails extends User {
     private static final long serialVersionUID = 1L;
 
