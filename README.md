@@ -5,11 +5,11 @@
 [![License](https://img.shields.io/badge/License-MIT-yellow)](https://github.com/ZhiQinIsZhen/dubbo-springboot-nacos/blob/master/License)
 ![Springboot Version](https://img.shields.io/badge/Springboot-2.7.18-brightgreen)
 ![jjwt Version](https://img.shields.io/badge/jjwt-0.12.3-brightgreen)
-![Dubbo Version](https://img.shields.io/badge/Dubbo-3.2.9-brightgreen)
+![Dubbo Version](https://img.shields.io/badge/Dubbo-3.2.11-brightgreen)
 ![Netty Version](https://img.shields.io/badge/Netty-4.1.90.Final-brightgreen)
-![Mybatis-plus Version](https://img.shields.io/badge/MybatisPlus-3.5.4.1-brightgreen)
+![Mybatis-plus Version](https://img.shields.io/badge/MybatisPlus-3.5.5-brightgreen)
 ![Swagger Version](https://img.shields.io/badge/knife4j-4.4.0-brightgreen)
-![ElasticJob Version](https://img.shields.io/badge/ElasticJob-3.0.3-brightgreen)
+![ElasticJob Version](https://img.shields.io/badge/ElasticJob-3.0.4-brightgreen)
 
 这是一个[Apache Dubbo](https://cn.dubbo.apache.org/zh-cn/index.html)项目的脚手架，
 基于[SpringBoot](https://spring.io/projects/spring-boot)、[Mybatis-plus](https://baomidou.com/)、
