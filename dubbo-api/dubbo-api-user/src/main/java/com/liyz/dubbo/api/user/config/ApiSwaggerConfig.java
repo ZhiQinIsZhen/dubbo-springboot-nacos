@@ -29,6 +29,12 @@ public class ApiSwaggerConfig extends SwaggerConfig {
     }
 
     @Bean
+    public Docket allApi() {
+        return docket("com.liyz.dubbo.api.user.controller", "ALL-API",
+                PathSelectors.none());
+    }
+
+    @Bean
     public Docket testApi() {
         return docket("com.liyz.dubbo.api.user.controller.test", "接口测试-API",
                 PathSelectors.none());

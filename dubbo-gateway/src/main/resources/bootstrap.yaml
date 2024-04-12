@@ -1,0 +1,162 @@
+#server
+server:
+  port: 8080
+  shutdown: graceful
+  netty:
+    connection-timeout: 1000ms
+#spring
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: dubbo-gateway
+  lifecycle:
+    timeout-per-shutdown-phase: 60s
+  cloud:
+    nacos:
+      config:
+        enabled: true
+        server-addr: http://127.0.0.1:8848
+        namespace: liyz-config
+        group: config
+        prefix: ${spring.application.name}
+        file-extension: yaml
+        refresh-enabled: true
+        extension-configs:
+#          - data-id: xxx.yaml
+#            group: config
+#            refresh: true
+    discovery:
+      enabled: true
+    #gateway-#路由规则
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: dubbo-api-admin
+          uri: http://localhost:7071
+          predicates:
+            - Path=/admin/**
+          filters:
+            - name: GlobalLimitFilter
+              args:
+                key-resolver: '#{@keyResolver}'
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 3
+        - id: dubbo-api-user
+          uri: http://localhost:7072
+          predicates:
+            - Path=/user/**
+          filters:
+            - name: GlobalLimitFilter
+              args:
+                key-resolver: '#{@keyResolver}'
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 3
+            - name: GlobalAuthIdHeaderFilter
+              args:
+                name: AUTH_ID
+                value: -1
+            - name: GlobalCacheBodyFilter
+              args:
+                body-class: java.lang.Object
+  # redis
+  data:
+    redis:
+      database: 2
+      host: 127.0.0.1
+      port: 6379
+  boot:
+    admin:
+      client:
+        url: http://127.0.0.1:7060
+  messages:
+    basename: i18n.message
+# dubbo
+dubbo:
+  application:
+    name: ${spring.application.name}
+    qos-enable: false
+    serialize-check-status: WARN
+  protocol:
+    port: 20778
+    threads: 2
+  provider:
+    filter: remoteServiceExceptionFilter,-exception
+    version: 1.0.0
+  consumer:
+    version: 1.0.0
+    check: false
+    cluster: failfast
+    timeout: 60000
+  registry:
+    timeout: 5000
+    address: nacos://localhost:8848?namespace=liyz
+  metadata-report:
+    address: nacos://localhost:8848?namespace=liyz
+knife4j:
+  # 聚合swagger文档
+  gateway:
+    enabled: true
+    routes:
+      - name: 后台管理服务
+        url: /admin/v2/api-docs?group=default
+        service-name: dubbo-api-admin
+        context-path: /admin
+        order: 1
+      - name: 后台管理服务-鉴权
+        url: /admin/v2/api-docs/authentication?group=default
+        service-name: dubbo-api-admin
+        context-path: /admin
+        order: 2
+      - name: 用户前台服务
+        url: /user/v2/api-docs?group=ALL-API
+        service-name: dubbo-api-user
+#        context-path: /user
+        order: 101
+      - name: 用户前台服务-鉴权
+        url: /user/v2/api-docs?group=认证鉴权-API
+        service-name: dubbo-api-user
+#        context-path: /user
+        order: 102
+    discover:
+      version: openapi3
+    tags-sorter: order
+    operations-sorter: order
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+# 免鉴权
+anonymous:
+  mapping:
+    server:
+      dubbo-api-admin:
+        - /admin/v2/api-docs/**
+        - /admin/auth/register
+        - /admin/auth/login
+        - /admin/test/**
+      dubbo-api-user:
+        - /user/v2/api-docs/**
+        - /user/user/register
+        - /user/user/login
+        - /user/test/**
+        - /user/export/**
+        - /user/search/company/**
+        - /user/search/investor/**
+        - /user/search/financing/**
+non:
+  limit:
+    mapping:
+      server:
+        dubbo-api-user:
+          - /user/test/**
+logging:
+  file:
+    name: '\srv\logs\${spring.application.name}\${spring.application.name}.log'

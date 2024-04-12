@@ -2,7 +2,10 @@ package com.liyz.dubbo.common.util;
 
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -75,5 +78,25 @@ public class PatternUtil {
             type = 2;
         }
         return type;
+    }
+
+    /**
+     * 地址与目标集合是否匹配
+     *
+     * @param path 地址
+     * @param mappingSet 目标集合
+     * @return boolean
+     */
+    public static boolean pathMatch(String path, Set<String> mappingSet) {
+        if (CollectionUtils.isEmpty(mappingSet)) {
+            return false;
+        }
+        for (String mapping : mappingSet) {
+            if (new AntPathMatcher().match(mapping, path)) {
+                mappingSet.add(path);
+                return true;
+            }
+        }
+        return false;
     }
 }
