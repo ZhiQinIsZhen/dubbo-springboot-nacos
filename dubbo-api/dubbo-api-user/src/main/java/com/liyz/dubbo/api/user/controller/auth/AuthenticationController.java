@@ -4,6 +4,7 @@ import com.liyz.dubbo.api.user.dto.auth.UserLoginDTO;
 import com.liyz.dubbo.api.user.dto.auth.UserRegisterDTO;
 import com.liyz.dubbo.api.user.vo.auth.AuthLoginVO;
 import com.liyz.dubbo.common.api.result.Result;
+import com.liyz.dubbo.common.api.util.CookieUtil;
 import com.liyz.dubbo.common.api.util.HttpServletContext;
 import com.liyz.dubbo.common.service.util.BeanUtil;
 import com.liyz.dubbo.security.client.annotation.Anonymous;
@@ -52,12 +53,19 @@ public class AuthenticationController {
     @ApiOperation("登录")
     @PostMapping("/login")
     public Result<AuthLoginVO> login(@Validated({UserLoginDTO.Login.class}) @RequestBody UserLoginDTO loginDTO) throws IOException {
+        HttpServletResponse response = HttpServletContext.getResponse();
         AuthUserBO authUserBO = AuthContext.AuthService.login(BeanUtil.copyProperties(loginDTO, AuthUserLoginBO.class));
         AuthLoginVO authLoginVO = new AuthLoginVO();
         authLoginVO.setToken(authUserBO.getToken());
         authLoginVO.setExpiration(AuthContext.JwtService.getExpiration(authUserBO.getToken()));
+        CookieUtil.addCookie(
+                response,
+                SecurityClientConstant.DEFAULT_TOKEN_HEADER_KEY,
+                "Bearer " + authUserBO.getToken(),
+                30 * 60,
+                null
+        );
         if (StringUtils.isNotBlank(loginDTO.getRedirect())) {
-            HttpServletResponse response = HttpServletContext.getResponse();
             response.setHeader(SecurityClientConstant.DEFAULT_TOKEN_HEADER_KEY, authLoginVO.getToken());
             response.sendRedirect(loginDTO.getRedirect());
         }

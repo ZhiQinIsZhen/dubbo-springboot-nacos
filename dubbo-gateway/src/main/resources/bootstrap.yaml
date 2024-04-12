@@ -93,9 +93,9 @@ dubbo:
     timeout: 60000
   registry:
     timeout: 5000
-    address: nacos://localhost:8848?namespace=liyz
+    address: nacos://localhost:8848
   metadata-report:
-    address: nacos://localhost:8848?namespace=liyz
+    address: nacos://localhost:8848
 knife4j:
   # 聚合swagger文档
   gateway:

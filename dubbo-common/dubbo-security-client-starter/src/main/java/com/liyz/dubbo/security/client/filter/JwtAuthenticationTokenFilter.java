@@ -2,9 +2,11 @@ package com.liyz.dubbo.security.client.filter;
 
 import com.google.common.base.Charsets;
 import com.liyz.dubbo.common.api.result.Result;
+import com.liyz.dubbo.common.api.util.CookieUtil;
 import com.liyz.dubbo.common.remote.exception.RemoteServiceException;
 import com.liyz.dubbo.common.util.JsonMapperUtil;
 import com.liyz.dubbo.security.client.config.AnonymousMappingConfig;
+import com.liyz.dubbo.security.client.constant.SecurityClientConstant;
 import com.liyz.dubbo.security.client.context.AuthContext;
 import com.liyz.dubbo.security.client.user.AuthUserDetails;
 import com.liyz.dubbo.service.auth.bo.AuthUserBO;
@@ -15,13 +17,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.UriUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 /**
  * Desc:
@@ -41,7 +47,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = request.getHeader(this.tokenHeaderKey);
+        Cookie cookie = CookieUtil.getCookie(this.tokenHeaderKey);
+        String token = Objects.isNull(cookie) ? request.getHeader(this.tokenHeaderKey) : UriUtils.decode(cookie.getValue(), StandardCharsets.UTF_8);
         try {
             if (!AnonymousMappingConfig.getAnonymousMappings().contains(request.getServletPath()) && StringUtils.isNotBlank(token)) {
                 token = URLDecoder.decode(token, String.valueOf(Charsets.UTF_8));
@@ -55,6 +62,15 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 AuthContext.setAuthUser(authUser);
+            }
+            if (Objects.nonNull(cookie)) {
+                CookieUtil.addCookie(
+                        response,
+                        SecurityClientConstant.DEFAULT_TOKEN_HEADER_KEY,
+                        token,
+                        30 * 60,
+                        null
+                );
             }
             //处理下一个过滤器
             filterChain.doFilter(request, response);
