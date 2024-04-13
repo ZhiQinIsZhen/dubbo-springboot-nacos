@@ -4,6 +4,7 @@
 ![Maven](https://img.shields.io/maven-central/v/org.apache.dubbo/dubbo.svg)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](https://github.com/ZhiQinIsZhen/dubbo-springboot-nacos/blob/master/License)
 ![Springboot Version](https://img.shields.io/badge/Springboot-2.7.18-brightgreen)
+![Cloud gateway Version](https://img.shields.io/badge/CloudGateway-3.1.9-brightgreen)
 ![jjwt Version](https://img.shields.io/badge/jjwt-0.12.3-brightgreen)
 ![Dubbo Version](https://img.shields.io/badge/Dubbo-3.2.11-brightgreen)
 ![Netty Version](https://img.shields.io/badge/Netty-4.1.90.Final-brightgreen)
@@ -21,6 +22,7 @@
 2. `dubbo-common`：基础包的框架
 3. `dubbo-dependencies-bom`：Jar版本管理父pom
 4. `dubbo-service`：Dubbo的服务提供者
+5. `dubbo-gateway`：前置网关层
 
 ## api结构说明
 
@@ -207,6 +209,11 @@
 3. `dubbo-service-user`: 客户信息服务
 4. `dubbo-service-job`: 定时任务服务：基于Elastic-Job
 5. `dubbo-service-monitor`: Springboot监控monitor
+
+## gateway结构说明
+
+1. `GlobalJWTFilter`: 自定义全局JWT过滤器
+2. `GlobalLimitFilter`: 自定义限流过滤器
 
 ## 如需之前版本，请关注tag标签，重新拉取tag代码
 
