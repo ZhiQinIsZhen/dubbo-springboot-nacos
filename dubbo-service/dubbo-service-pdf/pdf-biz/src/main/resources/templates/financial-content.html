@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>financial-content</title>
+    <link href="./css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/table.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/quill.core.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="detail">
+    <div class="financial-content" th:fragment="financial(dataVo,myToc)">
+        <div th:replace="~{headline :: headline(toc=${myToc},riskMark=0)}">
+            <div class="content-title">
+                财报情况
+            </div>
+        </div>
+        <div th:with="myToc=${myToc.access.getFirstChild()}">
+            <div th:replace="~{headline :: headline(toc=${myToc},riskMark=0)}">
+                <div class="detail-title margin-22">
+                    <img src="./image/common/01.png"/>
+                    <div class="title">关键财务指标</div>
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${null==dataVo?.indicator},indicator=${dataVo?.indicator}">
+                <th:block th:if="${not dataIsEmpty}">
+                    <div class="margin-22"
+                         th:replace="~{ocModule_Component :: lsDescribeTables(lsDescribeTables=${indicator?.lsDescribeTables})}">
+                        ocModule_Component :: lsDescribeTables备注
+                    </div>
+                    <div class="margin-22"
+                         th:replace="~{ocModule_Component :: lsFinanceTables(lsFinanceTables=${indicator?.lsFinanceTables})}">
+                        ocModule_Component :: lsFinanceTables主要财务数据
+                    </div>
+                    <div class="margin-22"
+                         th:replace="~{ocModule_Component :: lsOperationTables(lsOperationTables=${indicator?.lsOperationTables})}">
+                        ocModule_Component :: lsOperationTables营运能力指标
+                    </div>
+                    <div class="margin-22"
+                         th:replace="~{ocModule_Component :: lsRepaymentTables(lsRepaymentTables=${indicator?.lsRepaymentTables})}">
+                        ocModule_Component :: lsRepaymentTables偿债能力指标
+                    </div>
+                    <div class="margin-22"
+                         th:replace="~{ocModule_Component :: lsGrowthTables(lsGrowthTables=${indicator?.lsGrowthTables})}">
+                        ocModule_Component :: lsGrowthTables成长能力指标
+                    </div>
+                    <!-- 成长能力 3.3.0 end -->
+                </th:block>
+                <div class="empty"
+                     th:replace="~{empty_Component :: empty_Component(dataIsEmpty=${dataIsEmpty})}">
+                    empty_Component :: empty_Component空空
+                </div>
+            </div>
+            <!--            <div>-->
+            <!--                <div th:with="tToc=${myToc.access.getFirstChild()},indicator=${dataVo?.indicator}">-->
+            <!--                    <div th:replace="~{headline :: headline(toc=${tToc},riskMark=0)}">-->
+            <!--                        <div class="subtitle">主要财务数据</div>-->
+            <!--                    </div>-->
+            <!--                    <div class="margin-22"-->
+            <!--                         th:replace="~{ocModule_Component :: lsFinanceTables(lsFinanceTables=${indicator?.lsFinanceTables})}">-->
+            <!--                        ocModule_Component :: lsFinanceTables主要财务数据-->
+            <!--                    </div>-->
+            <!--                    <div class="empty"-->
+            <!--                         th:replace="~{empty_Component :: empty_Component(dataIsEmpty=${#lists.isEmpty(indicator?.lsFinanceTables)})}">-->
+            <!--                        empty_Component :: empty_Component空空-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--                <div th:with="tToc=${myToc.access.getNext()},indicator=${dataVo?.indicator}">-->
+            <!--                    <div th:replace="~{headline :: headline(toc=${tToc},riskMark=0)}">-->
+            <!--                        <div class="subtitle">运营能力指标</div>-->
+            <!--                    </div>-->
+            <!--                    <div class="margin-22"-->
+            <!--                         th:replace="~{ocModule_Component :: lsOperationTables(lsOperationTables=${indicator?.lsOperationTables})}">-->
+            <!--                        ocModule_Component :: lsOperationTables营运能力指标-->
+            <!--                    </div>-->
+            <!--                    <div class="empty"-->
+            <!--                         th:replace="~{empty_Component :: empty_Component(dataIsEmpty=${#lists.isEmpty(indicator?.lsOperationTables)})}">-->
+            <!--                        empty_Component :: empty_Component空空-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--                <div th:with="tToc=${myToc.access.getNext()},indicator=${dataVo?.indicator}">-->
+            <!--                    <div th:replace="~{headline :: headline(toc=${tToc},riskMark=0)}">-->
+            <!--                        <div class="subtitle">偿债能力指标</div>-->
+            <!--                    </div>-->
+            <!--                    <div class="margin-22"-->
+            <!--                         th:replace="~{ocModule_Component :: lsRepaymentTables(lsRepaymentTables=${indicator?.lsRepaymentTables})}">-->
+            <!--                        ocModule_Component :: lsRepaymentTables偿债能力指标-->
+            <!--                    </div>-->
+            <!--                    <div class="empty"-->
+            <!--                         th:replace="~{empty_Component :: empty_Component(dataIsEmpty=${#lists.isEmpty(indicator?.lsRepaymentTables)})}">-->
+            <!--                        empty_Component :: empty_Component空空-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--                <div th:with="tToc=${myToc.access.getNext()},indicator=${dataVo?.indicator}">-->
+            <!--                    <div th:replace="~{headline :: headline(toc=${tToc},riskMark=0)}">-->
+            <!--                        <div class="subtitle">成长能力指标</div>-->
+            <!--                    </div>-->
+            <!--                    <div class="margin-22"-->
+            <!--                         th:replace="~{ocModule_Component :: lsGrowthTables(lsGrowthTables=${indicator?.lsGrowthTables})}">-->
+            <!--                        ocModule_Component :: lsGrowthTables成长能力指标-->
+            <!--                    </div>-->
+            <!--                    <div class="empty"-->
+            <!--                         th:replace="~{empty_Component :: empty_Component(dataIsEmpty=${#lists.isEmpty(indicator?.lsGrowthTables)})}">-->
+            <!--                        empty_Component :: empty_Component空空-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+        </div>
+        <div th:with="myToc=${myToc.access.getNext()}">
+            <div th:replace="~{headline :: headline(toc=${myToc},riskMark=0)}">
+                <div class="detail-title margin-22">
+                    <img src="./image/common/02.png"/>
+                    <div class="title">财务报表</div>
+                </div>
+            </div>
+            <div>
+                <div th:with="tToc=${myToc.access.getFirstChild()}">
+                    <div th:replace="~{headline :: headline(toc=${tToc},riskMark=0)}">
+                        <div class="subtitle">资产负债表</div>
+                    </div>
+                    <div th:with="dataIsEmpty=${dataVo?.financeData?.financialSheets?.noData() ?: true},financialTable=${dataVo?.financeData?.getFinancialSheets()}">
+                        <div th:if="${not dataIsEmpty}">
+                            <div class="margin-22"
+                                 th:replace="~{modules/financialSheets :: financialSheets(dataTable=${financialTable})}">
+                                modules/financialSheets :: financialSheets资产负债表
+                            </div>
+                        </div>
+                        <div class="empty"
+                             th:replace="~{empty_Component :: empty_Component(dataIsEmpty=${dataIsEmpty})}">
+                            empty_Component :: empty_Component空空
+                        </div>
+                    </div>
+                </div>
+                <div th:with="tToc=${myToc.access.getNext()}">
+                    <div th:replace="~{headline :: headline(toc=${tToc},riskMark=0)}">
+                        <div class="subtitle">利润表</div>
+                    </div>
+                    <div th:with="dataIsEmpty=${dataVo?.financeData?.profitSheets?.noData() ?: true},profitTable=${dataVo?.financeData?.getProfitSheets()}">
+                        <div th:if="${not dataIsEmpty}">
+                            <div class="margin-22"
+                                 th:replace="~{modules/profitSheets :: profitSheets(dataTable=${profitTable})}">
+                                modules/profitSheets :: profitSheets利润表
+                            </div>
+                        </div>
+                        <div class="empty"
+                             th:replace="~{empty_Component :: empty_Component(dataIsEmpty=${dataIsEmpty})}">
+                            empty_Component :: empty_Component空空
+                        </div>
+                    </div>
+                </div>
+                <div th:with="tToc=${myToc.access.getNext()}">
+                    <div th:replace="~{headline :: headline(toc=${tToc},riskMark=0)}">
+                        <div class="subtitle">现金流量表</div>
+                    </div>
+                    <div th:with="dataIsEmpty=${dataVo?.financeData?.cashFlowSheets?.noData() ?: true},cashFlowTable=${dataVo?.financeData?.getCashFlowSheets()}">
+                        <div th:if="${not dataIsEmpty}">
+                            <div class="margin-22"
+                                 th:replace="~{modules/cashFlowSheets :: cashFlowSheets(dataTable=${cashFlowTable})}">
+                                modules/cashFlowSheets :: cashFlowSheets现金流量表
+                            </div>
+                        </div>
+                        <div class="empty"
+                             th:replace="~{empty_Component :: empty_Component(dataIsEmpty=${dataIsEmpty})}">
+                            empty_Component :: empty_Component空空
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

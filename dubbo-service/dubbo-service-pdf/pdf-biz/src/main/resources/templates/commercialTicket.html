@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>commercialTicket</title>
+    <link href="./css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/table.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/quill.core.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="detail">
+    <!-- 商票情况 -->
+    <div class="note" th:fragment="commercialTicket" th:with="ctToc=${toc.commercialTicket}">
+        <div th:replace="~{headline :: headline(toc=${ctToc},riskMark=0)}">
+            <div class="content-title" th:id="${ctToc.dest}" th:text="${ctToc.getName()}">
+                DD商票情况
+            </div>
+        </div>
+        <div th:with="companyName=${ctx.commercialTicket?.companyName} ,labels=${ctx.commercialTicket?.labels}">
+            <div th:replace="~{companyTitle:: companyTitleMargin24(desc='商票数据企业:',companyName=${companyName},labels=${labels})}">
+                <div class="company-title margin-24">
+                    <div class="company-title-left">
+                        <div class="company-des-name">
+                            广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团
+                        </div>
+                    </div>
+                    <div class="company-title-tag">
+                        <span class="company-title-tag-item">实际控股公司</span>
+                        <span class="company-title-tag-item">其他关联公司</span>
+                        <span class="company-title-tag-item">项目公司</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  头数据-->
+        <!--市场交易年化利率 && 商票风险等级-->
+        <div th:with="ctOverviewToc=${ctToc.access.getFirstChild()}">
+            <div th:replace="~{headline :: headline(toc=${ctOverviewToc},riskMark=${ctx?.riskCheckWithType('TICKET_RISK','RISK_LEVEL')})}">
+                <div class="detail-title margin-24">
+                    <img src="./image/common/01.png"/>
+                    <div class="title" th:id="${ctOverviewToc.dest}" th:text="${ctOverviewToc.getName()}">DD商票情况
+                    </div>
+                </div>
+            </div>
+            <div class="margin-22"
+                 th:replace="~{invoice-bond_Component :: note-card(overView=${ctx.commercialTicket?.overView})}">
+                invoice-bond_Component :: note-card
+            </div>
+        </div>
+        <!--商票违约情况-->
+        <div th:with="ctViolateToc=${ctToc.access.getNext()},overView=${ctx.commercialTicket?.overView}">
+            <div th:replace="~{headline :: headline(toc=${ctViolateToc},riskMark=${ctx?.riskCheckWithType('TICKET_RISK','BOND_BREAK')})}">
+                <div class="detail-title margin-24">
+                    <img src="./image/common/02.png"/>
+                    <div class="title" th:id="${ctViolateToc.dest}" th:text="${ctViolateToc.getName()}">DD商票违约情况
+                    </div>
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${#strings.isEmpty(overView?.richText)}">
+                <div class="ql-snow">
+                    <div class="remark margin-24 ql-editor" th:if="${not dataIsEmpty}"
+                         th:utext="${overView?.richText}">无信息
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!--承兑统计-->
+        <div th:with="ctCensusToc=${ctToc.access.getNext()}">
+            <div th:replace="~{headline :: headline(toc=${ctCensusToc},riskMark=0)}">
+                <div class="detail-title margin-24">
+                    <img src="./image/common/03.png"/>
+                    <div class="title" th:id="${ctCensusToc.dest}" th:text="${ctCensusToc.getName()}">DD承兑统计</div>
+                </div>
+            </div>
+            <div class="margin-22"
+                 th:replace="~{invoice-bond_Component::censusList(dataIsEmpty=${#lists.isEmpty(ctx.commercialTicket?.censusList)},list=${ctx.commercialTicket?.censusList})}">
+                invoice-bond_Component::censusList承兑统计
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

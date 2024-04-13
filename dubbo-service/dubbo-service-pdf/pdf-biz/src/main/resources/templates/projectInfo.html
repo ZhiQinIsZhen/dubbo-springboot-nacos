@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>projectInfo</title>
+    <link href="./css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/table.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/quill.core.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="detail">
+    <!-- 基本信息 -->
+    <div class="base-project-content" th:fragment="projectInfo(ifRegionInfo)"
+         th:with="dataVo=${ctx.projectInfo},projectInfoToc=${toc.projectInfo}">
+        <div th:replace="~{headline :: headline(toc=${projectInfoToc},riskMark=0)}">
+            <div class="content-title" th:id="${projectInfoToc.dest}" th:text="${projectInfoToc.getName()}">
+                DD项目信息
+            </div>
+        </div>
+        <!-- 基本信息 -->
+        <div class="base-info01" th:with="thisToc=${projectInfoToc.access.getFirstChild()}">
+            <div th:replace="~{headline :: headline(toc=${thisToc},riskMark=0)}">
+                <div class="detail-title">
+                    <img src="./image/common/01.png"/>
+                    <div class="title" th:id="${thisToc.dest}" th:text="${thisToc.getName()}">DD基本信息</div>
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${null == dataVo?.projectDetail ?: true},pd=${dataVo?.projectDetail}">
+                <div class="base-info-project" th:if="${not dataIsEmpty}">
+                    <div class="item item-first">
+                        <div class="item-text">
+                            <div class="first">项目名称:</div>
+                            <div class="last" th:text="${pd.name ?: '--'}">--</div>
+                        </div>
+                        <div class="item-text">
+                            <div class="first">项目类型:</div>
+                            <div class="last"
+                                 th:text="${null != pd.projectType ? {'居住建筑','市政建筑','企事业建筑','商业娱乐建筑','生产性建筑'}[pd.projectType-1] : '--'}">
+                                --
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="item-text">
+                            <div class="first">目标客群:</div>
+                            <div class="last"
+                                 th:text="${null != pd.targetGroup ? {'刚需','学区','改善'}[pd.targetGroup-1] : '--'}">
+                                --
+                            </div>
+                        </div>
+                        <div class="item-text">
+                            <div class="first">项目地址:</div>
+                            <div class="last"
+                                 th:text="${T(com.liyz.dubbo.service.pdf.utils.AddressUtils).convertToDetailAddress(pd.address,pd.province,pd.city,pd.area) ?: '--'}">
+                                -
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="item-text">
+                            <div class="first">楼盘均价:</div>
+                            <div class="last"
+                                 th:text="${null == pd.averagePrice ? '--' : (pd.averagePrice?.stripTrailingZeros()?.toPlainString()+'元/平方米')}">
+                                --
+                            </div>
+                        </div>
+                        <div class="item-text">
+                            <div class="first">销售情况:</div>
+                            <div class="last"
+                                 th:text="${null != pd.saleSituation ? {'待销售','销售中','已售罄'}[pd.saleSituation-1] : '--'}">
+                                -
+                            </div>
+                        </div>
+                    </div>
+                    <!--                    <div class="item">-->
+                    <!--                        <div class="item-text">-->
+                    <!--                            <div class="first">周边配套:</div>-->
+                    <!--                            <div class="last"-->
+                    <!--                                 th:text="${null != pd.peripheralSupport ? {'医院/超市/学校齐全','超市/学校','超市'}[pd.peripheralSupport-1] : '&#45;&#45;'}">-->
+                    <!--                                - -->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                        <div class="item-text">-->
+                    <!--                            <div class="first">交通配套:</div>-->
+                    <!--                            <div class="last"-->
+                    <!--                                 th:text="${null != pd.transportationSupport ? {'无配套','公交配套','地铁配套'}[pd.transportationSupport-1] : '&#45;&#45;'}">-->
+                    <!--                                文案信息内容文案信息内容-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!-- 周边配套-->
+        <div class="base-info02" th:with="thisToc=${projectInfoToc.access.getNext()}">
+            <div th:replace="~{headline :: headline(toc=${thisToc},riskMark=0)}">
+                <div class="detail-title">
+                    <img src="./image/common/02.png"/>
+                    <div class="title" th:id="${thisToc.dest}" th:text="${thisToc.getName()}">DD周边配套</div>
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${null == dataVo?.projectSupport ?: true},pSuport=${dataVo?.projectSupport}">
+                <div class="matching-info" th:if="${not dataIsEmpty}">
+                    <div class="matching-title">配套统计</div>
+                    <div class="matching-type-num">
+                        <div class="matching-type-item">
+                            <div class="matching-icon"><img src="./image/base-info/matching-01.png"/></div>
+                            <div class="matching-base">
+                                <div class="num" th:text="${pSuport.transitCount?:'--'}">31</div>
+                                <div class="title">公交</div>
+                            </div>
+                        </div>
+                        <div class="matching-type-item matching-type-item-center">
+                            <div class="matching-icon"><img src="./image/base-info/matching-02.png"/></div>
+                            <div class="matching-base">
+                                <div class="num" th:text="${pSuport.metroCount?:'--'}">32</div>
+                                <div class="title">地铁</div>
+                            </div>
+                        </div>
+                        <div class="matching-type-item">
+                            <div class="matching-icon"><img src="./image/base-info/matching-03.png"/></div>
+                            <div class="matching-base">
+                                <div class="num" th:text="${pSuport.hospitalCount?:'--'}">33</div>
+                                <div class="title">医疗</div>
+                            </div>
+                        </div>
+                        <div class="matching-type-item">
+                            <div class="matching-icon"><img src="./image/base-info/matching-04.png"/></div>
+                            <div class="matching-base">
+                                <div class="num" th:text="${pSuport.educationCount?:'--'}">34</div>
+                                <div class="title">教育</div>
+                            </div>
+                        </div>
+                        <div class="matching-type-item matching-type-item-center">
+                            <div class="matching-icon"><img src="./image/base-info/matching-05.png"/></div>
+                            <div class="matching-base">
+                                <div class="num" th:text="${pSuport.shoppingCount?:'--'}">35</div>
+                                <div class="title">购物</div>
+                            </div>
+                        </div>
+                        <div class="matching-type-item">
+                            <div class="matching-icon"><img src="./image/base-info/matching-06.png"/></div>
+                            <div class="matching-base">
+                                <div class="num" th:text="${pSuport.lifeCount?:'--'}">36</div>
+                                <div class="title">生活</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="matching-concrete">
+                        <div class="matching-concrete-item">
+                            <div class="area-more" th:if="${not #strings.isEmpty(pSuport.mapUrl)}">
+                                <div class="left">周边配套详细查看：</div>
+                                <div class="right">
+                                    <a class="link" href="https://lbs.baidu.com/jsdemo.htm#localSearchKeyCircle"
+                                       target="_blank"
+                                       th:href="|${ctx.fuwuDomain}${pSuport.mapUrl}|"
+                                       th:text="|${ctx.fuwuDomain}${pSuport.mapUrl}|">https://lbs.baidu.com/jsdemo.htm#localSearchKeyCircle</a>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="title">
+                                    <span>项目</span>
+                                    <span>公交</span>
+                                    <span>地铁</span>
+                                    <span>医疗</span>
+                                    <span>教育</span>
+                                    <span>购物</span>
+                                    <span>生活</span>
+                                </div>
+                                <div class="area-box">
+                                    <div class="area-left">
+                                        <div class="item">
+                                            <p class="sur-title">项目名称：</p>
+                                            <p th:text="${dataVo?.projectDetail?.name ?: '--'}">我是项目名称</p>
+                                        </div>
+                                        <div class="item">
+                                            <p class="sur-title">项目地址：</p>
+                                            <p th:text="${T(com.liyz.dubbo.service.pdf.utils.AddressUtils).appendAddress(pSuport.provinceName,pSuport.cityName,pSuport.areaName,pSuport.address) ?: '--'}">
+                                                我是项目地址</p>
+                                        </div>
+                                    </div>
+                                    <div class="area-right">
+                                        <img src="https://fuwu-testa.qjdchina.com/fs/file/download?fileKey=28e60f11-9631-4407-a85b-4c2df8bcac2e"
+                                             style="object-fit:cover;"
+                                             th:src="|${ctx.fsUrl}/download?fileKey=${pSuport.picFileKey}|"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!-- 区域信息 -->
+        <div th:if="${ifRegionInfo}"
+             th:with="thisToc=${projectInfoToc.access.getNext()},region=${dataVo?.regionStructure}">
+            <div th:replace="~{regionStructure :: regionStructure(regionStructureToc=${thisToc},regionData=${region})}"/>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>business-risks_Component</title>
+    <link href="./css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/table.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/quill.core.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="detail">
+    <div th:fragment="business-risks_Component(ocRisk,ocFdToc)">
+        <div th:replace="~{headline :: headline(toc=${ocFdToc},riskMark=0)}">
+            <div class="detail-title margin-32">
+                <img src="./image/common/03.png"/>
+                <div class="title" th:id="${ocFdToc.dest}" th:text="${ocFdToc.getName()}">DD经营风险</div>
+            </div>
+        </div>
+        <!-- (3级目录)欠税公告 -->
+        <div th:with="ocRiskOwnTaxesToc=${ocFdToc.access.getFirstChild()}">
+            <div th:replace="~{headline :: headline(toc=${ocRiskOwnTaxesToc},riskMark=0)}">
+                <div class="manage-title margin-22" th:id="${ocRiskOwnTaxesToc.dest}"
+                     th:text="${ocRiskOwnTaxesToc.getName()}">DD3.1 欠税公告
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(ocRisk?.mrOwnTaxes)},list=${ocRisk?.mrOwnTaxes}">
+                <div th:if="${not dataIsEmpty}">
+                    <div th:each="data : ${list}">
+                        <div th:with="companyName=${data.companyName} ,labels=${data.labels} ,gTableList=${data.gTableList}">
+                            <div th:replace="~{companyTitle:: riskCompanyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                                <div class="risk-company-title">
+                                    <img
+                                            class="risk-company-img"
+                                            src="./image/common/company.png"
+                                    />
+                                    <div>
+                                        <div class="risk-company-name">广西交通什么什么投资有限公司资有限公司</div>
+                                        <div class="risk-company-tag-item">项目公司</div>
+                                        <div class="risk-company-tag-item">实际控股公司</div>
+                                        <div class="risk-company-tag-item">其他关联公司</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="total">共<span class="total_num" th:text="${gTableList?.size()}">0</span>条
+                            </div>
+                            <table class="table5 margin-22">
+                                <tr>
+                                    <td class="th">发布日期</td>
+                                    <td class="th">纳税人识别号</td>
+                                    <td class="th">欠税税种</td>
+                                    <td class="th">当前新发生欠税金额</td>
+                                    <td class="th">欠税余额</td>
+                                    <td class="th">税务机关</td>
+                                </tr>
+                                <tr th:each="i : ${gTableList}">
+                                    <td th:text="${i?.publishDate ?: '--'}">-</td>
+                                    <td th:text="${i?.taxIdNumber ?: '--'}">-</td>
+                                    <td th:text="${i?.taxCategory ?: '--'}">-</td>
+                                    <td th:text="${#strings.isEmpty(i.newOwnTaxBalance) ? null:(i.newOwnTaxBalance+'元')} ?: _">
+                                        --
+                                    </td>
+                                    <td th:text="${#strings.isEmpty(i.ownTaxBalance) ? null:(i.ownTaxBalance+'元')} ?: _">
+                                        --
+                                    </td>
+                                    <td th:text="${i.department ?: '--'}">-</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!-- (3级目录)税收违法 -->
+        <div th:with="ocRiskTcToc=${ocFdToc.access.getNext()}">
+            <div th:replace="~{headline :: headline(toc=${ocRiskTcToc},riskMark=0)}">
+                <div class="manage-title margin-24" th:id="${ocRiskTcToc.dest}" th:text="${ocRiskTcToc.getName()}">
+                    DD3.2税收违法
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(ocRisk?.taxContraventions)},list=${ocRisk?.taxContraventions}">
+                <div th:if="${not dataIsEmpty}">
+                    <div th:each="data : ${list}">
+                        <div th:with="companyName=${data.companyName} ,labels=${data.labels} ,gTableList=${data.gTableList}">
+                            <div th:replace="~{companyTitle:: riskCompanyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                                <div class="risk-company-title">
+                                    <img
+                                            class="risk-company-img"
+                                            src="./image/common/company.png"
+                                    />
+                                    <div>
+                                        <div class="risk-company-name">广西交通什么什么投资有限公司资有限公司</div>
+                                        <div class="risk-company-tag-item">项目公司</div>
+                                        <div class="risk-company-tag-item">实际控股公司</div>
+                                        <div class="risk-company-tag-item">其他关联公司</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="total">共<span class="total_num" th:text="${gTableList?.size()}">0</span>条
+                            </div>
+                            <table class="table6 margin-22">
+                                <tr>
+                                    <td class="th">纳税人名称</td>
+                                    <td class="th">所属纳税机关</td>
+                                    <td class="th">案件性质</td>
+                                </tr>
+                                <tr th:each="i : ${gTableList}">
+                                    <td th:text="${i.taxpayerName ?: '--'}">-</td>
+                                    <td th:text="${i.department ?: '--'}">-</td>
+                                    <td th:text="${i.caseType ?: '--'}">-</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!-- (3级目录)简易注销 -->
+        <div th:with="ocRiskBriefCancelToc=${ocFdToc.access.getNext()}">
+            <div th:replace="~{headline :: headline(toc=${ocRiskBriefCancelToc},riskMark=0)}">
+                <div class="manage-title margin-12" th:id="${ocRiskBriefCancelToc.dest}"
+                     th:text="${ocRiskBriefCancelToc.getName()}">DD3.3 简易注销
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(ocRisk?.briefCancels)},list=${ocRisk?.briefCancels}">
+                <div th:if="${not dataIsEmpty}">
+                    <div th:each="data : ${list}">
+                        <div th:with="companyName=${data.companyName} ,labels=${data.labels} ,gTableList=${data.gTableList}">
+                            <div th:replace="~{companyTitle:: riskCompanyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                                <div class="risk-company-title">
+                                    <img
+                                            class="risk-company-img"
+                                            src="./image/common/company.png"
+                                    />
+                                    <div>
+                                        <div class="risk-company-name">广西交通什么什么投资有限公司资有限公司</div>
+                                        <div class="risk-company-tag-item">项目公司</div>
+                                        <div class="risk-company-tag-item">实际控股公司</div>
+                                        <div class="risk-company-tag-item">其他关联公司</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table7 margin-24 " th:with="bc=${gTableList[0]}">
+                                <tr>
+                                    <td class="th">登记机关</td>
+                                    <td th:text="${bc.regAuthority ?: '--'}">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="th">公告期</td>
+                                    <td th:text="${bc.announcementTerm ?: '--'}">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="th">异议申请人</td>
+                                    <td th:text="${bc.objectionApplyPerson ?: '--'}">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="th">异议时间</td>
+                                    <td th:text="${#dates.format(bc.objectionDate,'yyyy-MM-dd') ?: '--'}">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="th">异议内容</td>
+                                    <td th:text="${bc.regAuthority ?: '--'}">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="th">简易注销结果</td>
+                                    <td th:text="${bc.briefCancelResult ?: '--'}">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="th">公告申请日期</td>
+                                    <td th:text="${bc.announcementApplyDate ?: '--'}">-</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!-- (3级目录)司法拍卖 -->
+        <div th:with="ocRiskJudicialSalesToc=${ocFdToc.access.getNext()}">
+            <div th:replace="~{headline :: headline(toc=${ocRiskJudicialSalesToc},riskMark=0)}">
+                <div class="manage-title margin-24" th:id="${ocRiskJudicialSalesToc.dest}"
+                     th:text="${ocRiskJudicialSalesToc.getName()}">DD3.4司法拍卖
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(ocRisk?.judicialSales)},list=${ocRisk?.judicialSales}">
+                <div th:if="${not dataIsEmpty}">
+                    <div th:each="data : ${list}">
+                        <div th:with="companyName=${data.companyName} ,labels=${data.labels} ,gTableList=${data.gTableList}">
+                            <div th:replace="~{companyTitle:: riskCompanyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                                <div class="risk-company-title">
+                                    <img
+                                            class="risk-company-img"
+                                            src="./image/common/company.png"
+                                    />
+                                    <div>
+                                        <div class="risk-company-name">广西交通什么什么投资有限公司资有限公司</div>
+                                        <div class="risk-company-tag-item">项目公司</div>
+                                        <div class="risk-company-tag-item">实际控股公司</div>
+                                        <div class="risk-company-tag-item">其他关联公司</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <th:block th:if="${not dataIsEmpty}">
+                                <div class="total">共<span class="total_num" th:text="${gTableList?.size()}">0</span>条
+                                </div>
+                                <table class="table8 margin-22">
+                                    <tr>
+                                        <td class="th">拍卖时间</td>
+                                        <td class="th">拍卖公告</td>
+                                        <td class="th">拍卖标的</td>
+                                        <td class="th">起拍价</td>
+                                        <td class="th">评估价</td>
+                                        <td class="th">拍卖阶段</td>
+                                        <td class="th">委托法院</td>
+                                    </tr>
+                                    <tr th:each="i : ${gTableList}">
+                                        <td th:text="${i.scopeDate ?: '--'}">-</td>
+                                        <td th:text="${i.title ?: '--'}">-</td>
+                                        <td th:text="${i.targetObject ?: '--'}">-</td>
+                                        <td th:text="${#strings.isEmpty(i.startingPrice) ? null:(i.startingPrice+'元')} ?: _">
+                                            --
+                                        </td>
+                                        <td th:text="${#strings.isEmpty(i.evaluationPrice) ? null:(i.evaluationPrice+'元')} ?: _">
+                                            --
+                                        </td>
+                                        <td th:text="${i.auctionType ?: '--'}">-</td>
+                                        <td th:text="${i.court ?: '--'}">-</td>
+                                    </tr>
+                                </table>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!-- (3级目录)动产抵押 -->
+        <div th:with="ocRiskMortgagesToc=${ocFdToc.access.getNext()}">
+            <div th:replace="~{headline :: headline(toc=${ocRiskMortgagesToc},riskMark=0)}">
+                <div class="manage-title margin-24" th:id="${ocRiskMortgagesToc.dest}"
+                     th:text="${ocRiskMortgagesToc.getName()}">DD3.5 动产抵押
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(ocRisk?.mortgages)},list=${ocRisk?.mortgages}">
+                <div th:if="${not dataIsEmpty}">
+                    <div th:each="data : ${list}">
+                        <div th:with="companyName=${data.companyName} ,labels=${data.labels} ,gTableList=${data.gTableList}">
+                            <div th:replace="~{companyTitle:: riskCompanyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                                <div class="risk-company-title">
+                                    <img
+                                            class="risk-company-img"
+                                            src="./image/common/company.png"
+                                    />
+                                    <div>
+                                        <div class="risk-company-name">广西交通什么什么投资有限公司资有限公司</div>
+                                        <div class="risk-company-tag-item">项目公司</div>
+                                        <div class="risk-company-tag-item">实际控股公司</div>
+                                        <div class="risk-company-tag-item">其他关联公司</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="total">共<span class="total_num" th:text="${gTableList?.size()}">0</span>条
+                            </div>
+                            <table class="table8 margin-22">
+                                <tr>
+                                    <td class="th">登记日期</td>
+                                    <td class="th">登记编号</td>
+                                    <td class="th">被担保债券类型</td>
+                                    <td class="th">被担保债权数额</td>
+                                    <td class="th">登记机关</td>
+                                    <td class="th">状态</td>
+                                    <td class="th">-</td>
+                                </tr>
+                                <tr th:each="i : ${gTableList}">
+                                    <td th:text="${i.regDate ?: '--'}">-</td>
+                                    <td th:text="${i.regNum ?: '--'}">-</td>
+                                    <td th:text="${i.type ?: '--'}">-</td>
+                                    <td th:text="${i.amount ?: '--'}">-</td>
+                                    <td th:text="${i.regDepartment ?: '--'}">-</td>
+                                    <td th:text="${i.status ?: '--'}">-</td>
+                                    <td>-</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!-- (3级目录)土地抵押 -->
+        <div th:with="ocRiskLandMortgagesToc=${ocFdToc.access.getNext()}">
+            <div th:replace="~{headline :: headline(toc=${ocRiskLandMortgagesToc},riskMark=0)}">
+                <div class="manage-title margin-24" th:id="${ocRiskLandMortgagesToc.dest}"
+                     th:text="${ocRiskLandMortgagesToc.getName()}">DD3.6 土地抵押
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(ocRisk?.landMortgages)},list=${ocRisk?.landMortgages}">
+                <div th:if="${not dataIsEmpty}">
+                    <div th:each="data : ${list}">
+                        <div th:with="companyName=${data.companyName} ,labels=${data.labels} ,gTableList=${data.gTableList}">
+                            <div th:replace="~{companyTitle:: riskCompanyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                                <div class="risk-company-title">
+                                    <img
+                                            class="risk-company-img"
+                                            src="./image/common/company.png"
+                                    />
+                                    <div>
+                                        <div class="risk-company-name">广西交通什么什么投资有限公司资有限公司</div>
+                                        <div class="risk-company-tag-item">项目公司</div>
+                                        <div class="risk-company-tag-item">实际控股公司</div>
+                                        <div class="risk-company-tag-item">其他关联公司</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="total">共<span class="total_num" th:text="${gTableList?.size()}">0</span>条
+                            </div>
+                            <table class="table9 margin-22">
+                                <tr>
+                                    <td class="th">土地坐落</td>
+                                    <td class="th">起止时间</td>
+                                    <td class="th">行政区</td>
+                                    <td class="th">抵押面积(公顷)</td>
+                                    <td class="th">抵押土地用途</td>
+                                </tr>
+                                <tr th:each="i : ${gTableList}">
+                                    <td th:text="${i.landLoc ?: '--'}">-</td>
+                                    <td th:text="|${i.startDate ?: '--'} ~ ${i.endDate ?: '--'}|">-</td>
+                                    <td th:text="${i.landAministrativeArea ?: '--'}">-</td>
+                                    <td th:text="${i.mortgageArea ?: '--'}">-</td>
+                                    <td th:text="${i.mortgageToUser ?: '--'}">-</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!-- (3级目录)股权出质 -->
+        <div th:with="ocRiskBriefCancelToc=${ocFdToc.access.getNext()}">
+            <div th:replace="~{headline :: headline(toc=${ocRiskBriefCancelToc},riskMark=0)}">
+                <div class="manage-title margin-24" th:id="${ocRiskBriefCancelToc.dest}"
+                     th:text="${ocRiskBriefCancelToc.getName()}">DD3.7 股权出质
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(ocRisk?.equities)},list=${ocRisk?.equities}">
+                <div th:if="${not dataIsEmpty}">
+                    <div th:each="data : ${list}">
+                        <div th:with="companyName=${data.companyName} ,labels=${data.labels} ,gTableList=${data.gTableList}">
+                            <div th:replace="~{companyTitle:: riskCompanyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                                <div class="risk-company-title">
+                                    <img
+                                            class="risk-company-img"
+                                            src="./image/common/company.png"
+                                    />
+                                    <div>
+                                        <div class="risk-company-name">广西交通什么什么投资有限公司资有限公司</div>
+                                        <div class="risk-company-tag-item">项目公司</div>
+                                        <div class="risk-company-tag-item">实际控股公司</div>
+                                        <div class="risk-company-tag-item">其他关联公司</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="total">共<span class="total_num" th:text="${gTableList?.size()}">0</span>条
+                            </div>
+                            <table class="table10 margin-22">
+                                <tr>
+                                    <td class="th">公示日期</td>
+                                    <td class="th">登记编号</td>
+                                    <td class="th">出质人</td>
+                                    <td class="th">质权人</td>
+                                    <td class="th">状态</td>
+                                    <td class="th">出质股权数额</td>
+                                </tr>
+                                <tr th:each="i : ${gTableList}">
+                                    <td th:text="${#dates.format(i.putDate,'yyyy-MM-dd') ?: '--'}">-</td>
+                                    <td th:text="${i.regNumber ?: '--'}">-</td>
+                                    <td th:text="${i.pledgor ?: '--'}">-</td>
+                                    <td th:text="${i.pledgee ?: '--'}">-</td>
+                                    <td th:text="${i.state ?: '--'}">-</td>
+                                    <td th:text="${i.equityAmount ?: '--'}">-</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!-- (3级目录)质押明细 -->
+        <div th:with="ocRiskEquitiesToc=${ocFdToc.access.getNext()}">
+            <div th:replace="~{headline :: headline(toc=${ocRiskEquitiesToc},riskMark=0)}">
+                <div class="manage-title margin-24" th:id="${ocRiskEquitiesToc.dest}"
+                     th:text="${ocRiskEquitiesToc.getName()}">DD3.8 质押明细
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(ocRisk?.holderPledges)},list=${ocRisk?.holderPledges}">
+                <div th:if="${not dataIsEmpty}">
+                    <div th:each="data : ${list}">
+                        <div th:with="companyName=${data.companyName} ,labels=${data.labels} ,gTableList=${data.gTableList}">
+                            <div th:replace="~{companyTitle:: riskCompanyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                                <div class="risk-company-title">
+                                    <img
+                                            class="risk-company-img"
+                                            src="./image/common/company.png"
+                                    />
+                                    <div>
+                                        <div class="risk-company-name">广西交通什么什么投资有限公司资有限公司</div>
+                                        <div class="risk-company-tag-item">项目公司</div>
+                                        <div class="risk-company-tag-item">实际控股公司</div>
+                                        <div class="risk-company-tag-item">其他关联公司</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="total">共<span class="total_num" th:text="${gTableList?.size()}">0</span>条
+                            </div>
+                            <table class="table9 margin-22">
+                                <tr>
+                                    <td class="th">公告日期</td>
+                                    <td class="th">股东名称</td>
+                                    <td class="th">质押股份数量（股）</td>
+                                    <td class="th">质押股分市值（元）</td>
+                                    <td class="th">状态</td>
+                                </tr>
+                                <tr th:each="i : ${gTableList}">
+                                    <td th:text="${#dates.format(i.annDate, 'yyyy-MM-dd') ?: '--'}">-</td>
+                                    <td th:text="${i.shareHolder ?: '--'}">-</td>
+                                    <td th:text="${i.pledgeAmount ?: '--'}">-</td>
+                                    <td th:text="${i.lastValue ?: '--'}">-</td>
+                                    <td th:text="${i.status ?: '--'}">-</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

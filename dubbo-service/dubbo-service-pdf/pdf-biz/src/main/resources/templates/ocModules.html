@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>ocModules</title>
+    <link href="./css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/table.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/quill.core.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="detail">
+    <!-- 经营状况 -->
+    <div class="manage" th:fragment="ocModule" th:with="ocToc=${toc.oc}">
+        <div th:replace="~{headline :: headline(toc=${ocToc},riskMark=0)}">
+            <div class="content-title" th:id="${ocToc.dest}" th:text="${ocToc.getName()}">DD经营状况</div>
+        </div>
+        <!-- (2级目录)财务分析 -->
+        <div th:with="ocFbToc=${ocToc.access.getFirstChild()}">
+            <div th:replace="~{headline :: headline(toc=${ocFbToc},riskMark=0)}">
+                <div class="detail-title margin-32" th:id="${ocFbToc.dest}">
+                    <img src="./image/common/01.png"/>
+                    <div class="title" th:id="${ocFbToc.dest}" th:text="${ocFbToc.getName()}">DD财务简析</div>
+                </div>
+            </div>
+            <!--表头数据-->
+            <div th:with="companyName=${ctx.oc?.companyName} ,labels=${ctx.oc?.labels}">
+                <div th:replace="~{companyTitle:: companyTitleMargin12(desc='当前简析企业:',companyName=${companyName},labels=${labels})}">
+                    <div class="company-title">
+                        <div class="company-title-left">
+                            <div class="company-des-name">
+                                广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团
+                            </div>
+                        </div>
+                        <div class="company-title-tag">
+                            <span class="company-title-tag-item">实际控股公司</span>
+                            <span class="company-title-tag-item">其他关联公司</span>
+                            <span class="company-title-tag-item">项目公司</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="finance-des-content">
+                    <div class="ql-snow">
+                        <div class="finance-des ql-editor" th:utext="${ctx.oc.threeRedLines?.financialInfo}">
+                            我是大傻逼！
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--(3级目录)三道红线情况-->
+            <div th:with="ocFbTrlToc=${ocFbToc.access.getFirstChild()}">
+                <div th:replace="~{headline :: headline(toc=${ocFbTrlToc},riskMark=${ctx?.riskCheckWithType('BUSINESS_RISK','RED_LINE')})}">
+                    <div class="manage-title margin-16" th:id="${ocFbTrlToc.dest}" th:text="${ocFbTrlToc.getName()}">
+                        DD1.1三条红线情况
+                    </div>
+                </div>
+                <div class="margin-22"
+                     th:replace="~{ocModule_Component :: threeRedLines(threeRedLines=${ctx.oc?.threeRedLines})}">
+                    ocModule_Component :: threeRedLines三道红线情况
+                </div>
+            </div>
+            <!--(3级目录)关键财务指标-->
+            <div th:with="ocFbIndToc=${ocFbToc.access.getNext()}">
+                <div th:replace="~{headline :: headline(toc=${ocFbIndToc},riskMark=0)}">
+                    <div class="manage-title margin-24" th:id="${ocFbIndToc.dest}" th:text="${ocFbIndToc.getName()}">
+                        DD1.2关键财务指标
+                    </div>
+                </div>
+                <div th:with="dataIsEmpty=${null==ctx.oc.threeRedLines?.indicator},indicator=${ctx.oc.threeRedLines?.indicator}">
+                    <th:block th:if="${not dataIsEmpty}">
+                        <div class="margin-22"
+                             th:replace="~{ocModule_Component :: lsDescribeTables(lsDescribeTables=${indicator?.lsDescribeTables})}">
+                            ocModule_Component :: lsDescribeTables备注
+                        </div>
+                        <div class="margin-22"
+                             th:replace="~{ocModule_Component :: lsFinanceTables(lsFinanceTables=${indicator?.lsFinanceTables})}">
+                            ocModule_Component :: lsFinanceTables主要财务数据
+                        </div>
+                        <div class="margin-22"
+                             th:replace="~{ocModule_Component :: lsOperationTables(lsOperationTables=${indicator?.lsOperationTables})}">
+                            ocModule_Component :: lsOperationTables营运能力指标
+                        </div>
+                        <div class="margin-22"
+                             th:replace="~{ocModule_Component :: lsRepaymentTables(lsRepaymentTables=${indicator?.lsRepaymentTables})}">
+                            ocModule_Component :: lsRepaymentTables偿债能力指标
+                        </div>
+                        <div class="margin-22"
+                             th:replace="~{ocModule_Component :: lsGrowthTables(lsGrowthTables=${indicator?.lsGrowthTables})}">
+                            ocModule_Component :: lsGrowthTables成长能力指标
+                        </div>
+                        <!-- 成长能力 3.3.0 end -->
+                    </th:block>
+                    <div class="empty"
+                         th:replace="~{empty_Component :: empty_Component(dataIsEmpty=${dataIsEmpty})}">
+                        empty_Component :: empty_Component空空
+                    </div>
+                    <!--                    <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">-->
+                    <!--                        经全网扫描，未查得该信息-->
+                    <!--                    </div>-->
+                </div>
+            </div>
+        </div>
+        <!-- (2级目录)财务数据 -->
+        <div th:with="ocFdToc=${ocToc.access.getNext()}">
+            <div th:replace="~{headline :: headline(toc=${ocFdToc},riskMark=0)}">
+                <div class="detail-title margin-32">
+                    <img src="./image/common/02.png"/>
+                    <div class="title" th:id="${ocFdToc.dest}" th:text="${ocFdToc.getName()}">DD财务数据</div>
+                </div>
+            </div>
+            <div th:with="companyName=${ctx.oc?.companyName} ,labels=${ctx.oc?.labels}">
+                <div th:replace="~{companyTitle:: companyTitleMargin12(desc='当前简析企业:',companyName=${companyName},labels=${labels})}">
+                    <div class="company-title">
+                        <div class="company-title-left">
+                            <div class="company-des-name">
+                                广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团
+                            </div>
+                        </div>
+                        <div class="company-title-tag">
+                            <span class="company-title-tag-item">实际控股公司</span>
+                            <span class="company-title-tag-item">其他关联公司</span>
+                            <span class="company-title-tag-item">项目公司</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--(3级目录)财务负债表-->
+            <div th:with="ocFdFinancialToc=${ocFdToc.access.getFirstChild()}">
+                <div th:replace="~{headline :: headline(toc=${ocFdFinancialToc},riskMark=0)}">
+                    <div class="manage-title margin-22" th:id="${ocFdFinancialToc.dest}"
+                         th:text="${ocFdFinancialToc.getName()}">DD2.1 资产负债表
+                    </div>
+                </div>
+                <div th:with="dataIsEmpty=${ctx.oc?.financeData?.financialSheets?.noData() ?: true},financialTable=${ctx.oc?.financeData?.getFinancialSheets()}">
+                    <div th:if="${not dataIsEmpty}">
+                        <div class="margin-22"
+                             th:replace="~{modules/financialSheets :: financialSheets(dataTable=${financialTable})}">
+                            modules/financialSheets :: financialSheets资产负债表
+                        </div>
+                    </div>
+                    <div class="empty"
+                         th:replace="~{empty_Component :: empty_Component(dataIsEmpty=${dataIsEmpty})}">
+                        empty_Component :: empty_Component空空
+                    </div>
+                </div>
+            </div>
+            <!--(3级目录)利润表-->
+            <div th:with="ocFdPrefitToc=${ocFdToc.access.getNext()}">
+                <div th:replace="~{headline :: headline(toc=${ocFdPrefitToc},riskMark=0)}">
+                    <div class="manage-title margin-22" th:id="${ocFdPrefitToc.dest}"
+                         th:text="${ocFdPrefitToc.getName()}">
+                        DD2.2 利润表
+                    </div>
+                </div>
+                <div th:with="dataIsEmpty=${ctx.oc?.financeData?.profitSheets?.noData() ?: true},profitTable=${ctx.oc?.financeData?.getProfitSheets()}">
+                    <div th:if="${not dataIsEmpty}">
+                        <div class="margin-22"
+                             th:replace="~{modules/profitSheets :: profitSheets(dataTable=${profitTable})}">
+                            modules/profitSheets :: profitSheets利润表
+                        </div>
+                    </div>
+                    <div class="empty"
+                         th:replace="~{empty_Component :: empty_Component(dataIsEmpty=${dataIsEmpty})}">
+                        empty_Component :: empty_Component空空
+                    </div>
+                </div>
+            </div>
+            <!--(3级目录)现金流量表-->
+            <div th:with="ocFdCashFlowToc=${ocFdToc.access.getNext()}">
+                <div th:replace="~{headline :: headline(toc=${ocFdCashFlowToc},riskMark=0)}">
+                    <div class="manage-title margin-22" th:id="${ocFdCashFlowToc.dest}"
+                         th:text="${ocFdCashFlowToc.getName()}">DD2.3 现金流量表
+                    </div>
+                </div>
+                <div th:with="dataIsEmpty=${ctx.oc?.financeData?.cashFlowSheets?.noData() ?: true},cashFlowTable=${ctx.oc?.financeData?.getCashFlowSheets()}">
+                    <div th:if="${not dataIsEmpty}">
+                        <div class="margin-22"
+                             th:replace="~{modules/cashFlowSheets :: cashFlowSheets(dataTable=${cashFlowTable})}">
+                            modules/cashFlowSheets :: cashFlowSheets现金流量表
+                        </div>
+                    </div>
+                    <div class="empty"
+                         th:replace="~{empty_Component :: empty_Component(dataIsEmpty=${dataIsEmpty})}">
+                        empty_Component :: empty_Component空空
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- (2级目录)经营风险 -->
+        <div class="margin-22"
+             th:replace="~{business-risks_Component :: business-risks_Component(ocRisk=${ctx.oc?.ocRisk},ocFdToc=${ocToc.access.getNext()})}">
+            business-risks_Component经营风险
+        </div>
+        <!--授信及担保-->
+        <div th:with="ocFdToc=${ocToc.access.getNext()},creditGuarantee=${ctx.oc?.creditGuarantee}">
+            <div class="margin-22"
+                 th:replace="~{creditGuarantee :: creditGuarantee(creditGuaranteeToc=${ocFdToc},creditGuarantee=${creditGuarantee})}">
+                creditGuarantee授信及担保
+            </div>
+        </div>
+        <!-- 土储分析-->
+        <div th:with="ocFdToc=${ocToc.access.getNext()},soilStorageAnalysis=${ctx.oc?.soilStorageAnalysis}">
+            <div class="margin-22"
+                 th:replace="~{soilStorageAnalysis :: soilStorageAnalysis(soilStorageAnalysis=${soilStorageAnalysis},soilStorageAnalysisToc=${ocFdToc})}">
+                soilStorageAnalysis土储分析
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

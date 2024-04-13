@@ -1,4 +1,0 @@
-# Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.liyz.dubbo.common.cache.config.CacheRedisCaffeineAutoConfig,\
-com.liyz.dubbo.common.cache.config.AsyncExecutorConfig

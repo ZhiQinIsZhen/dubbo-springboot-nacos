@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.liyz.dubbo.common.job.config.CommonElasticJobLiteAutoConfig

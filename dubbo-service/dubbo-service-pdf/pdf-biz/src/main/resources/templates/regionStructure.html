@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>regionStructure</title>
+    <link href="./css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/table.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/quill.core.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="detail">
+    <!-- 基本信息 -->
+    <div th:fragment="regionStructure(regionStructureToc,regionData)">
+        <div class="base-info03">
+            <div th:replace="~{headline :: headline(toc=${regionStructureToc},riskMark=0)}">
+                <div class="detail-title">
+                    <img src="./image/common/03.png"/>
+                    <div class="title" th:id="${regionStructureToc.dest}" th:text="${regionStructureToc.getName()}">
+                        DD区域信息
+                    </div>
+                </div>
+            </div>
+            <div class="region-des-content" th:if="${not #strings.isEmpty(regionData?.regionInfo?.uiDesc)}">
+                <div class="ql-snow">
+                    <div class="finance-des ql-editor" th:utext="${regionData?.regionInfo?.uiDesc}">
+                        我是大傻逼,这里是一个富文本框框202362114920448000
+                    </div>
+                </div>
+            </div>
+            <div class="current-area margin-24" th:if="null!=${regionData?.regionInfo}">
+                <div th:if="${not #strings.isEmpty(regionData?.regionAllName)}">
+                    <div class="current-area-item">
+                        <img class="current-area-img" src="./image/common/area.png"/>
+                        <span class="current-area-name"
+                              th:text="${regionData?.regionAllName ?:'--'}">当前区域：浙江省-杭州市-滨江区</span>
+                    </div>
+                    <div class="current-area-des">
+                        说明：针对当前区域近5年的经济、债务、财政三方面信息进行展示与分析
+                    </div>
+                </div>
+                <th:block th:with="nationalComparison=${regionData?.regionInfo?.nationalComparison?:''}
+                     ,provincialComparison=${regionData?.regionInfo?.provincialComparison?:''},barItem='bar_item',barItemActive='bar_item active'">
+                    <div class="current-area-comp"
+                         th:if="${not #strings.isEmpty(provincialComparison)} or ${not #strings.isEmpty(nationalComparison)}">
+                        <div class="comparison_item" th:if="${not #strings.isEmpty(provincialComparison)}">
+                            <div class="title">相对于本省</div>
+                            <div class="bar_box">
+                                <div class="bar_item"
+                                     th:class="${#strings.equalsIgnoreCase('较弱',provincialComparison)}?${barItemActive}:${barItem}">
+                                    <img class="icon_img" src="./image/comparison/comp_icon1.png">
+                                    <div class="bar" style="opacity: 0.1;"></div>
+                                    <div class="level">较弱</div>
+                                </div>
+                                <div class="bar_item"
+                                     th:class="${#strings.equalsIgnoreCase('中等',provincialComparison)}?${barItemActive}:${barItem}">
+                                    <img class="icon_img" src="./image/comparison/comp_icon2.png">
+                                    <div class="bar" style="opacity: 0.2;"></div>
+                                    <div class="level">中等</div>
+                                </div>
+                                <div class="bar_item active"
+                                     th:class="${#strings.equalsIgnoreCase('较强',provincialComparison)}?${barItemActive}:${barItem}">
+                                    <img class="icon_img" src="./image/comparison/comp_icon3.png">
+                                    <div class="bar" style="opacity: 0.25;"></div>
+                                    <div class="level">较强</div>
+                                </div>
+                                <div class="bar_item "
+                                     th:class="${#strings.equalsIgnoreCase('强',provincialComparison)}?${barItemActive}:${barItem}">
+                                    <img class="icon_img" src="./image/comparison/comp_icon4.png">
+                                    <div class="bar" style="opacity: 0.3;"></div>
+                                    <div class="level">强</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comparison_item" th:if="${not #strings.isEmpty(nationalComparison)}">
+                            <div class="title">相对于全国</div>
+                            <div class="bar_box">
+                                <div class="bar_item active"
+                                     th:class="${#strings.equalsIgnoreCase('较弱',nationalComparison)}?${barItemActive}:${barItem}">
+                                    <img class="icon_img" src="./image/comparison/comp_icon5.png">
+                                    <div class="bar" style="opacity: 0.1;"></div>
+                                    <div class="level">较弱</div>
+                                </div>
+                                <div class="bar_item"
+                                     th:class="${#strings.equalsIgnoreCase('中等',nationalComparison)}?${barItemActive}:${barItem}">
+                                    <img class="icon_img" src="./image/comparison/comp_icon6.png">
+                                    <div class="bar" style="opacity: 0.2;"></div>
+                                    <div class="level">中等</div>
+                                </div>
+                                <div class="bar_item"
+                                     th:class="${#strings.equalsIgnoreCase('较强',nationalComparison)}?${barItemActive}:${barItem}">
+                                    <img class="icon_img" src="./image/comparison/comp_icon7.png">
+                                    <div class="bar" style="opacity: 0.25;"></div>
+                                    <div class="level">较强</div>
+                                </div>
+                                <div class="bar_item"
+                                     th:class="${#strings.equalsIgnoreCase('强',nationalComparison)}?${barItemActive}:${barItem}">
+                                    <img class="icon_img" src="./image/comparison/comp_icon8.png">
+                                    <div class="bar" style="opacity: 0.3;"></div>
+                                    <div class="level">强</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+            <div class="current-area-detail margin-24" th:with="tToc=${regionStructureToc.access.getFirstChild()}">
+                <div th:replace="~{headline :: headline(toc=${tToc},riskMark=0)}">
+                    <div class="subtitle" th:id="${tToc.dest}" th:text="${tToc.getName}">DD区域经济</div>
+                </div>
+                <div th:with="yaerList = ${regionData?.yaerTitleList},dataIsEmpty=${#lists.isEmpty(regionData?.getEconomics())},list=${regionData?.getEconomics()} ">
+                    <div class="margin-18" th:if="${not dataIsEmpty}">
+                        <th:block th:each="i : ${list}">
+                            <div class="area-item" th:utext="${i?.svg}">
+                                <!--                    <svg height="146pt" width="240pt">-->
+                                <!--                      <circle cx="100" cy="50" r="40" stroke="black" stroke-width="2" fill="red"/>-->
+                                <!--                    </svg>-->
+                            </div>
+                        </th:block>
+                        <table class="table21 margin-24">
+                            <tr>
+                                <td class="th line-td">
+                                    <span class="area-target">指标</span>
+                                    <span class="area-date">年份</span>
+                                </td>
+                                <th:block th:each="i : ${yaerList}">
+                                    <td class="th" th:text="${i}">2021</td>
+                                </th:block>
+                            </tr>
+                            <th:block th:each="i: ${list}">
+                                <tr th:if="${1==i.type}" th:with="dataList=${i.dataList}">
+                                    <td class="th text-left">GDP（亿元）</td>
+                                    <th:block th:each="data: ${dataList}">
+                                        <td th:text="${data?:'-'}">-</td>
+                                    </th:block>
+                                </tr>
+                                <tr th:if="${2==i.type}" th:with="dataList=${i.dataList}">
+                                    <td class="th text-left">GDP增速（%）</td>
+                                    <th:block th:each="data: ${dataList}">
+                                        <td th:text="${data?:'-'}">-</td>
+                                    </th:block>
+                                </tr>
+                                <tr th:if="${3==i.type}" th:with="dataList=${i.dataList}">
+                                    <td class="th text-left">人均GDP(元)</td>
+                                    <th:block th:each="data: ${dataList}">
+                                        <td th:text="${data?:'-'}">-</td>
+                                    </th:block>
+                                </tr>
+                                <tr th:if="${4==i.type}" th:with="dataList=${i.dataList}">
+                                    <td class="th text-left">人口(万人)</td>
+                                    <th:block th:each="data: ${dataList}">
+                                        <td th:text="${data?:'-'}">-</td>
+                                    </th:block>
+                                </tr>
+                                <tr th:if="${5==i.type}" th:with="dataList=${i.dataList}">
+                                    <td class="th text-left">固定资产投资(亿元)</td>
+                                    <th:block th:each="data: ${dataList}">
+                                        <td th:text="${data?:'-'}">-</td>
+                                    </th:block>
+                                </tr>
+                            </th:block>
+                        </table>
+                    </div>
+                    <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                        经全网扫描，未查得该信息
+                    </div>
+                </div>
+            </div>
+            <div class="current-area-detail margin-24" th:with="tToc=${regionStructureToc.access.getNext()}">
+                <div th:replace="~{headline :: headline(toc=${tToc},riskMark=0)}">
+                    <div class="subtitle" th:id="${tToc.dest}" th:text="${tToc.getName}">DD区域债务</div>
+                </div>
+                <div th:with="yaerList = ${regionData?.yaerTitleList},dataIsEmpty=${#lists.isEmpty(regionData?.getLiabilities())},list=${regionData?.getLiabilities()} ">
+                    <div class="margin-18" th:if="${not dataIsEmpty}">
+                        <div class="area-svg count3">
+                            <th:block th:each="i : ${list}">
+                                <div class="border-svg" th:utext="${i?.svg}">
+                                    <!--                                    <svg height="146pt" width="240pt">-->
+                                    <!--                                        <circle cx="100" cy="50" fill="red" r="40" stroke="black" stroke-width="2"/>&ndash;&gt;-->
+                                    <!--                                    </svg>-->
+                                </div>
+                            </th:block>
+                        </div>
+                        <table class="table21 margin-24">
+                            <tr>
+                                <td class="th line-td">
+                                    <span class="area-target">指标</span>
+                                    <span class="area-date">年份</span>
+                                </td>
+                                <th:block th:each="i : ${yaerList}">
+                                    <td class="th" th:text="${i}">2021</td>
+                                </th:block>
+                            </tr>
+                            <th:block th:each="i: ${list}">
+                                <tr th:if="${6==i.type}" th:with="dataList=${i.dataList}">
+                                    <td class="th text-left">地方政府债务余额(亿元)</td>
+                                    <th:block th:each="data: ${dataList}">
+                                        <td th:text="${data?:'-'}">-</td>
+                                    </th:block>
+                                </tr>
+                                <tr th:if="${7==i.type}" th:with="dataList=${i.dataList}">
+                                    <td class="th text-left">财政自给率（%）</td>
+                                    <th:block th:each="data: ${dataList}">
+                                        <td th:text="${data?:'-'}">-</td>
+                                    </th:block>
+                                </tr>
+                                <tr th:if="${8==i.type}" th:with="dataList=${i.dataList}">
+                                    <td class="th text-left">债务率（宽口径）(%)</td>
+                                    <th:block th:each="data: ${dataList}">
+                                        <td th:text="${data?:'-'}">-</td>
+                                    </th:block>
+                                </tr>
+                            </th:block>
+                        </table>
+                    </div>
+                    <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                        经全网扫描，未查得该信息
+                    </div>
+                </div>
+            </div>
+            <div class="current-area-detail margin-24" th:with="tToc=${regionStructureToc.access.getNext()}">
+                <div th:replace="~{headline :: headline(toc=${tToc},riskMark=0)}">
+                    <div class="subtitle" th:id="${tToc.dest}" th:text="${tToc.getName}">DD区域财政</div>
+                </div>
+                <div th:with="yaerList = ${regionData?.yaerTitleList},dataIsEmpty=${#lists.isEmpty(regionData?.getFinances())},list=${regionData?.getFinances()} ">
+                    <div class="margin-18" th:if="${not dataIsEmpty}">
+                        <div class="area-svg count3">
+                            <th:block th:each="i : ${list}">
+                                <div class="border-svg" th:utext="${i?.svg}">
+                                    <!--                                    <svg height="146pt" width="240pt">-->
+                                    <!--                                        <circle cx="100" cy="50" fill="red" r="40" stroke="black" stroke-width="2"/>&ndash;&gt;-->
+                                    <!--                                    </svg>-->
+                                </div>
+                            </th:block>
+                        </div>
+                        <table class="table21 margin-24">
+                            <tr>
+                                <td class="th line-td">
+                                    <span class="area-target">指标</span>
+                                    <span class="area-date">年份</span>
+                                </td>
+                                <th:block th:each="i : ${yaerList}">
+                                    <td class="th" th:text="${i}">2021</td>
+                                </th:block>
+                            </tr>
+                            <th:block th:each="i: ${list}">
+                                <tr th:if="${9==i.type}" th:with="dataList=${i.dataList}">
+                                    <td class="th text-left">一般公共预算收入(亿元)</td>
+                                    <th:block th:each="data: ${dataList}">
+                                        <td th:text="${data?:'-'}">-</td>
+                                    </th:block>
+                                </tr>
+                                <tr th:if="${10==i.type}" th:with="dataList=${i.dataList}">
+                                    <td class="th text-left">政府性基金收入(亿元)</td>
+                                    <th:block th:each="data: ${dataList}">
+                                        <td th:text="${data?:'-'}">-</td>
+                                    </th:block>
+                                </tr>
+                                <tr th:if="${11==i.type}" th:with="dataList=${i.dataList}">
+                                    <td class="th text-left">一般公共预算支出(亿元)</td>
+                                    <th:block th:each="data: ${dataList}">
+                                        <td th:text="${data?:'-'}">-</td>
+                                    </th:block>
+                                </tr>
+                            </th:block>
+                        </table>
+                    </div>
+                    <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                        经全网扫描，未查得该信息
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

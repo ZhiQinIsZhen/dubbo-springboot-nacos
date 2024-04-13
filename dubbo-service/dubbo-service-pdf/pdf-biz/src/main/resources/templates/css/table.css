@@ -1,0 +1,404 @@
+table {
+    border-collapse: collapse;
+    border: 0.75pt solid #E7E8EA;
+}
+
+tr {
+    height: 30pt;
+    line-height: 30pt;
+    box-sizing: border-box;
+}
+
+td {
+    border: 0.75pt solid #E7E8EA;
+    padding: 6pt 3pt;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 13pt !important;
+    color: #616998;
+    word-break: break-all;
+    line-height: 18pt;
+}
+
+.text-left {
+    text-align: left;
+    padding-left: 16pt;
+}
+
+.nd-td {
+    padding-left: 32pt !important;
+    box-sizing: border-box;
+}
+
+.rd-td {
+    padding-left: 48pt !important;
+    box-sizing: border-box;
+}
+
+.font-11 {
+    font-size: 11pt !important;
+}
+
+.font-14 {
+    font-size: 14pt !important;
+}
+
+.font-bold {
+    font-weight: 600;
+}
+
+.text-left-15 {
+    padding-left: 15pt !important;
+}
+
+.th {
+    color: #27243F;
+    background-color: #EDF6FD;
+    line-height: 22pt;
+    padding: 0;
+}
+
+.color-blue {
+    color: #6289EF;
+}
+
+.table1 {
+    margin-top: 22pt;
+}
+
+.table1 tr td {
+    width: 129pt;
+}
+
+.table1 tr td:first-child {
+    width: 314pt;
+}
+
+.table1 tr td:last-child {
+    width: 177pt;
+}
+
+.table2 tr td {
+    width: 125pt;
+}
+
+.table3 tr td {
+    width: 152pt;
+}
+
+.table3 tr td:first-child {
+    width: 141pt;
+}
+
+.table4 tr {
+    height: 46pt;
+    line-height: 18pt;
+    box-sizing: border-box;
+}
+
+.table4 .th {
+    line-height: normal;
+}
+
+.table4 tr td {
+    width: 126pt;
+    padding: 12pt;
+}
+
+.table4 tr.row {
+    width: 746pt;
+}
+
+.table4 tr td:first-child {
+    width: 249pt;
+}
+
+.table4 tr:not(:first-child) td:first-child {
+    padding-left: 30pt;
+}
+
+.table5 tr td {
+    width: 95pt;
+}
+
+.table5 tr td:nth-child(4) {
+    width: 218pt;
+}
+
+.table5 tr td:last-child {
+    width: 156pt;
+}
+
+.table6 tr td {
+    width: 250pt;
+}
+
+.table7 tr td:first-child {
+    width: 188pt;
+}
+
+.table7 tr td:last-child {
+    width: 559pt;
+}
+
+.table8 tr td {
+    width: 107pt;
+}
+
+.table8 tr td.mount-th {
+    width: 156pt
+}
+
+.table9 tr td {
+    width: 150pt;
+}
+
+.table10 tr td {
+    width: 124pt;
+}
+
+.table10 tr td:nth-child(4),
+.table10 tr td:nth-child(6) {
+    width: 126pt;
+}
+
+.table11 tr td {
+    width: 83pt;
+}
+
+.table12 tr.first td {
+    width: 107pt;
+}
+
+.table12 tr.first td:nth-child(2) {
+    width: 214pt;
+}
+
+.table12 tr.second td {
+    width: 108pt;
+}
+
+.table13 tr td {
+    width: 188pt;
+}
+
+.table14 tr td {
+    width: 125pt;
+}
+
+.table14 tr td:nth-child(4) {
+    width: 186pt;
+}
+
+.table14 tr td:nth-child(5) {
+    width: 187pt;
+}
+
+.table15 tr td {
+    width: 107pt;
+}
+
+.table15 tr td:nth-child(4) {
+    width: 82pt;
+}
+
+.table15 tr td:nth-child(5) {
+    width: 155pt;
+}
+
+.table15 tr td:nth-child(6) {
+    width: 86pt;
+}
+
+.table16 tr td {
+    width: 250pt;
+}
+
+.table17 tr td {
+    width: 95pt;
+}
+
+.table18 tr td:first-child {
+    width: 144pt;
+}
+
+.table18 tr td:nth-child(2),
+.table18 tr td:nth-child(3) {
+    width: 100pt;
+}
+
+.table18 tr td:nth-child(4) {
+    width: 203pt;
+}
+
+.table18 tr td:nth-child(5) {
+    width: 200pt;
+}
+
+.table19 tr td {
+    width: 140pt;
+}
+
+.table19 tr td:nth-child(3),
+.table19 tr td:nth-child(4) {
+    width: 235pt;
+}
+
+.table20 tr td:first-child {
+    width: 150pt;
+    padding-left: 22pt;
+}
+
+.table20 tr td:last-child {
+    width: 533pt;
+    padding: 9pt 22pt 9pt 44pt;
+}
+
+.table20 tr:nth-child(2n+1) {
+    background-color: #F9FBFD;
+}
+
+.table20 tr td.th {
+    padding: 0 22pt 0 44pt;
+}
+
+/* 1.9.0 */
+.table21 tr td {
+    width: 113pt;
+}
+
+.table21 .text-left {
+    padding-left: 18pt;
+}
+
+.table21 tr td:first-child {
+    width: 186pt;
+}
+
+.table20 tr td.th:first-child {
+    padding: 0 22pt;
+}
+
+/* 1.9.2 */
+.table22 tr td {
+    width: 102pt;
+}
+
+.table22 tr td:first-child {
+    width: 70pt;
+}
+
+.table22 tr td:nth-child(4),
+.table22 tr td:nth-child(5) {
+    width: 137pt;
+}
+
+.table22 tr td:nth-child(6) {
+    width: 175pt;
+}
+
+.table23 tr td {
+    width: 110pt;
+}
+
+.table23 .th {
+    line-height: 60pt;
+}
+
+.table23 tr td:first-child {
+    width: 210pt;
+}
+
+.table23 tr td:last-child {
+    width: 175pt;
+}
+
+.table24 tr td {
+    width: 119pt;
+}
+
+.table24 tr td:first-child {
+    width: 231pt;
+}
+
+.table24 tr td:nth-child(2) {
+    width: 137pt;
+}
+
+.table25 tr td {
+    width: 91pt;
+}
+
+.table25 tr td:first-child {
+    width: 144pt;
+}
+
+.table25 tr td:nth-child(3),
+.table25 tr td:nth-child(4) {
+    width: 84pt;
+}
+
+.table25 tr td:nth-child(6),
+.table25 tr td:nth-child(7) {
+    width: 119pt;
+}
+
+.table26 tr td {
+    padding: 4pt 5pt 4pt 16pt;
+}
+
+.table26 tr td:first-child {
+    width: 60pt;
+}
+
+.table26 tr td:nth-child(2) {
+    width: 54pt;
+}
+
+.table26 tr td:nth-child(3) {
+    width: 75pt;
+}
+
+.table26 tr td:nth-child(4) {
+    width: 75pt;
+}
+
+.table26 tr td:nth-child(5) {
+    width: 75pt;
+}
+
+.table26 tr td:nth-child(6) {
+    width: 85pt;
+}
+
+.table26 tr td:nth-child(7) {
+    width: 85pt;
+}
+
+.table26 tr td:nth-child(8) {
+    width: 70pt;
+}
+
+.table27 tr td {
+    padding: 4pt 5pt 4pt 16pt;
+}
+
+.table27 tr td {
+    width: 162pt;
+}
+
+.table27 tr td:first-child {
+    width: 248pt;
+}
+
+.table28 tr td {
+    width: 86pt;
+}
+
+.table28 tr td:first-child {
+    width: 90pt;
+}
+
+.text-left-54 {
+    padding-left: 54pt !important;
+}

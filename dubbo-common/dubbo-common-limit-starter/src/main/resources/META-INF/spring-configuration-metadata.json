@@ -1,0 +1,36 @@
+{
+  "groups": [
+    {
+      "name": "request.limit",
+      "type": "com.liyz.dubbo.common.limit.config.LimitProperties",
+      "sourceType": "com.liyz.dubbo.common.limit.config.LimitProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "request.limit.enable",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.liyz.dubbo.common.limit.config.LimitProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "request.limit.model",
+      "type": "java.lang.String",
+      "sourceType": "com.liyz.dubbo.common.limit.config.LimitProperties",
+      "defaultValue": "caffeine"
+    },
+    {
+      "name": "request.limit.type",
+      "type": "java.lang.String",
+      "sourceType": "com.liyz.dubbo.common.limit.config.LimitProperties",
+      "defaultValue": "redis"
+    },
+    {
+      "name": "request.limit.total-count",
+      "type": "java.lang.Double",
+      "sourceType": "com.liyz.dubbo.common.limit.config.LimitProperties",
+      "defaultValue": 1
+    }
+  ],
+  "hints": []
+}

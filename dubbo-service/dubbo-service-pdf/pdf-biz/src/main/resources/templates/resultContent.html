@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>resultContent</title>
+    <link href="./css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/table.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/quill.core.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!--评估结果  -->
+<div class="result-content" th:fragment="resultContent" th:with="resultToc=${toc.result}">
+    <div class="company-info">
+        <div class="rp-no">
+            <span class="">报告编号:<span th:text="${ctx.result?.reportNo}">15023943582550294300</span></span>
+            <span>报告生成日期: <span th:text="${ctx.result?.genDate}">2022年05月XX日</span></span>
+            <span>报告申请日期: <span th:text="${ctx.result?.applyDate}">2022年05月XX日</span></span>
+        </div>
+        <div class="company-name" th:text="${ctx.result?.corpName}">北京星图计划科技有限公司</div>
+        <div class="des" th:text="${ctx.result?.socialCode}">009999988</div>
+    </div>
+    <div class="margin-24">
+        <div class="content-title" th:id="${resultToc.dest}" th:text="${resultToc.getTitle()}">AA评估结果摘要</div>
+        <div class="rp-result" th:with="level=${#strings.toLowerCase(#strings.defaultString(ctx.result?.result,'e'))}">
+            <div class="left">
+                <div class="left-chart" th:with="level_toc=${resultToc.access.getFirstChild()}">
+                    <div class="level-label" th:id="${level_toc.dest}" th:text="${level_toc.getTitle()}">
+                        AA项目风险等级
+                    </div>
+                    <div class="level">
+                        <img src="./image/level/new-e.png" th:src="|./image/level/new-${level}.png|"/>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="result-shadow">
+                    <div class="level-text">
+                        <div class="tab">
+                            <div class="tab-item">
+                                <img src="./image/level/new/a.png"
+                                     th:src="|./image/level/new/${#strings.equalsIgnoreCase('a',level) ? 'a-active':'a'}.png|"/>
+                            </div>
+                            <div class="tab-item">
+                                <img src="./image/level/new/b.png"
+                                     th:src="|./image/level/new/${#strings.equalsIgnoreCase('b',level) ? 'b-active':'b'}.png|"/>
+                            </div>
+                            <div class="tab-item">
+                                <img src="./image/level/new/c.png"
+                                     th:src="|./image/level/new/${#strings.equalsIgnoreCase('c',level) ? 'c-active':'c'}.png|"/>
+                            </div>
+                            <div class="tab-item">
+                                <img src="./image/level/new/d.png"
+                                     th:src="|./image/level/new/${#strings.equalsIgnoreCase('d',level) ? 'd-active':'d'}.png|"/>
+                            </div>
+                            <div class="tab-item">
+                                <img src="./image/level/new/e-active.png"
+                                     th:src="|./image/level/new/${#strings.equalsIgnoreCase('e',level) ? 'e-active':'e'}.png|"/>
+                            </div>
+                        </div>
+                        <div class="tab-text" style="display: block"
+                             th:style="|display: ${#strings.equalsIgnoreCase('a',level) ? 'block':'none'}|">
+                            运营状况优秀，财务指标优秀，信用记录良好。
+                        </div>
+                        <div class="tab-text" style="display: none"
+                             th:style="|display: ${#strings.equalsIgnoreCase('b',level) ? 'block':'none'}|">
+                            运营状况良好，财务指标良好，无重大异常状况。
+                        </div>
+                        <div class="tab-text" style="display: none"
+                             th:style="|display: ${#strings.equalsIgnoreCase('c',level) ? 'block':'none'}|">
+                            经营状况中等，财务指标无异常，信用记录无严重不良。
+                        </div>
+                        <div class="tab-text" style="display: none"
+                             th:style="|display: ${#strings.equalsIgnoreCase('d',level) ? 'block':'none'}|">
+                            经营状况一般，财务指标一般，信用记录无严重不良。
+                        </div>
+                        <div class="tab-text" style="display: none"
+                             th:style="|display: ${#strings.equalsIgnoreCase('e',level) ? 'block':'none'}|">
+                            企业或法定代表人有不良信用记录，综合情况较差。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="suggest"
+         th:with="suggest_toc=${resultToc.access.getNext()},complexStructure=${ctx.result?.complexStructure}">
+        <div class="title-hd">
+            <div class="col-line"></div>
+            <div class="text" th:id="${suggest_toc.dest}" th:text="${suggest_toc.getTitle()}">AA评估意见</div>
+        </div>
+        <div th:with="complexItems=${complexStructure?.complexItems}">
+            <th:block th:each="complexItem:${complexItems}">
+                <th:block th:with="show=${complexItem?.show},typeName=${complexItem?.typeName},
+                content=${complexItem?.content},keywords=${complexItem?.keywords}">
+                    <div class="opinion_box" th:if="${show}">
+                        <div class="opinion_head">
+                            <div class="title" th:text="${typeName}">经营情况:</div>
+                            <div class="keyword_lists">
+                                <div class="keyword" th:each="keyword:${keywords}" th:text="${keyword}">ceshi测试
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ql-snow">
+                        <div class="suggest-text ql-editor" th:utext="${content ?: '无信息'}">
+                            我是一个富文本大傻逼
+                        </div>
+                    </div>
+                </th:block>
+            </th:block>
+        </div>
+    </div>
+    <div class="margin-59 focus" th:with="focus_toc=${resultToc.access.getNext()}">
+        <div class="title-hd">
+            <div class="col-line"></div>
+            <div class="text" th:id="${focus_toc.dest}" th:text="${focus_toc.getTitle()}">AA重点关注</div>
+        </div>
+        <div class="ql-snow">
+            <div class="focus-text ql-editor" th:utext="${ctx.result?.complexStructure?.focus ?: '无信息'}">
+                我是一个富文本大傻逼
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>prefit_wd_HK_shares</title>
+    <link href="../css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/table.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<table class="table4 margin-24" th:fragment="wdHKShares">
+    <tr>
+        <td class="th text-left">报告期</td>
+        <td class="th text-left"
+            th:text="|${titleList[0]}${T(com.liyz.dubbo.service.pdf.utils.FinanceTypeConvertUtils).Type2Chinese(dataList[0]?.type)}|">
+            2022-09-30
+        </td>
+        <td class="th text-left"
+            th:text="|${titleList[1]}${T(com.liyz.dubbo.service.pdf.utils.FinanceTypeConvertUtils).Type2Chinese(dataList[1]?.type)}|">
+            2021-11-23
+        </td>
+        <td class="th text-left"
+            th:text="|${titleList[2]}${T(com.liyz.dubbo.service.pdf.utils.FinanceTypeConvertUtils).Type2Chinese(dataList[2]?.type)}|">
+            2020-12-11
+        </td>
+        <td class="th text-left"
+            th:text="|${titleList[3]}${T(com.liyz.dubbo.service.pdf.utils.FinanceTypeConvertUtils).Type2Chinese(dataList[3]?.type)}|">
+            2023-10-21
+        </td>
+    </tr>
+    <!--    <tr>-->
+    <!--        <td class="th text-left">报告类型</td>-->
+    <!--        <td class="text-left" th:text="${T(com.liyz.dubbo.service.pdf.utils.FinanceTypeConvertUtils).Type2Chinese(dataList[0]?.type)}">年报</td>-->
+    <!--        <td class="text-left" th:text="${T(com.liyz.dubbo.service.pdf.utils.FinanceTypeConvertUtils).Type2Chinese(dataList[1]?.type)}">中报</td>-->
+    <!--        <td class="text-left" th:text="${T(com.liyz.dubbo.service.pdf.utils.FinanceTypeConvertUtils).Type2Chinese(dataList[2]?.type)}">一季度</td>-->
+    <!--        <td class="text-left" th:text="${T(com.liyz.dubbo.service.pdf.utils.FinanceTypeConvertUtils).Type2Chinese(dataList[3]?.type)}">三季度</td>-->
+    <!--    </tr>-->
+    <!--    <tr>-->
+    <!--        <td class="th text-left">报表类型</td>-->
+    <!--        <td class="text-left">合并报表</td>-->
+    <!--        <td class="text-left">合并报表</td>-->
+    <!--        <td class="text-left">合并报表</td>-->
+    <!--        <td class="text-left">合并报表</td>-->
+    <!--    </tr>-->
+    <tr>
+        <td class="th text-left">营业总收入</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdSales ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdSales ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdSales ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdSales ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">主营业务收入</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdSalesOper ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdSalesOper ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdSalesOper ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdSalesOper ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">其他营业收入</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdSalesOth ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdSalesOth ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdSalesOth ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdSalesOth ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">营业总支出</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdOperExpTot ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdOperExpTot ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdOperExpTot ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdOperExpTot ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">营业成本</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdOperCost ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdOperCost ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdOperCost ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdOperCost ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">营业开支</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdOperExp ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdOperExp ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdOperExp ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdOperExp ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">营业利润</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdEbitOper ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdEbitOper ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdEbitOper ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdEbitOper ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">加：利息收入</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdIntInc ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdIntInc ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdIntInc ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdIntInc ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">减：利息支出</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdIntExp ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdIntExp ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdIntExp ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdIntExp ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">加：权益性投资损益</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdInvestGain ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdInvestGain ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdInvestGain ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdInvestGain ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">其他非经营性损益</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdNoOperInc ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdNoOperInc ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdNoOperInc ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdNoOperInc ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">非经常项目前利润</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdEbtExclUnusualItems ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdEbtExclUnusualItems ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdEbtExclUnusualItems ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdEbtExclUnusualItems ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">加：非经常项目损益</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdUnusualItems ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdUnusualItems ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdUnusualItems ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdUnusualItems ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">除税前利润</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdIncPretax ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdIncPretax ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdIncPretax ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdIncPretax ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">减：所得税</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdIncTax ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdIncTax ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdIncTax ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdIncTax ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">少数股东损益</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdMinIntExp ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdMinIntExp ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdMinIntExp ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdMinIntExp ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">持续经营净利润</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdContinueOper ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdContinueOper ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdContinueOper ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdContinueOper ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">加：非持续经营净利润</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdDiscOper ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdDiscOper ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdDiscOper ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdDiscOper ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">其他特殊项</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdExod ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdExod ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdExod ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdExod ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">净利润</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdNetInc ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdNetInc ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdNetInc ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdNetInc ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">减：优先股利及其他调整项</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdDvdPfdAdj ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdDvdPfdAdj ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdDvdPfdAdj ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdDvdPfdAdj ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">归属普通股东净利润</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdNetIncDil ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdNetIncDil ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdNetIncDil ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdNetIncDil ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">综合收益</td>
+        <td class="text-left" th:text="${dataList[0]?.wgsdComprInc ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.wgsdComprInc ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.wgsdComprInc ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.wgsdComprInc ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">区间起始日</td>
+        <td class="text-left" th:text="${dataList[0]?.stmRptS ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.stmRptS ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.stmRptS ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.stmRptS ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">区间截止日</td>
+        <td class="text-left" th:text="${dataList[0]?.stmRptE ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.stmRptE ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.stmRptE ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.stmRptE ?: '--'}">--</td>
+    </tr>
+    <tr>
+        <td class="th text-left">公告日期</td>
+        <td class="text-left" th:text="${dataList[0]?.stmIssuingdate ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[1]?.stmIssuingdate ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[2]?.stmIssuingdate ?: '--'}">--</td>
+        <td class="text-left" th:text="${dataList[3]?.stmIssuingdate ?: '--'}">--</td>
+    </tr>
+</table>
+
+</body>
+</html>

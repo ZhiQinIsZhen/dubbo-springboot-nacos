@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>riskCheck</title>
+    <link href="./css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/table.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/quill.core.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="detail">
+    <!-- 风险核查 -->
+    <div class="risk-check" th:fragment="riskCheck" th:with="dataVo=${ctx.riskScan},riskCheckToc=${toc.riskCheck}">
+        <div th:replace="~{headline :: headline(toc=${riskCheckToc},riskMark=0)}">
+            <div class="content-title" th:id="${riskCheckToc.dest}" th:text="${riskCheckToc.getName()}">
+                DD风险核查
+            </div>
+        </div>
+        <!-- 根据数量判断显示文案 -->
+        <div th:with="allQuan=${dataVo?.riskQuan?:0}">
+            <div class="risk-check__subtitle">
+                <img src="./image/risk-check/title-tag.png"/>
+                <div th:if="${allQuan gt 0}">
+                    <span>
+<!--                    根据以下维度，</span><span><span>核查到</span><span-->
+                        <!--                        class="num" th:text="|【${allQuan}项】|">【6项】</span><span>主要风险，请重点关注</span>-->
+                        根据报告内容，核查到以下风险，请重点关注
+                    </span>
+                </div>
+                <div th:if="${allQuan eq 0}">
+                    <span>未核查到主要风险</span>
+                </div>
+            </div>
+            <div class="risk-check__items">
+                <!-- 如果有风险则使用risk_active类  标题图片如果有风险就加-active后缀-->
+                <th:block th:with="risk=${dataVo.withTypeRisk('BUSINESS_RISK')}">
+                    <div class="check__item  " th:classappend="${((summary?.riskQuan?:0) gt 0)?' risk_active':''}"
+                         th:if="${null!=risk}"
+                         th:with="summary=${risk.summary},details=${risk.details}">
+                        <div class="risk-check-title"
+                             th:with="riskQuan=${summary?.riskQuan?:0},riskTypeName=${summary?.riskTypeName}">
+                            <span th:text="${riskTypeName}">DD经营风险</span>
+                            <img src="./image/risk-check/manage-active.png"
+                                 th:src="|./image/risk-check/manage${riskQuan ge 0?'-active':''}.png|"/>
+                        </div>
+                        <div class="risk_item">
+                            <div class="risk_label" th:each="i : ${details}" th:if=" not ${#lists.isEmpty(details)}"
+                                 th:with="riskQuanD=${i.riskQuan?:0},riskTypeTargetName=${i.riskTypeTargetName}">
+                                <span class="risk_label__active"
+                                      th:class="${(riskQuanD gt 0) ? 'risk_label__active':''}"
+                                      th:text="${riskTypeTargetName}">aa偿债能力</span>
+                                <div class="img_num" th:if="${riskQuanD?:0 gt 0}">
+                                    <img src="./image/risk-check/stag.png"/>
+                                    <!--                                    <span th:text="${riskQuanD}">3</span>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+                <th:block th:with="risk=${dataVo.withTypeRisk('TICKET_RISK')}">
+                    <div class="check__item  " th:classappend="${((summary?.riskQuan?:0) gt 0)?' risk_active':''}"
+                         th:if="${null!=risk}"
+                         th:with="summary=${risk.summary},details=${risk.details}">
+                        <div class="risk-check-title"
+                             th:with="riskQuan=${summary?.riskQuan?:0},riskTypeName=${summary?.riskTypeName}">
+                            <span th:text="${riskTypeName}">DD商票风险</span>
+                            <img src="./image/risk-check/note-active.png"
+                                 th:src="|./image/risk-check/note${riskQuan ge 0?'-active':''}.png|"/>
+                        </div>
+                        <div class="risk_item">
+                            <div class="risk_label" th:each="i : ${details}" th:if=" not ${#lists.isEmpty(details)}"
+                                 th:with="riskQuanD=${i.riskQuan?:0},riskTypeTargetName=${i.riskTypeTargetName}">
+                                <span class="risk_label__active"
+                                      th:class="${(riskQuanD gt 0) ? 'risk_label__active':''}"
+                                      th:text="${riskTypeTargetName}">aa偿债能力</span>
+                                <div class="img_num" th:if="${riskQuanD?:0 gt 0}">
+                                    <img src="./image/risk-check/stag.png"/>
+                                    <!--                                    <span th:text="${riskQuanD}">3</span>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+                <th:block th:with="risk=${dataVo.withTypeRisk('BOND_RISK')}">
+                    <div class="check__item  " th:classappend="${((summary?.riskQuan?:0) gt 0)?' risk_active':''}"
+                         th:if="${null!=risk}"
+                         th:with="summary=${risk.summary},details=${risk.details}">
+                        <div class="risk-check-title"
+                             th:with="riskQuan=${summary?.riskQuan?:0},riskTypeName=${summary?.riskTypeName}">
+                            <span th:text="${riskTypeName}">DD债券风险</span>
+                            <img src="./image/risk-check/debt-active.png"
+                                 th:src="|./image/risk-check/debt${riskQuan ge 0?'-active':''}.png|"/>
+                        </div>
+                        <div class="risk_item">
+                            <div class="risk_label" th:each="i : ${details}" th:if=" not ${#lists.isEmpty(details)}"
+                                 th:with="riskQuanD=${i.riskQuan?:0},riskTypeTargetName=${i.riskTypeTargetName}">
+                                <span class="risk_label__active"
+                                      th:class="${(riskQuanD gt 0) ? 'risk_label__active':''}"
+                                      th:text="${riskTypeTargetName}">aa偿债能力</span>
+                                <div class="img_num" th:if="${riskQuanD?:0 gt 0}">
+                                    <img src="./image/risk-check/stag.png"/>
+                                    <!--                                    <span th:text="${riskQuanD}">3</span>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+                <th:block th:with="risk=${dataVo.withTypeRisk('LEGAL_RISK')}">
+                    <div class="check__item  " th:classappend="${((summary?.riskQuan?:0) gt 0)?' risk_active':''}"
+                         th:if="${null!=risk}"
+                         th:with="summary=${risk.summary},details=${risk.details}">
+                        <div class="risk-check-title"
+                             th:with="riskQuan=${summary?.riskQuan?:0},riskTypeName=${summary?.riskTypeName}">
+                            <span th:text="${riskTypeName}">DD司法风险</span>
+                            <img src="./image/risk-check/law-active.png"
+                                 th:src="|./image/risk-check/law${riskQuan ge 0?'-active':''}.png|"/>
+                        </div>
+                        <div class="risk_item">
+                            <div class="risk_label" th:each="i : ${details}" th:if=" not ${#lists.isEmpty(details)}"
+                                 th:with="riskQuanD=${i.riskQuan?:0},riskTypeTargetName=${i.riskTypeTargetName}">
+                                <span class="risk_label__active"
+                                      th:class="${(riskQuanD gt 0) ? 'risk_label__active':''}"
+                                      th:text="${riskTypeTargetName}">aa偿债能力</span>
+                                <div class="img_num" th:if="${riskQuanD?:0 gt 0}">
+                                    <img src="./image/risk-check/stag.png"/>
+                                    <!--                                    <span th:text="${riskQuanD}">3</span>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+                <th:block th:with="risk=${dataVo.withTypeRisk('FEELINGS_RISK')}">
+                    <div class="check__item  " th:classappend="${((summary?.riskQuan?:0) gt 0)?' risk_active':''}"
+                         th:if="${null!=risk}"
+                         th:with="summary=${risk.summary},details=${risk.details}">
+                        <div class="risk-check-title"
+                             th:with="riskQuan=${summary?.riskQuan?:0},riskTypeName=${summary?.riskTypeName}">
+                            <span th:text="${riskTypeName}">DD舆情风险</span>
+                            <img src="./image/risk-check/message-active.png"
+                                 th:src="|./image/risk-check/message${riskQuan ge 0?'-active':''}.png|"/>
+                        </div>
+                        <div class="risk_item">
+                            <div class="risk_label" th:each="i : ${details}" th:if=" not ${#lists.isEmpty(details)}"
+                                 th:with="riskQuanD=${i.riskQuan?:0},riskTypeTargetName=${i.riskTypeTargetName}">
+                                <span class="risk_label__active"
+                                      th:class="${(riskQuanD gt 0) ? 'risk_label__active':''}"
+                                      th:text="${riskTypeTargetName}">aa偿债能力</span>
+                                <div class="img_num" th:if="${riskQuanD?:0 gt 0}">
+                                    <img src="./image/risk-check/stag.png"/>
+                                    <!--                                    <span th:text="${riskQuanD}">3</span>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

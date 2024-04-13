@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>main_project220928Clone_老模版</title>
+    <link href="./css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/cover.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/catalogue.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-result.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/rp-detail.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/table.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/quill.core.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- 封面 -->
+<div class="cover">
+    <div class="cover-company">评估对象：<span th:text="${ctx.result?.corpName}">北京星图计划科技有限公司</span></div>
+    <img src="./image/cover.jpg"/>
+    <div class="logo-div" th:if="${not #strings.isEmpty(ctx.result?.getOriginateCorpLogo)}">
+        <img class="cover-logo" src="./image/logo.png" th:src="${ctx.result?.getOriginateCorpLogo}">
+    </div>
+    <div class="cover-company-name"
+         th:class="|${#strings.isEmpty(ctx.result?.getOriginateCorpLogo) ? 'cover-company-name-no-logo':'cover-company-name'}|"
+         th:text="${ctx.result?.originateCorpName}">
+        北京星图计划科技有限公司
+    </div>
+    <div class="application">申请日期：<span th:text="${ctx.result?.applyDate}">2022年05月XX日</span></div>
+    <!-- XX日X月XX日 -->
+    <div class="create">生成日期：<span th:text="${ctx.result?.genDate}">2022年05月XX日</span></div>
+    <div class="rp-number-label">报告编号：</div>
+    <div class="rp-number" th:text="${ctx.result?.reportNo}">SXBZYYYYMMDDhhmm0001</div>
+</div>
+<!-- 评估结果 -->
+<div class="result-content" th:with="resultToc=${toc.result}">
+    <div class="company-info">
+        <div class="rp-no">
+            <span class="">报告编号:<span th:text="${ctx.result?.reportNo}">15023943582550294300</span></span>
+            <span>报告生成日期: <span th:text="${ctx.result?.genDate}">2022年05月XX日</span></span>
+            <span>报告申请日期: <span th:text="${ctx.result?.applyDate}">2022年05月XX日</span></span>
+        </div>
+        <div class="company-name" th:text="${ctx.result?.corpName}">北京星图计划科技有限公司</div>
+        <div class="des" th:text="${ctx.result?.socialCode}">009999988</div>
+    </div>
+    <div class="margin-24">
+        <div class="content-title" th:id="${resultToc.dest}">评估结果摘要</div>
+        <div class="rp-result" th:with="level=${#strings.toLowerCase(#strings.defaultString(ctx.result?.result,'e'))}">
+            <div class="left">
+                <div class="left-chart" th:with="level_toc=${resultToc.access.getFirstChild()}">
+                    <div class="level-label" th:id="${level_toc.dest}">项目风险等级</div>
+                    <div class="level">
+                        <img src="./image/level/new-e.png" th:src="|./image/level/new-${level}.png|"/>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="result-shadow">
+                    <div class="level-text">
+                        <div class="tab">
+                            <div class="tab-item">
+                                <img src="./image/level/new/a.png"
+                                     th:src="|./image/level/new/${#strings.equalsIgnoreCase('a',level) ? 'a-active':'a'}.png|"/>
+                            </div>
+                            <div class="tab-item">
+                                <img src="./image/level/new/b.png"
+                                     th:src="|./image/level/new/${#strings.equalsIgnoreCase('b',level) ? 'b-active':'b'}.png|"/>
+                            </div>
+                            <div class="tab-item">
+                                <img src="./image/level/new/c.png"
+                                     th:src="|./image/level/new/${#strings.equalsIgnoreCase('c',level) ? 'c-active':'c'}.png|"/>
+                            </div>
+                            <div class="tab-item">
+                                <img src="./image/level/new/d.png"
+                                     th:src="|./image/level/new/${#strings.equalsIgnoreCase('d',level) ? 'd-active':'d'}.png|"/>
+                            </div>
+                            <div class="tab-item">
+                                <img src="./image/level/new/e-active.png"
+                                     th:src="|./image/level/new/${#strings.equalsIgnoreCase('e',level) ? 'e-active':'e'}.png|"/>
+                            </div>
+                        </div>
+                        <div class="tab-text" style="display: block"
+                             th:style="|display: ${#strings.equalsIgnoreCase('a',level) ? 'block':'none'}|">
+                            运营状况优秀，财务指标优秀，信用记录良好。
+                        </div>
+                        <div class="tab-text" style="display: none"
+                             th:style="|display: ${#strings.equalsIgnoreCase('b',level) ? 'block':'none'}|">
+                            运营状况良好，财务指标良好，无重大异常状况。
+                        </div>
+                        <div class="tab-text" style="display: none"
+                             th:style="|display: ${#strings.equalsIgnoreCase('c',level) ? 'block':'none'}|">
+                            经营状况中等，财务指标无异常，信用记录无严重不良。
+                        </div>
+                        <div class="tab-text" style="display: none"
+                             th:style="|display: ${#strings.equalsIgnoreCase('d',level) ? 'block':'none'}|">
+                            经营状况一般，财务指标一般，信用记录无严重不良。
+                        </div>
+                        <div class="tab-text" style="display: none"
+                             th:style="|display: ${#strings.equalsIgnoreCase('e',level) ? 'block':'none'}|">
+                            企业或法定代表人有不良信用记录，综合情况较差。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="suggest"
+         th:with="suggest_toc=${resultToc.access.getNext()},complexStructure=${ctx.result?.complexStructure}">
+        <div class="title-hd">
+            <div class="col-line"></div>
+            <div class="text" th:id="${suggest_toc.dest}">评估意见</div>
+        </div>
+        <div th:with="complexItems=${complexStructure?.complexItems}">
+            <th:block th:each="complexItem:${complexItems}">
+                <th:block th:with="show=${complexItem?.show},typeName=${complexItem?.typeName},
+                content=${complexItem?.content},keywords=${complexItem?.keywords}">
+                    <div class="opinion_box" th:if="${show}">
+                        <div class="opinion_head">
+                            <div class="title" th:text="${typeName}">经营情况:</div>
+                            <div class="keyword_lists">
+                                <div class="keyword" th:each="keyword:${keywords}" th:text="${keyword}">ceshi测试
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ql-snow">
+                        <div class="suggest-text ql-editor" th:utext="${content ?: '无信息'}">
+                            我是一个富文本大傻逼
+                        </div>
+                    </div>
+                </th:block>
+            </th:block>
+        </div>
+    </div>
+    <div class="margin-59 focus" th:with="focus_toc=${resultToc.access.getNext()}">
+        <div class="title-hd">
+            <div class="col-line"></div>
+            <div class="text" th:id="${focus_toc.dest}">重点关注</div>
+        </div>
+        <div class="ql-snow">
+            <div class="focus-text ql-editor" th:utext="${ctx.result?.complexStructure?.focus ?: '无信息'}">
+                无信息
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 详情 -->
+<div class="detail">
+    <!-- 基本信息 -->
+    <div class="base-info-content" th:with="basicToc=${toc.basic}">
+        <div class="content-title" th:id="${basicToc.dest}" th:text="${basicToc.getName()}">基本信息</div>
+        <!-- 项目方基本信息 -->
+        <div class="base-info01" th:with="thisToc=${basicToc.access.getFirstChild()}">
+            <div class="detail-title">
+                <img src="./image/common/01.png"/>
+                <div class="title" th:id="${thisToc.dest}" th:text="${thisToc.getName()}">项目方基本信息</div>
+            </div>
+            <div class="base-info-project" th:with="projectBasic=${ctx.basic.basic}">
+                <div class="item item-first">
+                    <div class="item-text">
+                        <div class="first">项目方名称:</div>
+                        <div class="last" th:text="${projectBasic.companyName ?: '--'}">XXX名称</div>
+                    </div>
+                    <div class="item-text">
+                        <div class="first">成立日起:</div>
+                        <div class="last" th:text="${#dates.format(projectBasic.estiblishTime, 'yyyy-MM-dd') ?: '--'}">
+                            2022-01-01
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-text">
+                        <div class="first">注册资本:</div>
+                        <div class="last" th:text="${projectBasic.regCapital ?: '--'}">5000万</div>
+                    </div>
+                    <div class="item-text">
+                        <div class="first">企业类型:</div>
+                        <div class="last" th:text="${projectBasic.type ?: '--'}">文案信息内容</div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-text">
+                        <div class="first">所属集团:</div>
+                        <div class="last" th:text="${projectBasic.affiliatedGroup ?: '--'}">
+                            文案信息内容文案信息内容文案信息内容文案信息内容文案信息内容文案信息内容文案信息内容文案信息内容
+                        </div>
+                    </div>
+                    <div class="item-text">
+                        <div class="first">法定代表人:</div>
+                        <div class="last" th:text="${projectBasic.legalPersonName ?: '--'}">
+                            文案信息内容文案信息内容文案信息内容文案信息内容文案信息内容文案信息内容文案信息内容文案信息内容
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-text">
+                        <div class="first">所属行业:</div>
+                        <div class="last" th:text="${projectBasic.industry ?: '--'}">文案信息内容</div>
+                    </div>
+                    <div class="item-text">
+                        <div class="first">人员规模:</div>
+                        <div class="last" th:text="${projectBasic.staffNumRange ?: '--'}">2000人</div>
+                    </div>
+                </div>
+                <div class="item row1">
+                    <div class="item-text">
+                        <div class="first">参保人数:</div>
+                        <div class="last"
+                             th:text="${null==projectBasic.socialStaffNum?'--':projectBasic.socialStaffNum+'人'}">
+                            2000人
+                        </div>
+                    </div>
+                </div>
+                <div class="item row1">
+                    <div class="item-text">
+                        <div class="first">经营范围:</div>
+                        <div class="last" th:text="${projectBasic.businessScope ?: '--'}">
+                            文案信息内容文案信息内容文案信息内容
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 企业股权结构 -->
+        <div class="base-info02" th:with="thisToc=${basicToc.access.getNext()}">
+            <div class="detail-title">
+                <img src="./image/common/02.png"/>
+                <div class="title" th:id="${thisToc.dest}" th:text="${thisToc.getName()}">企业股权结构</div>
+            </div>
+            <!--工商登记-->
+            <div th:with="toc=${thisToc.access.getFirstChild()}">
+                <div class="manage-title margin-24" th:id="${toc.dest}" th:text="${toc.getName}">2.2.1 工商登记</div>
+                <div th:with="dataIsEmpty=${#lists.isEmpty(ctx.basic?.shareholdingStructure?.shareholderList)}">
+                    <table class="table1" th:if="${not dataIsEmpty}">
+                        <tr>
+                            <td class="th">股东名称</td>
+                            <td class="th">持股比例</td>
+                            <td class="th">认缴出资额</td>
+                            <td class="th">公示时间</td>
+                        </tr>
+                        <tr th:each="i : ${ctx.basic?.shareholdingStructure?.shareholderList}">
+                            <td th:text="${i.name ?: '--'}">-</td>
+                            <td th:text="${i.percent ?: '--'}">60%</td>
+                            <td th:text="${i.amomon ?: '--'}">60万人民币</td>
+                            <td th:text="${i.time ?: '--'}">2022-01-01</td>
+                        </tr>
+                    </table>
+                    <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                        经全网扫描，未查得该信息
+                    </div>
+                </div>
+            </div>
+            <!--最新公示-->
+            <div th:with="toc=${thisToc.access.getNext()}">
+                <!--                th:if="${not #lists.isEmpty(ctx.basic?.shareholdingStructure?.top10Shareholders)}"-->
+                <div class="manage-title margin-24" th:id="${toc.dest}" th:text="${toc.getName}">2.2.2 最新公示</div>
+                <div th:with="dataIsEmpty=${#lists.isEmpty(ctx.basic?.shareholdingStructure?.top10Shareholders)}">
+                    <table class="table10 margin-24" th:if="${not dataIsEmpty}">
+                        <tr>
+                            <td class="th">股东名称</td>
+                            <td class="th">股份类型</td>
+                            <td class="th">持股数</td>
+                            <td class="th">持股变化 （万股）</td>
+                            <td class="th">占总股本比例（%）</td>
+                            <td class="th">增减情况（%）</td>
+                        </tr>
+                        <tr th:each="i : ${ctx.basic?.shareholdingStructure?.top10Shareholders}">
+                            <td th:text="${i.name} ?: '--'">--</td>
+                            <!--类型  1 ⼗⼤股东 2 ⼗⼤流通股东-->
+                            <td th:text="${1 == i.type ? '⼗⼤股东':(2 == i.type ? '⼗⼤流通股东':null)} ?:'--'">--</td>
+                            <td th:text="${i.holdingNum} ?: '--'">--</td>
+                            <td th:text="${i.compareChange ?: null} ?: _">--</td>
+                            <td th:text="${i.proportion} ?: '--'">--</td>
+                            <td th:text="${#strings.isEmpty(i.actual) ? null:i.actual} ?: '--'">--</td>
+                        </tr>
+                    </table>
+                    <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                        经全网扫描，未查得该信息
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 项目方关联信息 -->
+        <div class="base-info03" th:with="thisToc=${basicToc.access.getNext()}">
+            <div class="detail-title">
+                <img src="./image/common/03.png"/>
+                <div class="title" th:id="${thisToc.dest}" th:text="${thisToc.getName()}">项目方关联信息</div>
+            </div>
+            <div th:with="toc=${thisToc.access.getFirstChild()},relationList=${ctx.basic?.associationInformationStructure?.relationCompanyList}">
+                <div class="subtitle" th:id="${toc.dest}" th:text="${toc.getName}">关联公司及自然人</div>
+                <div th:with="dataIsEmpty=${#lists.isEmpty(relationList)}">
+                    <th:block th:each="data : ${relationList}" th:if="${not dataIsEmpty}">
+                        <div class="margin-16"
+                             th:with="companyName=${data.companyName} ,labels=${data.labels},personList=${data.personList}">
+                            <div th:replace="~{companyTitle:: companyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                                <div class="company-title">
+                                    <div class="company-title-left">
+                                        <div class="company-des-name">
+                                            广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团
+                                        </div>
+                                    </div>
+                                    <div class="company-title-tag">
+                                        <span class="company-title-tag-item">实际控股公司</span>
+                                        <span class="company-title-tag-item">其他关联公司</span>
+                                        <span class="company-title-tag-item">项目公司</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <th:block th:with="personIsEmpty=${#lists.isEmpty(personList)}">
+                                <div class="company-tags" th:if="not ${personIsEmpty}">
+                                    <span class="company-tags-item" th:each="person:${personList}"
+                                          th:text="|${person.personRole}：${person.personName}|">股东：我是大傻逼！！</span>
+                                </div>
+                                <div class="company-tags text-center" style="display: none"
+                                     th:style="|display:${personIsEmpty ? 'block':'none'}|">
+                                    <span class="text-empty">&nbsp;</span>
+                                </div>
+                            </th:block>
+                        </div>
+                    </th:block>
+                    <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                        经全网扫描，未查得该信息
+                    </div>
+                </div>
+            </div>
+            <div th:with="toc=${thisToc.access.getNext()}">
+                <div class="subtitle" th:id="${toc.dest}" th:text="${toc.getName}">最终受益人</div>
+                <div th:with="dataIsEmpty=${null == ctx.basic?.associationInformationStructure?.finalBeneficiaryPerson ?: true}">
+                    <div class="benefit-dtl" th:if="${not dataIsEmpty}">
+                        <div class="benefit_box"
+                             th:with="finalBeneficiaryPerson=${ctx.basic.associationInformationStructure.finalBeneficiaryPerson}">
+                            <div class="benefit_header">
+                                <div class="benefit_header_left">
+                                    <div class="benefit_header_title">最终受益人：</div>
+                                    <div class="benefit_header_content">
+                                        <span th:text="${finalBeneficiaryPerson.name}">--</span>
+                                        <span th:if="${not #strings.isEmpty(finalBeneficiaryPerson.percent)}"
+                                              th:text="|（${finalBeneficiaryPerson.percent}）|">（--.--%）</span>
+                                    </div>
+                                </div>
+                                <div class="benefit_header_right">
+                                    <!-- <img src="./image/common/tip.png"> -->
+                                    <span>受益路径图</span>
+                                </div>
+                            </div>
+                            <!--  受益路径图-->
+                            <div class="benefit_content" th:if="${not #lists.isEmpty(finalBeneficiaryPerson.pathMap)}">
+                                <!--1-->
+                                <!--2-->
+                                <div class="benefit_wraper" th:each="bp : ${finalBeneficiaryPerson.pathMap}">
+                                    <div class="cascade_box">
+                                        <div style="position: relative;">
+                                            <!--这里区一维数组里的第一个-->
+                                            <div class="cascade_left">
+                                                <div class="cascade_icon"
+                                                     th:text="${#strings.substring(bp.name, 0,1) ?: '--'}">王
+                                                </div>
+                                                <div class="cascade_name" th:text="${bp.name ?: '--'}">王均金</div>
+                                                <img src="./image/base-info/arrow.png"/>
+                                                <div class="cascade_dash1"></div>
+                                                <img src="./image/common/dot.png"/>
+                                            </div>
+                                        </div>
+                                        <div class="cascade_right text1">
+                                            <div class="cascade_right_item" th:each="item,itemStat : ${bp.items}">
+                                                <div class="cloumn-line"
+                                                     th:classappend="|${itemStat.first ? 'first':''}|">
+                                                    <div class="cascade_dash2"></div>
+                                                    <img class="cloumn-line-img" src="./image/common/dot.png"/>
+                                                </div>
+                                                <div class="cascade_right_text"
+                                                     th:classappend="|${itemStat.last ? 'none-bottom':''}|">
+                                                    <div class="label">
+                                                        <span class="label-first"
+                                                              th:if="${item.ctrlIsPercent}">控制权</span>
+                                                        <span th:text="${item.ctrl}">36.14%</span>
+                                                    </div>
+                                                    <div class="text" th:text="${item.corpName ?: '--'}">
+                                                        上海爱建集团股份有限公司
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                        经全网扫描，未查得该信息
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 项目情况 -->
+        <div class="base-info04" th:with="thisToc=${basicToc.access.getNext()}">
+            <div class="detail-title">
+                <img src="./image/common/04.png"/>
+                <div class="title" th:id="${thisToc.dest}" th:text="${thisToc.getName()}">项目情况</div>
+            </div>
+            <div th:with="toc=${thisToc.access.getFirstChild()}">
+                <div class="subtitle" th:id="${toc.dest}" th:text="${toc.getName}">基本信息</div>
+                <div th:with="dataIsEmpty=${null == ctx.basic?.projectDetail ?: true},pd=${ctx.basic.projectDetail}">
+                    <div class="base-info-project" th:if="${not dataIsEmpty}">
+                        <div class="item item-first">
+                            <div class="item-text">
+                                <div class="first">项目名称:</div>
+                                <div class="last" th:text="${pd.name ?: '--'}">--</div>
+                            </div>
+                            <div class="item-text">
+                                <div class="first">项目类型:</div>
+                                <div class="last"
+                                     th:text="${null != pd.projectType ? {'居住建筑','市政建筑','企事业建筑','商业娱乐建筑','生产性建筑'}[pd.projectType-1] : '--'}">
+                                    --
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="item-text">
+                                <div class="first">目标客群:</div>
+                                <div class="last"
+                                     th:text="${null != pd.targetGroup ? {'刚需','学区','改善'}[pd.targetGroup-1] : '--'}">
+                                    --
+                                </div>
+                            </div>
+                            <div class="item-text">
+                                <div class="first">项目地址:</div>
+                                <div class="last"
+                                     th:text="${T(com.liyz.dubbo.service.pdf.utils.AddressUtils).convertToDetailAddress(pd.address,pd.province,pd.city,pd.area) ?: '--'}">
+                                    -
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="item-text">
+                                <div class="first">楼盘均价:</div>
+                                <div class="last"
+                                     th:text="${null == pd.averagePrice ? '--' : (pd.averagePrice?.stripTrailingZeros()?.toPlainString()+'元/平方米')}">
+                                    --
+                                </div>
+                            </div>
+                            <div class="item-text">
+                                <div class="first">销售情况:</div>
+                                <div class="last"
+                                     th:text="${null != pd.saleSituation ? {'待销售','销售中','已售罄'}[pd.saleSituation-1] : '--'}">
+                                    -
+                                </div>
+                            </div>
+                        </div>
+                        <!--                    <div class="item">-->
+                        <!--                        <div class="item-text">-->
+                        <!--                            <div class="first">周边配套:</div>-->
+                        <!--                            <div class="last"-->
+                        <!--                                 th:text="${null != pd.peripheralSupport ? {'医院/超市/学校齐全','超市/学校','超市'}[pd.peripheralSupport-1] : '&#45;&#45;'}">-->
+                        <!--                                - -->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                        <!--                        <div class="item-text">-->
+                        <!--                            <div class="first">交通配套:</div>-->
+                        <!--                            <div class="last"-->
+                        <!--                                 th:text="${null != pd.transportationSupport ? {'无配套','公交配套','地铁配套'}[pd.transportationSupport-1] : '&#45;&#45;'}">-->
+                        <!--                                文案信息内容文案信息内容-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                        <!--                    </div>-->
+                    </div>
+                    <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                        经全网扫描，未查得该信息
+                    </div>
+                </div>
+            </div>
+            <div th:with="toc=${thisToc.access.getNext()}">
+                <div class="subtitle" th:id="${toc.dest}" th:text="${toc.getName}">周边配套</div>
+                <div th:with="dataIsEmpty=${null == ctx.basic?.projectSupport ?: true},pSuport=${ctx.basic.projectSupport}">
+                    <div class="matching-info" th:if="${not dataIsEmpty}">
+                        <div class="matching-title">配套统计</div>
+                        <div class="matching-type-num">
+                            <div class="matching-type-item">
+                                <div class="matching-icon"><img src="./image/base-info/matching-01.png"/></div>
+                                <div class="matching-base">
+                                    <div class="num" th:text="${pSuport.transitCount?:'--'}">31</div>
+                                    <div class="title">公交</div>
+                                </div>
+                            </div>
+                            <div class="matching-type-item matching-type-item-center">
+                                <div class="matching-icon"><img src="./image/base-info/matching-02.png"/></div>
+                                <div class="matching-base">
+                                    <div class="num" th:text="${pSuport.metroCount?:'--'}">32</div>
+                                    <div class="title">地铁</div>
+                                </div>
+                            </div>
+                            <div class="matching-type-item">
+                                <div class="matching-icon"><img src="./image/base-info/matching-03.png"/></div>
+                                <div class="matching-base">
+                                    <div class="num" th:text="${pSuport.hospitalCount?:'--'}">33</div>
+                                    <div class="title">医疗</div>
+                                </div>
+                            </div>
+                            <div class="matching-type-item">
+                                <div class="matching-icon"><img src="./image/base-info/matching-04.png"/></div>
+                                <div class="matching-base">
+                                    <div class="num" th:text="${pSuport.educationCount?:'--'}">34</div>
+                                    <div class="title">教育</div>
+                                </div>
+                            </div>
+                            <div class="matching-type-item matching-type-item-center">
+                                <div class="matching-icon"><img src="./image/base-info/matching-05.png"/></div>
+                                <div class="matching-base">
+                                    <div class="num" th:text="${pSuport.shoppingCount?:'--'}">35</div>
+                                    <div class="title">购物</div>
+                                </div>
+                            </div>
+                            <div class="matching-type-item">
+                                <div class="matching-icon"><img src="./image/base-info/matching-06.png"/></div>
+                                <div class="matching-base">
+                                    <div class="num" th:text="${pSuport.lifeCount?:'--'}">36</div>
+                                    <div class="title">生活</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="matching-concrete">
+                            <div class="matching-concrete-item">
+                                <div class="area-more">
+                                    <span>周边配套详细查看：</span>
+                                    <a class="link" href="https://lbs.baidu.com/jsdemo.htm#localSearchKeyCircle"
+                                       target="_blank">https://lbs.baidu.com/jsdemo.htm#localSearchKeyCircle</a>
+                                </div>
+                                <div>
+                                    <div class="title">
+                                        <div class="left">项目</div>
+                                        <div class="right">
+                                            <span>公交</span>
+                                            <span>地铁</span>
+                                            <span>医疗</span>
+                                            <span>教育</span>
+                                            <span>购物</span>
+                                            <span>生活</span>
+                                        </div>
+                                    </div>
+                                    <div class="area-box">
+                                        <div class="area-left">
+                                            <p>项目名称：</p>
+                                            <p th:text="${ctx.basic?.projectDetail?.name ?: '--'}">
+                                                --------------------</p>
+                                            <p>项目地址：</p>
+                                            <p th:text="${T(com.liyz.dubbo.service.pdf.utils.AddressUtils).appendAddress(pSuport.provinceName,pSuport.cityName,pSuport.areaName,pSuport.address) ?: '--'}">
+                                                ------------------------</p>
+                                        </div>
+                                        <div class="area-right">
+                                            <img src="https://fuwu.qjdchina.com/fs/file/download?fileKey=a722dc75-0890-4651-9fae-655e5b3cfd80"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                        经全网扫描，未查得该信息
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 区域信息 -->
+        <div class="base-info04" th:with="thisToc=${basicToc.access.getNext()},region=${ctx.basic?.regionStructure}">
+            <div class="detail-title">
+                <img src="./image/common/05.png"/>
+                <div class="title" th:id="${thisToc.dest}" th:text="${thisToc.getName()}">区域信息</div>
+            </div>
+            <div class="current-area margin-24" th:if="null!=${region}">
+                <div class="current-area-item">
+                    <img class="current-area-img" src="./image/common/area.png"/>
+                    <span class="current-area-name"
+                          th:text="${region?.regionAllName ?:'--'}">当前区域：浙江省-杭州市-滨江区</span>
+                </div>
+                <div class="current-area-des">
+                    说明：针对当前区域近5年的经济、负债两方面信息进行展示
+                </div>
+            </div>
+            <div class="current-area-detail margin-24" th:with="toc=${thisToc.access.getFirstChild()}">
+                <div class="subtitle" th:id="${toc.dest}" th:text="${toc.getName}">区域经济</div>
+                <div th:with="yaerList = ${region?.yaerTitleList},dataIsEmpty=${#lists.isEmpty(region?.getEconomics())},list=${region?.getEconomics()} ">
+                    <div class="margin-18" th:if="${not dataIsEmpty}">
+                        <div class="area-svg count4">
+                            <th:block th:each="i : ${list}">
+                                <div class="border-svg" th:utext="${i?.svg}">
+                                    <!--                                    <svg height="146pt" width="176pt">-->
+                                    <!--                                        <circle cx="100" cy="50" r="40" stroke="black" stroke-width="2" fill="red"/>-->
+                                    <!--                                    </svg>-->
+                                </div>
+                            </th:block>
+                        </div>
+                        <table class="table21 margin-24">
+                            <tr>
+                                <td class="th line-td">
+                                    <span class="area-target">指标</span>
+                                    <span class="area-date">年份</span>
+                                </td>
+                                <th:block th:each="i : ${yaerList}">
+                                    <td class="th" th:text="${i}">2021</td>
+                                </th:block>
+                            </tr>
+                            <th:block th:each="i: ${list}">
+                                <tr th:if="${1==i.type}" th:with="dataList=${i.dataList}">
+                                    <td class="th text-left">GDP（亿元）</td>
+                                    <th:block th:each="data: ${dataList}">
+                                        <td th:text="${data?:'-'}">-</td>
+                                    </th:block>
+                                </tr>
+                                <tr th:if="${2==i.type}" th:with="dataList=${i.dataList}">
+                                    <td class="th text-left">GDP增速（%）</td>
+                                    <th:block th:each="data: ${dataList}">
+                                        <td th:text="${data?:'-'}">-</td>
+                                    </th:block>
+                                </tr>
+                                <tr th:if="${3==i.type}" th:with="dataList=${i.dataList}">
+                                    <td class="th text-left">人均GDP(元)</td>
+                                    <th:block th:each="data: ${dataList}">
+                                        <td th:text="${data?:'-'}">-</td>
+                                    </th:block>
+                                </tr>
+                                <tr th:if="${4==i.type}" th:with="dataList=${i.dataList}">
+                                    <td class="th text-left">人口(万人)</td>
+                                    <th:block th:each="data: ${dataList}">
+                                        <td th:text="${data?:'-'}">-</td>
+                                    </th:block>
+                                </tr>
+                            </th:block>
+                        </table>
+                    </div>
+                    <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                        经全网扫描，未查得该信息
+                    </div>
+                </div>
+            </div>
+            <div class="current-area-detail margin-24" th:with="toc=${thisToc.access.getNext()}">
+                <div class="subtitle" th:id="${toc.dest}" th:text="${toc.getName}">区域负债</div>
+                <div th:with="yaerList = ${region?.yaerTitleList},dataIsEmpty=${#lists.isEmpty(region?.getLiabilities())},list=${region?.getLiabilities()} ">
+                    <div class="margin-18" th:if="${not dataIsEmpty}">
+                        <div class="area-svg count3">
+                            <th:block th:each="i : ${list}">
+                                <div class="border-svg" th:utext="${i?.svg}">
+                                    <!--                                    <svg height="146pt" width="240pt">-->
+                                    <!--                                        <circle cx="100" cy="50" fill="red" r="40" stroke="black" stroke-width="2"/>&ndash;&gt;-->
+                                    <!--                                    </svg>-->
+                                </div>
+                            </th:block>
+                        </div>
+                        <table class="table21 margin-24">
+                            <tr>
+                                <td class="th line-td">
+                                    <span class="area-target">指标</span>
+                                    <span class="area-date">年份</span>
+                                </td>
+                                <th:block th:each="i : ${yaerList}">
+                                    <td class="th" th:text="${i}">2021</td>
+                                </th:block>
+                            </tr>
+                            <th:block th:each="i: ${list}">
+                                <tr th:if="${5==i.type}" th:with="dataList=${i.dataList}">
+                                    <td class="th text-left">地方政府债务余额(亿元)</td>
+                                    <th:block th:each="data: ${dataList}">
+                                        <td th:text="${data?:'-'}">-</td>
+                                    </th:block>
+                                </tr>
+                                <tr th:if="${6==i.type}" th:with="dataList=${i.dataList}">
+                                    <td class="th text-left">财政自给率（%）</td>
+                                    <th:block th:each="data: ${dataList}">
+                                        <td th:text="${data?:'-'}">-</td>
+                                    </th:block>
+                                </tr>
+                                <tr th:if="${7==i.type}" th:with="dataList=${i.dataList}">
+                                    <td class="th text-left">债务率（宽口径）(%)</td>
+                                    <th:block th:each="data: ${dataList}">
+                                        <td th:text="${data?:'-'}">-</td>
+                                    </th:block>
+                                </tr>
+                            </th:block>
+                        </table>
+                    </div>
+                    <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                        经全网扫描，未查得该信息
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 经营状况 -->
+    <div th:replace="~{ocModules :: ocModule}"></div>
+    <!--授信及担保-->
+    <div th:replace="~{creditGuarantee :: creditGuarantee}"></div>
+    <!-- 商票情况 -->
+    <div class="note" th:with="ctToc=${toc.commercialTicket}">
+        <div class="content-title" th:id="${ctToc.dest}" th:text="${ctToc.getName()}">商票情况</div>
+        <div th:with="companyName=${ctx.commercialTicket?.companyName} ,labels=${ctx.commercialTicket?.labels}">
+            <div th:replace="~{companyTitle:: companyTitleMargin24(desc='商票数据企业:',companyName=${companyName},labels=${labels})}">
+                <div class="company-title margin-24">
+                    <div class="company-title-left">
+                        <div class="company-des-name">
+                            广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团
+                        </div>
+                    </div>
+                    <div class="company-title-tag">
+                        <span class="company-title-tag-item">实际控股公司</span>
+                        <span class="company-title-tag-item">其他关联公司</span>
+                        <span class="company-title-tag-item">项目公司</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  头数据-->
+        <!--市场交易年化利率 && 商票风险等级-->
+        <div class="note-card">
+            <!--市场交易年化利率-->
+            <div class="note-card-left" th:with="ctOverviewToc=${ctToc.access.getFirstChild()}">
+                <div class="title" th:id="${ctOverviewToc.dest}">市场交易年化利率</div>
+                <div class="num">
+                    <div class="num-item">
+                        <span class="big"
+                              th:text="${ctx.commercialTicket?.overView?.interestRateLow ?: '--'}">20.5</span>
+                        <span style="padding-top: 3pt;">%</span>
+                    </div>
+                    <span class="space">~</span>
+                    <div class="num-item">
+                        <span class="big"
+                              th:text="${ctx.commercialTicket?.overView?.interestRateHigh ?: '--'}">23.87</span>
+                        <span style="padding-top: 3pt;">%</span>
+                    </div>
+                </div>
+                <div class="des">最新市场交易年化利率</div>
+            </div>
+            <!--商票风险等级-->
+            <div th:with="ctRiskLevelToc=${ctToc.access.getNext()}">
+                <div th:id="${ctRiskLevelToc.dest}" th:with="level=${ctx.commercialTicket?.overView?.riskLevel ?: '0'}">
+                    <div class="note-card-right note1" th:style="|display: ${'1' == level ? 'block':'none'}|">
+                        <div class="card-item">
+                            <div style="flex: 1;">
+                                <div class="title">商票风险等级</div>
+                                <div class="num">1级</div>
+                            </div>
+                            <img src="./image/manage/note1.png">
+                        </div>
+                        <div class="des">市场交易价格利率低，市场认可度高，商票违约风险低</div>
+                    </div>
+                    <div class="note-card-right note2" style="display: none;"
+                         th:style="|display: ${'2' == level ? 'block':'none'}|">
+                        <div class="card-item">
+                            <div style="flex: 1;">
+                                <div class="title">商票风险等级</div>
+                                <div class="num">2级</div>
+                            </div>
+                            <img src="./image/manage/note2.png">
+                        </div>
+                        <div class="des">市场交易价格利率较低，市场认可度较高，商票违约风险较低</div>
+                    </div>
+                    <div class="note-card-right note3" style="display: none;"
+                         th:style="|display: ${'3' == level ? 'block':'none'}|">
+                        <div class="card-item">
+                            <div style="flex: 1;">
+                                <div class="title">商票风险等级</div>
+                                <div class="num">3级</div>
+                            </div>
+                            <img src="./image/manage/note3.png">
+                        </div>
+                        <div class="des">市场交易价格利率中等，市场认可度一般，商票违约风险中等</div>
+                    </div>
+                    <div class="note-card-right note4" style="display: none;"
+                         th:style="|display: ${'4' == level ? 'block':'none'}|">
+                        <div class="card-item">
+                            <div style="flex: 1;">
+                                <div class="title">商票风险等级</div>
+                                <div class="num">4级</div>
+                            </div>
+                            <img src="./image/manage/note4.png">
+                        </div>
+                        <div class="des">
+                            市场交易价格利率较高，市场整体认可度较差，可能存在少量商票兑付逾期情况，商票违约风险较高
+                        </div>
+                    </div>
+                    <div class="note-card-right note5" style="display: none;"
+                         th:style="|display: ${'5' == level ? 'block':'none'}|">
+                        <div class="card-item">
+                            <div style="flex: 1;">
+                                <div class="title">商票风险等级</div>
+                                <div class="num">5级</div>
+                            </div>
+                            <img src="./image/manage/note5.png">
+                        </div>
+                        <div class="des">
+                            市场交易价格利率极高，晒场整理认可度较差，可能已经出现多笔逾期商票兑付情况，商票违约风险极高
+                        </div>
+                    </div>
+                    <div class="note-card-right note6" style="display: none;"
+                         th:style="|display: ${'0' == level ? 'block':'none'}|">
+                        <div class="card-item">
+                            <div style="flex: 1;">
+                                <div class="title">商票风险等级</div>
+                                <div class="num">- -级</div>
+                            </div>
+                            <img src="./image/manage/note6.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--商票违约情况-->
+        <div th:with="ctViolateToc=${ctToc.access.getNext()}">
+            <div class="manage-title margin-24" th:id="${ctViolateToc.dest}">商票违约情况</div>
+            <div th:with="dataIsEmpty=${#strings.isEmpty(ctx.commercialTicket?.overView?.richText)}">
+                <div class="ql-snow">
+                    <div class="remark margin-24 ql-editor" th:if="${not dataIsEmpty}"
+                         th:utext="${ctx.commercialTicket?.overView?.richText}">无信息
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!--兑付统计-->
+        <div th:with="ctCensusToc=${ctToc.access.getNext()}">
+            <div class="manage-title margin-24" th:id="${ctCensusToc.dest}">兑付统计</div>
+            <div>单位: 万元</div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(ctx.commercialTicket?.censusList)},list=${ctx.commercialTicket?.censusList}">
+                <table class="table11 margin-24" th:if="${not dataIsEmpty}">
+                    <tr>
+                        <td class="th">承兑人</td>
+                        <td class="th">查询日期</td>
+                        <td class="th">承兑总笔数</td>
+                        <td class="th">承兑总金额</td>
+                        <td class="th">已结清金额</td>
+                        <td class="th">未结清笔数</td>
+                        <td class="th">未结清金额</td>
+                        <td class="th">拒付总笔数</td>
+                        <td class="th">拒付总金额</td>
+                    </tr>
+                    <tr th:each="i : ${list}">
+                        <td th:text="${i.companyName ?: '--'}">-</td>
+                        <td th:text="${#dates.format(i.publishTime, 'yyyy-MM-dd') ?: '--'}">-</td>
+                        <td th:text="${i.accepted ?: '--'}">-</td>
+                        <td th:text="${i.acceptedAmount ?: '--'}">-</td>
+                        <td th:text="${i.clearedAmount ?: '--'}">-</td>
+                        <td th:text="${i.uncleared ?: '--'}">-</td>
+                        <td th:text="${i.unclearedAmount ?: '--'}">-</td>
+                        <td th:text="${i.refusePayment ?: '--'}">-</td>
+                        <td th:text="${i.refusePaymentAmount ?: '--'}">-</td>
+                    </tr>
+                </table>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 债券及信用评级 -->
+    <div class="credit-level" th:with="bondToc=${toc.bond}">
+        <div class="content-title" th:id="${bondToc.dest}" th:text="${bondToc.getName()}">债券及信用评级</div>
+        <!--表头头信息-->
+        <div th:with="companyName=${ctx.bond?.companyName} ,labels=${ctx.bond?.labels}">
+            <div th:replace="~{companyTitle:: companyTitleMargin24(desc='商票数据企业:',companyName=${companyName},labels=${labels})}">
+                <div class="company-title margin-24">
+                    <div class="company-title-left">
+                        <div class="company-des-name">
+                            广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团广西交投集团
+                        </div>
+                    </div>
+                    <div class="company-title-tag">
+                        <span class="company-title-tag-item">实际控股公司</span>
+                        <span class="company-title-tag-item">其他关联公司</span>
+                        <span class="company-title-tag-item">项目公司</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 债券信息 -->
+        <div th:with="bondDetailToc=${bondToc.access.getFirstChild()}">
+            <div class="detail-title margin-22">
+                <img src="./image/common/01.png"/>
+                <div class="title" th:id="${bondDetailToc.dest}" th:text="${bondDetailToc.getName()}">债券信息</div>
+            </div>
+            <div th:with="dataIsEmpty=${#strings.isEmpty(ctx.bond?.contentInfo) and #lists.isEmpty(ctx.bond?.bondDetailList)}">
+                <div th:if="${not dataIsEmpty}">
+                    <div class="ql-snow">
+                        <div class="margin-20 ql-editor" th:utext="${ctx.bond?.contentInfo ?: '无信息'}">--</div>
+                    </div>
+                    <div class="margin-20" th:each="i,istat : ${ctx.bond?.bondDetailList}"
+                         th:if="${not #lists.isEmpty(ctx.bond?.bondDetailList)}">
+                        <div class="credit-level-unit">
+                            <div class="tag" th:text="${istat.count}">1</div>
+                            <div>单位: 亿元</div>
+                        </div>
+                        <table class="table12">
+                            <tr class="first">
+                                <td class="th">证券代码</td>
+                                <td class="th" colspan="2">证券简称</td>
+                                <td class="th">证券类别</td>
+                                <td class="th">发行日期</td>
+                                <td class="th">起息日期</td>
+                                <td class="th">到期日期</td>
+                            </tr>
+                            <tr class="first">
+                                <td th:text="${i.code ?: '--'}">-</td>
+                                <td colspan="2" th:text="${i.abbreviation ?: '--'}">-</td>
+                                <td th:text="${i.type ?: '--'}">-</td>
+                                <td th:text="${i.issuanceStartDate ?: '--'}">-</td>
+                                <td th:text="${i.interestStartDate ?: '--'}">-</td>
+                                <td th:text="${i.issuanceEndDate ?: '--'}">-</td>
+                            </tr>
+                            <tr class="second">
+                                <td class="th">剩余期限</td>
+                                <td class="th">发行期限</td>
+                                <td class="th">票面利率</td>
+                                <td class="th">利率类型</td>
+                                <td class="th">币种</td>
+                                <td class="th">当前余额</td>
+                                <td class="th">发行规模</td>
+                            </tr>
+                            <tr class="second">
+                                <td th:text="${i.surplusTerm ?: '--'}">-</td>
+                                <td th:text="${i.term ?: '--'}">-</td>
+                                <td th:text="${i.couponRate ?: '--'}">-</td>
+                                <td th:text="${i.couponRateType ?: '--'}">-</td>
+                                <td th:text="${i.currency ?: '--'}">-</td>
+                                <td th:text="${i.balance ?: '--'}">-</td>
+                                <td th:text="${i.scale ?: '--'}">-</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!-- 债券违约 -->
+        <div th:with="bondDefaultToc=${bondToc.access.getNext()}">
+            <div class="detail-title margin-22">
+                <img src="./image/common/02.png"/>
+                <div class="title" th:id="${bondDefaultToc.dest}" th:text="${bondDefaultToc.getName()}">债券违约</div>
+            </div>
+            <div th:with="dataIsEmpty=${#strings.isEmpty(ctx.bond?.contentDefault) and #lists.isEmpty(ctx.bond?.defaultList)}">
+                <div th:if="${not dataIsEmpty}">
+                    <div class="ql-snow">
+                        <div class="margin-20 ql-editor" th:utext="${ctx.bond?.contentDefault ?: '无信息'}">--</div>
+                    </div>
+                    <div class="margin-20" th:if="${not #lists.isEmpty(ctx.bond?.defaultList)}">
+                        <div class="credit-level-unit">
+                            <div class="tag tag2">1</div>
+                            <div>单位: 亿元</div>
+                        </div>
+                        <table class="table13">
+                            <tr>
+                                <td class="th">证券代码</td>
+                                <td class="th">证券简称</td>
+                                <td class="th">到期日期</td>
+                                <td class="th">债券余额</td>
+                                <td class="th">违约状态</td>
+                            </tr>
+                            <tr th:each="i,istat : ${ctx.bond?.defaultList}">
+                                <td th:text="${i.code ?: '--'}">-</td>
+                                <td th:text="${i.abbreviation ?: '--'}">-</td>
+                                <td th:text="${i.issuanceEndDate ?: '--'}">-</td>
+                                <td th:text="${i.balance ?: '--'}">-</td>
+                                <td th:text="${i.latestStatus ?: '--'}">-</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!-- 信用评级 -->
+        <div th:with="bondCreditRatingToc=${bondToc.access.getNext()}">
+            <div class="detail-title margin-22">
+                <img src="./image/common/03.png"/>
+                <div class="title" th:id="${bondCreditRatingToc.dest}" th:text="${bondCreditRatingToc.getName()}">
+                    信用评级
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(ctx.bond?.creditRatingList)}">
+                <div class="credit margin-24" th:if="${not dataIsEmpty}">
+                    <div th:each="i,istat : ${ctx.bond?.creditRatingList}">
+                        <!--循环到偶数-->
+                        <div class="credit-rating" th:if="${istat.even}">
+                            <div class="rating-item" th:with="prev=${ctx.bond?.creditRatingList.get(istat.index-1)}">
+                                <div class="title" th:text="${prev.name ?: '--'}">机构名称</div>
+                                <div class="date" th:text="${prev.updateDate ?: '--'}">2022-12-22</div>
+                                <div class="last">
+                                    <img src="./image/manage/bg.png"/>
+                                    <div class="font" th:text="${prev.level ?: '--'}">A++</div>
+                                </div>
+                            </div>
+                            <div class="rating-item">
+                                <div class="title" th:text="${i.name ?: '--'}">机构名称</div>
+                                <div class="date" th:text="${i.updateDate ?: '--'}">2022-12-22</div>
+                                <div class="last">
+                                    <img src="./image/manage/bg.png"/>
+                                    <div class="font" th:text="${i.level ?: '--'}">A++</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--奇数个并且是最后一个-->
+                        <div class="credit-rating" th:if="${istat.odd and istat.last}">
+                            <div class="rating-item">
+                                <div class="title" th:text="${i.name ?: '--'}">机构名称</div>
+                                <div class="date" th:text="${i.updateDate ?: '--'}">2022-12-22</div>
+                                <div class="last">
+                                    <img src="./image/manage/bg.png"/>
+                                    <div class="font" th:text="${i.level ?: '--'}">A++</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 司法风险 -->
+    <div class="margin-46" th:with="legalRiskToc=${toc.legalRisk}">
+        <div class="content-title" th:id="${legalRiskToc.dest}" th:text="${legalRiskToc.getName()}">司法风险</div>
+        <!-- 法律诉讼 -->
+        <div th:with="lrLawSuitToc=${legalRiskToc.access.getFirstChild()}">
+            <div class="detail-title margin-22">
+                <img src="./image/common/01.png"/>
+                <div class="title" th:id="${lrLawSuitToc.dest}" th:text="${lrLawSuitToc.getName()}">法律诉讼</div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(ctx.legalRisk?.lawSuitList)} ,list=${ctx.legalRisk?.lawSuitList}">
+                <div th:if="${not dataIsEmpty}">
+                    <div th:each="data : ${list}">
+                        <div th:with="companyName=${data.companyName} ,labels=${data.labels} ,gTableList=${data.gTableList}">
+                            <div th:replace="~{companyTitle:: riskCompanyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                                <div class="risk-company-title">
+                                    <img
+                                            class="risk-company-img"
+                                            src="./image/common/company.png"
+                                    />
+                                    <div>
+                                        <div class="risk-company-name">广西交通什么什么投资有限公司资有限公司</div>
+                                        <div class="risk-company-tag-item">项目公司</div>
+                                        <div class="risk-company-tag-item">实际控股公司</div>
+                                        <div class="risk-company-tag-item">其他关联公司</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table8 margin-22">
+                                <tr>
+                                    <td class="th">案件身份</td>
+                                    <td class="th">案由</td>
+                                    <td class="th">案件金额</td>
+                                    <td class="th">案号</td>
+                                    <td class="th">案件名称</td>
+                                    <td class="th">裁判日期</td>
+                                    <td class="th">详情</td>
+                                </tr>
+                                <tr th:each="i : ${gTableList}">
+                                    <td th:text="${i.role ?: '--'}">-</td>
+                                    <td th:text="${i.caseReason ?: '--'}">-</td>
+                                    <td th:text="${i.caseMoney ?: '--'}">-</td>
+                                    <td th:text="${i.caseNo ?: '--'}">-</td>
+                                    <td th:text="${i.title ?: '--'}">-</td>
+                                    <td th:text="${#dates.format(i.judgeTime,'yyyy-MM-dd') ?: '--'}">-</td>
+                                    <td class="link"><a
+                                            th:href="|${ctx.fuwuDomain}/report/raLawsuitPart?tycUuid=${i.tycUuid}|"
+                                            th:if="${i.dataSourceType == 0}">查看</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!-- 开庭报告 -->
+        <div th:with="lrKtannouncementToc=${legalRiskToc.access.getNext()}">
+            <div class="detail-title margin-24">
+                <img src="./image/common/02.png"/>
+                <div class="title" th:id="${lrKtannouncementToc.dest}" th:text="${lrKtannouncementToc.getName()}">
+                    开庭报告
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(ctx.legalRisk?.ktannouncementList)} ,list=${ctx.legalRisk?.ktannouncementList}">
+                <div th:if="${not dataIsEmpty}">
+                    <div th:each="data : ${list}">
+                        <div th:with="companyName=${data.companyName} ,labels=${data.labels} ,gTableList=${data.gTableList}">
+                            <div th:replace="~{companyTitle:: riskCompanyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                                <div class="risk-company-title">
+                                    <img
+                                            class="risk-company-img"
+                                            src="./image/common/company.png"
+                                    />
+                                    <div>
+                                        <div class="risk-company-name">广西交通什么什么投资有限公司资有限公司</div>
+                                        <div class="risk-company-tag-item">项目公司</div>
+                                        <div class="risk-company-tag-item">实际控股公司</div>
+                                        <div class="risk-company-tag-item">其他关联公司</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table10 margin-22">
+                                <tr>
+                                    <td class="th">原告</td>
+                                    <td class="th">被告</td>
+                                    <td class="th">案由</td>
+                                    <td class="th">案号</td>
+                                    <td class="th">开庭日期</td>
+                                    <td class="th">详情</td>
+                                </tr>
+                                <tr th:each="i : ${gTableList}">
+                                    <td th:text="${i.plaintiff}"></td>
+                                    <td th:text="${i.defendant}"></td>
+                                    <td th:text="${i.caseReason}"></td>
+                                    <td th:text="${i.caseNo}"></td>
+                                    <td th:text="${#dates.format(i.startDate,'yyyy-MM-dd')}"></td>
+                                    <td class="link"><a
+                                            th:href="|${ctx.fuwuDomain}/report/ktannouncementPart?raKtannouncementId=${i.id}|"
+                                            th:if="${i.dataSourceType == 0}">查看</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!-- 被执行人 -->
+        <div th:with="lrZhixinginfoToc=${legalRiskToc.access.getNext()}">
+            <div class="detail-title margin-24">
+                <img src="./image/common/03.png"/>
+                <div class="title" th:id="${lrZhixinginfoToc.dest}" th:text="${lrZhixinginfoToc.getName()}">被执行人
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(ctx.legalRisk?.zhixinginfoList)} ,list=${ctx.legalRisk?.zhixinginfoList}">
+                <div th:if="${not dataIsEmpty}">
+                    <div th:each="data : ${list}">
+                        <div th:with="companyName=${data.companyName} ,labels=${data.labels} ,gTableList=${data.gTableList}">
+                            <div th:replace="~{companyTitle:: riskCompanyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                                <div class="risk-company-title">
+                                    <img
+                                            class="risk-company-img"
+                                            src="./image/common/company.png"
+                                    />
+                                    <div>
+                                        <div class="risk-company-name">广西交通什么什么投资有限公司资有限公司</div>
+                                        <div class="risk-company-tag-item">项目公司</div>
+                                        <div class="risk-company-tag-item">实际控股公司</div>
+                                        <div class="risk-company-tag-item">其他关联公司</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table9 margin-22">
+                                <tr>
+                                    <td class="th">被执行人名称</td>
+                                    <td class="th">立案日期</td>
+                                    <td class="th">执行标的</td>
+                                    <td class="th">案号</td>
+                                    <td class="th">执行法院</td>
+                                </tr>
+                                <tr th:each="i : ${gTableList}">
+                                    <td th:text="${i.pname}"></td>
+                                    <td th:text="${#dates.format(i.caseCreateTime,'yyyy-MM-dd')}"></td>
+                                    <td th:text="${#strings.isEmpty(i.execMoney) ? null:(i.execMoney+'元')} ?: _">--
+                                    </td>
+                                    <td th:text="${i.caseNo}"></td>
+                                    <td th:text="${i.court}"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!-- 失信 -->
+        <div th:with="lrDishonestToc=${legalRiskToc.access.getNext()}">
+            <div class="detail-title margin-24">
+                <img src="./image/common/04.png"/>
+                <div class="title" th:id="${lrDishonestToc.dest}" th:text="${lrDishonestToc.getName()}">失信</div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(ctx.legalRisk?.dishonestList)} ,list=${ctx.legalRisk?.dishonestList}">
+                <div th:if="${not dataIsEmpty}">
+                    <div th:each="data : ${list}">
+                        <div th:with="companyName=${data.companyName} ,labels=${data.labels} ,gTableList=${data.gTableList}">
+                            <div th:replace="~{companyTitle:: riskCompanyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                                <div class="risk-company-title">
+                                    <img
+                                            class="risk-company-img"
+                                            src="./image/common/company.png"
+                                    />
+                                    <div>
+                                        <div class="risk-company-name">广西交通什么什么投资有限公司资有限公司</div>
+                                        <div class="risk-company-tag-item">项目公司</div>
+                                        <div class="risk-company-tag-item">实际控股公司</div>
+                                        <div class="risk-company-tag-item">其他关联公司</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table8 margin-22">
+                                <tr>
+                                    <td class="th">被执行人名称</td>
+                                    <td class="th">立案日期</td>
+                                    <td class="th">履行情况</td>
+                                    <td class="th">案号</td>
+                                    <td class="th">执行法院</td>
+                                    <td class="th">执行依据文号</td>
+                                    <td class="th">详情</td>
+                                </tr>
+                                <tr th:each="i : ${gTableList}">
+                                    <td th:text="${i.iname}"></td>
+                                    <td th:text="${#dates.format(i.caseCreateTime,'yyyy-MM-dd')}"></td>
+                                    <td th:text="${i.performance}"></td>
+                                    <td th:text="${i.caseNo}"></td>
+                                    <td th:text="${i.court}"></td>
+                                    <td th:text="${i.gistid}"></td>
+                                    <td class="link"><a
+                                            th:href="|${ctx.fuwuDomain}/report/dishonestPart?raDishonestId=${i.id}|"
+                                            th:if="${i.dataSourceType == 0}">查看</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!-- 限制消费 -->
+        <div th:with="lrConsumptionRestrictionToc=${legalRiskToc.access.getNext()}">
+            <div class="detail-title margin-24">
+                <img src="./image/common/05.png"/>
+                <div class="title" th:id="${lrConsumptionRestrictionToc.dest}"
+                     th:text="${lrConsumptionRestrictionToc.getName()}">限制消费
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(ctx.legalRisk?.consumptionRestrictionList)} ,list=${ctx.legalRisk?.consumptionRestrictionList}">
+                <div th:if="${not dataIsEmpty}">
+                    <div th:each="data : ${list}">
+                        <div th:with="companyName=${data.companyName} ,labels=${data.labels} ,gTableList=${data.gTableList}">
+                            <div th:replace="~{companyTitle:: riskCompanyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                                <div class="risk-company-title">
+                                    <img
+                                            class="risk-company-img"
+                                            src="./image/common/company.png"
+                                    />
+                                    <div>
+                                        <div class="risk-company-name">广西交通什么什么投资有限公司资有限公司</div>
+                                        <div class="risk-company-tag-item">项目公司</div>
+                                        <div class="risk-company-tag-item">实际控股公司</div>
+                                        <div class="risk-company-tag-item">其他关联公司</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table13 margin-22">
+                                <tr>
+                                    <td class="th">限制消费者</td>
+                                    <td class="th">立案时间</td>
+                                    <td class="th">企业信息</td>
+                                    <td class="th">申请人信息</td>
+                                </tr>
+                                <tr th:each="i : ${gTableList}">
+                                    <td th:text="${i.xname}"></td>
+                                    <td th:text="${#dates.format(i.caseCreateTime,'yyyy-MM-dd')}"></td>
+                                    <td th:text="${i.qyinfo}"></td>
+                                    <td th:text="${i.applicant}"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 关联风险 -->
+    <div th:with="associatedRiskToc=${toc.associatedRisk}">
+        <div class="margin-46">
+            <div class="content-title" th:id="${associatedRiskToc.dest}" th:text="${associatedRiskToc.getName()}">
+                关联风险
+            </div>
+        </div>
+        <!--股东限制消费-->
+        <div th:with="arNrConsumptionRestrictionToc=${associatedRiskToc.access.getFirstChild()},list=${ctx.associatedRisk?.naturalRisk?.consumptionRestrictionList}">
+            <div class="detail-title margin-24">
+                <img src="./image/common/01.png"/>
+                <div class="title" th:id="${arNrConsumptionRestrictionToc.dest}"
+                     th:text="${arNrConsumptionRestrictionToc.getName()}">7.1 股东限制消费
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(list)}">
+                <table class="table9 margin-24" th:if="${not dataIsEmpty}">
+                    <tr>
+                        <td class="th">立案日期</td>
+                        <td class="th">关联人</td>
+                        <td class="th">申请人信息</td>
+                        <td class="th">案号</td>
+                        <td class="th">发布日期</td>
+                    </tr>
+                    <tr th:each="i : ${list}">
+                        <td th:text="${#dates.format(i.caseCreateTime,'yyyy-MM-dd') ?: '--'}">-</td>
+                        <td th:text="${i.xname ?: '--'}">-</td>
+                        <td th:text="${i.applicant ?: '--'}">-</td>
+                        <td th:text="${i.caseNo ?: '--'}">-</td>
+                        <td th:text="${#dates.format(i.publishDate,'yyyy-MM-dd') ?: '--'}">-</td>
+                    </tr>
+                </table>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!--股东失信-->
+        <div th:with="arNrDishonestToc=${associatedRiskToc.access.getNext()},list=${ctx.associatedRisk?.naturalRisk?.dishonestList}">
+            <div class="detail-title margin-24">
+                <img src="./image/common/02.png"/>
+                <div class="title" th:id="${arNrDishonestToc.dest}"
+                     th:text="${arNrDishonestToc.getName()}">7.1 股东限制消费
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(list)}">
+                <table class="table8 margin-24" th:if="${not dataIsEmpty}">
+                    <tr>
+                        <td class="th">被执行人名称</td>
+                        <td class="th">立案日期</td>
+                        <td class="th">履行情况</td>
+                        <td class="th">案号</td>
+                        <td class="th">执行法院</td>
+                        <td class="th">执行依据文号</td>
+                        <td class="th">详情</td>
+                    </tr>
+                    <tr th:each="i : ${list}">
+                        <td th:text="${i.iname}"></td>
+                        <td th:text="${#dates.format(i.caseCreateTime,'yyyy-MM-dd')}"></td>
+                        <td th:text="${i.performance}"></td>
+                        <td th:text="${i.caseNo}"></td>
+                        <td th:text="${i.court}"></td>
+                        <td th:text="${i.gistid}"></td>
+                        <td class="link"><a th:href="|${ctx.fuwuDomain}/report/dishonestPart?raDishonestId=${i.id}|"
+                                            th:if="${i.dataSourceType == 0}">查看</a>
+                        </td>
+                    </tr>
+                </table>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!--股东被执行-->
+        <div th:with="arNrZhixinginfoToc=${associatedRiskToc.access.getNext()},list=${ctx.associatedRisk?.naturalRisk?.zhixinginfoList}">
+            <div class="detail-title margin-24">
+                <img src="./image/common/03.png"/>
+                <div class="title" th:id="${arNrZhixinginfoToc.dest}"
+                     th:text="${arNrZhixinginfoToc.getName()}">7.3 股东失信
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(list)}">
+                <table class="table14 margin-24" th:if="${not dataIsEmpty}">
+                    <tr>
+                        <td class="th">被执行人名称</td>
+                        <td class="th">立案日期</td>
+                        <td class="th">执行标的</td>
+                        <td class="th">案号</td>
+                        <td class="th">执行法院</td>
+                    </tr>
+                    <tr th:each="i : ${list}">
+                        <td th:text="${i.pname}"></td>
+                        <td th:text="${#dates.format(i.caseCreateTime,'yyyy-MM-dd')}"></td>
+                        <td th:text="${#strings.isEmpty(i.execMoney) ? null:(i.execMoney+'元')} ?: _">--</td>
+                        <td th:text="${i.caseNo}"></td>
+                        <td th:text="${i.court}"></td>
+                    </tr>
+                </table>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- 舆情信息 -->
+    <div class="margin-46" th:with="newsNoticeToc=${toc.newsNotice}">
+        <div class="content-title" th:id="${newsNoticeToc.dest}" th:text="${newsNoticeToc.getName()}">舆情信息</div>
+        <!-- 新闻舆情 -->
+        <div th:with="nnNewsToc=${newsNoticeToc.access.getFirstChild()},list=${ctx.newsNotice?.newsList}">
+            <div class="detail-title margin-22">
+                <img src="./image/common/01.png"/>
+                <div class="title" th:id="${nnNewsToc.dest}" th:text="${nnNewsToc.getName()}">新闻舆情</div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(list)}">
+                <div th:if="${not dataIsEmpty}">
+                    <table class="table20 margin-24">
+                        <tr>
+                            <td class="th text-left">时间</td>
+                            <td class="th text-left">新闻标题</td>
+                        </tr>
+                        <tr th:each="i : ${list}">
+                            <td class="text-left" th:text="${i.publishTime ?: '--'}">2022-01-01</td>
+                            <td class="text-left">
+                                <div class="new-dtl">
+                                    <div th:utext="${i.title ?: '--'}">
+                                        新闻标题
+                                    </div>
+                                    <a href="https://www.baidu.com" th:href="|${i.url}|"><img
+                                            src="./image/base-info/read.png"/></a>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="new-tip">
+                        说明:新闻舆情信息仅展示近期的部分新闻,此处并非涵盖所有新闻舆情
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!-- 重要公告 -->
+        <div th:with="nnNoticeToc=${newsNoticeToc.access.getNext()}">
+            <div class="detail-title margin-32">
+                <img src="./image/common/02.png"/>
+                <div class="title" th:id="${nnNoticeToc.dest}" th:text="${nnNoticeToc.getName()}">重要公告</div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(ctx.newsNotice?.noticeList)},list=${ctx.newsNotice?.noticeList}">
+                <div th:if="${not dataIsEmpty}">
+                    <div th:each="data : ${list}">
+                        <div th:with="companyName=${data.companyName} ,labels=${data.labels} ,gTableList=${data.gTableList}">
+                            <div th:replace="~{companyTitle:: riskCompanyTitle(desc='',companyName=${companyName},labels=${labels})}">
+                                <div class="risk-company-title">
+                                    <img
+                                            class="risk-company-img"
+                                            src="./image/common/company.png"
+                                    />
+                                    <div>
+                                        <div class="risk-company-name">广西交通什么什么投资有限公司资有限公司</div>
+                                        <div class="risk-company-tag-item">项目公司</div>
+                                        <div class="risk-company-tag-item">实际控股公司</div>
+                                        <div class="risk-company-tag-item">其他关联公司</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div th:each="i,istat : ${gTableList}">
+                                <div class="notice" th:classappend="|${istat.first ?: 'margin-22'}|">
+                                    <div class="notice-des" th:utext="${i.content ?: '无信息'}">内容</div>
+                                    <div class="notice-date" th:text="${i.publishTime ?: '--'}">2022年03月29日</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+        <!-- 行业趋势 -->
+        <div th:with="nnIndustryTrendsToc=${newsNoticeToc.access.getNext()}">
+            <div class="detail-title margin-32">
+                <img src="./image/common/03.png"/>
+                <div class="title" th:id="${nnIndustryTrendsToc.dest}" th:text="${nnIndustryTrendsToc.getName()}">
+                    行业趋势
+                </div>
+            </div>
+            <div th:with="dataIsEmpty=${#lists.isEmpty(ctx.newsNotice?.industryTrendsList)},list=${ctx.newsNotice?.industryTrendsList}">
+                <div th:if="${not dataIsEmpty}">
+                    <div th:each="i,istat : ${list}">
+                        <div class="notice" th:classappend="|${istat.first ?: 'margin-22'}|">
+                            <div class="notice-des" th:utext="${i.content ?: '无信息'}">内容</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="empty" style="display: none" th:style="|display:${dataIsEmpty ? 'block':'none'}|">
+                    经全网扫描，未查得该信息
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

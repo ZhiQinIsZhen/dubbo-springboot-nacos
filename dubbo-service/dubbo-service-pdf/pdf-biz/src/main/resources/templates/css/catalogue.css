@@ -1,0 +1,114 @@
+.catalogue {
+    width: 842pt;
+    /* height: 1191pt;
+    border: 1pt solid; */
+}
+
+.catalogue-content {
+    margin-top: 63pt;
+    padding: 28pt 49pt 31pt 49pt;
+    color: #27243F;
+}
+
+.catalogue .catalogue-title {
+    text-align: center;
+    font-size: 29pt;
+    line-height: 40pt;
+    font-weight: 600;
+}
+
+.catalogue-item {
+    display: flex;
+    margin-top: 7pt;
+}
+
+.catalogue-left {
+    width: 50%;
+    padding-right: 43pt;
+}
+
+.catalogue-sub-title {
+    margin-top: 9pt;
+    display: flex;
+    align-items: center;
+}
+
+.page-num {
+    color: #4E5969;
+    font-size: 13pt;
+    float: right;
+    font-weight: 400;
+}
+
+.catalogue-sub-line {
+    width: 3pt;
+    height: 13pt;
+    border-radius: 1pt;
+    /* margin-top: 6pt; */
+    background-color: #2970F6;
+}
+
+.catalogue-num {
+    margin-left: 17pt;
+    line-height: 45pt;
+    flex: 1;
+}
+
+.catalogue-text {
+    font-weight: 600;
+    font-size: 18pt;
+    line-height: 45pt;
+}
+
+.catalogue-line {
+    width: 0.75pt;
+    margin-top: 19pt;
+    height: 1001pt;
+    background-color: #979797;
+}
+
+.catalogue-right {
+    width: 50%;
+    padding-left: 31pt;
+}
+
+.catalogue-section1 {
+    margin-top: 4pt;
+    font-size: 15pt;
+    font-weight: 600;
+    margin-left: 13pt;
+}
+
+.catalogue-section1 span {
+    line-height: 38pt;
+}
+
+.catalogue-section2 {
+    color: #10193B;
+    font-size: 15pt;
+    margin-left: 31pt;
+}
+
+.catalogue-section2 span:last-child {
+    float: right;
+}
+
+.catalogue-section2 span {
+    line-height: 36pt;
+    color: #4E5969;
+}
+
+.catalogue-section3 {
+    color: #10193B;
+    font-size: 13pt;
+    margin-left: 59pt;
+}
+
+.catalogue-section3 span:last-child {
+    float: right;
+}
+
+.catalogue-section3 span {
+    line-height: 33pt;
+    color: #4E5969;
+}
