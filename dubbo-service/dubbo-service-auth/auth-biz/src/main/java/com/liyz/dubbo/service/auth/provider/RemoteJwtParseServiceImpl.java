@@ -163,4 +163,16 @@ public class RemoteJwtParseServiceImpl implements RemoteJwtParseService {
     private Claims parseClaimsJws(final String token) {
         return JwtUtil.decode(token, DefaultClaims.class);
     }
+
+    /**
+     * 获取jwt前缀信息
+     *
+     * @param clientId 应用名称
+     * @return jwt前缀信息
+     */
+    @Override
+    public String jwtPrefix(String clientId) {
+        AuthJwtDO authJwtDO = authJwtService.getByClientId(clientId);
+        return Objects.nonNull(authJwtDO) ? authJwtDO.getJwtPrefix() : null;
+    }
 }

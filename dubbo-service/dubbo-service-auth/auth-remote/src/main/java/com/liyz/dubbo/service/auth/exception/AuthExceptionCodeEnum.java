@@ -22,9 +22,10 @@ public enum AuthExceptionCodeEnum implements IExceptionService {
     LACK_SOURCE_ID("20005", "注册错误: 缺少资源客户端ID"),
     NON_SET_SOURCE_ID("20006", "注册错误: 资源服务未配置该资源客户端ID"),
     LOGIN_ERROR("20007", "登录错误"),
-    OTHERS_LOGIN("20008", "该账号已在其他地方登录"),
-    MOBILE_EXIST("20009", "该手机号码已注册"),
-    EMAIL_EXIST("20010", "该邮箱地址已注册"),
+    LOGIN_ERROR_SOURCE_ID("20008", "登录错误: 缺少资源客户端ID"),
+    OTHERS_LOGIN("20009", "该账号已在其他地方登录"),
+    MOBILE_EXIST("20010", "该手机号码已注册"),
+    EMAIL_EXIST("20011", "该邮箱地址已注册"),
     ;
 
     private final String code;

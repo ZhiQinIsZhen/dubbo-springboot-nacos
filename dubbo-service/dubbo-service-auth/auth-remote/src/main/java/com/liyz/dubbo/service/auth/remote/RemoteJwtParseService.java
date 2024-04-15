@@ -35,4 +35,12 @@ public interface RemoteJwtParseService {
      * @return 失效时间
      */
     Long getExpiration(final String token);
+
+    /**
+     * 获取jwt前缀信息
+     *
+     * @param clientId 应用名称
+     * @return jwt前缀信息
+     */
+    String jwtPrefix(final String clientId);
 }

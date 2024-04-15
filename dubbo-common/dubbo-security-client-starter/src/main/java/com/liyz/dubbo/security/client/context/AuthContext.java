@@ -14,6 +14,8 @@ import com.liyz.dubbo.service.auth.bo.AuthUserLogoutBO;
 import com.liyz.dubbo.service.auth.bo.AuthUserRegisterBO;
 import com.liyz.dubbo.service.auth.enums.Device;
 import com.liyz.dubbo.service.auth.enums.LoginType;
+import com.liyz.dubbo.service.auth.exception.AuthExceptionCodeEnum;
+import com.liyz.dubbo.service.auth.exception.RemoteAuthServiceException;
 import com.liyz.dubbo.service.auth.remote.RemoteAuthService;
 import com.liyz.dubbo.service.auth.remote.RemoteJwtParseService;
 import org.springframework.beans.BeansException;
@@ -112,6 +114,10 @@ public class AuthContext implements EnvironmentAware, ApplicationContextAware, I
          * @return 登录用户信息
          */
         public static AuthUserBO login(AuthUserLoginBO authUserLoginBO) {
+            String jwtPrefix = remoteJwtParseService.jwtPrefix(clientId);
+            if (jwtPrefix == null) {
+                throw new RemoteAuthServiceException(AuthExceptionCodeEnum.LOGIN_ERROR_SOURCE_ID);
+            }
             authUserLoginBO.setClientId(clientId);
             authUserLoginBO.setDevice(DeviceContext.getDevice(HttpServletContext.getRequest()));
             authUserLoginBO.setLoginType(LoginType.getByType(PatternUtil.checkMobileEmail(authUserLoginBO.getUsername())));
@@ -132,6 +138,7 @@ public class AuthContext implements EnvironmentAware, ApplicationContextAware, I
                             .device(authUserLoginBO.getDevice())
                             .ip(authUserLoginBO.getIp())
                             .build());
+
             AuthUserBO authUserBO = BeanUtil.copyProperties(authUserDetails.getAuthUser(), AuthUserBO.class, (s, t) -> {
                 t.setPassword(null);
                 t.setSalt(null);
@@ -141,7 +148,7 @@ public class AuthContext implements EnvironmentAware, ApplicationContextAware, I
             });
             CookieUtil.addCookie(
                     SecurityClientConstant.DEFAULT_TOKEN_HEADER_KEY,
-                    "Bearer " + authUserBO.getToken(),
+                    jwtPrefix + authUserBO.getToken(),
                     30 * 60,
                     null
             );
