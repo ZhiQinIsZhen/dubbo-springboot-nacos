@@ -12,6 +12,8 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -61,4 +63,19 @@ public class SwaggerConfig {
                         .build()))
                 .groupName(groupName);
     }
+
+//    return new Docket(DocumentationType.SWAGGER_2)
+//                .groupName("xxx")
+//                .apiInfo(new ApiInfoBuilder()
+//                        .title("xxx")
+//                        .description("xxx")
+//                        .version("xxx")
+//                        .build())
+//            .select()
+//                .apis(input -> {
+//        Optional<ApiVersion> apiVersion = input.findAnnotation(ApiVersion.class);
+//        return apiVersion.isPresent() && Arrays.asList(apiVersion.get().group()).contains(GROUP_CENTER_V1_2_6);
+//    })
+//            .paths(PathSelectors.any())
+//            .build();
 }
