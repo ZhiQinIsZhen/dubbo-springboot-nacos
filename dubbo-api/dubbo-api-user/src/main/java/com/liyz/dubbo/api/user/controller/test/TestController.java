@@ -1,7 +1,9 @@
 package com.liyz.dubbo.api.user.controller.test;
 
 import com.google.common.util.concurrent.RateLimiter;
+import com.liyz.dubbo.api.user.config.ApiSwaggerConfig;
 import com.liyz.dubbo.api.user.dto.test.LimitDTO;
+import com.liyz.dubbo.common.api.annotation.ApiVersion;
 import com.liyz.dubbo.common.api.result.Result;
 import com.liyz.dubbo.security.client.annotation.Anonymous;
 import io.swagger.annotations.Api;
@@ -43,6 +45,7 @@ public class TestController {
 
     private RateLimiter rateLimiter;
 
+    @ApiVersion(group = ApiSwaggerConfig.GROUP_TEST)
     @ApiOperation("初始化")
     @GetMapping("/init")
     public Result<Boolean> limit() {
