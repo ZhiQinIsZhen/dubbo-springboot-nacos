@@ -12,7 +12,7 @@
     <properties>
         <springboot.version>2.7.18</springboot.version>
         <springboot.admin.version>2.7.15</springboot.admin.version>
-        <apache.dubbo.version>3.2.12</apache.dubbo.version>
+        <apache.dubbo.version>3.2.13</apache.dubbo.version>
         <token.jwt.version>0.12.5</token.jwt.version>
         <google.guava.version>33.1.0-jre</google.guava.version>
         <cglib.version>3.3.0</cglib.version>

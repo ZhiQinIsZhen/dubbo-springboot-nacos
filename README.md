@@ -6,7 +6,7 @@
 ![Springboot Version](https://img.shields.io/badge/Springboot-2.7.18-brightgreen)
 ![Cloud gateway Version](https://img.shields.io/badge/CloudGateway-3.1.9-brightgreen)
 ![jjwt Version](https://img.shields.io/badge/jjwt-0.12.3-brightgreen)
-![Dubbo Version](https://img.shields.io/badge/Dubbo-3.2.12-brightgreen)
+![Dubbo Version](https://img.shields.io/badge/Dubbo-3.2.13-brightgreen)
 ![Netty Version](https://img.shields.io/badge/Netty-4.1.90.Final-brightgreen)
 ![Mybatis-plus Version](https://img.shields.io/badge/MybatisPlus-3.5.5-brightgreen)
 ![Swagger Version](https://img.shields.io/badge/knife4j-4.4.0-brightgreen)
