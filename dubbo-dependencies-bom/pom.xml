@@ -12,16 +12,16 @@
     <properties>
         <springboot.version>2.7.18</springboot.version>
         <springboot.admin.version>2.7.15</springboot.admin.version>
-        <apache.dubbo.version>3.2.13</apache.dubbo.version>
+        <apache.dubbo.version>3.2.14</apache.dubbo.version>
         <token.jwt.version>0.12.5</token.jwt.version>
-        <google.guava.version>33.1.0-jre</google.guava.version>
+        <google.guava.version>33.2.1-jre</google.guava.version>
         <cglib.version>3.3.0</cglib.version>
-        <hutool.version>5.8.27</hutool.version>
+        <hutool.version>5.8.28</hutool.version>
         <apache.collections4.version>4.5.0-M1</apache.collections4.version>
-        <mybatis.plus.version>3.5.6</mybatis.plus.version>
+        <mybatis.plus.version>3.5.7</mybatis.plus.version>
         <mybatis.plus.join.version>1.4.10</mybatis.plus.join.version>
         <knife4j-openapi2.version>4.5.0</knife4j-openapi2.version>
-        <redisson.version>3.28.0</redisson.version>
+        <redisson.version>3.31.0</redisson.version>
         <elasticjob.version>3.0.4</elasticjob.version>
     </properties>
 
