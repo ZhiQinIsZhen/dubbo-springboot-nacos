@@ -8,7 +8,7 @@
 ![jjwt Version](https://img.shields.io/badge/jjwt-0.12.3-brightgreen)
 ![Dubbo Version](https://img.shields.io/badge/Dubbo-3.2.13-brightgreen)
 ![Netty Version](https://img.shields.io/badge/Netty-4.1.90.Final-brightgreen)
-![Mybatis-plus Version](https://img.shields.io/badge/MybatisPlus-3.5.5-brightgreen)
+![Mybatis-plus Version](https://img.shields.io/badge/MybatisPlus-3.5.7-brightgreen)
 ![Swagger Version](https://img.shields.io/badge/knife4j-4.4.0-brightgreen)
 ![ElasticJob Version](https://img.shields.io/badge/ElasticJob-3.0.4-brightgreen)
 
