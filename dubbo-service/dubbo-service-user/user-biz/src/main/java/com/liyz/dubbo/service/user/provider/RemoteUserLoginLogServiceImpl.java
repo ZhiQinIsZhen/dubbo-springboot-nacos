@@ -37,7 +37,7 @@ public class RemoteUserLoginLogServiceImpl implements RemoteUserLoginLogService 
     public RemotePage<UserLoginLogBO> page(Long userId, PageBO pageBO) {
         Page page = userLoginLogService.page(
                 Page.of(pageBO.getPageNum(), pageBO.getPageSize()),
-                Wrappers.lambdaQuery(UserLoginLogDO.builder().userId(userId).build())
+                Wrappers.lambdaQuery(UserLoginLogDO.builder().userId(userId).build()).orderByDesc(UserLoginLogDO::getId)
         );
         return BeanUtil.copyProperties(page, UserLoginLogBO.class);
     }

@@ -1,29 +1,33 @@
 package com.liyz.dubbo.service.auth.provider;
 
 import com.alibaba.nacos.api.utils.StringUtils;
-import com.google.common.base.Splitter;
-import com.liyz.dubbo.common.service.constant.CommonServiceConstant;
 import com.liyz.dubbo.common.util.RandomUtil;
 import com.liyz.dubbo.service.auth.bo.AuthUserBO;
 import com.liyz.dubbo.service.auth.bo.AuthUserLoginBO;
 import com.liyz.dubbo.service.auth.bo.AuthUserLogoutBO;
 import com.liyz.dubbo.service.auth.bo.AuthUserRegisterBO;
-import com.liyz.dubbo.service.auth.enums.Device;
+import com.liyz.dubbo.service.auth.constants.AuthConstants;
 import com.liyz.dubbo.service.auth.exception.AuthExceptionCodeEnum;
 import com.liyz.dubbo.service.auth.exception.RemoteAuthServiceException;
+import com.liyz.dubbo.service.auth.model.AuthJwtDO;
 import com.liyz.dubbo.service.auth.model.AuthSourceDO;
 import com.liyz.dubbo.service.auth.remote.RemoteAuthService;
+import com.liyz.dubbo.service.auth.service.AuthJwtService;
 import com.liyz.dubbo.service.auth.service.AuthSourceService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rpc.RpcContext;
+import org.redisson.api.RSet;
+import org.redisson.api.RedissonClient;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.annotation.Resource;
-import java.util.Date;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Desc:
@@ -42,8 +46,12 @@ public class RemoteAuthServiceImpl implements RemoteAuthService {
     private PasswordEncoder passwordEncoder;
     @Resource
     private AuthSourceService authSourceService;
+    @Resource
+    private AuthJwtService authJwtService;
     @DubboReference
     private RemoteAuthService remoteAuthService;
+    @Resource
+    private RedissonClient redissonClient;
 
     /**
      * 用户注册
@@ -67,48 +75,42 @@ public class RemoteAuthServiceImpl implements RemoteAuthService {
     }
 
     /**
-     * 根据用户名查询用户信息
-     *
-     * @param username 用户名
-     * @param device 登录设备
-     * @return 登录用户信息
-     */
-    @Override
-    public AuthUserBO loadByUsername(String username, Device device) {
-        List<String> names = Splitter.on(CommonServiceConstant.DEFAULT_JOINER).splitToList(username);
-        AuthSourceDO authSourceDO = authSourceService.getByClientId(names.get(0));
-        if (Objects.isNull(authSourceDO)) {
-            log.warn("查询资源客户端ID失败，原因没有找到对应的配置信息，clientId : {}", names.get(0));
-            throw new RemoteAuthServiceException(AuthExceptionCodeEnum.LOGIN_ERROR);
-        }
-        RpcContext.getClientAttachment().setAttachment(DUBBO_TAG, authSourceDO.getClientTag());
-        AuthUserBO authUserBO = remoteAuthService.loadByUsername(names.get(1), device);
-        if (Objects.nonNull(authUserBO)) {
-            authUserBO.setDevice(device);
-            authUserBO.setClientId(names.get(0));
-        }
-        return authUserBO;
-    }
-
-    /**
      * 登录
      *
      * @param authUserLogin 登录参数
-     * @return 当前登录时间
+     * @return 当前登录用户信息
      */
     @Override
-    public Date login(AuthUserLoginBO authUserLogin) {
-        if (StringUtils.isBlank(authUserLogin.getClientId())) {
+    public AuthUserBO login(AuthUserLoginBO authUserLogin) {
+        final String clientId = authUserLogin.getClientId();
+        if (StringUtils.isBlank(clientId)) {
             log.warn("用户登录错误，原因 : clientId is blank");
             throw new RemoteAuthServiceException(AuthExceptionCodeEnum.LOGIN_ERROR);
         }
-        AuthSourceDO authSourceDO = authSourceService.getByClientId(authUserLogin.getClientId());
+        AuthSourceDO authSourceDO = authSourceService.getByClientId(clientId);
         if (Objects.isNull(authSourceDO)) {
-            log.warn("查询资源客户端ID失败，原因没有找到对应的配置信息，clientId : {}", authUserLogin.getClientId());
+            log.warn("查询资源客户端ID失败，原因没有找到对应的配置信息，clientId : {}", clientId);
             throw new RemoteAuthServiceException(AuthExceptionCodeEnum.LOGIN_ERROR);
         }
+        AuthJwtDO authJwtDO = authJwtService.getByClientId(clientId);
+        if (Objects.isNull(authJwtDO)) {
+            log.error("解析token失败, 没有找到该应用下jwt配置信息，clientId：{}", clientId);
+            throw new RemoteAuthServiceException(AuthExceptionCodeEnum.AUTHORIZATION_FAIL);
+        }
         RpcContext.getClientAttachment().setAttachment(DUBBO_TAG, authSourceDO.getClientTag());
-        return remoteAuthService.login(authUserLogin);
+        AuthUserBO authUserBO = remoteAuthService.login(authUserLogin);
+        if (Objects.isNull(authUserBO)) {
+            throw new RemoteAuthServiceException(AuthExceptionCodeEnum.USER_NOT_EXIST);
+        }
+        String loginKey = UUID.randomUUID().toString();
+        RSet<String> set = redissonClient.getSet(AuthConstants.getRedisKey(clientId, authUserBO.getAuthId().toString()));
+        if (set.isExists() && authJwtDO.getOneOnline()) {
+            set.clear();
+        }
+        set.add(loginKey);
+        set.expire(Duration.of(7, ChronoUnit.DAYS));
+        authUserBO.setLoginKey(loginKey);
+        return authUserBO;
     }
 
     /**
@@ -125,6 +127,10 @@ public class RemoteAuthServiceImpl implements RemoteAuthService {
         AuthSourceDO authSourceDO = authSourceService.getByClientId(authUserLogout.getClientId());
         if (Objects.isNull(authSourceDO)) {
             return Boolean.FALSE;
+        }
+        RSet<String> set = redissonClient.getSet(AuthConstants.getRedisKey(authSourceDO.getClientId(), authUserLogout.getAuthId().toString()));
+        if (set.isExists()) {
+            set.remove(authUserLogout.getLoginKey());
         }
         RpcContext.getClientAttachment().setAttachment(DUBBO_TAG, authSourceDO.getClientTag());
         return remoteAuthService.logout(authUserLogout);

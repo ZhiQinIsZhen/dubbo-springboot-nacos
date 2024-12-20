@@ -8,7 +8,6 @@ import com.liyz.dubbo.service.auth.bo.AuthUserBO;
 import com.liyz.dubbo.service.auth.bo.AuthUserLoginBO;
 import com.liyz.dubbo.service.auth.bo.AuthUserLogoutBO;
 import com.liyz.dubbo.service.auth.bo.AuthUserRegisterBO;
-import com.liyz.dubbo.service.auth.enums.Device;
 import com.liyz.dubbo.service.auth.enums.LoginType;
 import com.liyz.dubbo.service.auth.exception.AuthExceptionCodeEnum;
 import com.liyz.dubbo.service.auth.exception.RemoteAuthServiceException;
@@ -17,13 +16,12 @@ import com.liyz.dubbo.service.user.model.*;
 import com.liyz.dubbo.service.user.model.base.UserAuthBaseDO;
 import com.liyz.dubbo.service.user.service.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -89,52 +87,40 @@ public class RemoteAuthenticationServiceImpl implements RemoteAuthService {
     }
 
     /**
-     * 根据用户名查询用户信息
-     *
-     * @param username 用户名
-     * @param device 登录设备
-     * @return 登录用户信息
-     */
-    @Override
-    public AuthUserBO loadByUsername(String username, Device device) {
-        AuthUserBO authUser = AuthUserBO.builder()
-                .username(username)
-                .loginType(LoginType.getByType(PatternUtil.checkMobileEmail(username)))
-                .authorities(Lists.newArrayList())
-                .build();
-        Long userId = this.getUserId(username, authUser);
-        if (Objects.isNull(userId)) {
-            return null;
-        }
-        UserInfoDO staffInfoDO = userInfoService.getById(userId);
-        authUser.setAuthId(userId);
-        authUser.setUsername(username);
-        authUser.setSalt(staffInfoDO.getSalt());
-        authUser.setDevice(device);
-        Date lastLoginTime = userLoginLogService.lastLoginTime(userId, device);
-        Date lastLogoutTime = userLogoutLogService.lastLogoutTime(userId, device);
-        authUser.setCheckTime(ObjectUtils.max(lastLoginTime, lastLogoutTime));
-        return authUser;
-    }
-
-    /**
      * 登录
      *
      * @param authUserLogin 登录参数
-     * @return 当前登录时间
+     * @return 当前登录用户信息
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Date login(AuthUserLoginBO authUserLogin) {
-        UserLoginLogDO userLoginLogDO = BeanUtil.copyProperties(authUserLogin, UserLoginLogDO.class, (s, t) -> {
-            t.setUserId(s.getAuthId());
+    public AuthUserBO login(AuthUserLoginBO authUserLogin) {
+        AuthUserBO authUser = AuthUserBO.builder()
+                .clientId(authUserLogin.getClientId())
+                .username(authUserLogin.getUsername())
+                .loginType(authUserLogin.getLoginType())
+                .device(authUserLogin.getDevice())
+                .authorities(Lists.newArrayList())
+                .build();
+        Long userId = this.getUserId(authUserLogin.getUsername(), authUser);
+        if (Objects.isNull(userId)) {
+            throw new RemoteAuthServiceException(AuthExceptionCodeEnum.USER_NOT_EXIST);
+        }
+        UserInfoDO userInfoDO = userInfoService.getById(userId);
+        if (Objects.isNull(userInfoDO)) {
+            throw new RemoteAuthServiceException(AuthExceptionCodeEnum.USER_NOT_EXIST);
+        }
+        authUser.setAuthId(userId);
+        authUser.setSalt(userInfoDO.getSalt());
+        authUser.setAuthorities(new ArrayList<>());
+        UserLoginLogDO userLoginLogDO = BeanUtil.copyProperties(authUser, UserLoginLogDO.class, (s, t) -> {
+            t.setUserId(userId);
             t.setLoginTime(DateUtil.currentDate());
             t.setLoginType(s.getLoginType().getType());
             t.setDevice(s.getDevice().getType());
         });
         userLoginLogService.save(userLoginLogDO);
-        //可能会有时间误差
-        return userLoginLogService.getById(userLoginLogDO.getId()).getLoginTime();
+        return authUser;
     }
 
     /**
@@ -163,7 +149,7 @@ public class RemoteAuthenticationServiceImpl implements RemoteAuthService {
     private Long getUserId(String username, AuthUserBO authUser) {
         LoginType loginType = LoginType.getByType(PatternUtil.checkMobileEmail(username));
         if (Objects.isNull(loginType)) {
-            log.warn("username is not email or mobile");
+            log.warn("username is not email or mobile : {}", username);
             return null;
         }
         authUser.setLoginType(loginType);

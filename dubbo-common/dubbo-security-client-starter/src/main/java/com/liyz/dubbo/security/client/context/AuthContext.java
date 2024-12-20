@@ -1,9 +1,7 @@
 package com.liyz.dubbo.security.client.context;
 
-import com.google.common.base.Joiner;
 import com.liyz.dubbo.common.api.util.CookieUtil;
 import com.liyz.dubbo.common.api.util.HttpServletContext;
-import com.liyz.dubbo.common.service.constant.CommonServiceConstant;
 import com.liyz.dubbo.common.service.util.BeanUtil;
 import com.liyz.dubbo.common.util.PatternUtil;
 import com.liyz.dubbo.security.client.constant.SecurityClientConstant;
@@ -12,12 +10,12 @@ import com.liyz.dubbo.service.auth.bo.AuthUserBO;
 import com.liyz.dubbo.service.auth.bo.AuthUserLoginBO;
 import com.liyz.dubbo.service.auth.bo.AuthUserLogoutBO;
 import com.liyz.dubbo.service.auth.bo.AuthUserRegisterBO;
-import com.liyz.dubbo.service.auth.enums.Device;
 import com.liyz.dubbo.service.auth.enums.LoginType;
 import com.liyz.dubbo.service.auth.exception.AuthExceptionCodeEnum;
 import com.liyz.dubbo.service.auth.exception.RemoteAuthServiceException;
 import com.liyz.dubbo.service.auth.remote.RemoteAuthService;
 import com.liyz.dubbo.service.auth.remote.RemoteJwtParseService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -29,7 +27,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.Date;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Objects;
 
 /**
@@ -111,9 +110,10 @@ public class AuthContext implements EnvironmentAware, ApplicationContextAware, I
          * 登录
          *
          * @param authUserLoginBO 登录参数
+         * @param redirect 重定向路劲
          * @return 登录用户信息
          */
-        public static AuthUserBO login(AuthUserLoginBO authUserLoginBO) {
+        public static AuthUserBO login(AuthUserLoginBO authUserLoginBO, final String redirect) throws IOException {
             String jwtPrefix = remoteJwtParseService.jwtPrefix(clientId);
             if (jwtPrefix == null) {
                 throw new RemoteAuthServiceException(AuthExceptionCodeEnum.LOGIN_ERROR_SOURCE_ID);
@@ -122,30 +122,20 @@ public class AuthContext implements EnvironmentAware, ApplicationContextAware, I
             authUserLoginBO.setDevice(DeviceContext.getDevice(HttpServletContext.getRequest()));
             authUserLoginBO.setLoginType(LoginType.getByType(PatternUtil.checkMobileEmail(authUserLoginBO.getUsername())));
             authUserLoginBO.setIp(HttpServletContext.getIpAddress(HttpServletContext.getRequest()));
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    Joiner.on(CommonServiceConstant.DEFAULT_JOINER).join(
-                            authUserLoginBO.getDevice().getType(),
-                            authUserLoginBO.getClientId(),
-                            authUserLoginBO.getUsername()),
-                    authUserLoginBO.getPassword());
+            Authentication authentication = new UsernamePasswordAuthenticationToken(authUserLoginBO.getUsername(), authUserLoginBO.getPassword());
             SecurityContextHolder.getContext().setAuthentication(authenticationManager.authenticate(authentication));
             AuthUserDetails authUserDetails = (AuthUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            Date checkTime = remoteAuthService.login(
-                    AuthUserLoginBO.builder()
-                            .clientId(authUserLoginBO.getClientId())
-                            .authId(authUserDetails.getAuthUser().getAuthId())
-                            .loginType(authUserLoginBO.getLoginType())
-                            .device(authUserLoginBO.getDevice())
-                            .ip(authUserLoginBO.getIp())
-                            .build());
-
             AuthUserBO authUserBO = BeanUtil.copyProperties(authUserDetails.getAuthUser(), AuthUserBO.class, (s, t) -> {
                 t.setPassword(null);
                 t.setSalt(null);
-                t.setCheckTime(checkTime);
-                s.setCheckTime(checkTime);
+                t.setLoginKey(null);
                 t.setToken(JwtService.generateToken(s));
             });
+            if (StringUtils.isNotBlank(redirect)) {
+                HttpServletResponse response = HttpServletContext.getResponse();
+                response.setHeader(SecurityClientConstant.DEFAULT_TOKEN_HEADER_KEY, authUserBO.getToken());
+                response.sendRedirect(redirect);
+            }
             CookieUtil.addCookie(
                     SecurityClientConstant.DEFAULT_TOKEN_HEADER_KEY,
                     jwtPrefix + authUserBO.getToken(),
@@ -153,16 +143,6 @@ public class AuthContext implements EnvironmentAware, ApplicationContextAware, I
                     null
             );
             return authUserBO;
-        }
-
-        /**
-         * 根据登录名查询用户信息
-         *
-         * @param username 用户名
-         * @return 用户信息
-         */
-        public static AuthUserBO loadByUsername(String username, Device device) {
-            return remoteAuthService.loadByUsername(username, device);
         }
 
         /**

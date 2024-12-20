@@ -1,13 +1,19 @@
 package com.liyz.dubbo.security.client.user.impl;
 
 import com.google.common.base.Joiner;
+import com.liyz.dubbo.common.api.util.HttpServletContext;
 import com.liyz.dubbo.common.service.constant.CommonServiceConstant;
+import com.liyz.dubbo.common.util.PatternUtil;
 import com.liyz.dubbo.security.client.constant.SecurityClientConstant;
 import com.liyz.dubbo.security.client.context.AuthContext;
+import com.liyz.dubbo.security.client.context.DeviceContext;
 import com.liyz.dubbo.security.client.user.AuthUserDetails;
 import com.liyz.dubbo.service.auth.bo.AuthUserBO;
+import com.liyz.dubbo.service.auth.bo.AuthUserLoginBO;
 import com.liyz.dubbo.service.auth.enums.Device;
+import com.liyz.dubbo.service.auth.enums.LoginType;
 import com.liyz.dubbo.service.auth.exception.AuthExceptionCodeEnum;
+import com.liyz.dubbo.service.auth.remote.RemoteAuthService;
 import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
@@ -28,15 +34,23 @@ public class UserDetailsServiceImpl implements UserDetailsService, EnvironmentAw
 
     private static String clientId;
 
+    private final RemoteAuthService remoteAuthService;
+
+    public UserDetailsServiceImpl(RemoteAuthService remoteAuthService) {
+        this.remoteAuthService = remoteAuthService;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        int index = username.indexOf(CommonServiceConstant.DEFAULT_JOINER);
-        if (index == -1) {
-            username = Joiner.on(CommonServiceConstant.DEFAULT_JOINER).join(Device.WEB.getType(), clientId, username);
-            index = username.indexOf(CommonServiceConstant.DEFAULT_JOINER);
-        }
-        AuthUserBO authUserBO = AuthContext.AuthService.loadByUsername(username.substring(index + 1),
-                Device.getByType(Integer.parseInt(username.substring(0, index))));
+        AuthUserLoginBO authUserLoginBO = AuthUserLoginBO
+                .builder()
+                .username(username)
+                .clientId(clientId)
+                .loginType(LoginType.getByType(PatternUtil.checkMobileEmail(username)))
+                .device(DeviceContext.getDevice(HttpServletContext.getRequest()))
+                .ip(HttpServletContext.getIpAddress())
+                .build();
+        AuthUserBO authUserBO = remoteAuthService.login(authUserLoginBO);
         if (Objects.isNull(authUserBO)) {
             throw new UsernameNotFoundException(AuthExceptionCodeEnum.AUTHORIZATION_FAIL.getMessage());
         }

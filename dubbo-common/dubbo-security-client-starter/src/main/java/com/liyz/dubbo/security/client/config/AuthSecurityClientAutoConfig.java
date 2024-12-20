@@ -53,7 +53,7 @@ public class AuthSecurityClientAutoConfig implements InitializingBean {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImpl();
+        return new UserDetailsServiceImpl(remoteAuthService);
     }
 
     @Bean
@@ -82,7 +82,7 @@ public class AuthSecurityClientAutoConfig implements InitializingBean {
                 .exceptionHandling()
                 .accessDeniedHandler(new RestfulAccessDeniedHandler())
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, SecurityClientConstant.OPTIONS_PATTERNS).permitAll()
                 .antMatchers(HttpMethod.GET, SecurityClientConstant.ACTUATOR_IGNORE_RESOURCES).permitAll()

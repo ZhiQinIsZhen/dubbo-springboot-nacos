@@ -52,15 +52,10 @@ public class AuthenticationController {
     @ApiOperation("登录")
     @PostMapping("/login")
     public Result<AuthLoginVO> login(@Validated({StaffLoginDTO.Login.class}) @RequestBody StaffLoginDTO loginDTO) throws IOException {
-        AuthUserBO authUserBO = AuthContext.AuthService.login(BeanUtil.copyProperties(loginDTO, AuthUserLoginBO.class));
+        AuthUserBO authUserBO = AuthContext.AuthService.login(BeanUtil.copyProperties(loginDTO, AuthUserLoginBO.class), loginDTO.getRedirect());
         AuthLoginVO authLoginVO = new AuthLoginVO();
         authLoginVO.setToken(authUserBO.getToken());
         authLoginVO.setExpiration(AuthContext.JwtService.getExpiration(authUserBO.getToken()));
-        if (StringUtils.isNotBlank(loginDTO.getRedirect())) {
-            HttpServletResponse response = HttpServletContext.getResponse();
-            response.setHeader(SecurityClientConstant.DEFAULT_TOKEN_HEADER_KEY, authLoginVO.getToken());
-            response.sendRedirect(loginDTO.getRedirect());
-        }
         return Result.success(authLoginVO);
     }
 

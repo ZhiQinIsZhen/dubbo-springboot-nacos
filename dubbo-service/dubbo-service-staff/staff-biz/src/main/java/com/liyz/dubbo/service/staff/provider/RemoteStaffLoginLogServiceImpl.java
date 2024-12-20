@@ -37,7 +37,7 @@ public class RemoteStaffLoginLogServiceImpl implements RemoteStaffLoginLogServic
     public RemotePage<StaffLoginLogBO> page(Long staffId, PageBO pageBO) {
         Page page = staffLoginLogService.page(
                 Page.of(pageBO.getPageNum(), pageBO.getPageSize()),
-                Wrappers.lambdaQuery(StaffLoginLogDO.builder().staffId(staffId).build())
+                Wrappers.lambdaQuery(StaffLoginLogDO.builder().staffId(staffId).build()).orderByDesc(StaffLoginLogDO::getId)
         );
         return BeanUtil.copyProperties(page, StaffLoginLogBO.class);
     }

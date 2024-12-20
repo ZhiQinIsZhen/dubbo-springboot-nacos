@@ -79,8 +79,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
             response.getWriter().println(JsonMapperUtil.toJSONString(Result.error(exception.getCode(), exception.getMessage())));
             response.getWriter().flush();
-        } catch (Exception e) {
-           throw e;
         } finally {
             AuthContext.remove();
             SecurityContextHolder.getContextHolderStrategy().clearContext();

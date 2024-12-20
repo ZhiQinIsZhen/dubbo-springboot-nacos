@@ -45,4 +45,9 @@ public class AuthUserLogoutBO implements Serializable {
      * 客户端ID
      */
     private String clientId;
+
+    /**
+     * 登录验证key
+     */
+    private String loginKey;
 }

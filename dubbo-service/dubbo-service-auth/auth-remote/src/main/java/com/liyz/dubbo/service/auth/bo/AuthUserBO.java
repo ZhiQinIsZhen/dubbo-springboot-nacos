@@ -6,7 +6,6 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,10 +56,9 @@ public class AuthUserBO implements Serializable {
     private Device device;
 
     /**
-     * 检查时间
-     * 用于是否但设备登录的
+     * 登录验证key
      */
-    private Date checkTime;
+    private String loginKey;
 
     /**
      * 用户角色

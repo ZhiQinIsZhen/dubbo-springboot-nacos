@@ -37,7 +37,7 @@ public class RemoteStaffLogoutLogServiceImpl implements RemoteStaffLogoutLogServ
     public RemotePage<StaffLogoutLogBO> page(Long staffId, PageBO pageBO) {
         Page page = staffLogoutLogService.page(
                 Page.of(pageBO.getPageNum(), pageBO.getPageSize()),
-                Wrappers.lambdaQuery(StaffLogoutLogDO.builder().staffId(staffId).build())
+                Wrappers.lambdaQuery(StaffLogoutLogDO.builder().staffId(staffId).build()).orderByDesc(StaffLogoutLogDO::getId)
         );
         return BeanUtil.copyProperties(page, StaffLogoutLogBO.class);
     }

@@ -6,6 +6,7 @@ import com.liyz.dubbo.common.service.constant.CommonServiceConstant;
 import com.liyz.dubbo.common.util.DateUtil;
 import com.liyz.dubbo.common.util.PatternUtil;
 import com.liyz.dubbo.service.auth.bo.AuthUserBO;
+import com.liyz.dubbo.service.auth.constants.AuthConstants;
 import com.liyz.dubbo.service.auth.enums.Device;
 import com.liyz.dubbo.service.auth.enums.LoginType;
 import com.liyz.dubbo.service.auth.exception.AuthExceptionCodeEnum;
@@ -23,10 +24,12 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.redisson.api.RSet;
+import org.redisson.api.RedissonClient;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Desc:
@@ -45,6 +48,8 @@ public class RemoteJwtParseServiceImpl implements RemoteJwtParseService {
     private AuthJwtService authJwtService;
     @Resource
     private RemoteAuthService remoteAuthService;
+    @Resource
+    private RedissonClient redissonClient;
 
     /**
      * 解析token
@@ -65,34 +70,40 @@ public class RemoteJwtParseServiceImpl implements RemoteJwtParseService {
         }
         final String authToken = token.substring(authJwtDO.getJwtPrefix().length()).trim();
         Claims unSignClaims = parseClaimsJws(authToken);
-        AuthUserBO authUser = remoteAuthService.loadByUsername(Joiner.on(CommonServiceConstant.DEFAULT_JOINER)
-                .join(clientId, unSignClaims.getSubject()), Device.getByType(unSignClaims.get(CLAIM_DEVICE, Integer.class)));
-        if (Objects.isNull(authUser)) {
+        Set<String> audience = unSignClaims.getAudience();
+        if (CollectionUtils.isEmpty(audience) || audience.size() != 3) {
             throw new RemoteAuthServiceException(AuthExceptionCodeEnum.AUTHORIZATION_FAIL);
         }
-        Claims claims = this.parseClaimsJws(authToken, Joiner.on(CommonServiceConstant.DEFAULT_PADDING).join(authJwtDO.getSigningKey(), authUser.getSalt()));
-        if (authJwtDO.getOneOnline() && Objects.nonNull(authUser.getCheckTime()) && claims.getNotBefore().compareTo(authUser.getCheckTime()) < 0) {
+        List<String> audienceList = new ArrayList<>(audience);
+        if (!clientId.equals(audienceList.stream().findFirst().orElse(StringUtils.EMPTY))) {
+            throw new RemoteAuthServiceException(AuthExceptionCodeEnum.AUTHORIZATION_FAIL);
+        }
+        Claims claims = this.parseClaimsJws(authToken, Joiner.on(CommonServiceConstant.DEFAULT_PADDING)
+                .join(authJwtDO.getSigningKey(), CollectionUtils.lastElement(audienceList)));
+        RSet<Object> set = redissonClient.getSet(AuthConstants.getRedisKey(clientId, claims.getId()));
+        if (DateUtil.currentDate().compareTo(claims.getExpiration()) > 0 || !set.isExists()) {
+            throw new RemoteAuthServiceException(AuthExceptionCodeEnum.AUTHORIZATION_TIMEOUT);
+        }
+        if (authJwtDO.getOneOnline() && !set.contains(audienceList.get(1))) {
             throw new RemoteAuthServiceException(AuthExceptionCodeEnum.OTHERS_LOGIN);
         }
         if (!clientId.equals(claims.getAudience().stream().findFirst().orElse(StringUtils.EMPTY))) {
             throw new RemoteAuthServiceException(AuthExceptionCodeEnum.AUTHORIZATION_FAIL);
         }
-        if (DateUtil.currentDate().compareTo(claims.getExpiration()) > 0) {
-            throw new RemoteAuthServiceException(AuthExceptionCodeEnum.AUTHORIZATION_TIMEOUT);
-        }
-        return AuthUserBO.builder()
+        AuthUserBO authUserBO =  AuthUserBO.builder()
                 .username(claims.getSubject())
                 .password(StringUtils.EMPTY)
                 .salt(StringUtils.EMPTY)
                 .loginType(LoginType.getByType(PatternUtil.checkMobileEmail(claims.getSubject())))
                 .device(Device.getByType(unSignClaims.get(CLAIM_DEVICE, Integer.class)))
                 .authId(Long.valueOf(claims.getId()))
-                .checkTime(claims.getNotBefore())
+                .loginKey(audienceList.get(1))
                 .roleIds(Lists.newArrayList())
                 .token(authToken)
                 .clientId(claims.getAudience().stream().findFirst().orElse(StringUtils.EMPTY))
-                .authorities(authJwtDO.getIsAuthority() ? remoteAuthService.authorities(authUser) : Lists.newArrayList())
                 .build();
+        authUserBO.setAuthorities(authJwtDO.getIsAuthority() ? remoteAuthService.authorities(authUserBO) : Lists.newArrayList());
+        return authUserBO;
     }
 
     /**
@@ -115,9 +126,8 @@ public class RemoteJwtParseServiceImpl implements RemoteJwtParseService {
         return JwtUtil.builder()
                 .id(authUser.getAuthId().toString())
                 .subject(authUser.getUsername())
-                .audience().add(authUser.getClientId()).and()
+                .audience().add(authUser.getClientId()).add(authUser.getLoginKey()).add(authUser.getSalt()).and()
                 .expiration(new Date(System.currentTimeMillis() + authJwtDO.getExpiration() * 1000))
-                .notBefore(authUser.getCheckTime())
                 .claim(CLAIM_DEVICE, authUser.getDevice().getType())
                 .signWith(
                         SignatureAlgorithm.forName(authJwtDO.getSignatureAlgorithm()),
